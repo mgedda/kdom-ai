@@ -34,13 +34,15 @@ public class GridImage
         final String iText;
         final int iCellPosX;
         final int iCellPosY;
+        final int iColor;
         final int iFontSize;
 
-        private Label(final String text, final int cellPosX, final int cellPosY, int fontSize)
+        private Label(final String text, final int cellPosX, final int cellPosY, int color, int fontSize)
         {
             iText = text;
             iCellPosX = cellPosX;
             iCellPosY = cellPosY;
+            iColor = color;
             iFontSize = fontSize;
         }
     }
@@ -58,12 +60,22 @@ public class GridImage
         clear();
     }
 
-    public void drawCell(final Position position, final TileType tileType)
+    public void drawTile(final Position position, final TileType tileType)
     {
-        drawCell(position.getColumn(), position.getRow(), tileType);
+        drawTile(position.getColumn(), position.getRow(), tileType, 0);
     }
 
-    public void drawCell(final int cellPosX, final int cellPosY, final TileType tileType)
+    public void drawTile(final Position position, final TileType tileType, final int numCrowns)
+    {
+        drawTile(position.getColumn(), position.getRow(), tileType, numCrowns);
+    }
+
+    public void drawTile(final int cellPosX, final int cellPosY, final TileType tileType)
+    {
+        drawTile(cellPosX, cellPosY, tileType, 0);
+    }
+
+    public void drawTile(final int cellPosX, final int cellPosY, final TileType tileType, final int numCrowns)
     {
         final int yMin = cellPosY * iCellHeight + 3;
         final int yMax = yMin + iCellHeight - 3;
@@ -78,16 +90,22 @@ public class GridImage
                 iData[x + y * iXSize] = tileType.getColor();
             }
         }
+
+        if (numCrowns > 0)
+        {
+            final int textColor = tileType.getTextColor();
+            iLabels.add(new Label(Integer.toString(numCrowns), cellPosX, cellPosY, textColor, 14));
+        }
     }
 
     public void drawHeader(final String string, final int cellPosX, final int cellPosY)
     {
-        iLabels.add(new Label(string, cellPosX, cellPosY, 16));
+        iLabels.add(new Label(string, cellPosX, cellPosY, 0xFF000000, 16));
     }
 
     public void drawLabel(final String string, final int cellPosX, final int cellPosY)
     {
-        iLabels.add(new Label(string, cellPosX, cellPosY, 12));
+        iLabels.add(new Label(string, cellPosX, cellPosY, 0xFF000000, 12));
     }
 
     public void clear()
@@ -105,12 +123,19 @@ public class GridImage
 
         for (final Label label : iLabels)
         {
+            final int ARGBValue = label.iColor;
+            final int r = ARGBValue >> 16 & 0xFF;
+            final int g = ARGBValue >> 8 & 0xFF;
+            final int b = ARGBValue & 0xFF;
+
+            final float[] hsbVals = Color.RGBtoHSB(r, g, b, null);
+
             image = BufferedImageUtils.textOverlay(
                     image,
                     label.iText,
-                    label.iCellPosX * iCellWidth + 4,
+                    label.iCellPosX * iCellWidth + 6,
                     label.iCellPosY * iCellHeight + iCellHeight - 4,
-                    Color.black,
+                    Color.getHSBColor(hsbVals[0], hsbVals[1], hsbVals[2]),
                     label.iFontSize);
         }
 

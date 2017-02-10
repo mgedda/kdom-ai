@@ -42,17 +42,20 @@ public class SceneRenderer
             {
                 for (int x = -4; x < 5; ++x)
                 {
-                    gridImage.drawCell(castlePosition.plus(new Position(y, x)), TileType.UNOCCUPIED);
+                    gridImage.drawTile(castlePosition.plus(new Position(y, x)), TileType.UNOCCUPIED);
                 }
             }
 
-            gridImage.drawCell(castlePosition, TileType.CASTLE);
+            gridImage.drawTile(castlePosition, TileType.CASTLE);
             for (final PlacedTile placedTile : placedTiles)
             {
                 final TileType tileType = TileType.valueOf(placedTile.getTerrain().toUpperCase());
                 final Position tilePosition = placedTile.getPosition();
 
-                gridImage.drawCell(castlePosition.plus(tilePosition), tileType);
+                final int numCrowns = placedTile.getCrowns();
+
+                final Position position = castlePosition.plus(tilePosition);
+                gridImage.drawTile(position, tileType, numCrowns);
             }
 
             final String playerNameString = playerName.length() > 18 ?  playerName.substring(0, 18) + "..." : playerName;
