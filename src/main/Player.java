@@ -1,3 +1,5 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -10,10 +12,27 @@ public class Player
     private final String iUUID;
     private final String iName;
 
+    enum Strategy
+    {
+        SELECT_FIRST,
+        SELECT_RANDOM,
+        SELECT_MOST_CROWNS
+    }
+
+    private final Strategy iStrategy;
+
     public Player(String uuid, final String name)
     {
         iUUID = uuid;
         iName = name;
+        iStrategy = Strategy.SELECT_RANDOM;
+    }
+
+    public Player(String uuid, final String name, final String strategy)
+    {
+        iUUID = uuid;
+        iName = name;
+        iStrategy = Strategy.valueOf(strategy);
     }
 
     public String getName()
@@ -49,11 +68,57 @@ public class Player
 
         assert availableMoves.length > 0 : "no moves to choose from";
 
-        game.makeMove(this, availableMoves[0]);
+        final Move move = pickAMove(availableMoves);
+
+        game.makeMove(this, move);
 
         DEBUG.printMoveMade();
 
         return true;
+    }
+
+
+    private Move pickAMove(final Move[] availableMoves)
+    {
+        Move move = availableMoves[0];
+
+        switch (iStrategy)
+        {
+            case SELECT_FIRST:
+                move = availableMoves[0];
+                break;
+
+            case SELECT_RANDOM:
+                final int numMoves = availableMoves.length;
+                int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
+                move = availableMoves[randomNum];
+                break;
+
+            case SELECT_MOST_CROWNS:
+                int maxCrowns = 0;
+                for (final Move availableMove : availableMoves)
+                {
+                    final Domino chosenDomino = availableMove.getChosenDomino();
+
+                    if (chosenDomino != null)
+                    {
+                        final int tile1Crowns = chosenDomino.getTile1().getCrowns();
+                        final int tile2Crowns = chosenDomino.getTile2().getCrowns();
+                        if (tile1Crowns > maxCrowns || tile2Crowns > maxCrowns)
+                        {
+                            move = availableMove;
+                            maxCrowns = Math.max(tile1Crowns, tile2Crowns);
+                        }
+                    }
+                }
+                break;
+
+            default:
+                System.err.print("Error: unknown strategy.");
+                System.exit(0);
+        }
+
+        return move;
     }
 
 

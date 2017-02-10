@@ -15,12 +15,12 @@ public class Game
         iUUID = uuid;
     }
 
-    public Player addPlayer(final String playerName)
+    public Player addPlayer(final String playerName, final String strategy)
     {
         final String response = CommunicationsHandler.joinGame(this, playerName);
         final String uuid = GameResponseParser.getUUID(response);
 
-        final Player player = new Player(uuid, playerName);
+        final Player player = new Player(uuid, playerName, strategy);
 
         DEBUG.printPlayerJoined(this, playerName);
 

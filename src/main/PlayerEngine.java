@@ -14,17 +14,29 @@ public class PlayerEngine
 
     public static void main(final String[] args) throws IOException
     {
-        if (args.length != 2)
+        String playerName = "";
+        String gameUUID = "";
+        String strategy = "SELECT_RANDOM";
+
+        if (args.length == 2)
         {
-            System.err.println("Usage: java -jar spawnplayer <playerName> <gameUUID>");
+            playerName = args[0];
+            gameUUID = args[1];
+        }
+        else if (args.length == 3)
+        {
+            playerName = args[0];
+            strategy = args[1];
+            gameUUID = args[2];
+        }
+        else
+        {
+            System.err.println("Usage: java -jar spawnplayer <playerName> [<strategy>] <gameUUID>");
             System.exit(0);
         }
 
-        final String playerName = args[0];
-        final String gameUUID = args[1];
-
         final Game game = new Game(gameUUID);
-        final Player player = game.addPlayer(playerName);
+        final Player player = game.addPlayer(playerName, strategy);
 
         game.waitForPlayersToJoin(TIMEOUT_MINUTES);
 
@@ -36,7 +48,7 @@ public class PlayerEngine
 
     private static void makeMoves(final Game game, final Player player)
     {
-        final int sleepMilliSeconds = 2000;
+        final int sleepMilliSeconds = 1000;
         final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
         final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
 
