@@ -105,7 +105,10 @@ public class GameUtils
         for (final Move availableMove : availableMoves)
         {
             final Domino chosenDomino = availableMove.getChosenDomino();
-            if (chosenDomino.getTile1().getTerrain().equals(terrain) || chosenDomino.getTile2().getTerrain().equals(terrain))
+            final boolean chosenDominoHasTerrainMatch = chosenDomino != null
+                    && (chosenDomino.getTile1().getTerrain().equals(terrain) || chosenDomino.getTile2().getTerrain().equals(terrain));
+
+            if (chosenDominoHasTerrainMatch)
             {
                 terrainMoves.add(availableMove);
             }
