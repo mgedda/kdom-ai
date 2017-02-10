@@ -197,14 +197,58 @@ public class GameResponseParser
     }
 
 
-    public static Domino[] getPreviousDraftsForPlayer(final String gameState, final String playerName)
+    public static DraftElement[] getPreviousDraft(final String gameState)
+    {
+        final JSONObject gameStateJSON = new JSONObject(gameState);
+
+        final JSONObject previousDraftJSON = gameStateJSON.getJSONObject("previousDraft");
+
+        return getDraftElements(previousDraftJSON);
+    }
+
+    public static DraftElement[] getCurrentDraft(final String gameState)
+    {
+        final JSONObject gameStateJSON = new JSONObject(gameState);
+
+        final JSONObject previousDraftJSON = gameStateJSON.getJSONObject("currentDraft");
+
+        return getDraftElements(previousDraftJSON);
+    }
+
+    private static DraftElement[] getDraftElements(final JSONObject draftJSON)
+    {
+        final JSONArray dominoesJSONArray = draftJSON.getJSONArray("dominoes");
+
+        final ArrayList<DraftElement> previousDraft = new ArrayList<>(4);
+
+        for (int i = 0; i < dominoesJSONArray.length(); ++i)
+        {
+            final JSONObject dominoJSONArrayObject = dominoesJSONArray.getJSONObject(i);
+
+            final Domino domino = getDomino(dominoJSONArrayObject, "domino");
+
+            String playerName = null;
+            if (dominoJSONArrayObject.has("player"))
+            {
+                final JSONObject playerJSON = dominoJSONArrayObject.getJSONObject("player");
+                playerName = playerJSON.getString("name");
+            }
+
+            previousDraft.add(new DraftElement(domino, playerName));
+        }
+
+        return previousDraft.toArray(new DraftElement[previousDraft.size()]);
+    }
+
+
+    public static Domino[] getPreviousDraftForPlayer(final String gameState, final String playerName)
     {
         final JSONObject gameStateJSON = new JSONObject(gameState);
 
         final JSONObject previousDraftJSON = gameStateJSON.getJSONObject("previousDraft");
         final JSONArray dominoesJSONArray = previousDraftJSON.getJSONArray("dominoes");
 
-        final ArrayList<Domino> previousDrafts = new ArrayList<>(2);
+        final ArrayList<Domino> previousDraft = new ArrayList<>(2);
 
         for (int i = 0; i < dominoesJSONArray.length(); ++i)
         {
@@ -213,10 +257,10 @@ public class GameResponseParser
 
             if (playerJSON.getString("name").equals(playerName))
             {
-                previousDrafts.add(getDomino(dominoJSONArrayObject, "domino"));
+                previousDraft.add(getDomino(dominoJSONArrayObject, "domino"));
             }
         }
 
-        return previousDrafts.toArray(new Domino[previousDrafts.size()]);
+        return previousDraft.toArray(new Domino[previousDraft.size()]);
     }
 }

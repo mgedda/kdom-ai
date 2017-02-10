@@ -32,7 +32,7 @@ public class GameUtils
 
     public static Domino[] getPreviousDrafts(final Player player, final String gameState)
     {
-        return GameResponseParser.getPreviousDraftsForPlayer(gameState, player.getName());
+        return GameResponseParser.getPreviousDraftForPlayer(gameState, player.getName());
     }
 
 

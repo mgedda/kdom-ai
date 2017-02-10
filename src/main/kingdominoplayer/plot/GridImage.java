@@ -1,6 +1,7 @@
 package kingdominoplayer.plot;
 
 import kingdominoplayer.datastructures.Position;
+import kingdominoplayer.datastructures.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -60,14 +61,19 @@ public class GridImage
         clear();
     }
 
+    public void drawTile(final Position position, final Tile tile)
+    {
+        drawTile(position.getColumn(), position.getRow(), TileType.from(tile), tile.getCrowns());
+    }
+
     public void drawTile(final Position position, final TileType tileType)
     {
         drawTile(position.getColumn(), position.getRow(), tileType, 0);
     }
 
-    public void drawTile(final Position position, final TileType tileType, final int numCrowns)
+    public void drawTile(final int cellPosX, final int cellPosY, final Tile tile)
     {
-        drawTile(position.getColumn(), position.getRow(), tileType, numCrowns);
+        drawTile(cellPosX, cellPosY, TileType.from(tile), tile.getCrowns());
     }
 
     public void drawTile(final int cellPosX, final int cellPosY, final TileType tileType)

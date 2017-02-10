@@ -1,5 +1,7 @@
 package kingdominoplayer.plot;
 
+import kingdominoplayer.datastructures.Tile;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -48,5 +50,10 @@ public enum TileType
     public int getTextColor()
     {
         return textColor;
+    }
+
+    public static TileType from(final Tile tile)
+    {
+        return valueOf(tile.getTerrain().toUpperCase());
     }
 }
