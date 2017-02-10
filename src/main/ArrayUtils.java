@@ -1,3 +1,5 @@
+import java.util.Collection;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -48,5 +50,18 @@ public class ArrayUtils
         }
 
         return maxIndex;
+    }
+
+    public static int[] toArray(final Collection<Integer> values)
+    {
+        final int[] array = new int[values.size()];
+
+        int index = 0;
+        for (final Integer value : values)
+        {
+            array[index++] = value;
+        }
+
+        return array;
     }
 }

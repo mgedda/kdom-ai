@@ -1,3 +1,5 @@
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -136,26 +138,19 @@ public class Player
                 break;
 
             case SELECT_EXPAND:
-                final Tile[] placedTiles = game.getPlacedTiles(this);
 
-                final String[] terrains = new String[]{"water", "forest", "field", "mine", "pasture", "clay"};
+                // Get number of placed tiles for each terrain.
+                //
+                final LinkedHashMap<String, Integer> terrainToNumTilesMap = getNumberOfPlacedTilesForEachTerrain(game);
 
-                final int[] numTerrainTiles = new int[terrains.length];
+                // Choose move that picks the the domino with such terrain (if domino such exist).
+                //
+                final int totalNumTiles = ArrayUtils.sum(ArrayUtils.toArray(terrainToNumTilesMap.values()));
 
-                for (final Tile placedTile : placedTiles)
+                if (totalNumTiles > 0)
                 {
-                    final int index = ArrayUtils.getIndex(placedTile.getTerrain(), terrains);
-
-                    if (index >= 0)
-                    {
-                        numTerrainTiles[index]++;
-                    }
-                }
-
-                if (ArrayUtils.sum(numTerrainTiles) > 0)
-                {
-                    final int index = ArrayUtils.getIndexWithMaxValue(numTerrainTiles);
-                    final Move selectedMove = selectMoveWhereChosenDominoHasTerrain(terrains[index], availableMoves);
+                    final String terrainWithMaxNumberOfTiles = getTerrainWithMaxNumberOfTiles(terrainToNumTilesMap);
+                    final Move selectedMove = selectMoveWhereChosenDominoHasTerrain(terrainWithMaxNumberOfTiles, availableMoves);
                     move = selectedMove == null ? availableMoves[0] : selectedMove;
                 }
 
@@ -168,6 +163,49 @@ public class Player
 
         return move;
     }
+
+
+    private String getTerrainWithMaxNumberOfTiles(final LinkedHashMap<String, Integer> terrainToNumTilesMap)
+    {
+        String terrainWithMaxNumTiles = "water";
+        int maxNumTiles = -1;
+
+        for (final String terrain : terrainToNumTilesMap.keySet())
+        {
+            final Integer terrainNumTiles = terrainToNumTilesMap.get(terrain);
+            if (terrainNumTiles > maxNumTiles)
+            {
+                terrainWithMaxNumTiles = terrain;
+                maxNumTiles = terrainNumTiles;
+
+            }
+        }
+
+        return terrainWithMaxNumTiles;
+    }
+
+    private LinkedHashMap<String, Integer> getNumberOfPlacedTilesForEachTerrain(final Game game)
+    {
+        final String[] terrains = Game.getTerrainNames();
+
+        final LinkedHashMap<String, Integer> terrainToNumPlacedTilesMap = new LinkedHashMap<>(terrains.length);
+
+        for (final String terrain : terrains)
+        {
+            terrainToNumPlacedTilesMap.put(terrain, 0);
+        }
+
+
+        final Tile[] placedTiles = game.getPlacedTiles(this);
+        for (final Tile placedTile : placedTiles)
+        {
+            final String terrain = placedTile.getTerrain();
+            terrainToNumPlacedTilesMap.put(terrain, terrainToNumPlacedTilesMap.get(terrain) + 1);
+        }
+
+        return terrainToNumPlacedTilesMap;
+    }
+
 
     private Move selectMoveWhereChosenDominoHasTerrain(final String terrain, final Move[] availableMoves)
     {

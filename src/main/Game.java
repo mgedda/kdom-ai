@@ -10,6 +10,11 @@ public class Game
 {
     private final String iUUID;
 
+    public static String[] getTerrainNames()
+    {
+        return new String[]{"water", "forest", "field", "mine", "pasture", "clay"};
+    }
+
     public Game(final String uuid)
     {
         iUUID = uuid;
