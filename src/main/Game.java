@@ -149,6 +149,13 @@ public class Game
         System.out.println("Game finished!");
     }
 
+    public Tile[] getPlacedTiles(Player player)
+    {
+        final String gameState = CommunicationsHandler.getGameState(this);
+
+        return GameResponseParser.getPlayerPlacedTiles(gameState, player.getName());
+    }
+
     private static class DEBUG
     {
         private static boolean DEBUG = true;

@@ -149,4 +149,37 @@ public class GameResponseParser
 
         return name;
     }
+
+    public static Tile[] getPlayerPlacedTiles(final String gameState, final String playerName)
+    {
+        final JSONArray kingdomsArray = new JSONObject(gameState).getJSONArray("kingdoms");
+
+        for (int i = 0; i < kingdomsArray.length(); ++i)
+        {
+            final JSONObject kingdomJSON = kingdomsArray.getJSONObject(i);
+            final JSONObject playerJSON = kingdomJSON.getJSONObject("player");
+            final String name = playerJSON.getString("name");
+
+            if (name.equals(playerName))
+            {
+                final JSONArray placedTiles = kingdomJSON.getJSONArray("placedTiles");
+
+                final Tile[] tiles = new Tile[placedTiles.length()];
+
+                for (int j = 0; j < placedTiles.length(); ++j)
+                {
+                    final JSONObject tileJSON = placedTiles.getJSONObject(j).getJSONObject("tile");
+                    final String terrain = tileJSON.getString("terrain");
+                    final int crowns = tileJSON.getInt("crowns");
+
+                    tiles[j] = new Tile(terrain, crowns);
+                }
+
+                return tiles;
+            }
+        }
+
+        assert false : "player does not exist";
+        return new Tile[0];
+    }
 }

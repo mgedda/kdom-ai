@@ -17,7 +17,8 @@ public class Player
         SELECT_FIRST,
         SELECT_RANDOM,
         SELECT_MOST_CROWNS,
-        SELECT_WATER
+        SELECT_WATER,
+        SELECT_EXPAND
     }
 
     private final Strategy iStrategy;
@@ -69,7 +70,7 @@ public class Player
 
         assert availableMoves.length > 0 : "no moves to choose from";
 
-        final Move move = pickAMove(availableMoves);
+        final Move move = pickAMove(game, availableMoves);
 
         game.makeMove(this, move);
 
@@ -79,7 +80,7 @@ public class Player
     }
 
 
-    private Move pickAMove(final Move[] availableMoves)
+    private Move pickAMove(final Game game, final Move[] availableMoves)
     {
         Move move = availableMoves[0];
 
@@ -134,9 +135,59 @@ public class Player
                 }
                 break;
 
+            case SELECT_EXPAND:
+                final Tile[] placedTiles = game.getPlacedTiles(this);
+
+                final String[] terrains = new String[]{"water", "forest", "field", "mine", "pasture", "clay"};
+
+                final int[] numTerrainTiles = new int[terrains.length];
+
+                for (final Tile placedTile : placedTiles)
+                {
+                    final int index = ArrayUtils.getIndex(placedTile.getTerrain(), terrains);
+
+                    if (index >= 0)
+                    {
+                        numTerrainTiles[index]++;
+                    }
+                }
+
+                if (ArrayUtils.sum(numTerrainTiles) > 0)
+                {
+                    final int index = ArrayUtils.getIndexWithMaxValue(numTerrainTiles);
+                    final Move selectedMove = selectMoveWhereChosenDominoHasTerrain(terrains[index], availableMoves);
+                    move = selectedMove == null ? availableMoves[0] : selectedMove;
+                }
+
+                break;
+
             default:
                 System.err.print("Error: unknown strategy.");
                 System.exit(0);
+        }
+
+        return move;
+    }
+
+    private Move selectMoveWhereChosenDominoHasTerrain(final String terrain, final Move[] availableMoves)
+    {
+        int maxTerrains = 0;
+        Move move = null;
+
+        for (final Move availableMove : availableMoves)
+        {
+            final Domino chosenDomino = availableMove.getChosenDomino();
+            if (chosenDomino != null)
+            {
+                final int tile1Terrain = chosenDomino.getTile1().getTerrain().equals(terrain)? 1 : 0;
+                final int tile2Terrain = chosenDomino.getTile2().getTerrain().equals(terrain)? 1 : 0;
+
+                if (tile1Terrain + tile2Terrain > maxTerrains)
+                {
+                    maxTerrains = tile1Terrain + tile2Terrain;
+                    move = availableMove;
+                }
+            }
         }
 
         return move;
