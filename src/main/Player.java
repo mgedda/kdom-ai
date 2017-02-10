@@ -2,7 +2,6 @@ import datastructures.Domino;
 import datastructures.Move;
 import datastructures.Tile;
 
-import java.util.LinkedHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -142,19 +141,24 @@ public class Player
 
             case SELECT_EXPAND:
 
-                // Get number of placed tiles for each terrain.
+                // Choose move that picks domino with terrain that we already have most of.
                 //
-                final LinkedHashMap<String, Integer> terrainToNumTilesMap = getNumberOfPlacedTilesForEachTerrain(game);
+                final Tile[] placedTiles = GameUtils.getPlacedTiles(this, game);
 
-                // Choose move that picks the the domino with such terrain (if domino such exist).
-                //
-                final int totalNumTiles = ArrayUtils.sum(ArrayUtils.toArray(terrainToNumTilesMap.values()));
-
-                if (totalNumTiles > 0)
+                if (placedTiles.length > 0)
                 {
-                    final String terrainWithMaxNumberOfTiles = getTerrainWithMaxNumberOfTiles(terrainToNumTilesMap);
-                    final Move selectedMove = selectMoveWhereChosenDominoHasTerrain(terrainWithMaxNumberOfTiles, availableMoves);
-                    move = selectedMove == null ? availableMoves[0] : selectedMove;
+                    final String[] terrainsSorted = GameUtils.getTerrainsSortedBasedOnNumberOfTilesUseCrownsAsDealBreaker(placedTiles);
+
+                    for (final String terrain : terrainsSorted)
+                    {
+                        final Move selectedMove = GameUtils.getMoveWithChosenDominoTerrainUseCrownsAsDealBreaker(terrain, availableMoves);
+
+                        if (selectedMove != null)
+                        {
+                            move = selectedMove;
+                            break;
+                        }
+                    }
                 }
 
                 break;
@@ -168,71 +172,7 @@ public class Player
     }
 
 
-    private String getTerrainWithMaxNumberOfTiles(final LinkedHashMap<String, Integer> terrainToNumTilesMap)
-    {
-        String terrainWithMaxNumTiles = "water";
-        int maxNumTiles = -1;
 
-        for (final String terrain : terrainToNumTilesMap.keySet())
-        {
-            final Integer terrainNumTiles = terrainToNumTilesMap.get(terrain);
-            if (terrainNumTiles > maxNumTiles)
-            {
-                terrainWithMaxNumTiles = terrain;
-                maxNumTiles = terrainNumTiles;
-
-            }
-        }
-
-        return terrainWithMaxNumTiles;
-    }
-
-    private LinkedHashMap<String, Integer> getNumberOfPlacedTilesForEachTerrain(final Game game)
-    {
-        final String[] terrains = Game.getTerrainNames();
-
-        final LinkedHashMap<String, Integer> terrainToNumPlacedTilesMap = new LinkedHashMap<>(terrains.length);
-
-        for (final String terrain : terrains)
-        {
-            terrainToNumPlacedTilesMap.put(terrain, 0);
-        }
-
-
-        final Tile[] placedTiles = game.getPlacedTiles(this);
-        for (final Tile placedTile : placedTiles)
-        {
-            final String terrain = placedTile.getTerrain();
-            terrainToNumPlacedTilesMap.put(terrain, terrainToNumPlacedTilesMap.get(terrain) + 1);
-        }
-
-        return terrainToNumPlacedTilesMap;
-    }
-
-
-    private Move selectMoveWhereChosenDominoHasTerrain(final String terrain, final Move[] availableMoves)
-    {
-        int maxTerrains = 0;
-        Move move = null;
-
-        for (final Move availableMove : availableMoves)
-        {
-            final Domino chosenDomino = availableMove.getChosenDomino();
-            if (chosenDomino != null)
-            {
-                final int tile1Terrain = chosenDomino.getTile1().getTerrain().equals(terrain)? 1 : 0;
-                final int tile2Terrain = chosenDomino.getTile2().getTerrain().equals(terrain)? 1 : 0;
-
-                if (tile1Terrain + tile2Terrain > maxTerrains)
-                {
-                    maxTerrains = tile1Terrain + tile2Terrain;
-                    move = availableMove;
-                }
-            }
-        }
-
-        return move;
-    }
 
 
     private static class DEBUG

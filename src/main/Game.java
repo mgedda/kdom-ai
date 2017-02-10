@@ -1,5 +1,4 @@
 import datastructures.Move;
-import datastructures.Tile;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -11,11 +10,6 @@ import datastructures.Tile;
 public class Game
 {
     private final String iUUID;
-
-    public static String[] getTerrainNames()
-    {
-        return new String[]{"water", "forest", "field", "mine", "pasture", "clay"};
-    }
 
     public Game(final String uuid)
     {
@@ -154,13 +148,6 @@ public class Game
         }
 
         System.out.println("Game finished!");
-    }
-
-    public Tile[] getPlacedTiles(Player player)
-    {
-        final String gameState = CommunicationsHandler.getGameState(this);
-
-        return GameResponseParser.getPlayerPlacedTiles(gameState, player.getName());
     }
 
     private static class DEBUG

@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Collection;
 
 /**
@@ -63,5 +64,23 @@ public class ArrayUtils
         }
 
         return array;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static <T> T[] newArray(T[] originalType, int length)
+    {
+        return (T[]) Array.newInstance(originalType.getClass().getComponentType(), length);
+    }
+
+
+    public static<T> T[] append(final T[] array, T element)
+    {
+        final T[] appendedArray = newArray(array, array.length+1);
+
+        System.arraycopy(array, 0, appendedArray,0, array.length);
+        appendedArray[array.length] = element;
+
+        return appendedArray;
     }
 }
