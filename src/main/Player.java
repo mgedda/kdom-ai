@@ -16,7 +16,8 @@ public class Player
     {
         SELECT_FIRST,
         SELECT_RANDOM,
-        SELECT_MOST_CROWNS
+        SELECT_MOST_CROWNS,
+        SELECT_WATER
     }
 
     private final Strategy iStrategy;
@@ -108,6 +109,26 @@ public class Player
                         {
                             move = availableMove;
                             maxCrowns = Math.max(tile1Crowns, tile2Crowns);
+                        }
+                    }
+                }
+                break;
+
+            case SELECT_WATER:
+                int maxWaters = 0;
+                for (final Move availableMove : availableMoves)
+                {
+                    final Domino chosenDomino = availableMove.getChosenDomino();
+
+                    if (chosenDomino != null)
+                    {
+                        final int tile1Waters = chosenDomino.getTile1().getTerrain().equals("water")? 1 : 0;
+                        final int tile2Waters = chosenDomino.getTile2().getTerrain().equals("water")? 1 : 0;
+
+                        if (tile1Waters + tile2Waters > maxWaters)
+                        {
+                            move = availableMove;
+                            maxWaters = tile1Waters + tile2Waters;
                         }
                     }
                 }
