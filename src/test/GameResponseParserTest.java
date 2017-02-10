@@ -1,3 +1,4 @@
+import datastructures.Move;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

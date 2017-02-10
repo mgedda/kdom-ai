@@ -1,3 +1,5 @@
+import datastructures.Move;
+import datastructures.Tile;
 
 /**
  * Copyright 2017 Tomologic AB<br>
