@@ -23,9 +23,8 @@ public class GameStarter
 
         final Game game = startGame(numPlayers);
 
-        waitForPlayersToJoin(game);
-
-        waitForPlayersToFinish(game);
+        game.waitForPlayersToJoin(TIMEOUT_MINUTES);
+        game.waitForPlayersToFinish(TIMEOUT_MINUTES);
 
         showGameResult(game);
     }
@@ -34,58 +33,6 @@ public class GameStarter
     private static void showGameResult(final Game game)
     {
         game.showResult();
-    }
-
-
-    private static void waitForPlayersToFinish(final Game game)
-    {
-        final int sleepMilliSeconds = 1000;
-
-        final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
-        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
-
-        int timeoutCounter = 0;
-
-        System.out.println("Waiting for players to finish.");
-
-        while (! game.isGameOver() && timeoutCounter++ < timeoutMaxCount)
-        {
-            sleep(sleepMilliSeconds);
-        }
-
-        if (timeoutCounter >= timeoutMaxCount)
-        {
-            System.err.println("Error: Timed out!");
-            System.exit(0);
-        }
-
-        System.out.println("Game finished!");
-    }
-
-
-    private static void waitForPlayersToJoin(final Game game)
-    {
-        final int sleepMilliSeconds = 1000;
-
-        final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
-        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
-
-        int timeoutCounter = 0;
-
-        System.out.println("Waiting for all players to join game.");
-
-        while(! game.allPlayersJoined() && timeoutCounter++ < timeoutMaxCount)
-        {
-            sleep(sleepMilliSeconds);
-        }
-
-        if (timeoutCounter >= timeoutMaxCount)
-        {
-            System.err.println("Error: Timed out!");
-            System.exit(0);
-        }
-
-        System.out.println("All players joined!");
     }
 
 
@@ -105,19 +52,6 @@ public class GameStarter
         System.out.println("Game started! UUID: " + game.getUUID());
 
         return game;
-    }
-
-
-    @SuppressWarnings("SameParameterValue")
-    private static void sleep(final int milliSeconds)
-    {
-        try {
-            Thread.sleep(milliSeconds);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
     }
 
 }

@@ -26,38 +26,13 @@ public class PlayerEngine
         final Game game = new Game(gameUUID);
         final Player player = game.addPlayer(playerName);
 
-        waitForPlayersToJoin(game);
+        game.waitForPlayersToJoin(TIMEOUT_MINUTES);
 
         makeMoves(game, player);
 
         System.out.println("Player " + player.getName() + " leaving (game finished).");
     }
 
-
-    private static void waitForPlayersToJoin(final Game game)
-    {
-        final int sleepMilliSeconds = 1000;
-
-        final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
-        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
-
-        int timeoutCounter = 0;
-
-        System.out.println("Waiting for other players to join game.");
-
-        while(! game.allPlayersJoined() && timeoutCounter++ < timeoutMaxCount)
-        {
-            sleep(sleepMilliSeconds);
-        }
-
-        if (timeoutCounter >= timeoutMaxCount)
-        {
-            System.err.println("Error: Timed out!");
-            System.exit(0);
-        }
-
-        System.out.println("All players joined!");
-    }
 
     private static void makeMoves(final Game game, final Player player)
     {

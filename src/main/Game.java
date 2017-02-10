@@ -98,6 +98,56 @@ public class Game
         CommunicationsHandler.makeMove(this, playerUUID, moveNumber);
     }
 
+    public void waitForPlayersToJoin(final int timeoutMinutes)
+    {
+        final int sleepMilliSeconds = 1000;
+
+        final int timeoutMilliSeconds = timeoutMinutes * 60 * 1000;   // min * s/min * ms/s
+        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
+
+        int timeoutCounter = 0;
+
+        System.out.println("Waiting for all players to join game.");
+
+        while(! allPlayersJoined() && timeoutCounter++ < timeoutMaxCount)
+        {
+            Timing.sleep(sleepMilliSeconds);
+        }
+
+        if (timeoutCounter >= timeoutMaxCount)
+        {
+            System.err.println("Error: Timed out!");
+            System.exit(0);
+        }
+
+        System.out.println("All players joined!");
+    }
+
+
+    public void waitForPlayersToFinish(final int timeoutMinutes)
+    {
+        final int sleepMilliSeconds = 1000;
+
+        final int timeoutMilliSeconds = timeoutMinutes * 60 * 1000;   // min * s/min * ms/s
+        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
+
+        int timeoutCounter = 0;
+
+        System.out.println("Waiting for players to finish.");
+
+        while (! isGameOver() && timeoutCounter++ < timeoutMaxCount)
+        {
+            Timing.sleep(sleepMilliSeconds);
+        }
+
+        if (timeoutCounter >= timeoutMaxCount)
+        {
+            System.err.println("Error: Timed out!");
+            System.exit(0);
+        }
+
+        System.out.println("Game finished!");
+    }
 
     private static class DEBUG
     {
