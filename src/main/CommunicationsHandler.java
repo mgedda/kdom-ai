@@ -11,11 +11,15 @@ import java.net.URL;
 @SuppressWarnings("WeakerAccess")
 public class CommunicationsHandler
 {
+    private static String SERVER = "http://localhost";
+    //private static String SERVER = "http://kdom.mratin.se";
+
+
     public static String startNewGame(final int numPlayers)
     {
         assert numPlayers > 1 && numPlayers < 5 : "wrong number of players (numPlayers=)" + numPlayers + ")";
 
-        final String url = "http://kdom.mratin.se/new-games/?playerCount=" + numPlayers;
+        final String url = SERVER + "/new-games/?playerCount=" + numPlayers;
         return sendPostRequest(url);
     }
 
@@ -26,7 +30,7 @@ public class CommunicationsHandler
         int count = 0;
         for (final String playerName : playerNames)
         {
-            final String url = "http://kdom.mratin.se/new-games/" + game.getUUID() + "/join/" + playerName;
+            final String url = SERVER + "/new-games/" + game.getUUID() + "/join/" + playerName;
             final String response = sendPostRequest(url);
             final String uuid = GameResponseParser.getUUID(response);
 
@@ -39,7 +43,7 @@ public class CommunicationsHandler
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String joinGame(final Game game, final String playerName)
     {
-        final String url = "http://kdom.mratin.se/new-games/" + game.getUUID() + "/join/" + playerName;
+        final String url = SERVER + "/new-games/" + game.getUUID() + "/join/" + playerName;
         final String response = sendPostRequest(url);
 
         return response;
@@ -48,21 +52,21 @@ public class CommunicationsHandler
 
     public static String getGameState(final Game game)
     {
-        final String url = "http://kdom.mratin.se/games/" + game.getUUID();
+        final String url = SERVER + "/games/" + game.getUUID();
 
         return sendGetRequest(url);
     }
 
     public static String getAvailableMoves(final Game game)
     {
-        final String url = "http://kdom.mratin.se/games/" + game.getUUID() + "/available-moves";
+        final String url = SERVER + "/games/" + game.getUUID() + "/available-moves";
 
         return sendGetRequest(url);
     }
 
     public static boolean allPlayersJoined(final Game game)
     {
-        final String url = "http://kdom.mratin.se/games/" + game.getUUID();
+        final String url = SERVER + "/games/" + game.getUUID();
 
         try
         {
@@ -115,14 +119,6 @@ public class CommunicationsHandler
             final HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
 
             conn.setRequestMethod("POST");
-            //conn.setRequestProperty("Content-Type", "application/json");
-            //conn.setDoOutput(true);
-
-            //String data =  "{\"format\":\"json\",\"pattern\":\"#\"}";
-            //OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-            //out.write(data);
-            //out.close();
-
             final InputStream inputStream = conn.getInputStream();
 
             @SuppressWarnings("UnnecessaryLocalVariable")
@@ -148,8 +144,7 @@ public class CommunicationsHandler
 
     public static void makeMove(final Game game, final String playerUUID, final int moveNumber)
     {
-        final String url = "http://kdom.mratin.se/games/" + game.getUUID() + "/players/" + playerUUID + "/moves/" + moveNumber;
+        final String url = SERVER + "/games/" + game.getUUID() + "/players/" + playerUUID + "/moves/" + moveNumber;
         sendPostRequest(url);
-
     }
 }
