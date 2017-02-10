@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>se.tomologic</groupId>
+  <artifactId>kingdominoplayer</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <scala.version>2.10.5</scala.version>
+
+    <exec.mainClass>se.tomologic.kingdominoplayer.Main</exec.mainClass>
+    <!--<javafx.min.version>2.2</javafx.min.version>-->
+    <!--<jdk.home>/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home</jdk.home>-->
+    <!--<javafx.home>${java.home}</javafx.home>   &lt;!&ndash; override if your javafx is sourced from a different jdk then your maven build execution jre &ndash;&gt;-->
+    <!--<javafx.runtime.lib.jar>bootlib/jfxrt.jar</javafx.runtime.lib.jar>-->
+    <!--&lt;!&ndash;<javafx.runtime.lib.jar>bootlib/jfxrt.jar</javafx.runtime.lib.jar>&ndash;&gt;-->
+    <!--<javafx.tools.ant.jar>/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home/lib/ant-javafx.jar</javafx.tools.ant.jar>-->
+  </properties>
+
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>libs-release</name>
+      <url>https://artifactory.tomologic.net/artifactory/libs-release</url>
+    </repository>
+    <repository>
+      <snapshots />
+      <id>snapshots</id>
+      <name>libs-snapshot</name>
+      <url>https://artifactory.tomologic.net/artifactory/libs-snapshot</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>plugins-release</name>
+      <url>https://artifactory.tomologic.net/artifactory/plugins-release</url>
+    </pluginRepository>
+    <pluginRepository>
+      <snapshots />
+      <id>snapshots</id>
+      <name>plugins-snapshot</name>
+      <url>https://artifactory.tomologic.net/artifactory/plugins-snapshot</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.scalatest</groupId>-->
+      <!--<artifactId>scalatest_${scala.version}</artifactId>-->
+      <!--<version>1.6.1</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.1.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.scalafx</groupId>
+      <artifactId>scalafx_2.10</artifactId>
+      <version>8.0.40-R8</version>
+      <!--<version>1.0.0-M7</version>-->
+    </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>org.scalafx</groupId>-->
+      <!--<artifactId>scalafx_2.10</artifactId>-->
+      <!--<version>1.0.0-M7</version>-->
+      <!--<exclusions>-->
+        <!--<exclusion>-->
+          <!--<groupId>com.oracle</groupId>-->
+          <!--<artifactId>javafx-runtime</artifactId>-->
+        <!--</exclusion>-->
+      <!--</exclusions>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+      <!--<groupId>se.tomologic.jfxrt</groupId>-->
+      <!--<artifactId>jfxrt</artifactId>-->
+      <!--<version>2.2.7_patch</version>-->
+      <!--<type>jar</type>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>se.tomologic</groupId>
+      <artifactId>tosmaster</artifactId>
+      <version>2016-01-29_10-01-37_67</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20160810</version>
+    </dependency>
+
+    <dependency>
+      <groupId>se.tomologic.optimizerparameters</groupId>
+      <artifactId>optimizerparameters</artifactId>
+      <version>2015-08-26_08-25-38_4724</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.databinder.dispatch</groupId>
+      <artifactId>dispatch-core_2.10</artifactId>
+      <version>0.11.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.nscala-time</groupId>
+      <artifactId>nscala-time_2.9.1</artifactId>
+      <version>0.8.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>r09</version>
+    </dependency>
+
+      <dependency>
+          <groupId>net.liftweb</groupId>
+          <artifactId>lift-json_2.10</artifactId>
+          <version>2.5.1</version>
+      </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.0.3</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>1.7</version>
+                </requireJavaVersion>
+                <!--<requireProperty>-->
+                  <!--<property>env.JAVAFX_HOME</property>-->
+                  <!--<message>You must set the environment variable JAVAFX_HOME to the installation directory of the JavaFX 2.0 SDK!</message>-->
+                <!--</requireProperty>-->
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <args>
+                <arg>-Xmax-classfile-name</arg>
+                <arg>80</arg>
+                <arg>-make:transitive</arg>
+                <arg>-dependencyfile</arg>
+                <arg>${project.build.directory}/.scala_dependencies</arg>
+              </args>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <jvmArgs>
+            <jvmArg>-Xss2m</jvmArg>
+            <jvmArg>-Xms64m</jvmArg>
+            <jvmArg>-Xmx4096m -XX:MaxPermSize=4096m</jvmArg>
+          </jvmArgs>
+          <recompileMode>incremental</recompileMode>
+          <useZincServer>true</useZincServer>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <!-- Required for NetBeans 7.0.1 to figure source/target. -->
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+          <showDeprecation>true</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.class</include>
+            <include>**/*Suite.class</include>
+            <include>**/*Spec.class</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/optisim_jar_with_dependencies.xml</descriptor>
+            <descriptor>src/main/assembly/optisim.xml</descriptor>
+          </descriptors>
+          <archive>
+            <manifest>
+              <mainClass>se.tomologic.optisim.Main</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <!-- Ensure that the assembly is generated as part of the build-->
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <distributionManagement>
+    <repository>
+      <id>artifactory.tomologic.net</id>
+      <name>artifactory.tomologic.net</name>
+      <url>https://artifactory.tomologic.net/artifactory/libs-release-local</url>
+    </repository>
+    <snapshotRepository>
+      <id>artifactory.tomologic.net-snapshots</id>
+      <name>artifactory.tomologic.net-snapshots</name>
+      <url>https://artifactory.tomologic.net/artifactory/libs-snapshot-local</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>
