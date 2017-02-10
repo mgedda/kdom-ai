@@ -70,11 +70,15 @@ public class Player
 
         DEBUG.printMakingAMove(this);
 
+        final String gameState = CommunicationsHandler.getGameState(game);
         final Move[] availableMoves = game.getAvailableMoves();
-
         assert availableMoves.length > 0 : "no moves to choose from";
 
-        final Move move = pickAMove(game, availableMoves);
+        // Show state before move
+
+        final Move move = pickAMove(gameState, availableMoves);
+
+        // Show state after move
 
         game.makeMove(this, move);
 
@@ -84,8 +88,11 @@ public class Player
     }
 
 
-    private Move pickAMove(final Game game, final Move[] availableMoves)
+    private Move pickAMove(final String gameState, final Move[] availableMoves)
     {
+        final Tile[] placedTiles = GameUtils.getPlacedTiles(this, gameState);
+        final Domino[] previousDrafts = GameUtils.getPreviousDrafts(this, gameState);
+
         Move move = availableMoves[0];
 
         switch (iStrategy)
@@ -143,21 +150,16 @@ public class Player
 
                 // Choose move that picks domino with terrain that we already have most of.
                 //
-                final Tile[] placedTiles = GameUtils.getPlacedTiles(this, game);
+                final String[] terrainsSorted = GameUtils.getTerrainsSortedBasedOnNumberOfTilesUseCrownsAsDealBreaker(placedTiles);
 
-                if (placedTiles.length > 0)
+                for (final String terrain : terrainsSorted)
                 {
-                    final String[] terrainsSorted = GameUtils.getTerrainsSortedBasedOnNumberOfTilesUseCrownsAsDealBreaker(placedTiles);
+                    final Move selectedMove = GameUtils.getMoveWithChosenDominoTerrainUseCrownsAsDealBreaker(terrain, availableMoves);
 
-                    for (final String terrain : terrainsSorted)
+                    if (selectedMove != null)
                     {
-                        final Move selectedMove = GameUtils.getMoveWithChosenDominoTerrainUseCrownsAsDealBreaker(terrain, availableMoves);
-
-                        if (selectedMove != null)
-                        {
-                            move = selectedMove;
-                            break;
-                        }
+                        move = selectedMove;
+                        break;
                     }
                 }
 

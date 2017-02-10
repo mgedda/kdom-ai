@@ -21,11 +21,15 @@ public class GameUtils
 
 
 
-    public static Tile[] getPlacedTiles(final Player player, final Game game)
+    public static Tile[] getPlacedTiles(final Player player, final String gameState)
     {
-        final String gameState = CommunicationsHandler.getGameState(game);
-
         return GameResponseParser.getPlayerPlacedTiles(gameState, player.getName());
+    }
+
+
+    public static Domino[] getPreviousDrafts(final Player player, final String gameState)
+    {
+        return GameResponseParser.getPreviousDraftsForPlayer(gameState, player.getName());
     }
 
 
@@ -52,8 +56,12 @@ public class GameUtils
 
     public static String[] getTerrainsSortedBasedOnNumberOfTilesUseCrownsAsDealBreaker(final Tile[] tiles)
     {
-        final LinkedHashMap<String, Tile[]> terrainToTilesMap = GameUtils.getTerrainToTilesMap(tiles);
+        if (tiles.length == 0)
+        {
+            return new String[0];
+        }
 
+        final LinkedHashMap<String, Tile[]> terrainToTilesMap = GameUtils.getTerrainToTilesMap(tiles);
         final ArrayList<TerrainTilesPair> terrainTilesPairs = new ArrayList<>(terrainToTilesMap.size());
 
         for (final String terrain : terrainToTilesMap.keySet())

@@ -2,6 +2,8 @@ import datastructures.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -182,5 +184,29 @@ public class GameResponseParser
 
         assert false : "player does not exist";
         return new Tile[0];
+    }
+
+
+    public static Domino[] getPreviousDraftsForPlayer(final String gameState, final String playerName)
+    {
+        final JSONObject gameStateJSON = new JSONObject(gameState);
+
+        final JSONObject previousDraftJSON = gameStateJSON.getJSONObject("previousDraft");
+        final JSONArray dominoesJSONArray = previousDraftJSON.getJSONArray("dominoes");
+
+        final ArrayList<Domino> previousDrafts = new ArrayList<>(2);
+
+        for (int i = 0; i < dominoesJSONArray.length(); ++i)
+        {
+            final JSONObject dominoJSONArrayObject = dominoesJSONArray.getJSONObject(i);
+            final JSONObject playerJSON = dominoJSONArrayObject.getJSONObject("player");
+
+            if (playerJSON.getString("name").equals(playerName))
+            {
+                previousDrafts.add(getDomino(dominoJSONArrayObject, "domino"));
+            }
+        }
+
+        return previousDrafts.toArray(new Domino[previousDrafts.size()]);
     }
 }
