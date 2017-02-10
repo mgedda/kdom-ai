@@ -1,6 +1,9 @@
-import datastructures.Domino;
-import datastructures.Move;
-import datastructures.Tile;
+package kingdominoplayer;
+
+import kingdominoplayer.datastructures.Domino;
+import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.datastructures.PlacedTile;
+import kingdominoplayer.plot.SceneRenderer;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -54,7 +57,7 @@ public class Player
     @Override
     public String toString()
     {
-        return "Player{" +
+        return "kingdominoplayer.Player{" +
                 "iName='" + iName + '\'' +
                 ", iUUID='" + iUUID + '\'' +
                 '}';
@@ -64,17 +67,19 @@ public class Player
     {
         if (! game.getCurrentPlayer().equals(getName()))
         {
-            DEBUG.printWaiting(this);
+            OUTPUT.printWaiting(this);
             return false;
         }
 
-        DEBUG.printMakingAMove(this);
+        OUTPUT.printMakingAMove(this);
 
         final String gameState = CommunicationsHandler.getGameState(game);
         final Move[] availableMoves = game.getAvailableMoves();
         assert availableMoves.length > 0 : "no moves to choose from";
 
         // Show state before move
+        //
+        DEBUG.plotGameState(gameState, "Before Move");
 
         final Move move = pickAMove(gameState, availableMoves);
 
@@ -82,7 +87,7 @@ public class Player
 
         game.makeMove(this, move);
 
-        DEBUG.printMoveMade();
+        OUTPUT.printMoveMade();
 
         return true;
     }
@@ -90,7 +95,7 @@ public class Player
 
     private Move pickAMove(final String gameState, final Move[] availableMoves)
     {
-        final Tile[] placedTiles = GameUtils.getPlacedTiles(this, gameState);
+        final PlacedTile[] placedTiles = GameUtils.getPlacedTiles(this, gameState);
         final Domino[] previousDrafts = GameUtils.getPreviousDrafts(this, gameState);
 
         Move move = availableMoves[0];
@@ -175,15 +180,27 @@ public class Player
 
 
 
-
-
     private static class DEBUG
     {
         private static boolean DEBUG = true;
 
-        private static void print(final String msg)
+        private static void plotGameState(final String gameState, final String title)
         {
             if (DEBUG)
+            {
+                SceneRenderer.render(gameState, title);
+            }
+        }
+    }
+
+
+    private static class OUTPUT
+    {
+        private static boolean OUTPUT = true;
+
+        private static void print(final String msg)
+        {
+            if (OUTPUT)
             {
                 System.out.print(msg);
             }

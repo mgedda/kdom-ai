@@ -1,3 +1,5 @@
+package kingdominoplayer;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>

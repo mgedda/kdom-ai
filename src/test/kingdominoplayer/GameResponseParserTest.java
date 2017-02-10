@@ -1,4 +1,6 @@
-import datastructures.Move;
+package kingdominoplayer;
+
+import kingdominoplayer.datastructures.Move;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

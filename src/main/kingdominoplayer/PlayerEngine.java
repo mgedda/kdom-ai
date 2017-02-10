@@ -1,3 +1,5 @@
+package kingdominoplayer;
+
 import java.io.*;
 
 
@@ -42,7 +44,7 @@ public class PlayerEngine
 
         makeMoves(game, player);
 
-        System.out.println("Player " + player.getName() + " leaving (game finished).");
+        System.out.println("kingdominoplayer.Player " + player.getName() + " leaving (game finished).");
     }
 
 

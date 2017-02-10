@@ -1,4 +1,4 @@
-package datastructures;
+package kingdominoplayer.datastructures;
 
 /**
  * Copyright 2017 Tomologic AB<br>

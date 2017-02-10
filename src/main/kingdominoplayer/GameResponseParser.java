@@ -1,4 +1,6 @@
-import datastructures.*;
+package kingdominoplayer;
+
+import kingdominoplayer.datastructures.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -78,19 +80,19 @@ public class GameResponseParser
 
         final Domino domino = getDomino(placedDominoJSON, "domino");
 
-        final TilePosition tile1Position = getTilePosition(placedDominoJSON, "tile1Position");
-        final TilePosition tile2Position = getTilePosition(placedDominoJSON, "tile2Position");
+        final Position tile1Position = getTilePosition(placedDominoJSON, "tile1Position");
+        final Position tile2Position = getTilePosition(placedDominoJSON, "tile2Position");
 
         return new PlacedDomino(domino, tile1Position, tile2Position);
     }
 
-    private static TilePosition getTilePosition(final JSONObject object, final String tilePositionName)
+    private static Position getTilePosition(final JSONObject object, final String tilePositionName)
     {
         final JSONObject tilePositionJSON = object.getJSONObject(tilePositionName);
         final int row = tilePositionJSON.getInt("row");
         final int column = tilePositionJSON.getInt("col");
 
-        return new TilePosition(row, column);
+        return new Position(row, column);
     }
 
     private static Tile getTile(final JSONObject chosenDominoJSON, final String tileName)
@@ -153,7 +155,7 @@ public class GameResponseParser
         return name;
     }
 
-    public static Tile[] getPlayerPlacedTiles(final String gameState, final String playerName)
+    public static PlacedTile[] getPlayerPlacedTiles(final String gameState, final String playerName)
     {
         final JSONArray kingdomsArray = new JSONObject(gameState).getJSONArray("kingdoms");
 
@@ -167,7 +169,7 @@ public class GameResponseParser
             {
                 final JSONArray placedTiles = kingdomJSON.getJSONArray("placedTiles");
 
-                final Tile[] tiles = new Tile[placedTiles.length()];
+                final PlacedTile[] tilePositionPairs = new PlacedTile[placedTiles.length()];
 
                 for (int j = 0; j < placedTiles.length(); ++j)
                 {
@@ -175,15 +177,23 @@ public class GameResponseParser
                     final String terrain = tileJSON.getString("terrain");
                     final int crowns = tileJSON.getInt("crowns");
 
-                    tiles[j] = new Tile(terrain, crowns);
+                    final Tile tile = new Tile(terrain, crowns);
+
+                    final JSONObject positionJSON = placedTiles.getJSONObject(j).getJSONObject("position");
+                    final int row = positionJSON.getInt("row");
+                    final int col = positionJSON.getInt("col");
+
+                    final Position position = new Position(row, col);
+
+                    tilePositionPairs[j] = new PlacedTile(tile, position);
                 }
 
-                return tiles;
+                return tilePositionPairs;
             }
         }
 
         assert false : "player does not exist";
-        return new Tile[0];
+        return new PlacedTile[0];
     }
 
 

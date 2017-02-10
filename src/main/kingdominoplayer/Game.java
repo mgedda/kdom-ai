@@ -1,4 +1,6 @@
-import datastructures.Move;
+package kingdominoplayer;
+
+import kingdominoplayer.datastructures.Move;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -36,7 +38,7 @@ public class Game
     @Override
     public String toString()
     {
-        return "Game{" +
+        return "kingdominoplayer.Game{" +
                 "iUUID='" + iUUID + '\'' +
                 '}';
     }
@@ -147,7 +149,7 @@ public class Game
             System.exit(0);
         }
 
-        System.out.println("Game finished!");
+        System.out.println("kingdominoplayer.Game finished!");
     }
 
     private static class DEBUG
@@ -164,12 +166,12 @@ public class Game
 
         public static void printGameStarted(final Game game)
         {
-            print("Game started! UUID: " + game.getUUID() + "\n");
+            print("kingdominoplayer.Game started! UUID: " + game.getUUID() + "\n");
         }
 
         public static void printPlayerJoined(final Game game, final String playerName)
         {
-            print("Player " + playerName + " joined game " + game.getUUID() + "\n");
+            print("kingdominoplayer.Player " + playerName + " joined game " + game.getUUID() + "\n");
         }
     }
 }

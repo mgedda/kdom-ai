@@ -1,6 +1,9 @@
-import datastructures.Domino;
-import datastructures.Move;
-import datastructures.Tile;
+package kingdominoplayer;
+
+import kingdominoplayer.datastructures.Domino;
+import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.datastructures.Tile;
+import kingdominoplayer.datastructures.PlacedTile;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -21,7 +24,7 @@ public class GameUtils
 
 
 
-    public static Tile[] getPlacedTiles(final Player player, final String gameState)
+    public static PlacedTile[] getPlacedTiles(final Player player, final String gameState)
     {
         return GameResponseParser.getPlayerPlacedTiles(gameState, player.getName());
     }
