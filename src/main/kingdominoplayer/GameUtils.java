@@ -1,9 +1,6 @@
 package kingdominoplayer;
 
-import kingdominoplayer.datastructures.Domino;
-import kingdominoplayer.datastructures.Move;
-import kingdominoplayer.datastructures.Tile;
-import kingdominoplayer.datastructures.PlacedTile;
+import kingdominoplayer.datastructures.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -23,7 +20,6 @@ public class GameUtils
     }
 
 
-
     public static PlacedTile[] getPlacedTiles(final Player player, final String gameState)
     {
         return GameResponseParser.getPlayerPlacedTiles(gameState, player.getName());
@@ -33,6 +29,20 @@ public class GameUtils
     public static Domino[] getPreviousDrafts(final Player player, final String gameState)
     {
         return GameResponseParser.getPreviousDraftForPlayer(gameState, player.getName());
+    }
+
+
+    public static PlacedTile getTileAtPosition(final Position position, final PlacedTile[] placedTiles)
+    {
+        for (final PlacedTile placedTile : placedTiles)
+        {
+            if (placedTile.getPosition().equals(position))
+            {
+                return placedTile;
+            }
+        }
+
+        return null;
     }
 
 

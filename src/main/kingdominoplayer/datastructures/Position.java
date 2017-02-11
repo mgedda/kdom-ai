@@ -31,4 +31,33 @@ public class Position
     {
         return new Position(getRow() + other.getRow(), getColumn() + other.getColumn());
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        final Position position = (Position) o;
+
+        if (iRow != position.iRow)
+        {
+            return false;
+        }
+        return iColumn == position.iColumn;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = iRow;
+        result = 31 * result + iColumn;
+        return result;
+    }
 }
