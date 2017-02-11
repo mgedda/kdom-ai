@@ -1,6 +1,7 @@
 package kingdominoplayer;
 
 import kingdominoplayer.datastructures.*;
+import kingdominoplayer.planning.Scorer;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -110,6 +111,18 @@ public class GameUtils
         }
 
         return terrainsSorted.toArray(new String[terrainsSorted.size()]);
+    }
+
+    public static LinkedHashMap<KingdomMovePair, Integer> getKingdomScores(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    {
+        final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = new LinkedHashMap<>(100);  // magic number
+
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
+        {
+            final int score = Scorer.computeScore(kingdomMovePair.getKingdom().getPlacedTiles());
+            kingdomMovePairToScoreMap.put(kingdomMovePair, score);
+        }
+        return kingdomMovePairToScoreMap;
     }
 
 
@@ -230,6 +243,141 @@ public class GameUtils
         return maxCrownsMoves;
     }
 
+
+    public static ArrayList<KingdomMovePair> removeMovesBreakingMiddleKingdomRule(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    {
+        final ArrayList<KingdomMovePair> validPairs = new ArrayList<>(kingdomMovePairs.size());
+
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
+        {
+            final PlacedDomino placedDomino = kingdomMovePair.getMove().getPlacedDomino();
+
+            if (placedDomino != null)
+            {
+                final Position tile1Position = placedDomino.getTile1().getPosition();
+                final Position tile2Position = placedDomino.getTile2().getPosition();
+
+                final boolean isWithinBounds = Math.abs(tile1Position.getColumn()) < 3 && Math.abs(tile1Position.getRow()) < 3
+                        && Math.abs(tile2Position.getColumn()) < 3 && Math.abs(tile2Position.getRow()) < 3;
+
+                if (isWithinBounds)
+                {
+                    validPairs.add(kingdomMovePair);
+                }
+            }
+        }
+
+        return validPairs;
+    }
+
+
+    public static ArrayList<KingdomMovePair> removeMovesCreatingSingleTileHoles(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    {
+        final ArrayList<KingdomMovePair> validPairs = new ArrayList<>(kingdomMovePairs.size());
+
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
+        {
+            final PlacedDomino placedDomino = kingdomMovePair.getMove().getPlacedDomino();
+
+            if (placedDomino != null)
+            {
+                final Kingdom kingdom = kingdomMovePair.getKingdom();
+                final ArrayList<PlacedTile> allPlacedTiles = ArrayUtils.toArrayList(kingdom.getPlacedTiles());
+                allPlacedTiles.addAll(placedDomino.getPlacedTiles());
+
+                final ArrayList<Position> adjacentPositions = getAdjacentPositions(placedDomino);
+                final boolean containsSingleTileHole = checkForSingleTileHole(adjacentPositions, allPlacedTiles);
+
+                if (! containsSingleTileHole)
+                {
+                    validPairs.add(kingdomMovePair);
+                }
+            }
+        }
+
+        return validPairs;
+    }
+
+
+
+
+    private static boolean checkForSingleTileHole(final ArrayList<Position> positions,
+                                                  final ArrayList<PlacedTile> placedTiles)
+    {
+        for (final Position position : positions)
+        {
+            if (isSingleTileHole(position, placedTiles))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public static boolean isSingleTileHole(final Position position, final ArrayList<PlacedTile> placedTiles)
+    {
+        final ArrayList<Position> adjacentPositions = getAdjacentPositions(position);
+
+        boolean isSingleTileHole = true;
+        for (final Position adjacentPosition : adjacentPositions)
+        {
+            if (adjacentPosition.equals(new Position(0, 0)))
+            {
+                continue;
+            }
+
+            boolean hasTile = false;
+
+            for (final PlacedTile placedTile : placedTiles)
+            {
+                if (placedTile.getPosition().equals(adjacentPosition))
+                {
+                    hasTile = true;
+                    break;
+                }
+            }
+
+            if (! hasTile)
+            {
+                isSingleTileHole = false;
+                break;
+            }
+        }
+
+        return isSingleTileHole;
+    }
+
+
+    public static ArrayList<Position> getAdjacentPositions(final PlacedDomino placedDomino)
+    {
+        final Position tile1Position = placedDomino.getTile1().getPosition();
+        final Position tile2Position = placedDomino.getTile2().getPosition();
+
+        final ArrayList<Position> tile1Adjacent = getAdjacentPositions(tile1Position);
+        final ArrayList<Position> tile2Adjacent = getAdjacentPositions(tile2Position);
+
+        final ArrayList<Position> allAdjacent = new ArrayList<>(8);
+        allAdjacent.addAll(tile1Adjacent);
+        allAdjacent.addAll(tile2Adjacent);
+        allAdjacent.remove(tile1Position);
+        allAdjacent.remove(tile2Position);
+
+        return allAdjacent;
+    }
+
+    public static ArrayList<Position> getAdjacentPositions(final Position position)
+    {
+        final ArrayList<Position> adjacentPositions = new ArrayList<>(4);
+
+        adjacentPositions.add(new Position(position.getRow() - 1, position.getColumn()));       // N
+        adjacentPositions.add(new Position(position.getRow() + 1, position.getColumn()));       // S
+        adjacentPositions.add(new Position(position.getRow(), position.getColumn() + 1));    // E
+        adjacentPositions.add(new Position(position.getRow(), position.getColumn() - 1));    // W
+
+        return adjacentPositions;
+    }
 
     private static class TerrainTilesPair
     {

@@ -1,5 +1,7 @@
 package kingdominoplayer.datastructures;
 
+import java.util.ArrayList;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -18,13 +20,25 @@ public class PlacedDomino extends Domino
         iTile2Position = tile2Position;
     }
 
-    public Position getTile1Position()
+    @Override
+    public PlacedTile getTile1()
     {
-        return iTile1Position;
+        return new PlacedTile(super.getTile1(), iTile1Position);
     }
 
-    public Position getTile2Position()
+    @Override
+    public PlacedTile getTile2()
     {
-        return iTile2Position;
+        return new PlacedTile(super.getTile2(), iTile2Position);
+    }
+
+    public ArrayList<PlacedTile> getPlacedTiles()
+    {
+        final ArrayList<PlacedTile> placedTiles = new ArrayList<>(2);
+
+        placedTiles.add(getTile1());
+        placedTiles.add(getTile2());
+
+        return placedTiles;
     }
 }

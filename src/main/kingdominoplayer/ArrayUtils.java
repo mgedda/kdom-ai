@@ -1,7 +1,9 @@
 package kingdominoplayer;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -66,6 +68,15 @@ public class ArrayUtils
         }
 
         return array;
+    }
+
+
+    public static<T> ArrayList<T> toArrayList(T[] array)
+    {
+        final ArrayList<T> arrayList = new ArrayList<>(array.length);
+        Collections.addAll(arrayList, array);
+
+        return arrayList;
     }
 
 

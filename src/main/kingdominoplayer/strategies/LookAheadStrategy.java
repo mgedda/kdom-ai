@@ -3,7 +3,6 @@ package kingdominoplayer.strategies;
 import kingdominoplayer.GameUtils;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.LookAhead;
-import kingdominoplayer.planning.Scorer;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -55,25 +54,43 @@ public class LookAheadStrategy implements Strategy
             //
             if (placedTiles.length > 0)
             {
-                // We have dominos placed in our kingdom. See what options we have for placing
-                // our selected domino.
+                // We have dominos placed in our kingdom.
+                //
+
+                //Look ahead one move and see what kingdoms we can produce.
                 //
                 final ArrayList<KingdomMovePair> possibleNewKingdoms = LookAhead.getPossibleNewKingdoms(kingdom, availableMoves);
 
-                // Compute scores for all possible kingdom moves.
+                // Compute scores for all possible kingdoms.
                 //
-                final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = new LinkedHashMap<>(100);  // magic number
+                final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = GameUtils.getKingdomScores(possibleNewKingdoms);
 
-                for (final KingdomMovePair kingdomMovePair : possibleNewKingdoms)
+                // Remove all kingdoms that break the Middle Kingdom rule.
+                //
+                LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = getOnlyValidKingdomMovePairs(kingdomMovePairToScoreMap);
+
+                if (validKingdomMovePairToScoreMap.isEmpty())
                 {
-                    final int score = Scorer.computeScore(kingdomMovePair.getKingdom().getPlacedTiles());
-                    kingdomMovePairToScoreMap.put(kingdomMovePair, score);
+                    // TODO [gedda] IMPORTANT! : FIX THIS!!!
+                    validKingdomMovePairToScoreMap = kingdomMovePairToScoreMap;
                 }
+
+
+                // Remove all kingdoms that leave single-tile holes.
+                //
+                LinkedHashMap<KingdomMovePair, Integer> nonHoleMakingKingdomMovePairToScoreMap = getOnlyKingdomMovePairsNotMakingHoles(validKingdomMovePairToScoreMap);
+
+                if (nonHoleMakingKingdomMovePairToScoreMap.isEmpty())
+                {
+                    // TODO [gedda] IMPORTANT! : FIX THIS!!!
+                    nonHoleMakingKingdomMovePairToScoreMap = kingdomMovePairToScoreMap;
+                }
+
 
                 // See which moves have the maximum scores.
                 //
                 int maxScore = 0;
-                for (final Integer score : kingdomMovePairToScoreMap.values())
+                for (final Integer score : nonHoleMakingKingdomMovePairToScoreMap.values())
                 {
                     maxScore = score > maxScore ? score : maxScore;
                 }
@@ -88,14 +105,11 @@ public class LookAheadStrategy implements Strategy
                 }
 
 
-
                 // Differentiate between max scoring moves!
-                // // TODO [gedda] IMPORTANT! : CHANGE THIS TO TAKE CHOSEN DOMINO INTO ACCOUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // // TODO [gedda] IMPORTANT! : CHANGE THIS TO ALSO TAKE CHOSEN DOMINO INTO ACCOUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //
                 final ArrayList<Move> movesWithMostCrowns = GameUtils.getMovesWithMostCrownsOnSingleTile(maxScoringMoves.toArray(new Move[maxScoringMoves.size()]));
-
-                return movesWithMostCrowns.get(0);
-
+                return movesWithMostCrowns.isEmpty()? maxScoringMoves.get(0) : movesWithMostCrowns.get(0);
             }
             else
             {
@@ -107,6 +121,43 @@ public class LookAheadStrategy implements Strategy
                 return movesWithMostCrowns.get(0);
             }
         }
+    }
+
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    private LinkedHashMap<KingdomMovePair, Integer> getOnlyKingdomMovePairsNotMakingHoles(final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap)
+    {
+        final ArrayList<KingdomMovePair> kingdomMovePairs = new ArrayList<>(kingdomMovePairToScoreMap.size());
+        kingdomMovePairs.addAll(kingdomMovePairToScoreMap.keySet());
+        final ArrayList<KingdomMovePair> validKingdomMovePairs = GameUtils.removeMovesCreatingSingleTileHoles(kingdomMovePairs);
+
+        final LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = keep(validKingdomMovePairs, kingdomMovePairToScoreMap);
+
+        return validKingdomMovePairToScoreMap;
+    }
+
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    private LinkedHashMap<KingdomMovePair, Integer> getOnlyValidKingdomMovePairs(final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap)
+    {
+        final ArrayList<KingdomMovePair> kingdomMovePairs = new ArrayList<>(kingdomMovePairToScoreMap.size());
+        kingdomMovePairs.addAll(kingdomMovePairToScoreMap.keySet());
+        final ArrayList<KingdomMovePair> validKingdomMovePairs = GameUtils.removeMovesBreakingMiddleKingdomRule(kingdomMovePairs);
+
+        final LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = keep(validKingdomMovePairs, kingdomMovePairToScoreMap);
+
+        return validKingdomMovePairToScoreMap;
+    }
+
+
+    private LinkedHashMap<KingdomMovePair, Integer> keep(final ArrayList<KingdomMovePair> keysToKeep,
+                                                         final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap)
+    {
+        final LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = new LinkedHashMap<>(keysToKeep.size());
+        for (final KingdomMovePair kingdomMovePair : keysToKeep)
+        {
+            validKingdomMovePairToScoreMap.put(kingdomMovePair, kingdomMovePairToScoreMap.get(kingdomMovePair));
+        }
+
+        return validKingdomMovePairToScoreMap;
     }
 
 }

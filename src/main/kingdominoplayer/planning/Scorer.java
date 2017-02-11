@@ -75,7 +75,7 @@ public class Scorer
             final String terrain = placedTile.getTerrain();
             final Position position = placedTile.getPosition();
 
-            final ArrayList<Position> adjacentPositions = getAdjacentPositions(position);
+            final ArrayList<Position> adjacentPositions = GameUtils.getAdjacentPositions(position);
 
             final ArrayList<PlacedTile> visitedTiles = new ArrayList<>();
             final ArrayList<PlacedTile> connectedTerrainTiles = new ArrayList<>();
@@ -151,7 +151,7 @@ public class Scorer
             if (adjacentTile.getTerrain().equals(terrain))
             {
                 connectedTerrainTiles.add(adjacentTile);
-                final ArrayList<Position> adjacentPositions = getAdjacentPositions(adjacentTile.getPosition());
+                final ArrayList<Position> adjacentPositions = GameUtils.getAdjacentPositions(adjacentTile.getPosition());
 
                 for (final Position adjacentPosition : adjacentPositions)
                 {
@@ -174,19 +174,6 @@ public class Scorer
         }
 
         return false;
-    }
-
-
-    private static ArrayList<Position> getAdjacentPositions(final Position position)
-    {
-        final ArrayList<Position> adjacentPositions = new ArrayList<>(4);
-
-        adjacentPositions.add(new Position(position.getRow() - 1, position.getColumn()));       // N
-        adjacentPositions.add(new Position(position.getRow() + 1, position.getColumn()));       // S
-        adjacentPositions.add(new Position(position.getRow(), position.getColumn() + 1));    // E
-        adjacentPositions.add(new Position(position.getRow(), position.getColumn() - 1));    // W
-
-        return adjacentPositions;
     }
 
 }
