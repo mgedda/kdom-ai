@@ -328,6 +328,12 @@ public class GameUtils
                 continue;
             }
 
+            final boolean isOutsideCastleCenteredKingdom = Math.abs(adjacentPosition.getColumn()) > 2 || Math.abs(adjacentPosition.getRow()) > 2;
+            if (isOutsideCastleCenteredKingdom)
+            {
+                continue;
+            }
+
             boolean hasTile = false;
 
             for (final PlacedTile placedTile : placedTiles)
