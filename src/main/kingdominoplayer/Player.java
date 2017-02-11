@@ -23,11 +23,11 @@ public class Player
 
     enum Strategy
     {
-        SELECT_FIRST,
-        SELECT_RANDOM,
-        SELECT_MOST_CROWNS,
-        SELECT_WATER,
-        SELECT_EXPAND
+        FIRST,
+        RANDOM,
+        MOST_CROWNS,
+        WATER,
+        EXPAND
     }
 
     private final Strategy iStrategy;
@@ -36,7 +36,7 @@ public class Player
     {
         iUUID = uuid;
         iName = name;
-        iStrategy = Strategy.SELECT_RANDOM;
+        iStrategy = Strategy.RANDOM;
     }
 
     public Player(String uuid, final String name, final String strategy)
@@ -105,17 +105,17 @@ public class Player
 
         switch (iStrategy)
         {
-            case SELECT_FIRST:
+            case FIRST:
                 move = availableMoves[0];
                 break;
 
-            case SELECT_RANDOM:
+            case RANDOM:
                 final int numMoves = availableMoves.length;
                 int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
                 move = availableMoves[randomNum];
                 break;
 
-            case SELECT_MOST_CROWNS:
+            case MOST_CROWNS:
                 int maxCrowns = 0;
                 for (final Move availableMove : availableMoves)
                 {
@@ -134,7 +134,7 @@ public class Player
                 }
                 break;
 
-            case SELECT_WATER:
+            case WATER:
                 int maxWaters = 0;
                 for (final Move availableMove : availableMoves)
                 {
@@ -154,7 +154,7 @@ public class Player
                 }
                 break;
 
-            case SELECT_EXPAND:
+            case EXPAND:
 
                 // Choose move that picks domino with terrain that we already have most of.
                 //

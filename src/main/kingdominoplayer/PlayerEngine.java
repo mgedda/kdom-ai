@@ -18,7 +18,7 @@ public class PlayerEngine
     {
         String playerName = "";
         String gameUUID = "";
-        String strategy = "SELECT_RANDOM";
+        String strategy = "RANDOM";
 
         if (args.length == 2)
         {
