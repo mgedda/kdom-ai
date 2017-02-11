@@ -18,6 +18,10 @@ public class LookAheadStrategy implements Strategy
     @Override
     public Move selectMove(final Move[] availableMoves, final Domino[] previousDraft, final Domino[] currentDraft, final PlacedTile[] placedTiles)
     {
+        // TODO [gedda] IMPORTANT! : Select dominoes that have double match, i.e. which can be placed so both tiles match adjacent terrains.
+        // TODO [gedda] IMPORTANT! : Make good choices for chosen domino! Currently it does not take chosen dominoes into account!
+
+
         final Kingdom kingdom = new Kingdom(placedTiles);
 
         if (previousDraft.length == 0)
