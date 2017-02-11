@@ -4,6 +4,7 @@ import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.plot.SceneRenderer;
+import kingdominoplayer.strategies.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -27,7 +28,8 @@ public class Player
         RANDOM,
         MOST_CROWNS,
         WATER,
-        EXPAND
+        EXPAND,
+        LOOK_AHEAD
     }
 
     private final Strategy iStrategy;
@@ -81,7 +83,8 @@ public class Player
 
         // Show state before move
         //
-        DEBUG.plotGameState(gameState, "Before Move " + Integer.toString(iMovesMade + 1));
+        //DEBUG.plotGameState(gameState, "Before Move " + Integer.toString(iMovesMade + 1));
+        //System.out.println(gameState);
 
         final Move move = pickAMove(gameState, availableMoves);
 
@@ -99,78 +102,35 @@ public class Player
     private Move pickAMove(final String gameState, final Move[] availableMoves)
     {
         final PlacedTile[] placedTiles = GameUtils.getPlacedTiles(this, gameState);
-        final Domino[] previousDrafts = GameUtils.getPreviousDrafts(this, gameState);
+        final Domino[] previousDraft = GameUtils.getPreviousDraft(this, gameState);
+        final Domino[] currentDraft = GameUtils.getCurrentDraft(this, gameState);
 
         Move move = availableMoves[0];
 
         switch (iStrategy)
         {
             case FIRST:
-                move = availableMoves[0];
+                move = new FirstStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
                 break;
 
             case RANDOM:
-                final int numMoves = availableMoves.length;
-                int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
-                move = availableMoves[randomNum];
+                move = new RandomStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
                 break;
 
             case MOST_CROWNS:
-                int maxCrowns = 0;
-                for (final Move availableMove : availableMoves)
-                {
-                    final Domino chosenDomino = availableMove.getChosenDomino();
-
-                    if (chosenDomino != null)
-                    {
-                        final int tile1Crowns = chosenDomino.getTile1().getCrowns();
-                        final int tile2Crowns = chosenDomino.getTile2().getCrowns();
-                        if (tile1Crowns > maxCrowns || tile2Crowns > maxCrowns)
-                        {
-                            move = availableMove;
-                            maxCrowns = Math.max(tile1Crowns, tile2Crowns);
-                        }
-                    }
-                }
+                move = new MostCrownsStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
                 break;
 
             case WATER:
-                int maxWaters = 0;
-                for (final Move availableMove : availableMoves)
-                {
-                    final Domino chosenDomino = availableMove.getChosenDomino();
-
-                    if (chosenDomino != null)
-                    {
-                        final int tile1Waters = chosenDomino.getTile1().getTerrain().equals("water")? 1 : 0;
-                        final int tile2Waters = chosenDomino.getTile2().getTerrain().equals("water")? 1 : 0;
-
-                        if (tile1Waters + tile2Waters > maxWaters)
-                        {
-                            move = availableMove;
-                            maxWaters = tile1Waters + tile2Waters;
-                        }
-                    }
-                }
+                move = new WaterStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
                 break;
 
             case EXPAND:
+                move = new ExpandStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
+                break;
 
-                // Choose move that picks domino with terrain that we already have most of.
-                //
-                final String[] terrainsSorted = GameUtils.getTerrainsSortedBasedOnNumberOfTilesUseCrownsAsDealBreaker(placedTiles);
-
-                for (final String terrain : terrainsSorted)
-                {
-                    final Move selectedMove = GameUtils.getMoveWithChosenDominoTerrainUseCrownsAsDealBreaker(terrain, availableMoves);
-
-                    if (selectedMove != null)
-                    {
-                        move = selectedMove;
-                        break;
-                    }
-                }
-
+            case LOOK_AHEAD:
+                move = new LookAheadStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
                 break;
 
             default:

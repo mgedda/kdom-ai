@@ -26,9 +26,14 @@ public class GameUtils
     }
 
 
-    public static Domino[] getPreviousDrafts(final Player player, final String gameState)
+    public static Domino[] getPreviousDraft(final Player player, final String gameState)
     {
         return GameResponseParser.getPreviousDraftForPlayer(gameState, player.getName());
+    }
+
+    public static Domino[] getCurrentDraft(final Player player, final String gameState)
+    {
+        return GameResponseParser.getCurrentDraftForPlayer(gameState, player.getName());
     }
 
 
@@ -181,6 +186,48 @@ public class GameUtils
         final int numCrownsTile2 = tile2.getTerrain().equals(terrain)? tile2.getCrowns() : 0;
 
         return numCrownsTile1 + numCrownsTile2;
+    }
+
+
+    public static ArrayList<Move> getMovesWithMostCrownsOnSingleTile(final Move[] moves)
+    {
+        // Find how many crowns is the max.
+        //
+        int maxCrowns = 0;
+        for (final Move move : moves)
+        {
+            final Domino chosenDomino = move.getChosenDomino();
+
+            if (chosenDomino != null)
+            {
+                final int tile1Crowns = chosenDomino.getTile1().getCrowns();
+                final int tile2Crowns = chosenDomino.getTile2().getCrowns();
+
+                if (tile1Crowns > maxCrowns || tile2Crowns > maxCrowns)
+                {
+                    maxCrowns = Math.max(tile1Crowns, tile2Crowns);
+                }
+            }
+        }
+
+
+        // Pick moves with max crowns.
+        //
+        final ArrayList<Move> maxCrownsMoves = new ArrayList<>(moves.length);
+
+        for (final Move move : moves)
+        {
+            final Domino chosenDomino = move.getChosenDomino();
+
+            final boolean dominoHasMaxCrowns = chosenDomino != null
+                    && (chosenDomino.getTile1().getCrowns() == maxCrowns || chosenDomino.getTile2().getCrowns() == maxCrowns);
+            if (dominoHasMaxCrowns)
+            {
+                maxCrownsMoves.add(move);
+            }
+        }
+
+        return maxCrownsMoves;
     }
 
 

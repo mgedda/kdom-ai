@@ -241,26 +241,34 @@ public class GameResponseParser
     }
 
 
+    public static Domino[] getCurrentDraftForPlayer(final String gameState, final String playerName)
+    {
+        final DraftElement[] currentDraft = getCurrentDraft(gameState);
+
+        return getDraftForPlayer(currentDraft, playerName);
+    }
+
+
     public static Domino[] getPreviousDraftForPlayer(final String gameState, final String playerName)
     {
-        final JSONObject gameStateJSON = new JSONObject(gameState);
+        final DraftElement[] previousDraft = getPreviousDraft(gameState);
 
-        final JSONObject previousDraftJSON = gameStateJSON.getJSONObject("previousDraft");
-        final JSONArray dominoesJSONArray = previousDraftJSON.getJSONArray("dominoes");
+        return getDraftForPlayer(previousDraft, playerName);
+    }
 
-        final ArrayList<Domino> previousDraft = new ArrayList<>(2);
 
-        for (int i = 0; i < dominoesJSONArray.length(); ++i)
+    private static Domino[] getDraftForPlayer(final DraftElement[] Draft, final String playerName)
+    {
+        final ArrayList<Domino> previousDraftForPlayer = new ArrayList<>(2);
+
+        for (final DraftElement draftElement : Draft)
         {
-            final JSONObject dominoJSONArrayObject = dominoesJSONArray.getJSONObject(i);
-            final JSONObject playerJSON = dominoJSONArrayObject.getJSONObject("player");
-
-            if (playerJSON.getString("name").equals(playerName))
+            if (draftElement.getPlayerName() != null && draftElement.getPlayerName().equals(playerName))
             {
-                previousDraft.add(getDomino(dominoJSONArrayObject, "domino"));
+                previousDraftForPlayer.add(draftElement.getDomino());
             }
         }
 
-        return previousDraft.toArray(new Domino[previousDraft.size()]);
+        return previousDraftForPlayer.toArray(new Domino[previousDraftForPlayer.size()]);
     }
 }
