@@ -2,6 +2,7 @@ package kingdominoplayer.strategies;
 
 import kingdominoplayer.GameUtils;
 import kingdominoplayer.datastructures.*;
+import kingdominoplayer.planning.LookAhead;
 import kingdominoplayer.planning.Scorer;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class LookAheadStrategy implements Strategy
                 // We have dominos placed in our kingdom. See what options we have for placing
                 // our selected domino.
                 //
-                final ArrayList<KingdomMovePair> possibleNewKingdoms = getPossibleNewKingdoms(kingdom, availableMoves);
+                final ArrayList<KingdomMovePair> possibleNewKingdoms = LookAhead.getPossibleNewKingdoms(kingdom, availableMoves);
 
                 // Compute scores for all possible kingdom moves.
                 //
@@ -108,41 +109,4 @@ public class LookAheadStrategy implements Strategy
         }
     }
 
-
-    private ArrayList<KingdomMovePair> getPossibleNewKingdoms(final Kingdom kingdom, final Move[] moves)
-    {
-        final PlacedTile[] placedTiles = kingdom.getPlacedTiles();
-
-        final ArrayList<KingdomMovePair> possibleNewKingdoms = new ArrayList<>();
-
-        for (final Move move : moves)
-        {
-            final PlacedDomino placedDomino = move.getPlacedDomino();
-
-            if (placedDomino != null) // maybe we could not place the domino
-            {
-                final PlacedTile placedTile1 = new PlacedTile(placedDomino.getTile1(), placedDomino.getTile1Position());
-                final PlacedTile placedTile2 = new PlacedTile(placedDomino.getTile2(), placedDomino.getTile2Position());
-
-                final ArrayList<PlacedTile> newPlacedTiles = new ArrayList<>(placedTiles.length + 2);
-
-                for (final PlacedTile placedTile : placedTiles)
-                {
-                    newPlacedTiles.add(placedTile);
-                }
-                newPlacedTiles.add(placedTile1);
-                newPlacedTiles.add(placedTile2);
-
-                final Kingdom newKingdom = new Kingdom(newPlacedTiles.toArray(new PlacedTile[newPlacedTiles.size()]));
-
-                possibleNewKingdoms.add(new KingdomMovePair(newKingdom, move));
-            }
-            else
-            {
-                possibleNewKingdoms.add(new KingdomMovePair(kingdom, move));
-            }
-        }
-
-        return possibleNewKingdoms;
-    }
 }
