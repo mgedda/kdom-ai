@@ -14,7 +14,7 @@ public class BufferedImageViewer
     public static void displayImage(final BufferedImage image, final String title)
     {
         final JFrame frame = new ImageFrame(image);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

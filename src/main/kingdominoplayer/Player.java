@@ -19,6 +19,8 @@ public class Player
     private final String iUUID;
     private final String iName;
 
+    private int iMovesMade = 0;
+
     enum Strategy
     {
         SELECT_FIRST,
@@ -79,13 +81,14 @@ public class Player
 
         // Show state before move
         //
-        DEBUG.plotGameState(gameState, "Before Move");
+        DEBUG.plotGameState(gameState, "Before Move " + Integer.toString(iMovesMade + 1));
 
         final Move move = pickAMove(gameState, availableMoves);
 
         // Show state after move
 
         game.makeMove(this, move);
+        iMovesMade++;
 
         OUTPUT.printMoveMade();
 
