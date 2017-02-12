@@ -19,6 +19,19 @@ public class Game
         iUUID = uuid;
     }
 
+    public String getUUID()
+    {
+        return iUUID;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "kingdominoplayer.Game{" +
+                "iUUID='" + iUUID + '\'' +
+                '}';
+    }
+
     public Player addPlayer(final String playerName, final String strategy)
     {
         final String response = CommunicationsHandler.joinGame(this, playerName);
@@ -31,17 +44,9 @@ public class Game
         return player;
     }
 
-    public String getUUID()
+    final String getGameState()
     {
-        return iUUID;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "kingdominoplayer.Game{" +
-                "iUUID='" + iUUID + '\'' +
-                '}';
+        return CommunicationsHandler.getGameState(this);
     }
 
     final String getCurrentPlayer()

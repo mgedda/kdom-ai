@@ -76,7 +76,8 @@ public class Player
 
         OUTPUT.printMakingAMove(this);
 
-        final String gameState = CommunicationsHandler.getGameState(game);
+        final String gameState = game.getGameState();
+
         final Move[] availableMoves = game.getAvailableMoves();
         assert availableMoves.length > 0 : "no moves to choose from";
 

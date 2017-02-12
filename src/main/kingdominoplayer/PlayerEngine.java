@@ -1,5 +1,7 @@
 package kingdominoplayer;
 
+import kingdominoplayer.utils.Timing;
+
 import java.io.*;
 
 
@@ -59,7 +61,7 @@ public class PlayerEngine
         while (! game.isGameOver() && timeoutCounter++ < timeoutMaxCount)
         {
             final boolean moveWasMade = player.makeAMove(game);
-            sleep(sleepMilliSeconds);
+            Timing.sleep(sleepMilliSeconds);
 
             timeoutCounter = moveWasMade? 0 : timeoutCounter;
         }
@@ -68,19 +70,6 @@ public class PlayerEngine
         {
             System.err.println("Error: Timed out!");
             System.exit(0);
-        }
-    }
-
-
-    @SuppressWarnings("SameParameterValue")
-    private static void sleep(final int milliSeconds)
-    {
-        try {
-            Thread.sleep(milliSeconds);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
         }
     }
 }
