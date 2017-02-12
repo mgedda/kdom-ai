@@ -125,6 +125,15 @@ public class Game
         }
 
         System.out.println("All players joined!");
+
+        final String gameState = CommunicationsHandler.getGameState(this);
+        final String[] playerNames = GameResponseParser.getPlayerNames(gameState);
+
+        int counter = 0;
+        for (final String playerName : playerNames)
+        {
+            System.out.println(Integer.toString(++counter) + ": " + playerName);
+        }
     }
 
 
