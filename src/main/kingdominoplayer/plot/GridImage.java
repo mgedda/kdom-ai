@@ -20,8 +20,8 @@ public class GridImage
 {
     private final int[] iData;
 
-    private final int iCellWidth = 20;
-    private final int iCellHeight = 20;
+    private final int iCellWidth = 32;
+    private final int iCellHeight = 32;
 
     private final int iXSize;
     private final int iYSize;

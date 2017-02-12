@@ -36,7 +36,7 @@ public class Scorer
 
     private static int getHarmonyScore(final PlacedTile[] placedTiles)
     {
-        return placedTiles.length == 24? 5 : 0;
+        return placedTiles.length == 25 ? 5 : 0;
     }
 
 

@@ -13,14 +13,17 @@ import java.util.ArrayList;
  */
 public class SceneRenderer
 {
-    private static final int cKingdomsGridX1 = 10;
-    private static final int cKingdomsGridX2 = 25;
-    private static final int cKingdomsGridY1 = 10;
-    private static final int cKingdomsGridY2 = 25;
+    private static final int cWindowGridX = 43;
+    private static final int cWindowGridY = 29;
 
-    private static final int cDraftsX = 40;
-    private static final int cCurrentDraftY = 8;
-    private static final int cPreviousDraftY = 20;
+    private static final int cKingdomsGridX1 = 6;
+    private static final int cKingdomsGridX2 = 20;
+    private static final int cKingdomsGridY1 = 8;
+    private static final int cKingdomsGridY2 = 22;
+
+    private static final int cDraftsX = 32;
+    private static final int cCurrentDraftY = 4;
+    private static final int cPreviousDraftY = 16;
 
 
     private static final Position[] cPlayerCastlePositions = new Position[]{
@@ -39,7 +42,7 @@ public class SceneRenderer
 
     public static void render(final GameState gameState, final String title)
     {
-        final GridImage gridImage = new GridImage(60, 40);
+        final GridImage gridImage = new GridImage(cWindowGridX, cWindowGridY);
 
         int playerIndex = 0;
         for (final KingdomInfo kingdomInfo : gameState.getKingdomInfos())

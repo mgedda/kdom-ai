@@ -24,21 +24,156 @@ public class SceneRendererTest
     private String getSampleGameState()
     {
         return "{\n" +
-                "  \"uuid\":\"f65389d3-34b1-41ab-b225-78ad949c15b2\",\n" +
-                "  \"created\":\"2017-02-10T16:08:31.992Z\",\n" +
-                "  \"updated\":\"2017-02-10T16:19:36.212Z\",\n" +
+                "  \"uuid\":\"50c6fcbb-feee-4b10-bf5e-d71948a52d12\",\n" +
+                "  \"created\":\"2017-02-12T19:46:50.787Z\",\n" +
+                "  \"updated\":\"2017-02-12T19:48:00.756Z\",\n" +
                 "  \"kingdoms\":[{\n" +
                 "    \"player\":{\n" +
-                "      \"name\":\"MrAwesomeGreedy-0\"\n" +
+                "      \"name\":\"ParvusPlus\"\n" +
                 "    },\n" +
                 "    \"placedTiles\":[{\n" +
                 "      \"position\":{\n" +
                 "        \"row\":-1,\n" +
-                "        \"col\":0\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":2\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
                 "        \"terrain\":\"forest\",\n" +
                 "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":1\n" +
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
@@ -51,8 +186,17 @@ public class SceneRendererTest
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
-                "        \"row\":-2,\n" +
-                "        \"col\":0\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":-1\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
                 "        \"terrain\":\"water\",\n" +
@@ -60,8 +204,8 @@ public class SceneRendererTest
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
-                "        \"row\":0,\n" +
-                "        \"col\":-1\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":-2\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
                 "        \"terrain\":\"field\",\n" +
@@ -70,24 +214,177 @@ public class SceneRendererTest
                 "    },{\n" +
                 "      \"position\":{\n" +
                 "        \"row\":-1,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
                 "        \"col\":-1\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
-                "        \"terrain\":\"field\",\n" +
-                "        \"crowns\":0\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":1\n" +
                 "      }\n" +
                 "    }],\n" +
                 "    \"score\":{\n" +
-                "      \"total\":11,\n" +
-                "      \"areaScores\":[0,1,0,0],\n" +
+                "      \"total\":43,\n" +
+                "      \"areaScores\":[0,14,15,0,0,0,4,0],\n" +
                 "      \"centerBonus\":10,\n" +
                 "      \"completeBonus\":0\n" +
                 "    }\n" +
                 "  },{\n" +
                 "    \"player\":{\n" +
-                "      \"name\":\"MrAwesomeGreedy-0-Prime\"\n" +
+                "      \"name\":\"TyrionPlannister\"\n" +
                 "    },\n" +
                 "    \"placedTiles\":[{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"mine\",\n" +
+                "        \"crowns\":2\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"mine\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"clay\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"clay\",\n" +
+                "        \"crowns\":2\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
                 "      \"position\":{\n" +
                 "        \"row\":0,\n" +
                 "        \"col\":0\n" +
@@ -98,7 +395,52 @@ public class SceneRendererTest
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
-                "        \"row\":-2,\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"clay\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"mine\",\n" +
+                "        \"crowns\":2\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"water\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"mine\",\n" +
+                "        \"crowns\":2\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
                 "        \"col\":0\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
@@ -107,32 +449,131 @@ public class SceneRendererTest
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
-                "        \"row\":-1,\n" +
-                "        \"col\":0\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":2\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
-                "        \"terrain\":\"forest\",\n" +
+                "        \"terrain\":\"mine\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
                 "        \"crowns\":0\n" +
                 "      }\n" +
                 "    }],\n" +
                 "    \"score\":{\n" +
-                "      \"total\":11,\n" +
-                "      \"areaScores\":[0,1,0],\n" +
+                "      \"total\":64,\n" +
+                "      \"areaScores\":[5,0,0,0,2,2,35,0,0,5,0,0],\n" +
                 "      \"centerBonus\":10,\n" +
-                "      \"completeBonus\":0\n" +
+                "      \"completeBonus\":5\n" +
                 "    }\n" +
                 "  },{\n" +
                 "    \"player\":{\n" +
-                "      \"name\":\"kdom-rusty-35936586-396e-4ed5-96ff-8941649eb36e\"\n" +
+                "      \"name\":\"TyrionPlannister2\"\n" +
                 "    },\n" +
                 "    \"placedTiles\":[{\n" +
                 "      \"position\":{\n" +
-                "        \"row\":-1,\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":2\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
                 "        \"col\":-1\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
-                "        \"terrain\":\"water\",\n" +
+                "        \"terrain\":\"clay\",\n" +
+                "        \"crowns\":2\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
                 "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":1,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"clay\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"clay\",\n" +
+                "        \"crowns\":1\n" +
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
@@ -140,17 +581,26 @@ public class SceneRendererTest
                 "        \"col\":-1\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
-                "        \"terrain\":\"water\",\n" +
-                "        \"crowns\":0\n" +
+                "        \"terrain\":\"clay\",\n" +
+                "        \"crowns\":1\n" +
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
                 "        \"row\":-1,\n" +
-                "        \"col\":0\n" +
+                "        \"col\":-2\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
-                "        \"terrain\":\"forest\",\n" +
-                "        \"crowns\":1\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"pasture\",\n" +
+                "        \"crowns\":0\n" +
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
@@ -163,8 +613,98 @@ public class SceneRendererTest
                 "      }\n" +
                 "    },{\n" +
                 "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
                 "        \"row\":-2,\n" +
                 "        \"col\":0\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"forest\",\n" +
+                "        \"crowns\":1\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"clay\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-2,\n" +
+                "        \"col\":-2\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":2,\n" +
+                "        \"col\":-1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":0,\n" +
+                "        \"col\":1\n" +
+                "      },\n" +
+                "      \"tile\":{\n" +
+                "        \"terrain\":\"field\",\n" +
+                "        \"crowns\":0\n" +
+                "      }\n" +
+                "    },{\n" +
+                "      \"position\":{\n" +
+                "        \"row\":-1,\n" +
+                "        \"col\":-1\n" +
                 "      },\n" +
                 "      \"tile\":{\n" +
                 "        \"terrain\":\"field\",\n" +
@@ -172,80 +712,20 @@ public class SceneRendererTest
                 "      }\n" +
                 "    }],\n" +
                 "    \"score\":{\n" +
-                "      \"total\":11,\n" +
-                "      \"areaScores\":[0,0,0,1],\n" +
+                "      \"total\":63,\n" +
+                "      \"areaScores\":[8,0,0,21,0,16,3,0,0,0],\n" +
                 "      \"centerBonus\":10,\n" +
-                "      \"completeBonus\":0\n" +
+                "      \"completeBonus\":5\n" +
                 "    }\n" +
                 "  }],\n" +
                 "  \"currentDraft\":{\n" +
-                "    \"dominoes\":[{\n" +
-                "      \"player\":{\n" +
-                "        \"name\":\"kdom-rusty-35936586-396e-4ed5-96ff-8941649eb36e\"\n" +
-                "      },\n" +
-                "      \"domino\":{\n" +
-                "        \"number\":24,\n" +
-                "        \"tile1\":{\n" +
-                "          \"terrain\":\"forest\",\n" +
-                "          \"crowns\":1\n" +
-                "        },\n" +
-                "        \"tile2\":{\n" +
-                "          \"terrain\":\"field\",\n" +
-                "          \"crowns\":0\n" +
-                "        }\n" +
-                "      }\n" +
-                "    },{\n" +
-                "      \"player\":{\n" +
-                "        \"name\":\"MrAwesomeGreedy-0\"\n" +
-                "      },\n" +
-                "      \"domino\":{\n" +
-                "        \"number\":26,\n" +
-                "        \"tile1\":{\n" +
-                "          \"terrain\":\"forest\",\n" +
-                "          \"crowns\":1\n" +
-                "        },\n" +
-                "        \"tile2\":{\n" +
-                "          \"terrain\":\"field\",\n" +
-                "          \"crowns\":0\n" +
-                "        }\n" +
-                "      }\n" +
-                "    },{\n" +
-                "      \"domino\":{\n" +
-                "        \"number\":38,\n" +
-                "        \"tile1\":{\n" +
-                "          \"terrain\":\"field\",\n" +
-                "          \"crowns\":0\n" +
-                "        },\n" +
-                "        \"tile2\":{\n" +
-                "          \"terrain\":\"clay\",\n" +
-                "          \"crowns\":1\n" +
-                "        }\n" +
-                "      }\n" +
-                "    }]\n" +
+                "    \"dominoes\":[]\n" +
                 "  },\n" +
                 "  \"previousDraft\":{\n" +
-                "    \"dominoes\":[{\n" +
-                "      \"player\":{\n" +
-                "        \"name\":\"MrAwesomeGreedy-0-Prime\"\n" +
-                "      },\n" +
-                "      \"domino\":{\n" +
-                "        \"number\":39,\n" +
-                "        \"tile1\":{\n" +
-                "          \"terrain\":\"pasture\",\n" +
-                "          \"crowns\":0\n" +
-                "        },\n" +
-                "        \"tile2\":{\n" +
-                "          \"terrain\":\"clay\",\n" +
-                "          \"crowns\":1\n" +
-                "        }\n" +
-                "      }\n" +
-                "    }]\n" +
+                "    \"dominoes\":[]\n" +
                 "  },\n" +
-                "  \"currentPlayer\":{\n" +
-                "    \"name\":\"MrAwesomeGreedy-0-Prime\"\n" +
-                "  },\n" +
-                "  \"gameOver\":false,\n" +
-                "  \"turn\":9\n" +
+                "  \"gameOver\":true,\n" +
+                "  \"turn\":40\n" +
                 "}";
     }
 
