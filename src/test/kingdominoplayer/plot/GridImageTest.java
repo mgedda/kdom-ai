@@ -1,7 +1,10 @@
 package kingdominoplayer.plot;
 
+import kingdominoplayer.datastructures.Position;
 import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -31,6 +34,37 @@ public class GridImageTest
         gridImage.drawLabel("Mine", 6, 14);
         gridImage.drawLabel("Pasture", 6, 15);
         gridImage.drawLabel("Clay", 6, 16);
+
+        BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "TestImage");
+
+        Util.noop();
+    }
+
+    @Test
+    public void testMarkArea() throws Exception
+    {
+        final GridImage gridImage = new GridImage(60, 40);
+
+        final TileType[] tileTypes = TileType.values();
+
+        int castleX = 12;
+        int castleY = 12;
+
+        for (int cellPosY = castleY - 2; cellPosY < castleY + 3; ++cellPosY)
+        {
+            for (int cellPosX = castleX - 2; cellPosX < castleX + 3; ++cellPosX)
+            {
+                final boolean isCastleTile = cellPosX == castleX && cellPosY == castleY;
+
+                final int numCrowns = isCastleTile ? 0 : ThreadLocalRandom.current().nextInt(0, 3);
+                final int tileIndex = isCastleTile ? 1 : ThreadLocalRandom.current().nextInt(2, tileTypes.length);
+
+                gridImage.drawTile(cellPosX, cellPosY, tileTypes[tileIndex], numCrowns);
+            }
+        }
+
+        gridImage.markArea(new Position(castleY - 1, castleX -2), new Position(castleY, castleX - 2), 0xFFFF0000);
+
 
         BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "TestImage");
 

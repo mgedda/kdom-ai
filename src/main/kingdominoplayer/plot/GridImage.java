@@ -1,5 +1,6 @@
 package kingdominoplayer.plot;
 
+import kingdominoplayer.datastructures.PlacedDomino;
 import kingdominoplayer.datastructures.Position;
 import kingdominoplayer.datastructures.Tile;
 
@@ -23,8 +24,6 @@ public class GridImage
     private final int iCellWidth = 20;
     private final int iCellHeight = 20;
 
-    private final int iNumCellsX;
-    private final int iNumCellsY;
     private final int iXSize;
     private final int iYSize;
 
@@ -50,15 +49,85 @@ public class GridImage
 
     public GridImage(final int numCellsX, final int numCellsY)
     {
-        iNumCellsX = numCellsX;
-        iNumCellsY = numCellsY;
-
-        iXSize = iNumCellsX * iCellWidth;
-        iYSize = iNumCellsY * iCellHeight;
+        iXSize = numCellsX * iCellWidth;
+        iYSize = numCellsY * iCellHeight;
 
         iData = new int[iXSize * iYSize];
 
         clear();
+    }
+
+
+    public void markArea(final Position position1, final Position position2, final int color)
+    {
+        final int borderWidth = 2;
+
+        final int row1 = position1.getRow();
+        final int col1 = position1.getColumn();
+
+        final int row2 = position2.getRow();
+        final int col2 = position2.getColumn();
+
+        final int rowMin = Math.min(row1, row2);
+        final int rowMax = Math.max(row1, row2);
+
+        final int colMin = Math.min(col1, col2);
+        final int colMax = Math.max(col1, col2);
+
+        // top
+        {
+            final int yMin = rowMin * iCellHeight;
+            final int yMax = yMin + borderWidth;
+
+            final int xMin = colMin * iCellWidth;
+            final int xMax = colMax * iCellWidth + iCellWidth;
+
+            paintArea(yMin, yMax, xMin, xMax, color);
+        }
+
+        // bottom
+        {
+            final int yMin = rowMax * iCellHeight + iCellHeight;
+            final int yMax = yMin + borderWidth;
+
+            final int xMin = colMin * iCellWidth;
+            final int xMax = colMax * iCellWidth + iCellWidth + borderWidth;
+
+            paintArea(yMin, yMax, xMin, xMax, color);
+        }
+
+        // left
+        {
+            final int yMin = rowMin * iCellHeight;
+            final int yMax = rowMax * iCellHeight + iCellHeight;
+
+            final int xMin = colMin * iCellWidth;
+            final int xMax = xMin + borderWidth;
+
+            paintArea(yMin, yMax, xMin, xMax, color);
+        }
+
+        // right
+        {
+            final int yMin = rowMin * iCellHeight;
+            final int yMax = rowMax * iCellHeight + iCellHeight + borderWidth;
+
+            final int xMin = colMax * iCellWidth + iCellWidth;
+            final int xMax = xMin + borderWidth;
+
+            paintArea(yMin, yMax, xMin, xMax, color);
+        }
+    }
+
+    private void paintArea(final int yMin, final int yMax, final int xMin, final int xMax, final int color)
+    {
+        for (int y = yMin; y <= yMax; ++y)
+        {
+            for (int x = xMin; x <= xMax; ++x)
+            {
+                iData[x + y * iXSize] = color;
+            }
+        }
     }
 
     public void drawTile(final Position position, final Tile tile)

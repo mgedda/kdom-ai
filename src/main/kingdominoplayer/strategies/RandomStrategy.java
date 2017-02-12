@@ -18,7 +18,7 @@ public class RandomStrategy implements Strategy
     public Move selectMove(final Move[] availableMoves, final Domino[] previousDraft, final Domino[] currentDraft, final PlacedTile[] placedTiles)
     {
         final int numMoves = availableMoves.length;
-        int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
+        final int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
 
         return availableMoves[randomNum];
     }

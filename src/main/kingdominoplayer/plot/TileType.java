@@ -10,14 +10,14 @@ import kingdominoplayer.datastructures.Tile;
  */
 public enum TileType
 {
+    UNOCCUPIED,
     CASTLE,
     WATER,
     FOREST,
     FIELD,
     MINE,
     PASTURE,
-    CLAY,
-    UNOCCUPIED;
+    CLAY;
 
     private int color;
     private int textColor;
