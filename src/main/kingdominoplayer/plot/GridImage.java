@@ -1,6 +1,5 @@
 package kingdominoplayer.plot;
 
-import kingdominoplayer.datastructures.PlacedDomino;
 import kingdominoplayer.datastructures.Position;
 import kingdominoplayer.datastructures.Tile;
 
@@ -158,13 +157,7 @@ public class GridImage
         final int xMin = cellPosX * iCellWidth + 3;
         final int xMax = xMin + iCellWidth - 3;
 
-        for (int y = yMin; y <= yMax; ++y)
-        {
-            for (int x = xMin; x <= xMax; ++x)
-            {
-                iData[x + y * iXSize] = tileType.getColor();
-            }
-        }
+        paintArea(yMin, yMax, xMin, xMax, tileType.getColor());
 
         if (numCrowns > 0)
         {
