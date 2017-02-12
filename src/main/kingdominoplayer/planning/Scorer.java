@@ -1,6 +1,6 @@
 package kingdominoplayer.planning;
 
-import kingdominoplayer.GameUtils;
+import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.datastructures.Position;
 

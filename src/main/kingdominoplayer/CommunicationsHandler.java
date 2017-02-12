@@ -13,8 +13,8 @@ import java.net.URL;
 @SuppressWarnings("WeakerAccess")
 public class CommunicationsHandler
 {
-    private static String SERVER = "http://localhost";
-    //private static String SERVER = "http://kdom.mratin.se";
+    //private static String SERVER = "http://localhost";
+    private static String SERVER = "http://kdom.mratin.se";
 
 
     public static String startNewGame(final int numPlayers)

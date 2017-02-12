@@ -1,9 +1,7 @@
 package kingdominoplayer.plot;
 
-import kingdominoplayer.Util;
+import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * Copyright 2017 Tomologic AB<br>

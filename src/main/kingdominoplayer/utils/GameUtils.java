@@ -1,9 +1,12 @@
-package kingdominoplayer;
+package kingdominoplayer.utils;
 
+import kingdominoplayer.GameResponseParser;
+import kingdominoplayer.Player;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Scorer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 
 /**
@@ -299,6 +302,28 @@ public class GameUtils
     }
 
 
+    /**
+     * Add placedDomino to kingdom.
+     *
+     * @param kingdom
+     * @param placedDomino
+     * @return kingdom with placedDomino
+     */
+    public static Kingdom getKingdomWithDominoPlaced(final Kingdom kingdom, final PlacedDomino placedDomino)
+    {
+        final PlacedTile[] placedTiles = kingdom.getPlacedTiles();
+
+        final PlacedTile placedTile1 = placedDomino.getTile1();
+        final PlacedTile placedTile2 = placedDomino.getTile2();
+
+        final ArrayList<PlacedTile> totalPlacedTiles = new ArrayList<>(placedTiles.length + 2);
+
+        Collections.addAll(totalPlacedTiles, placedTiles);
+        totalPlacedTiles.add(placedTile1);
+        totalPlacedTiles.add(placedTile2);
+
+        return new Kingdom(totalPlacedTiles.toArray(new PlacedTile[totalPlacedTiles.size()]));
+    }
 
 
     private static boolean checkForSingleTileHole(final ArrayList<Position> positions,

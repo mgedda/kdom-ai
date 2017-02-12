@@ -1,13 +1,11 @@
 package kingdominoplayer.planning;
 
 import kingdominoplayer.GameResponseParser;
-import kingdominoplayer.Util;
+import kingdominoplayer.utils.Util;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.plot.SceneRenderer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * Copyright 2017 Tomologic AB<br>

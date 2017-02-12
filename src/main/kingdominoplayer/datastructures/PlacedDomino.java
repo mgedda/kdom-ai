@@ -10,26 +10,24 @@ import java.util.ArrayList;
  */
 public class PlacedDomino extends Domino
 {
-    private final Position iTile1Position;
-    private final Position iTile2Position;
+    private final DominoPosition iDominoPosition;
 
-    public PlacedDomino(final Domino domino, final Position tile1Position, final Position tile2Position)
+    public PlacedDomino(final Domino domino, final DominoPosition dominoPosition)
     {
         super(domino.getNumber(), domino.getTile1(), domino.getTile2());
-        iTile1Position = tile1Position;
-        iTile2Position = tile2Position;
+        iDominoPosition = dominoPosition;
     }
 
     @Override
     public PlacedTile getTile1()
     {
-        return new PlacedTile(super.getTile1(), iTile1Position);
+        return new PlacedTile(super.getTile1(), iDominoPosition.getTile1Position());
     }
 
     @Override
     public PlacedTile getTile2()
     {
-        return new PlacedTile(super.getTile2(), iTile2Position);
+        return new PlacedTile(super.getTile2(), iDominoPosition.getTile2Position());
     }
 
     public ArrayList<PlacedTile> getPlacedTiles()

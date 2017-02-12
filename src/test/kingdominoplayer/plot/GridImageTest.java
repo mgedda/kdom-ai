@@ -1,6 +1,6 @@
 package kingdominoplayer.plot;
 
-import kingdominoplayer.Util;
+import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
 
 /**

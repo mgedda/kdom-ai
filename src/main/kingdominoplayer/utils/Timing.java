@@ -1,4 +1,4 @@
-package kingdominoplayer;
+package kingdominoplayer.utils;
 
 /**
  * Copyright 2017 Tomologic AB<br>

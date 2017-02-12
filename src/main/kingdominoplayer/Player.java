@@ -5,8 +5,7 @@ import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.plot.SceneRenderer;
 import kingdominoplayer.strategies.*;
-
-import java.util.concurrent.ThreadLocalRandom;
+import kingdominoplayer.utils.GameUtils;
 
 /**
  * Copyright 2017 Tomologic AB<br>

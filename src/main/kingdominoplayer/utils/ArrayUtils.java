@@ -1,4 +1,4 @@
-package kingdominoplayer;
+package kingdominoplayer.utils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

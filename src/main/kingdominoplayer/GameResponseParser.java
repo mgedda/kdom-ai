@@ -83,7 +83,7 @@ public class GameResponseParser
         final Position tile1Position = getTilePosition(placedDominoJSON, "tile1Position");
         final Position tile2Position = getTilePosition(placedDominoJSON, "tile2Position");
 
-        return new PlacedDomino(domino, tile1Position, tile2Position);
+        return new PlacedDomino(domino, new DominoPosition(tile1Position, tile2Position));
     }
 
     private static Position getTilePosition(final JSONObject object, final String tilePositionName)
@@ -259,16 +259,16 @@ public class GameResponseParser
 
     private static Domino[] getDraftForPlayer(final DraftElement[] Draft, final String playerName)
     {
-        final ArrayList<Domino> previousDraftForPlayer = new ArrayList<>(2);
+        final ArrayList<Domino> draftForPlayer = new ArrayList<>(2);
 
         for (final DraftElement draftElement : Draft)
         {
             if (draftElement.getPlayerName() != null && draftElement.getPlayerName().equals(playerName))
             {
-                previousDraftForPlayer.add(draftElement.getDomino());
+                draftForPlayer.add(draftElement.getDomino());
             }
         }
 
-        return previousDraftForPlayer.toArray(new Domino[previousDraftForPlayer.size()]);
+        return draftForPlayer.toArray(new Domino[draftForPlayer.size()]);
     }
 }

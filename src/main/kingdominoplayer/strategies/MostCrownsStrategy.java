@@ -1,6 +1,6 @@
 package kingdominoplayer.strategies;
 
-import kingdominoplayer.GameUtils;
+import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;

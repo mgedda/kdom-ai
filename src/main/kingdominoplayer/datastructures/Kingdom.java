@@ -1,5 +1,9 @@
 package kingdominoplayer.datastructures;
 
+import kingdominoplayer.utils.ArrayUtils;
+
+import java.util.LinkedHashSet;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -18,5 +22,17 @@ public class Kingdom
     public PlacedTile[] getPlacedTiles()
     {
         return iPlacedTiles;
+    }
+
+    public LinkedHashSet<Position> getPlacedTilePositions()
+    {
+        final LinkedHashSet<Position> positions = new LinkedHashSet<>(iPlacedTiles.length);
+
+        for (final PlacedTile placedTile : iPlacedTiles)
+        {
+            positions.add(placedTile.getPosition());
+        }
+
+        return positions;
     }
 }

@@ -1,11 +1,13 @@
 package kingdominoplayer.strategies;
 
-import kingdominoplayer.GameUtils;
+import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.datastructures.*;
-import kingdominoplayer.planning.LookAhead;
+import kingdominoplayer.planning.Planner;
+import kingdominoplayer.planning.Scorer;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -54,66 +56,26 @@ public class LookAheadStrategy implements Strategy
             // We have a domino to place.
             //
 
-            // See if we have already placed some dominos.
+            // See if we have already placed some dominoes.
             //
             if (placedTiles.length > 0)
             {
-                // We have dominos placed in our kingdom.
+                // We have dominoes placed in our kingdom.
                 //
+                final ArrayList<KingdomMovePair> maxScoringMoves = selectMovesWithBestPlacedDomino(availableMoves, kingdom);
 
-                //Look ahead one move and see what kingdoms we can produce.
+                // Now we have chosen which domino(es) to place. The next step is to chose a good domino from the
+                // current draft.
                 //
-                final ArrayList<KingdomMovePair> possibleNewKingdoms = LookAhead.getPossibleNewKingdoms(kingdom, availableMoves);
+                final ArrayList<KingdomMovePair> movesWithBestChosenDomino = selectMoveWithBestChosenDomino(maxScoringMoves);
 
-                // Compute scores for all possible kingdoms.
-                //
-                final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = GameUtils.getKingdomScores(possibleNewKingdoms);
-
-                // Remove all kingdoms that break the Middle Kingdom rule.
-                //
-                LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = getOnlyValidKingdomMovePairs(kingdomMovePairToScoreMap);
-
-                if (validKingdomMovePairToScoreMap.isEmpty())
+                if (movesWithBestChosenDomino.size() > 1)
                 {
-                    // TODO [gedda] IMPORTANT! : FIX THIS!!!
-                    validKingdomMovePairToScoreMap = kingdomMovePairToScoreMap;
+                    // TODO [gedda] IMPORTANT! : Select move where the chosen domino placement has best neighbour match!!!
+
                 }
 
-
-                // Remove all kingdoms that leave single-tile holes.
-                //
-                LinkedHashMap<KingdomMovePair, Integer> nonHoleMakingKingdomMovePairToScoreMap = getOnlyKingdomMovePairsNotMakingHoles(validKingdomMovePairToScoreMap);
-
-                if (nonHoleMakingKingdomMovePairToScoreMap.isEmpty())
-                {
-                    // TODO [gedda] IMPORTANT! : FIX THIS!!!
-                    nonHoleMakingKingdomMovePairToScoreMap = kingdomMovePairToScoreMap;
-                }
-
-
-                // See which moves have the maximum scores.
-                //
-                int maxScore = 0;
-                for (final Integer score : nonHoleMakingKingdomMovePairToScoreMap.values())
-                {
-                    maxScore = score > maxScore ? score : maxScore;
-                }
-
-                final ArrayList<Move> maxScoringMoves = new ArrayList<>(availableMoves.length);
-                for (final KingdomMovePair kingdomMovePair : possibleNewKingdoms)
-                {
-                    if (kingdomMovePairToScoreMap.get(kingdomMovePair) == maxScore)
-                    {
-                        maxScoringMoves.add(kingdomMovePair.getMove());
-                    }
-                }
-
-
-                // Differentiate between max scoring moves!
-                // // TODO [gedda] IMPORTANT! : CHANGE THIS TO ALSO TAKE CHOSEN DOMINO INTO ACCOUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //
-                final ArrayList<Move> movesWithMostCrowns = GameUtils.getMovesWithMostCrownsOnSingleTile(maxScoringMoves.toArray(new Move[maxScoringMoves.size()]));
-                return movesWithMostCrowns.isEmpty()? maxScoringMoves.get(0) : movesWithMostCrowns.get(0);
+                return movesWithBestChosenDomino.get(0).getMove();
             }
             else
             {
@@ -126,6 +88,140 @@ public class LookAheadStrategy implements Strategy
             }
         }
     }
+
+
+    private ArrayList<KingdomMovePair> selectMovesWithBestPlacedDomino(final Move[] availableMoves, final Kingdom kingdom)
+    {
+        //Look ahead one move and see what kingdoms we can produce.
+        //
+        final ArrayList<KingdomMovePair> possibleNewKingdoms = Planner.getPossibleNewKingdoms(kingdom, availableMoves);
+
+        // Compute scores for all possible kingdoms.
+        //
+        final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = GameUtils.getKingdomScores(possibleNewKingdoms);
+
+        // Remove all kingdoms that break the Middle Kingdom rule.
+        //
+        LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = getOnlyValidKingdomMovePairs(kingdomMovePairToScoreMap);
+
+        if (validKingdomMovePairToScoreMap.isEmpty())
+        {
+            // TODO [gedda] IMPORTANT! : FIX THIS!!!
+            validKingdomMovePairToScoreMap = kingdomMovePairToScoreMap;
+        }
+
+
+        // Remove all kingdoms that leave single-tile holes.
+        //
+        LinkedHashMap<KingdomMovePair, Integer> nonHoleMakingKingdomMovePairToScoreMap = getOnlyKingdomMovePairsNotMakingHoles(validKingdomMovePairToScoreMap);
+
+        if (nonHoleMakingKingdomMovePairToScoreMap.isEmpty())
+        {
+            // TODO [gedda] IMPORTANT! : FIX THIS!!!
+            nonHoleMakingKingdomMovePairToScoreMap = kingdomMovePairToScoreMap;
+        }
+
+
+        // See which moves have the maximum scores.
+        //
+        int maxScore = 0;
+        for (final Integer score : nonHoleMakingKingdomMovePairToScoreMap.values())
+        {
+            maxScore = score > maxScore ? score : maxScore;
+        }
+
+        final ArrayList<KingdomMovePair> maxScoringMoves = new ArrayList<>(availableMoves.length);
+        for (final KingdomMovePair kingdomMovePair : possibleNewKingdoms)
+        {
+            if (kingdomMovePairToScoreMap.get(kingdomMovePair) == maxScore)
+            {
+                maxScoringMoves.add(kingdomMovePair);
+            }
+        }
+        return maxScoringMoves;
+    }
+
+
+    final private ArrayList<KingdomMovePair> getMaxScoringMoves(final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairScoreMap)
+    {
+        // See which moves have the maximum scores.
+        //
+        int maxScore = 0;
+        for (final Integer score : kingdomMovePairScoreMap.values())
+        {
+            maxScore = score > maxScore ? score : maxScore;
+        }
+
+        final ArrayList<KingdomMovePair> maxScoringMoves = new ArrayList<>(kingdomMovePairScoreMap.size());
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairScoreMap.keySet())
+        {
+            if (kingdomMovePairScoreMap.get(kingdomMovePair) == maxScore)
+            {
+                maxScoringMoves.add(kingdomMovePair);
+            }
+        }
+
+        return maxScoringMoves;
+    }
+
+
+    private ArrayList<KingdomMovePair> selectMoveWithBestChosenDomino(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    {
+        final ArrayList<KingdomMovePair> kingdomWithChosenDominoPlacedMovePairs = placeChosenDominoes(kingdomMovePairs);
+
+        final LinkedHashMap<KingdomMovePair, Integer> kingdomWithChosenDominoPlacedMovePairToScoreMap = getKingdomScores(kingdomWithChosenDominoPlacedMovePairs);
+
+        final ArrayList<KingdomMovePair> maxScoringMovesWithChosenDominoPlaced = getMaxScoringMoves(kingdomWithChosenDominoPlacedMovePairToScoreMap);
+
+        if (maxScoringMovesWithChosenDominoPlaced.isEmpty())
+        {
+            return kingdomMovePairs;
+        }
+
+        return maxScoringMovesWithChosenDominoPlaced;
+    }
+
+
+    private ArrayList<KingdomMovePair> placeChosenDominoes(ArrayList<KingdomMovePair> kingdomMovePairs)
+    {
+        final ArrayList<KingdomMovePair> kingdomsWithChosenDominoPlacedMovePair = new ArrayList<>(1000);
+
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
+        {
+            final Move move = kingdomMovePair.getMove();
+            final Domino chosenDomino = move.getChosenDomino();
+
+            if (chosenDomino != null)
+            {
+                final Kingdom kingdom = kingdomMovePair.getKingdom();
+
+                final Set<DominoPosition> dominoPositions = Planner.getValidPositions(chosenDomino, kingdom);
+
+                for (final DominoPosition dominoPosition : dominoPositions)
+                {
+                    final PlacedDomino chosenDominoPlaced = new PlacedDomino(chosenDomino, dominoPosition);
+                    final Kingdom kingdomWithChosenDominoPlaced = GameUtils.getKingdomWithDominoPlaced(kingdom, chosenDominoPlaced);
+                    final KingdomMovePair kingdomWithChosenDominoPlacedMovePair = new KingdomMovePair(kingdomWithChosenDominoPlaced, move);
+                    kingdomsWithChosenDominoPlacedMovePair.add(kingdomWithChosenDominoPlacedMovePair);
+                }
+            }
+        }
+        return kingdomsWithChosenDominoPlacedMovePair;
+    }
+
+
+    private LinkedHashMap<KingdomMovePair, Integer> getKingdomScores(ArrayList<KingdomMovePair> kingdomsWithChosenDominoPlacedMovePair)
+    {
+        final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = new LinkedHashMap<>(1000);
+
+        for (final KingdomMovePair kingdomMovePair : kingdomsWithChosenDominoPlacedMovePair)
+        {
+            final int score = Scorer.computeScore(kingdomMovePair.getKingdom().getPlacedTiles());
+            kingdomMovePairToScoreMap.put(kingdomMovePair, score);
+        }
+        return kingdomMovePairToScoreMap;
+    }
+
 
     @SuppressWarnings("UnnecessaryLocalVariable")
     private LinkedHashMap<KingdomMovePair, Integer> getOnlyKingdomMovePairsNotMakingHoles(final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap)

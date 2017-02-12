@@ -1,6 +1,7 @@
 package kingdominoplayer;
 
 import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.utils.Timing;
 
 /**
  * Copyright 2017 Tomologic AB<br>
