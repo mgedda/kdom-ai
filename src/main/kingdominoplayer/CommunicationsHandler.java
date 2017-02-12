@@ -25,22 +25,6 @@ public class CommunicationsHandler
         return sendPostRequest(url);
     }
 
-    public static Player[] joinGame(final Game game, final String[] playerNames)
-    {
-        final Player[] players = new Player[playerNames.length];
-
-        int count = 0;
-        for (final String playerName : playerNames)
-        {
-            final String url = SERVER + "/new-games/" + game.getUUID() + "/join/" + playerName;
-            final String response = sendPostRequest(url);
-            final String uuid = GameResponseParser.getUUID(response);
-
-            players[count++] = new Player(uuid, playerName);
-        }
-
-        return players;
-    }
 
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String joinGame(final Game game, final String playerName)

@@ -3,6 +3,8 @@ package kingdominoplayer.plot;
 import kingdominoplayer.GameResponseParser;
 import kingdominoplayer.datastructures.*;
 
+import java.util.ArrayList;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -28,16 +30,22 @@ public class SceneRenderer
             new Position(cKingdomsGridY2, cKingdomsGridX2)
     };
 
-
     public static void render(final String gameState, final String title)
+    {
+        final GameState gameStateObject = GameResponseParser.getGameStateObject(gameState);
+
+        render(gameStateObject, title);
+    }
+
+    public static void render(final GameState gameState, final String title)
     {
         final GridImage gridImage = new GridImage(60, 40);
 
-        final String[] playerNames = GameResponseParser.getPlayerNames(gameState);
-
         int playerIndex = 0;
-        for (final String playerName : playerNames)
+        for (final KingdomInfo kingdomInfo : gameState.getKingdomInfos())
         {
+            final String playerName = kingdomInfo.getPlayerName();
+
             // Draw background tiles for each kingdom.
             //
             final Position castlePosition = cPlayerCastlePositions[playerIndex];
@@ -51,7 +59,7 @@ public class SceneRenderer
 
             // Draw kingdom tiles for player.
             //
-            final PlacedTile[] placedTiles = GameResponseParser.getPlayerPlacedTiles(gameState, playerName);
+            final PlacedTile[] placedTiles = kingdomInfo.getKingdom().getPlacedTiles();
             gridImage.drawTile(castlePosition, TileType.CASTLE);
             for (final PlacedTile placedTile : placedTiles)
             {
@@ -68,7 +76,7 @@ public class SceneRenderer
 
             // Draw player score.
             //
-            final int playerScore = GameResponseParser.getPlayerScore(gameState, playerName);
+            final int playerScore = kingdomInfo.getScore();
             gridImage.drawLabel("Score: " + Integer.toString(playerScore), castlePosition.getColumn() - 4, castlePosition.getRow() - 6);
 
             playerIndex++;
@@ -77,7 +85,7 @@ public class SceneRenderer
 
         // Draw previous draft.
         //
-        final DraftElement[] previousDraft = GameResponseParser.getPreviousDraft(gameState);
+        final ArrayList<DraftElement> previousDraft = gameState.getPreviousDraft();
         int draftElementCounter = 0;
         for (final DraftElement draftElement : previousDraft)
         {
@@ -104,7 +112,7 @@ public class SceneRenderer
 
         // Draw current draft.
         //
-        final DraftElement[] currentDraft = GameResponseParser.getCurrentDraft(gameState);
+        final ArrayList<DraftElement> currentDraft = gameState.getCurrentDraft();
         draftElementCounter = 0;
         for (final DraftElement draftElement : currentDraft)
         {
@@ -132,4 +140,6 @@ public class SceneRenderer
 
         BufferedImageViewer.displayImage(gridImage.toBufferedImage(), title);
     }
+
+
 }

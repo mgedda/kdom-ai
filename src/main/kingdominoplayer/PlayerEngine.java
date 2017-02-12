@@ -18,29 +18,40 @@ public class PlayerEngine
 
     public static void main(final String[] args) throws IOException
     {
+        final String usage = "Usage: java -jar spawnplayer [-d] <playerName> <strategy> <gameUUID>";
+
         String playerName = "";
         String gameUUID = "";
-        String strategy = "RANDOM";
+        String strategy = "";
+        boolean enableDebug = false;
 
-        if (args.length == 2)
-        {
-            playerName = args[0];
-            gameUUID = args[1];
-        }
-        else if (args.length == 3)
+        if (args.length == 3)
         {
             playerName = args[0];
             strategy = args[1];
             gameUUID = args[2];
         }
+        else if (args.length == 4)
+        {
+            if (! args[0].equals("-d"))
+            {
+                System.err.println(usage);
+                System.exit(0);
+            }
+
+            enableDebug = true;
+            playerName = args[1];
+            strategy = args[2];
+            gameUUID = args[3];
+        }
         else
         {
-            System.err.println("Usage: java -jar spawnplayer <playerName> [<strategy>] <gameUUID>");
+            System.err.println(usage);
             System.exit(0);
         }
 
         final Game game = new Game(gameUUID);
-        final Player player = game.addPlayer(playerName, strategy);
+        final Player player = game.addPlayer(playerName, strategy, enableDebug);
 
         game.waitForPlayersToJoin(TIMEOUT_MINUTES);
 

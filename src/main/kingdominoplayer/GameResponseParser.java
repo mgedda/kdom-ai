@@ -1,6 +1,9 @@
 package kingdominoplayer;
 
 import kingdominoplayer.datastructures.*;
+import kingdominoplayer.plot.GameState;
+import kingdominoplayer.plot.KingdomInfo;
+import kingdominoplayer.utils.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -270,5 +273,26 @@ public class GameResponseParser
         }
 
         return draftForPlayer.toArray(new Domino[draftForPlayer.size()]);
+    }
+
+
+    public static GameState getGameStateObject(final String gameState)
+    {
+        final String[] playerNames = GameResponseParser.getPlayerNames(gameState);
+
+        final ArrayList<KingdomInfo> kingdomInfos = new ArrayList<>(playerNames.length);
+        for (final String playerName : playerNames)
+        {
+            final PlacedTile[] placedTiles = GameResponseParser.getPlayerPlacedTiles(gameState, playerName);
+            kingdomInfos.add(new KingdomInfo(new Kingdom(placedTiles), playerName));
+        }
+
+        final ArrayList<DraftElement> previousDraft = ArrayUtils.toArrayList(GameResponseParser.getPreviousDraft(gameState));
+        final ArrayList<DraftElement> currentDraft = ArrayUtils.toArrayList(GameResponseParser.getCurrentDraft(gameState));
+
+        final boolean isGameOver = GameResponseParser.isGameOver(gameState);
+
+        return new GameState(kingdomInfos, previousDraft, currentDraft, isGameOver);
+
     }
 }

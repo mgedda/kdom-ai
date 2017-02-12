@@ -1,6 +1,9 @@
 package kingdominoplayer.planning;
 
 import kingdominoplayer.datastructures.*;
+import kingdominoplayer.plot.GameState;
+import kingdominoplayer.plot.KingdomInfo;
+import kingdominoplayer.utils.ArrayUtils;
 import kingdominoplayer.utils.GameUtils;
 
 import java.util.ArrayList;
@@ -167,5 +170,73 @@ public class Planner
         final int col = position.getColumn();
 
         return row < maxRow - 4 || row > minRow + 4 || col < maxCol - 4 || col > minCol + 4;
+    }
+
+
+    public static GameState makeMove(final Move move, final GameState gameState, final String playerName)
+    {
+        final ArrayList<KingdomInfo> kingdomInfos = gameState.getKingdomInfos();
+        final ArrayList<DraftElement> previousDraft = gameState.getPreviousDraft();
+
+        final ArrayList<DraftElement> updatedPreviousDraft = new ArrayList<>(previousDraft.size());
+        final ArrayList<KingdomInfo> updatedKingdomInfos = new ArrayList<>(kingdomInfos.size());
+
+        final PlacedDomino placedDomino = move.getPlacedDomino();
+        if (placedDomino != null)
+        {
+            // remove from previous draft and add to player's placed tiles.
+            //
+            for (final DraftElement draftElement : previousDraft)
+            {
+                if (! draftElement.getDomino().equals(placedDomino))
+                {
+                    updatedPreviousDraft.add(draftElement);
+                }
+            }
+
+            for (final KingdomInfo kingdomInfo : kingdomInfos)
+            {
+                if (kingdomInfo.getPlayerName().equals(playerName))
+                {
+                    final ArrayList<PlacedTile> placedTiles = ArrayUtils.toArrayList(kingdomInfo.getKingdom().getPlacedTiles());
+                    placedTiles.addAll(placedDomino.getPlacedTiles());
+
+                    final Kingdom updatedKingdom = new Kingdom(placedTiles.toArray(new PlacedTile[placedTiles.size()]));
+                    updatedKingdomInfos.add(new KingdomInfo(updatedKingdom, playerName));
+                }
+                else
+                {
+                    updatedKingdomInfos.add(kingdomInfo);
+                }
+            }
+        }
+        else
+        {
+            updatedKingdomInfos.addAll(kingdomInfos);
+        }
+
+
+        final ArrayList<DraftElement> currentDraft = gameState.getCurrentDraft();
+
+        final ArrayList<DraftElement> updatedCurrentDraft = new ArrayList<>(currentDraft.size());
+
+        final Domino chosenDomino = move.getChosenDomino();
+        if (chosenDomino != null)
+        {
+            for (final DraftElement draftElement : currentDraft)
+            {
+                if (draftElement.getDomino().equals(chosenDomino))
+                {
+                    updatedCurrentDraft.add(new DraftElement(chosenDomino, playerName));
+                }
+                else
+                {
+                    updatedCurrentDraft.add(draftElement);
+                }
+            }
+        }
+
+
+        return new GameState(updatedKingdomInfos, updatedPreviousDraft, updatedCurrentDraft, false);
     }
 }

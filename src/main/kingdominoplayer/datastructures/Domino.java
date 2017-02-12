@@ -35,4 +35,27 @@ public class Domino
     {
         return iTile2;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        final Domino domino = (Domino) o;
+
+        return iNumber == domino.iNumber;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return iNumber;
+    }
 }

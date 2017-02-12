@@ -3,9 +3,12 @@ package kingdominoplayer;
 import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
+import kingdominoplayer.planning.Planner;
+import kingdominoplayer.plot.GameState;
 import kingdominoplayer.plot.SceneRenderer;
 import kingdominoplayer.strategies.*;
 import kingdominoplayer.utils.GameUtils;
+import kingdominoplayer.utils.Util;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -18,6 +21,7 @@ public class Player
 {
     private final String iUUID;
     private final String iName;
+    private final boolean iDebugEnabled;
 
     private int iMovesMade = 0;
 
@@ -33,18 +37,12 @@ public class Player
 
     private final Strategy iStrategy;
 
-    public Player(String uuid, final String name)
-    {
-        iUUID = uuid;
-        iName = name;
-        iStrategy = Strategy.RANDOM;
-    }
-
-    public Player(String uuid, final String name, final String strategy)
+    public Player(final String uuid, final String name, final String strategy, final boolean enableDebug)
     {
         iUUID = uuid;
         iName = name;
         iStrategy = Strategy.valueOf(strategy);
+        iDebugEnabled = enableDebug;
     }
 
     public String getName()
@@ -83,12 +81,17 @@ public class Player
 
         // Show state before move
         //
-        //DEBUG.plotGameState(gameState, "Before Move " + Integer.toString(iMovesMade + 1));
+        DEBUG.plotGameState(iDebugEnabled, gameState, "Before Move " + Integer.toString(iMovesMade + 1));
         //System.out.println(gameState);
+        Util.noop();
 
         final Move move = pickAMove(gameState, availableMoves);
 
         // Show state after move
+        //
+        DEBUG.plotGameStateAfterMove(iDebugEnabled, gameState, move, iName, "After Move " + Integer.toString(iMovesMade + 1));
+        Util.noop();
+
 
         game.makeMove(this, move);
         iMovesMade++;
@@ -147,11 +150,21 @@ public class Player
     {
         private static boolean DEBUG = true;
 
-        private static void plotGameState(final String gameState, final String title)
+        private static void plotGameState(final boolean isDebugEnabled, final String gameState, final String title)
         {
-            if (DEBUG)
+            if (DEBUG && isDebugEnabled)
             {
                 SceneRenderer.render(gameState, title);
+            }
+        }
+
+        public static void plotGameStateAfterMove(final boolean isDebugEnabled, final String gameState, final Move move, final String playerName, final String title)
+        {
+            if (DEBUG && isDebugEnabled)
+            {
+                final GameState gameStateObject = GameResponseParser.getGameStateObject(gameState);
+                final GameState newGameState = Planner.makeMove(move, gameStateObject, playerName);
+                SceneRenderer.render(newGameState, title);
             }
         }
     }
