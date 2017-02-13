@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Date: 2017-02-10<br>
  * Time: 20:04<br><br>
  */
+@SuppressWarnings("WeakerAccess")
 public class SceneRenderer
 {
     private static final int cWindowGridX = 43;
@@ -48,29 +49,10 @@ public class SceneRenderer
         for (final KingdomInfo kingdomInfo : gameState.getKingdomInfos())
         {
             final String playerName = kingdomInfo.getPlayerName();
+            final Kingdom kingdom = kingdomInfo.getKingdom();
 
-            // Draw background tiles for each kingdom.
-            //
             final Position castlePosition = cPlayerCastlePositions[playerIndex];
-            for (int y = -4; y < 5; ++y)
-            {
-                for (int x = -4; x < 5; ++x)
-                {
-                    gridImage.drawTile(castlePosition.plus(new Position(y, x)), TileType.UNOCCUPIED);
-                }
-            }
-
-            // Draw kingdom tiles for player.
-            //
-            final PlacedTile[] placedTiles = kingdomInfo.getKingdom().getPlacedTiles();
-            gridImage.drawTile(castlePosition, TileType.CASTLE);
-            for (final PlacedTile placedTile : placedTiles)
-            {
-                final Position tilePosition = placedTile.getPosition();
-                final Position position = castlePosition.plus(tilePosition);
-
-                gridImage.drawTile(position, placedTile);
-            }
+            drawKingdom(kingdom, castlePosition, gridImage, true);
 
             // Draw player name.
             //
@@ -142,6 +124,35 @@ public class SceneRenderer
 
 
         BufferedImageViewer.displayImage(gridImage.toBufferedImage(), title);
+    }
+
+
+    public static void drawKingdom(final Kingdom kingdom, final Position castlePosition, final GridImage gridImage, final boolean drawBackgroundTiles)
+    {
+        // Draw background tiles for each kingdom.
+        //
+        if (drawBackgroundTiles)
+        {
+            for (int y = -4; y < 5; ++y)
+            {
+                for (int x = -4; x < 5; ++x)
+                {
+                    gridImage.drawTile(castlePosition.plus(new Position(y, x)), TileType.UNOCCUPIED);
+                }
+            }
+        }
+
+        // Draw kingdom tiles for player.
+        //
+        final PlacedTile[] placedTiles = kingdom.getPlacedTiles();
+        gridImage.drawTile(castlePosition, TileType.CASTLE);
+        for (final PlacedTile placedTile : placedTiles)
+        {
+            final Position tilePosition = placedTile.getPosition();
+            final Position position = castlePosition.plus(tilePosition);
+
+            gridImage.drawTile(position, placedTile);
+        }
     }
 
 

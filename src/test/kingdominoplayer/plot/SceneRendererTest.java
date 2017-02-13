@@ -1,5 +1,8 @@
 package kingdominoplayer.plot;
 
+import kingdominoplayer.GameResponseParser;
+import kingdominoplayer.datastructures.Kingdom;
+import kingdominoplayer.datastructures.Position;
 import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
 
@@ -15,6 +18,21 @@ public class SceneRendererTest
     public void testRenderer() throws Exception
     {
         SceneRenderer.render(getSampleGameState(), "TestRendering");
+
+        Util.noop();
+    }
+
+
+    @Test
+    public void testDrawKingdom() throws Exception
+    {
+        final GameState gameState = GameResponseParser.getGameStateObject(getSampleGameState());
+        final Kingdom kingdom = gameState.getKingdomInfos().get(0).getKingdom();
+
+        final GridImage gridImage = new GridImage(9, 9);
+        SceneRenderer.drawKingdom(kingdom, new Position(4, 4), gridImage, true);
+
+        BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "Kingdom");
 
         Util.noop();
     }

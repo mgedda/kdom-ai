@@ -34,12 +34,40 @@ public class GridImageTest
     @Test
     public void testMarkArea() throws Exception
     {
+        int castleX = 12;
+        int castleY = 12;
+
+        final GridImage gridImage = getRandomKingdomAsGridImage(castleX, castleY);
+
+        gridImage.markArea(new Position(castleY - 1, castleX -2), new Position(castleY, castleX - 2), 0xFFFF0000);
+
+        BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "TestImage");
+
+        Util.noop();
+    }
+
+    @Test
+    public void testRectangleOverlay() throws Exception
+    {
+        int castleX = 12;
+        int castleY = 12;
+
+        final GridImage gridImage = getRandomKingdomAsGridImage(castleX, castleY);
+
+        gridImage.drawRectangle(new Position(castleY - 1, castleX -2), new Position(castleY, castleX - 2), 0x40FF0000);
+
+        BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "TestImage");
+
+        Util.noop();
+    }
+
+
+
+    private GridImage getRandomKingdomAsGridImage(final int castleX, final int castleY)
+    {
         final GridImage gridImage = new GridImage(20, 20);
 
         final TileType[] tileTypes = TileType.values();
-
-        int castleX = 12;
-        int castleY = 12;
 
         for (int cellPosY = castleY - 2; cellPosY < castleY + 3; ++cellPosY)
         {
@@ -54,12 +82,7 @@ public class GridImageTest
             }
         }
 
-        gridImage.markArea(new Position(castleY - 1, castleX -2), new Position(castleY, castleX - 2), 0xFFFF0000);
-
-
-        BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "TestImage");
-
-        Util.noop();
+        return gridImage;
     }
 
 }

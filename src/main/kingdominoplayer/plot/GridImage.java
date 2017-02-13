@@ -20,13 +20,16 @@ public class GridImage
 {
     private final int[] iData;
 
-    private final int iCellWidth = 32;
-    private final int iCellHeight = 32;
+    private final int iCellWidth = 32;    // width of a cell in pixels
+    private final int iCellHeight = 32;   // height of a cell in pixels
+
+    private final int iCellBorderWidth = 1;   // must be < min(iCellWidth/2, iCellHeight/2)
 
     private final int iXSize;
     private final int iYSize;
 
     private ArrayList<Label> iLabels = new ArrayList<>();
+    private ArrayList<Rectangle> iRectangles = new ArrayList<>();
 
     private class Label
     {
@@ -46,6 +49,20 @@ public class GridImage
         }
     }
 
+    private class Rectangle
+    {
+        final Position iTopLeft;
+        final Position iBottomRight;
+        final int iColor;
+
+        private Rectangle(Position topLeft, Position bottomRight, int color)
+        {
+            iTopLeft = topLeft;
+            iBottomRight = bottomRight;
+            iColor = color;
+        }
+    }
+
     public GridImage(final int numCellsX, final int numCellsY)
     {
         iXSize = numCellsX * iCellWidth;
@@ -59,7 +76,11 @@ public class GridImage
 
     public void markArea(final Position position1, final Position position2, final int color)
     {
-        final int borderWidth = 2;
+        final int borderWidth = 4;   // must be > 0
+        final int indent = 1;
+
+        //noinspection ConstantConditions
+        assert borderWidth > 0 : "zero-valued border";
 
         final int row1 = position1.getRow();
         final int col1 = position1.getColumn();
@@ -75,44 +96,44 @@ public class GridImage
 
         // top
         {
-            final int yMin = rowMin * iCellHeight;
-            final int yMax = yMin + borderWidth;
+            final int yMin = rowMin * iCellHeight + indent;
+            final int yMax = rowMin * iCellHeight + (borderWidth - 1) + indent;
 
-            final int xMin = colMin * iCellWidth;
-            final int xMax = colMax * iCellWidth + iCellWidth;
+            final int xMin = colMin * iCellWidth + indent;
+            final int xMax = colMax * iCellWidth + (iCellWidth - 1) - indent;
 
             paintArea(yMin, yMax, xMin, xMax, color);
         }
 
         // bottom
         {
-            final int yMin = rowMax * iCellHeight + iCellHeight;
-            final int yMax = yMin + borderWidth;
+            final int yMin = rowMax * iCellHeight + (iCellHeight - 1) - (borderWidth - 1) - indent;
+            final int yMax = rowMax * iCellHeight + (iCellHeight - 1) - indent;
 
-            final int xMin = colMin * iCellWidth;
-            final int xMax = colMax * iCellWidth + iCellWidth + borderWidth;
+            final int xMin = colMin * iCellWidth + indent;
+            final int xMax = colMax * iCellWidth + (iCellWidth - 1) - indent;
 
             paintArea(yMin, yMax, xMin, xMax, color);
         }
 
         // left
         {
-            final int yMin = rowMin * iCellHeight;
-            final int yMax = rowMax * iCellHeight + iCellHeight;
+            final int yMin = rowMin * iCellHeight + indent;
+            final int yMax = rowMax * iCellHeight + (iCellHeight - 1) - indent;
 
-            final int xMin = colMin * iCellWidth;
-            final int xMax = xMin + borderWidth;
+            final int xMin = colMin * iCellWidth + indent;
+            final int xMax = colMin * iCellWidth + (borderWidth - 1) + indent;
 
             paintArea(yMin, yMax, xMin, xMax, color);
         }
 
         // right
         {
-            final int yMin = rowMin * iCellHeight;
-            final int yMax = rowMax * iCellHeight + iCellHeight + borderWidth;
+            final int yMin = rowMin * iCellHeight + indent;
+            final int yMax = rowMax * iCellHeight + (iCellHeight - 1) - indent;
 
-            final int xMin = colMax * iCellWidth + iCellWidth;
-            final int xMax = xMin + borderWidth;
+            final int xMin = colMax * iCellWidth + (iCellWidth - 1) - (borderWidth - 1) - indent;
+            final int xMax = colMax * iCellWidth + (iCellWidth - 1) - indent;
 
             paintArea(yMin, yMax, xMin, xMax, color);
         }
@@ -151,11 +172,11 @@ public class GridImage
 
     public void drawTile(final int cellPosX, final int cellPosY, final TileType tileType, final int numCrowns)
     {
-        final int yMin = cellPosY * iCellHeight + 3;
-        final int yMax = yMin + iCellHeight - 3;
+        final int yMin = cellPosY * iCellHeight + iCellBorderWidth;
+        final int yMax = cellPosY * iCellHeight + (iCellHeight - 1) - iCellBorderWidth;
 
-        final int xMin = cellPosX * iCellWidth + 3;
-        final int xMax = xMin + iCellWidth - 3;
+        final int xMin = cellPosX * iCellWidth + iCellBorderWidth;
+        final int xMax = cellPosX * iCellWidth + (iCellWidth - 1) - iCellBorderWidth;
 
         paintArea(yMin, yMax, xMin, xMax, tileType.getColor());
 
@@ -182,6 +203,10 @@ public class GridImage
         iLabels = new ArrayList<>();
     }
 
+    public void drawRectangle(final Position topLeft, final Position bottomRight, final int color)
+    {
+        iRectangles.add(new Rectangle(topLeft, bottomRight, color));
+    }
 
     public BufferedImage toBufferedImage()
     {
@@ -189,25 +214,36 @@ public class GridImage
         final WritableRaster raster = image.getRaster();
         raster.setDataElements(0, 0, iXSize, iYSize, iData);
 
+        for (final Rectangle rectangle : iRectangles)
+        {
+            final int ARGBValue = rectangle.iColor;
+            final Color color = ColorUtils.toAWTColor(ARGBValue);
+
+            image = BufferedImageUtils.rectangleOverlay(
+                    image,
+                    rectangle.iTopLeft.getColumn() * iCellWidth,
+                    rectangle.iTopLeft.getRow() * iCellHeight,
+                    (Math.abs(rectangle.iBottomRight.getColumn() - rectangle.iTopLeft.getColumn()) + 1) * iCellWidth,
+                    (Math.abs(rectangle.iBottomRight.getRow() - rectangle.iTopLeft.getRow()) + 1) * iCellHeight + 1,
+                    color);
+        }
+
         for (final Label label : iLabels)
         {
             final int ARGBValue = label.iColor;
-            final int r = ARGBValue >> 16 & 0xFF;
-            final int g = ARGBValue >> 8 & 0xFF;
-            final int b = ARGBValue & 0xFF;
-
-            final float[] hsbVals = Color.RGBtoHSB(r, g, b, null);
+            final Color color = ColorUtils.toAWTColor(ARGBValue);
 
             image = BufferedImageUtils.textOverlay(
                     image,
                     label.iText,
-                    label.iCellPosX * iCellWidth + 6,
-                    label.iCellPosY * iCellHeight + iCellHeight - 4,
-                    Color.getHSBColor(hsbVals[0], hsbVals[1], hsbVals[2]),
+                    label.iCellPosX * iCellWidth + (iCellWidth / 3),
+                    label.iCellPosY * iCellHeight + (iCellHeight - 1) - (iCellWidth / 3),
+                    color,
                     label.iFontSize);
         }
 
         return image;
     }
+
 
 }

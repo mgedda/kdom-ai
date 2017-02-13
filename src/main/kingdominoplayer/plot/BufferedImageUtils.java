@@ -2,6 +2,7 @@ package kingdominoplayer.plot;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -33,5 +34,15 @@ public class BufferedImageUtils
         return image;
     }
 
+    public static BufferedImage rectangleOverlay(final BufferedImage image, final int x, final int y, final int width, final int height, final Color color)
+    {
+        Graphics2D gO = image.createGraphics();
+        gO.setColor(color);
+        gO.setStroke(new BasicStroke(2));
+        //gO.fillRect(x, y, width, height);
+        gO.drawRect(x, y, width, height);
+        gO.dispose();
 
+        return image;
+    }
 }
