@@ -3,11 +3,9 @@ package kingdominoplayer.strategies;
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Planner;
-import kingdominoplayer.planning.Scorer;
 import kingdominoplayer.utils.Util;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Set;
 
 /**
@@ -71,15 +69,21 @@ public class LookAheadStrategy implements Strategy
                 // Now we have chosen which domino(es) to place. The next step is to chose a good domino from the
                 // current draft.
                 //
-                final ArrayList<KingdomMovePair> movesWithBestChosenDomino = selectMoveWithBestChosenDomino(maxScoringMoves);
+                final ArrayList<KingdomMovePair> maxScoringMovesWithChosenDominoPlaced = selectMoveWithBestChosenDomino(maxScoringMoves);
 
-                if (movesWithBestChosenDomino.size() > 1)
+                if (maxScoringMovesWithChosenDominoPlaced.isEmpty())
+                {
+                    // TODO [gedda] IMPORTANT! : FIX THIS!!!!!
+                    return maxScoringMoves.get(0).getMove();
+                }
+
+                if (maxScoringMovesWithChosenDominoPlaced.size() > 1)
                 {
                     // TODO [gedda] IMPORTANT! : Select move where the chosen domino placement has best neighbour match!!!
 
                 }
 
-                return movesWithBestChosenDomino.get(0).getMove();
+                return maxScoringMovesWithChosenDominoPlaced.get(0).getMove();
             }
             else
             {
@@ -96,76 +100,63 @@ public class LookAheadStrategy implements Strategy
 
     private ArrayList<KingdomMovePair> selectMovesWithBestPlacedDomino(final Move[] availableMoves, final Kingdom kingdom)
     {
-        //Look ahead one move and see what kingdoms we can produce.
+        // Look ahead one move and see what kingdoms we can produce.
         //
         final ArrayList<KingdomMovePair> possibleNewKingdoms = Planner.getPossibleNewKingdoms(kingdom, availableMoves);
 
-        // Compute scores for all possible kingdoms.
-        //
-        final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = GameUtils.getKingdomScores(possibleNewKingdoms);
+        Util.noop();
 
         // Remove all kingdoms that break the Middle Kingdom rule.
         //
-        LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = getOnlyValidKingdomMovePairs(kingdomMovePairToScoreMap);
+        ArrayList<KingdomMovePair> validKingdomMovePairs = GameUtils.removeMovesBreakingMiddleKingdomRule(possibleNewKingdoms);
 
-        if (validKingdomMovePairToScoreMap.isEmpty())
+        if (validKingdomMovePairs.isEmpty())
         {
             // TODO [gedda] IMPORTANT! : FIX THIS!!!
-            validKingdomMovePairToScoreMap = kingdomMovePairToScoreMap;
+            validKingdomMovePairs = possibleNewKingdoms;
         }
 
 
         // Remove all kingdoms that leave single-tile holes.
         //
-        LinkedHashMap<KingdomMovePair, Integer> nonHoleMakingKingdomMovePairToScoreMap = getOnlyKingdomMovePairsNotMakingHoles(validKingdomMovePairToScoreMap);
+        ArrayList<KingdomMovePair> nonHoleMakingKingdomMovePairs = GameUtils.removeMovesCreatingSingleTileHoles(validKingdomMovePairs);
 
-        if (nonHoleMakingKingdomMovePairToScoreMap.isEmpty())
+        if (nonHoleMakingKingdomMovePairs.isEmpty())
         {
             // TODO [gedda] IMPORTANT! : FIX THIS!!!
-            nonHoleMakingKingdomMovePairToScoreMap = kingdomMovePairToScoreMap;
+            nonHoleMakingKingdomMovePairs = validKingdomMovePairs;
         }
 
 
         // See which moves have the maximum scores.
         //
-        int maxScore = 0;
-        for (final Integer score : nonHoleMakingKingdomMovePairToScoreMap.values())
-        {
-            maxScore = score > maxScore ? score : maxScore;
-        }
+        final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = getMaxScoringKingdomMovePairs(nonHoleMakingKingdomMovePairs);
 
-        final ArrayList<KingdomMovePair> maxScoringMoves = new ArrayList<>(availableMoves.length);
-        for (final KingdomMovePair kingdomMovePair : possibleNewKingdoms)
-        {
-            if (kingdomMovePairToScoreMap.get(kingdomMovePair) == maxScore)
-            {
-                maxScoringMoves.add(kingdomMovePair);
-            }
-        }
-        return maxScoringMoves;
+        return maxScoringKingdomMovePairs;
     }
 
-
-    final private ArrayList<KingdomMovePair> getMaxScoringMoves(final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairScoreMap)
+    private ArrayList<KingdomMovePair> getMaxScoringKingdomMovePairs(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
-        // See which moves have the maximum scores.
-        //
-        int maxScore = 0;
-        for (final Integer score : kingdomMovePairScoreMap.values())
+        kingdomMovePairs.sort((KingdomMovePair kingdomMovePair1, KingdomMovePair kingdomMovePair2) ->
         {
-            maxScore = score > maxScore ? score : maxScore;
-        }
+            final int score1 = kingdomMovePair1.getKingdom().getScore();
+            final int score2 = kingdomMovePair2.getKingdom().getScore();
+            return score1 > score2 ? -1 : 1;
+        });
 
-        final ArrayList<KingdomMovePair> maxScoringMoves = new ArrayList<>(kingdomMovePairScoreMap.size());
-        for (final KingdomMovePair kingdomMovePair : kingdomMovePairScoreMap.keySet())
+
+        int maxScore = kingdomMovePairs.get(0).getKingdom().getScore();
+
+        final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = new ArrayList<>(kingdomMovePairs.size());
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
-            if (kingdomMovePairScoreMap.get(kingdomMovePair) == maxScore)
+            if (kingdomMovePair.getKingdom().getScore() != maxScore)
             {
-                maxScoringMoves.add(kingdomMovePair);
+                break;
             }
+            maxScoringKingdomMovePairs.add(kingdomMovePair);
         }
-
-        return maxScoringMoves;
+        return maxScoringKingdomMovePairs;
     }
 
 
@@ -173,20 +164,13 @@ public class LookAheadStrategy implements Strategy
     {
         final ArrayList<KingdomMovePair> kingdomWithChosenDominoPlacedMovePairs = placeChosenDominoes(kingdomMovePairs);
 
-        final LinkedHashMap<KingdomMovePair, Integer> kingdomWithChosenDominoPlacedMovePairToScoreMap = getKingdomScores(kingdomWithChosenDominoPlacedMovePairs);
-
-        final ArrayList<KingdomMovePair> maxScoringMovesWithChosenDominoPlaced = getMaxScoringMoves(kingdomWithChosenDominoPlacedMovePairToScoreMap);
-
-        if (maxScoringMovesWithChosenDominoPlaced.isEmpty())
-        {
-            return kingdomMovePairs;
-        }
+        final ArrayList<KingdomMovePair> maxScoringMovesWithChosenDominoPlaced = getMaxScoringKingdomMovePairs(kingdomWithChosenDominoPlacedMovePairs);
 
         return maxScoringMovesWithChosenDominoPlaced;
     }
 
 
-    private ArrayList<KingdomMovePair> placeChosenDominoes(ArrayList<KingdomMovePair> kingdomMovePairs)
+    private ArrayList<KingdomMovePair> placeChosenDominoes(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
         final ArrayList<KingdomMovePair> kingdomsWithChosenDominoPlacedMovePair = new ArrayList<>(1000);
 
@@ -201,67 +185,26 @@ public class LookAheadStrategy implements Strategy
 
                 final Set<DominoPosition> dominoPositions = Planner.getValidPositions(chosenDomino, kingdom);
 
+                final ArrayList<KingdomDominoPositionPair> DEBUGkingdomWithPlacedChosenDominoPositons = new ArrayList<>(1000);
+
                 for (final DominoPosition dominoPosition : dominoPositions)
                 {
                     final PlacedDomino chosenDominoPlaced = new PlacedDomino(chosenDomino, dominoPosition);
                     final Kingdom kingdomWithChosenDominoPlaced = GameUtils.getKingdomWithDominoPlaced(kingdom, chosenDominoPlaced);
                     final KingdomMovePair kingdomWithChosenDominoPlacedMovePair = new KingdomMovePair(kingdomWithChosenDominoPlaced, move);
+
                     kingdomsWithChosenDominoPlacedMovePair.add(kingdomWithChosenDominoPlacedMovePair);
+
+                    DEBUGkingdomWithPlacedChosenDominoPositons.add(new KingdomDominoPositionPair(kingdomWithChosenDominoPlaced, dominoPosition));
                 }
+
+                //DebugPlot.plotKingdomsWithDominoPositionMarked(DEBUGkingdomWithPlacedChosenDominoPositons, "Kingdoms with Chosen Domino Placed");
+
+                Util.noop();
             }
         }
         return kingdomsWithChosenDominoPlacedMovePair;
     }
 
-
-    private LinkedHashMap<KingdomMovePair, Integer> getKingdomScores(ArrayList<KingdomMovePair> kingdomsWithChosenDominoPlacedMovePair)
-    {
-        final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = new LinkedHashMap<>(1000);
-
-        for (final KingdomMovePair kingdomMovePair : kingdomsWithChosenDominoPlacedMovePair)
-        {
-            final int score = Scorer.computeScore(kingdomMovePair.getKingdom().getPlacedTiles());
-            kingdomMovePairToScoreMap.put(kingdomMovePair, score);
-        }
-        return kingdomMovePairToScoreMap;
-    }
-
-
-    @SuppressWarnings("UnnecessaryLocalVariable")
-    private LinkedHashMap<KingdomMovePair, Integer> getOnlyKingdomMovePairsNotMakingHoles(final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap)
-    {
-        final ArrayList<KingdomMovePair> kingdomMovePairs = new ArrayList<>(kingdomMovePairToScoreMap.size());
-        kingdomMovePairs.addAll(kingdomMovePairToScoreMap.keySet());
-        final ArrayList<KingdomMovePair> validKingdomMovePairs = GameUtils.removeMovesCreatingSingleTileHoles(kingdomMovePairs);
-
-        final LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = keep(validKingdomMovePairs, kingdomMovePairToScoreMap);
-
-        return validKingdomMovePairToScoreMap;
-    }
-
-    @SuppressWarnings("UnnecessaryLocalVariable")
-    private LinkedHashMap<KingdomMovePair, Integer> getOnlyValidKingdomMovePairs(final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap)
-    {
-        final ArrayList<KingdomMovePair> kingdomMovePairs = new ArrayList<>(kingdomMovePairToScoreMap.size());
-        kingdomMovePairs.addAll(kingdomMovePairToScoreMap.keySet());
-        final ArrayList<KingdomMovePair> validKingdomMovePairs = GameUtils.removeMovesBreakingMiddleKingdomRule(kingdomMovePairs);
-
-        final LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = keep(validKingdomMovePairs, kingdomMovePairToScoreMap);
-
-        return validKingdomMovePairToScoreMap;
-    }
-
-
-    private LinkedHashMap<KingdomMovePair, Integer> keep(final ArrayList<KingdomMovePair> keysToKeep,
-                                                         final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap)
-    {
-        final LinkedHashMap<KingdomMovePair, Integer> validKingdomMovePairToScoreMap = new LinkedHashMap<>(keysToKeep.size());
-        for (final KingdomMovePair kingdomMovePair : keysToKeep)
-        {
-            validKingdomMovePairToScoreMap.put(kingdomMovePair, kingdomMovePairToScoreMap.get(kingdomMovePair));
-        }
-
-        return validKingdomMovePairToScoreMap;
-    }
 
 }
