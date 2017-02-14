@@ -20,8 +20,8 @@ public class GridImage
 {
     private final int[] iData;
 
-    private final int iCellWidth = 32;    // width of a cell in pixels
-    private final int iCellHeight = 32;   // height of a cell in pixels
+    private final int iCellWidth;    // width of a cell in pixels
+    private final int iCellHeight;   // height of a cell in pixels
 
     private final int iCellBorderWidth = 1;   // must be < min(iCellWidth/2, iCellHeight/2)
 
@@ -65,8 +65,16 @@ public class GridImage
 
     public GridImage(final int numCellsX, final int numCellsY)
     {
-        iXSize = numCellsX * iCellWidth;
-        iYSize = numCellsY * iCellHeight;
+        this(numCellsX, numCellsY, 32, 32);
+    }
+
+    public GridImage(final int numCellsX, final int numCellsY, final int cellWidth, final int cellHeight)
+    {
+        iCellWidth = cellWidth;
+        iCellHeight = cellHeight;
+
+        iXSize = numCellsX * cellWidth;
+        iYSize = numCellsY * cellHeight;
 
         iData = new int[iXSize * iYSize];
 

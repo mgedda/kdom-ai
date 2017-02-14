@@ -37,7 +37,9 @@ public class GridImageTest
         int castleX = 12;
         int castleY = 12;
 
-        final GridImage gridImage = getRandomKingdomAsGridImage(castleX, castleY);
+        final GridImage gridImage = new GridImage(20, 20);
+
+        plotRandomKingdom(castleX, castleY, gridImage);
 
         gridImage.markArea(new Position(castleY - 1, castleX -2), new Position(castleY, castleX - 2), 0xFFFF0000);
 
@@ -52,7 +54,9 @@ public class GridImageTest
         int castleX = 12;
         int castleY = 12;
 
-        final GridImage gridImage = getRandomKingdomAsGridImage(castleX, castleY);
+        final GridImage gridImage = new GridImage(20, 20);
+
+        plotRandomKingdom(castleX, castleY, gridImage);
 
         gridImage.drawRectangle(new Position(castleY - 1, castleX -2), new Position(castleY, castleX - 2), 0x40FF0000);
 
@@ -62,11 +66,36 @@ public class GridImageTest
     }
 
 
-
-    private GridImage getRandomKingdomAsGridImage(final int castleX, final int castleY)
+    @Test
+    public void testVariousCellSizesImage() throws Exception
     {
-        final GridImage gridImage = new GridImage(20, 20);
+        final GridImage gridImage10 = new GridImage(11, 11, 10, 10);
+        final GridImage gridImage15 = new GridImage(11, 11, 15, 15);
+        final GridImage gridImage20 = new GridImage(11, 11, 20, 20);
+        final GridImage gridImage25 = new GridImage(11, 11, 25, 25);
+        final GridImage gridImage30 = new GridImage(11, 11, 30, 30);
 
+        plotRandomKingdom(5, 5, gridImage10);
+        plotRandomKingdom(5, 5, gridImage15);
+        plotRandomKingdom(5, 5, gridImage20);
+        plotRandomKingdom(5, 5, gridImage25);
+        plotRandomKingdom(5, 5, gridImage30);
+
+        BufferedImageViewer.displayImage(gridImage10.toBufferedImage(), "Cell size 10x10");
+        BufferedImageViewer.displayImage(gridImage15.toBufferedImage(), "Cell size 15x15");
+        BufferedImageViewer.displayImage(gridImage20.toBufferedImage(), "Cell size 20x20");
+        BufferedImageViewer.displayImage(gridImage25.toBufferedImage(), "Cell size 25x25");
+        BufferedImageViewer.displayImage(gridImage30.toBufferedImage(), "Cell size 30x30");
+
+        Util.noop();
+
+    }
+
+
+
+
+    private void plotRandomKingdom(final int castleX, final int castleY, final GridImage gridImage)
+    {
         final TileType[] tileTypes = TileType.values();
 
         for (int cellPosY = castleY - 2; cellPosY < castleY + 3; ++cellPosY)
@@ -81,8 +110,6 @@ public class GridImageTest
                 gridImage.drawTile(cellPosX, cellPosY, tileTypes[tileIndex], numCrowns);
             }
         }
-
-        return gridImage;
     }
 
 }
