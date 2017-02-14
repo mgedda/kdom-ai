@@ -4,6 +4,7 @@ import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Planner;
 import kingdominoplayer.planning.Scorer;
+import kingdominoplayer.utils.Util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -63,6 +64,9 @@ public class LookAheadStrategy implements Strategy
                 // We have dominoes placed in our kingdom.
                 //
                 final ArrayList<KingdomMovePair> maxScoringMoves = selectMovesWithBestPlacedDomino(availableMoves, kingdom);
+
+                Util.noop();
+
 
                 // Now we have chosen which domino(es) to place. The next step is to chose a good domino from the
                 // current draft.
