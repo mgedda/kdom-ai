@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 public class Kingdom
 {
     private final PlacedTile[] iPlacedTiles;
+    private Integer iScore = null;   // cached score
 
     public Kingdom(final PlacedTile[] placedTiles)
     {
@@ -39,6 +40,10 @@ public class Kingdom
 
     public int getScore()
     {
-        return Scorer.computeScore(getPlacedTiles());
+        if (iScore == null)
+        {
+            iScore = Scorer.computeScore(getPlacedTiles());
+        }
+        return iScore;
     }
 }
