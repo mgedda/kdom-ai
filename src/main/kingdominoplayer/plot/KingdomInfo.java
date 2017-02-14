@@ -1,7 +1,6 @@
 package kingdominoplayer.plot;
 
 import kingdominoplayer.datastructures.Kingdom;
-import kingdominoplayer.planning.Scorer;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -34,6 +33,6 @@ public class KingdomInfo
 
     public int getScore()
     {
-        return Scorer.computeScore(iKingdom.getPlacedTiles());
+        return iKingdom.getScore();
     }
 }
