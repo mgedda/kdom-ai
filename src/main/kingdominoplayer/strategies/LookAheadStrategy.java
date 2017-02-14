@@ -60,10 +60,11 @@ public class LookAheadStrategy implements Strategy
             //
             if (placedTiles.length > 0)
             {
-                // We have dominoes placed in our kingdom.
+                // We have dominoes placed in our kingdom. // TODO [gedda] IMPORTANT! : Evaluate placed + chosen together, not first placed then chosen!
                 //
                 final ArrayList<KingdomMovePair> maxScoringMoves = selectMovesWithBestPlacedDomino(availableMoves, kingdom);
 
+                //DebugPlot.plotKingdomsWithPlacedDominoMarked(maxScoringMoves, "Max Scoring Moves With Placed Marked");
                 Util.noop();
 
 
@@ -71,6 +72,9 @@ public class LookAheadStrategy implements Strategy
                 // current draft.
                 //
                 final ArrayList<KingdomMovePair> maxScoringMovesWithChosenDominoPlaced = selectMoveWithBestChosenDomino(maxScoringMoves);
+
+                //DebugPlot.plotKingdomsWithChosenDominoMarked(maxScoringMovesWithChosenDominoPlaced, "Max Scoring Moves With Chosen Marked");
+                Util.noop();
 
                 if (maxScoringMovesWithChosenDominoPlaced.isEmpty())
                 {
@@ -80,7 +84,7 @@ public class LookAheadStrategy implements Strategy
 
                 if (maxScoringMovesWithChosenDominoPlaced.size() > 1)
                 {
-                    // TODO [gedda] IMPORTANT! : Select move where the chosen domino placement has best neighbour match!!!
+                    // TODO [gedda] IMPORTANT! : Select move where the chosen domino placement has best neighbour match or is completely surrounded!!!
 
                 }
 
@@ -139,6 +143,11 @@ public class LookAheadStrategy implements Strategy
 
     private ArrayList<KingdomMovePair> getMaxScoringKingdomMovePairs(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
+        if (kingdomMovePairs.isEmpty())
+        {
+            return new ArrayList<>();
+        }
+
         kingdomMovePairs.sort((KingdomMovePair kingdomMovePair1, KingdomMovePair kingdomMovePair2) ->
         {
             final int score1 = kingdomMovePair1.getKingdom().getScore();
@@ -158,6 +167,7 @@ public class LookAheadStrategy implements Strategy
             }
             maxScoringKingdomMovePairs.add(kingdomMovePair);
         }
+
         return maxScoringKingdomMovePairs;
     }
 
@@ -187,20 +197,18 @@ public class LookAheadStrategy implements Strategy
 
                 final Set<DominoPosition> dominoPositions = Planner.getValidPositions(chosenDomino, kingdom);
 
-                final ArrayList<KingdomDominoPositionPair> DEBUG_kingdomWithPlacedChosenDominoPositons = new ArrayList<>(1000);
-
                 for (final DominoPosition dominoPosition : dominoPositions)
                 {
                     final PlacedDomino chosenDominoPlaced = new PlacedDomino(chosenDomino, dominoPosition);
                     final Kingdom kingdomWithChosenDominoPlaced = GameUtils.getKingdomWithDominoPlaced(kingdom, chosenDominoPlaced);
-                    final KingdomMovePair kingdomWithChosenDominoPlacedMovePair = new KingdomMovePair(kingdomWithChosenDominoPlaced, move);
+
+                    final MoveWithChosenPlaced moveWithChosenPlaced = new MoveWithChosenPlaced(move.getNumber(), chosenDominoPlaced, move.getPlacedDomino());
+                    final KingdomMovePair kingdomWithChosenDominoPlacedMovePair = new KingdomMovePair(kingdomWithChosenDominoPlaced, moveWithChosenPlaced);
 
                     kingdomsWithChosenDominoPlacedMovePair.add(kingdomWithChosenDominoPlacedMovePair);
-
-                    DEBUG_kingdomWithPlacedChosenDominoPositons.add(new KingdomDominoPositionPair(kingdomWithChosenDominoPlaced, dominoPosition));
                 }
 
-                //DebugPlot.plotKingdomsWithDominoPositionMarked(DEBUG_kingdomWithPlacedChosenDominoPositons, "Kingdoms with Chosen Domino Placed");
+                //DebugPlot.plotKingdomsWithChosenDominoMarked(kingdomsWithChosenDominoPlacedMovePair, "Kingdoms with Chosen Domino Placed");
                 Util.noop();
             }
         }

@@ -4,6 +4,7 @@ import kingdominoplayer.GameResponseParser;
 import kingdominoplayer.datastructures.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -127,7 +128,7 @@ public class DebugPlot
     }
 
 
-    public static void plotKingdomsWithPlacedDominoMarked(final ArrayList<KingdomMovePair> kingdomMovePairs, final String title)
+    public static void plotKingdomsWithPlacedDominoMarked(final Collection<KingdomMovePair> kingdomMovePairs, final String title)
     {
         final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs = new ArrayList<>(kingdomMovePairs.size());
 
@@ -143,7 +144,24 @@ public class DebugPlot
         plotKingdomsWithDominoPositionMarked(kingdomDominoPositionPairs, title);
     }
 
-    public static void plotKingdomsWithDominoPositionMarked(final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs, final String title)
+    public static void plotKingdomsWithChosenDominoMarked(final Collection<KingdomMovePair> kingdomMovePairs, final String title)
+    {
+        final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs = new ArrayList<>(kingdomMovePairs.size());
+
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
+        {
+            final Kingdom kingdom = kingdomMovePair.getKingdom();
+
+            assert kingdomMovePair.getMove() instanceof MoveWithChosenPlaced : "Move must be instance of MoveWithChosenPlaced";
+            final DominoPosition dominoPosition = ((MoveWithChosenPlaced) kingdomMovePair.getMove()).getDominoPositionForChosen();
+
+            kingdomDominoPositionPairs.add(new KingdomDominoPositionPair(kingdom, dominoPosition));
+        }
+
+        plotKingdomsWithDominoPositionMarked(kingdomDominoPositionPairs, title);
+    }
+
+    public static void plotKingdomsWithDominoPositionMarked(final Collection<KingdomDominoPositionPair> kingdomDominoPositionPairs, final String title)
     {
         final ArrayList<Kingdom> kingdoms = new ArrayList<>(kingdomDominoPositionPairs.size());
         final ArrayList<DominoPositions> dominoPositionsArray = new ArrayList<>(kingdomDominoPositionPairs.size());
@@ -178,7 +196,7 @@ public class DebugPlot
         plotKingdomsWithPositionsMarked(kingdoms, positionsArray, title);
     }
 
-    public static void plotKingdomsWithPositionsMarked(final ArrayList<Kingdom> kingdoms, final ArrayList<Positions> positionsArray, final String title)
+    public static void plotKingdomsWithPositionsMarked(final ArrayList<Kingdom> kingdoms, final Collection<Positions> positionsArray, final String title)
     {
         final ArrayList<DominoPositions> dominoPositionsArray = new ArrayList<>(positionsArray.size());
 

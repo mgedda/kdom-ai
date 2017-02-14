@@ -88,7 +88,7 @@ public class Player
         final Move move = pickAMove(gameState, availableMoves);
 
         // Show state after move
-        //
+        // // TODO [gedda] IMPORTANT! : THIS HAS BUGS, NOT SHOWING CORRECTLY
         DEBUG.plotGameStateAfterMove(iDebugEnabled, gameState, move, iName, "After Move " + Integer.toString(iMovesMade + 1));
         Util.noop();
 
