@@ -39,4 +39,9 @@ public class PlacedDomino extends Domino
 
         return placedTiles;
     }
+
+    public DominoPosition getDominoPosition()
+    {
+        return iDominoPosition;
+    }
 }
