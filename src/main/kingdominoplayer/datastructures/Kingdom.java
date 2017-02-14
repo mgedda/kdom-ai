@@ -1,6 +1,8 @@
 package kingdominoplayer.datastructures;
 
 
+import kingdominoplayer.planning.Scorer;
+
 import java.util.LinkedHashSet;
 
 /**
@@ -33,5 +35,10 @@ public class Kingdom
         }
 
         return positions;
+    }
+
+    public int getScore()
+    {
+        return Scorer.computeScore(getPlacedTiles());
     }
 }
