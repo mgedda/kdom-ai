@@ -359,39 +359,42 @@ public class GameUtils
     {
         final ArrayList<Position> adjacentPositions = getAdjacentPositions(position);
 
-        boolean isSingleTileHole = true;
+        final ArrayList<Boolean> adjacentOccupiedStatuses = new ArrayList<>(adjacentPositions.size());
         for (final Position adjacentPosition : adjacentPositions)
         {
-            if (adjacentPosition.equals(new Position(0, 0)))
-            {
-                continue;
-            }
+            boolean isAdjacentOccupied = false;
 
+            final boolean isCastleTile = adjacentPosition.equals(new Position(0, 0));
+            // TODO [gedda] IMPORTANT! : change to outside 5x5 kingdom area!!!
             final boolean isOutsideCastleCenteredKingdom = Math.abs(adjacentPosition.getColumn()) > 2 || Math.abs(adjacentPosition.getRow()) > 2;
-            if (isOutsideCastleCenteredKingdom)
+            final boolean isTilePosition = isTilePosition(adjacentPosition, placedTiles);
+
+            if (isCastleTile || isOutsideCastleCenteredKingdom || isTilePosition)
             {
-                continue;
+                isAdjacentOccupied = true;
             }
 
-            boolean hasTile = false;
+            adjacentOccupiedStatuses.add(isAdjacentOccupied);
+        }
 
-            for (final PlacedTile placedTile : placedTiles)
-            {
-                if (placedTile.getPosition().equals(adjacentPosition))
-                {
-                    hasTile = true;
-                    break;
-                }
-            }
-
-            if (! hasTile)
-            {
-                isSingleTileHole = false;
-                break;
-            }
+        boolean isSingleTileHole = true;
+        for (final boolean isAdjacentOccupied : adjacentOccupiedStatuses)
+        {
+            isSingleTileHole &= isAdjacentOccupied;
         }
 
         return isSingleTileHole;
+    }
+
+
+    private static boolean isTilePosition(final Position position, final ArrayList<PlacedTile> placedTiles)
+    {
+        final ArrayList<Position> tilePositions = new ArrayList<>(placedTiles.size());
+        for (final PlacedTile placedTile : placedTiles)
+        {
+            tilePositions.add(placedTile.getPosition());
+        }
+        return tilePositions.contains(position);
     }
 
 
