@@ -357,6 +357,27 @@ public class GameUtils
 
     public static boolean isSingleTileHole(final Position position, final ArrayList<PlacedTile> placedTiles)
     {
+        final boolean isPositionOutsideCastleCenteredKingdom = Math.abs(position.getColumn()) > 2 || Math.abs(position.getRow()) > 2;
+        if (isPositionOutsideCastleCenteredKingdom)
+        {
+            // Classifying a position outside the castle-centered kingdom will potentially
+            // prevent good placements adjacent to this position.
+            //
+            //  For example,
+            //
+            //        C
+            //        D
+            //        D
+            //        P
+            //
+            //  where C=castle, D=domino, P=position, will prevent the domino from being placed since
+            //  P would be classed as isSingleTileHole would return true (all positions adjacent to P
+            //  are outside the castle-centered kingdom except for one which is occupied by the lower
+            //  D).
+            //
+            return false;
+        }
+
         final ArrayList<Position> adjacentPositions = getAdjacentPositions(position);
 
         final ArrayList<Boolean> adjacentOccupiedStatuses = new ArrayList<>(adjacentPositions.size());

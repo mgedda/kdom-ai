@@ -95,6 +95,19 @@ public class GameUtilsTest
         Assert.assertEquals(isSingleTileHole, false);
     }
 
+    @Test
+    public void testIsSingleTileHole_nextTo5x5Border_false2() throws Exception
+    {
+        final ArrayList<PlacedTile> placedTiles = getPlacedTiles(1, 0, 2, 0);
+        final Position position = new Position(3, 0);
+        final boolean isSingleTileHole = GameUtils.isSingleTileHole(position, placedTiles);
+
+        plotTilesAndPosition(placedTiles, position, "Is Single Tile Hole = " + Boolean.toString(isSingleTileHole));
+        Util.noop();
+
+        Assert.assertEquals(isSingleTileHole, false);
+    }
+
 
     private ArrayList<PlacedTile> getPlacedTiles(final int... rowColPairs)
     {
