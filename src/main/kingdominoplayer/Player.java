@@ -5,7 +5,7 @@ import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.planning.Planner;
 import kingdominoplayer.plot.GameState;
-import kingdominoplayer.plot.SceneRenderer;
+import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.strategies.*;
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.utils.Util;
@@ -154,7 +154,7 @@ public class Player
         {
             if (DEBUG && isDebugEnabled)
             {
-                SceneRenderer.render(gameState, title);
+                DebugPlot.plotGameState(gameState, title);
             }
         }
 
@@ -164,7 +164,7 @@ public class Player
             {
                 final GameState gameStateObject = GameResponseParser.getGameStateObject(gameState);
                 final GameState newGameState = Planner.makeMove(move, gameStateObject, playerName);
-                SceneRenderer.render(newGameState, title);
+                DebugPlot.plotGameState(newGameState, title);
             }
         }
     }

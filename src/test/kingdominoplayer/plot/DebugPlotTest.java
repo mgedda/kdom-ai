@@ -1,10 +1,14 @@
 package kingdominoplayer.plot;
 
 import kingdominoplayer.GameResponseParser;
+import kingdominoplayer.datastructures.DominoPosition;
 import kingdominoplayer.datastructures.Kingdom;
+import kingdominoplayer.datastructures.KingdomDominoPositionPair;
 import kingdominoplayer.datastructures.Position;
 import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -12,12 +16,12 @@ import org.testng.annotations.Test;
  * Date: 2017-02-10<br>
  * Time: 21:54<br><br>
  */
-public class SceneRendererTest
+public class DebugPlotTest
 {
     @Test
     public void testRenderer() throws Exception
     {
-        SceneRenderer.render(getSampleGameState(), "TestRendering");
+        DebugPlot.plotGameState(getSampleGameState(), "TestRendering");
 
         Util.noop();
     }
@@ -30,9 +34,40 @@ public class SceneRendererTest
         final Kingdom kingdom = gameState.getKingdomInfos().get(0).getKingdom();
 
         final GridImage gridImage = new GridImage(9, 9);
-        SceneRenderer.drawKingdom(kingdom, new Position(4, 4), gridImage, true);
+        DebugPlot.addKingdomToGridImage(kingdom, new Position(4, 4), gridImage, true);
 
         BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "Kingdom");
+
+        Util.noop();
+    }
+
+
+    @Test
+    public void testDrawKingdoms() throws Exception
+    {
+        final GameState gameState = GameResponseParser.getGameStateObject(getSampleGameState());
+
+        final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs = new ArrayList<>(100);
+
+        for (int i = 0; i < 10; ++i)
+        {
+            for (final KingdomInfo kingdomInfo : gameState.getKingdomInfos())
+            {
+                final Kingdom kingdom = kingdomInfo.getKingdom();
+                final DominoPosition dominoPosition = new DominoPosition(new Position(-1, -2), new Position(-1, -1));
+
+                kingdomDominoPositionPairs.add(new KingdomDominoPositionPair(kingdom, dominoPosition));
+            }
+        }
+
+        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdomDominoPositionPairs);
+
+        int count = 0;
+        for (final GridImage gridImage : gridImages)
+        {
+            BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "Kingdoms #" + Integer.toString(count));
+            count++;
+        }
 
         Util.noop();
     }

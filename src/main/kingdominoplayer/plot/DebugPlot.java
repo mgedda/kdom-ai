@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Time: 20:04<br><br>
  */
 @SuppressWarnings("WeakerAccess")
-public class SceneRenderer
+public class DebugPlot
 {
     private static final int cWindowGridX = 43;
     private static final int cWindowGridY = 29;
@@ -34,14 +34,14 @@ public class SceneRenderer
             new Position(cKingdomsGridY2, cKingdomsGridX2)
     };
 
-    public static void render(final String gameState, final String title)
+    public static void plotGameState(final String gameState, final String title)
     {
         final GameState gameStateObject = GameResponseParser.getGameStateObject(gameState);
 
-        render(gameStateObject, title);
+        plotGameState(gameStateObject, title);
     }
 
-    public static void render(final GameState gameState, final String title)
+    public static void plotGameState(final GameState gameState, final String title)
     {
         final GridImage gridImage = new GridImage(cWindowGridX, cWindowGridY);
 
@@ -52,7 +52,7 @@ public class SceneRenderer
             final Kingdom kingdom = kingdomInfo.getKingdom();
 
             final Position castlePosition = cPlayerCastlePositions[playerIndex];
-            drawKingdom(kingdom, castlePosition, gridImage, true);
+            addKingdomToGridImage(kingdom, castlePosition, gridImage, true);
 
             // Draw player name.
             //
@@ -127,7 +127,87 @@ public class SceneRenderer
     }
 
 
-    public static void drawKingdom(final Kingdom kingdom, final Position castlePosition, final GridImage gridImage, final boolean drawBackgroundTiles)
+    public static void plotKingdomsWithPlacedDominoMarked(final ArrayList<KingdomMovePair> kingdomMovePairs, final String title)
+    {
+        final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs = new ArrayList<>();
+
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
+        {
+            final Kingdom kingdom = kingdomMovePair.getKingdom();
+            final PlacedDomino placedDomino = kingdomMovePair.getMove().getPlacedDomino();
+            final DominoPosition dominoPosition = placedDomino.getDominoPosition();
+
+            kingdomDominoPositionPairs.add(new KingdomDominoPositionPair(kingdom, dominoPosition));
+        }
+        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdomDominoPositionPairs);
+
+        int counter = 0;
+        for (GridImage gridImage : gridImages)
+        {
+            BufferedImageViewer.displayImage(gridImage.toBufferedImage(), title + " #" + Integer.toString(counter));
+            counter++;
+        }
+    }
+
+    /*package*/ static ArrayList<GridImage> getGridImagesShowingKingdomsWithMarkedDominoes(final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs)
+    {
+        int kingdomColumns = 5;
+        int kingdomRows = 3;
+
+        int kingdomColumnWidth = 1 /* space */ + 9 /* tiles */;
+        int kingdomRowHeight = 1 /* space */ + 1 /* score label */ + 9 /* tiles */;
+
+        int cellSize = 25;
+
+        final int kingdomsPerPage = kingdomColumns * kingdomRows;
+
+        final ArrayList<GridImage> gridImages = new ArrayList<>(kingdomDominoPositionPairs.size());
+
+        int counter = 0;
+        GridImage gridImage = null;
+        for (final KingdomDominoPositionPair kingdomDominoPositionPair : kingdomDominoPositionPairs)
+        {
+            if (counter % kingdomsPerPage == 0)
+            {
+                counter = 0;
+
+                final int numCellsX = kingdomColumns * kingdomColumnWidth + 1;
+                final int numCellsY = kingdomRows * kingdomRowHeight + 1;
+
+                gridImage = new GridImage(numCellsX, numCellsY, cellSize, cellSize);
+
+                gridImages.add(gridImage);
+            }
+
+            final int kingdomColumn = counter % kingdomColumns;
+            final int kingdomRow = counter / kingdomColumns;
+
+            final int scoreLabelColumn = kingdomColumn * kingdomColumnWidth + 1;
+            final int scoreLabelRow = kingdomRow * kingdomRowHeight + 1;
+
+            final Kingdom kingdom = kingdomDominoPositionPair.getKingdom();
+            gridImage.drawLabel("Score: " + Integer.toString(kingdom.getScore()), scoreLabelColumn, scoreLabelRow);
+
+            final int castleColumn = kingdomColumn * kingdomColumnWidth + 1 + 4;
+            final int castleRow = scoreLabelRow + 5;
+            final Position castlePosition = new Position(castleRow, castleColumn);
+
+            addKingdomToGridImage(kingdom, castlePosition, gridImage, true);
+
+            final DominoPosition dominoPosition = kingdomDominoPositionPair.getDominoPosition();
+
+            final Position tile1Position = castlePosition.plus(dominoPosition.getTile1Position());
+            final Position tile2Position = castlePosition.plus(dominoPosition.getTile2Position());
+
+            gridImage.markArea(tile1Position, tile2Position, 0xFFFF0000);
+
+            counter++;
+        }
+
+        return gridImages;
+    }
+
+    /*package*/ static void addKingdomToGridImage(final Kingdom kingdom, final Position castlePosition, final GridImage gridImage, final boolean drawBackgroundTiles)
     {
         // Draw background tiles for each kingdom.
         //
@@ -154,6 +234,5 @@ public class SceneRenderer
             gridImage.drawTile(position, placedTile);
         }
     }
-
 
 }

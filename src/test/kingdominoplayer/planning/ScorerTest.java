@@ -3,7 +3,7 @@ package kingdominoplayer.planning;
 import kingdominoplayer.GameResponseParser;
 import kingdominoplayer.utils.Util;
 import kingdominoplayer.datastructures.PlacedTile;
-import kingdominoplayer.plot.SceneRenderer;
+import kingdominoplayer.plot.DebugPlot;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -21,7 +21,7 @@ public class ScorerTest
     {
         final String gameState = getSampleGameState();
 
-        SceneRenderer.render(gameState, "TestRendering");
+        DebugPlot.plotGameState(gameState, "TestRendering");
 
         final PlacedTile[] placedTilesRandomCalrissian = GameResponseParser.getPlayerPlacedTiles(gameState, "RandomCalrissian");
         final PlacedTile[] placedTilesDarthCrusader = GameResponseParser.getPlayerPlacedTiles(gameState, "DarthCrusader");
