@@ -143,7 +143,7 @@ public class LookAheadStrategy implements Strategy
         {
             final int score1 = kingdomMovePair1.getKingdom().getScore();
             final int score2 = kingdomMovePair2.getKingdom().getScore();
-            return score1 > score2 ? -1 : 1;
+            return score1 > score2 ? -1 : score1 == score2 ? 0 : 1;
         });
 
 
