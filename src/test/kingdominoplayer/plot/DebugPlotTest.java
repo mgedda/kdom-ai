@@ -60,14 +60,7 @@ public class DebugPlotTest
             }
         }
 
-        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdomDominoPositionPairs);
-
-        int count = 0;
-        for (final GridImage gridImage : gridImages)
-        {
-            BufferedImageViewer.displayImage(gridImage.toBufferedImage(), "Kingdoms #" + Integer.toString(count));
-            count++;
-        }
+        DebugPlot.plotKingdomsWithDominoPositionMarked(kingdomDominoPositionPairs, "Kingdoms");
 
         Util.noop();
     }

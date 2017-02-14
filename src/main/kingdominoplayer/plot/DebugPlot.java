@@ -145,7 +145,20 @@ public class DebugPlot
 
     public static void plotKingdomsWithDominoPositionMarked(final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs, final String title)
     {
-        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdomDominoPositionPairs);
+        final ArrayList<Kingdom> kingdoms = new ArrayList<>(kingdomDominoPositionPairs.size());
+        final ArrayList<DominoPositions> dominoPositionsArray = new ArrayList<>(kingdomDominoPositionPairs.size());
+
+        for (final KingdomDominoPositionPair kingdomDominoPositionPair : kingdomDominoPositionPairs)
+        {
+            kingdoms.add(kingdomDominoPositionPair.getKingdom());
+
+            final ArrayList<DominoPosition> dominoPositions = new ArrayList<>();
+            dominoPositions.add(kingdomDominoPositionPair.getDominoPosition());
+
+            dominoPositionsArray.add(new DominoPositions(dominoPositions));
+        }
+
+        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdoms, dominoPositionsArray);
 
         int counter = 0;
         for (GridImage gridImage : gridImages)
@@ -155,9 +168,54 @@ public class DebugPlot
         }
     }
 
-
-    /*package*/ static ArrayList<GridImage> getGridImagesShowingKingdomsWithMarkedDominoes(final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs)
+    public static void plotKingdomWithPositionsMarked(final Kingdom kingdom, final ArrayList<Position> singleTileHolePositions, final String title)
     {
+        final ArrayList<Kingdom> kingdoms = new ArrayList<>(1);
+        kingdoms.add(kingdom);
+        final ArrayList<Positions> positionsArray = new ArrayList<>(1);
+        positionsArray.add(new Positions(singleTileHolePositions));
+
+        plotKingdomsWithPositionsMarked(kingdoms, positionsArray, title);
+    }
+
+    public static void plotKingdomsWithPositionsMarked(final ArrayList<Kingdom> kingdoms, final ArrayList<Positions> positionsArray, final String title)
+    {
+        final ArrayList<DominoPositions> dominoPositionsArray = new ArrayList<>(positionsArray.size());
+
+        for (final Positions positions : positionsArray)
+        {
+            final ArrayList<DominoPosition> dominoPositions = new ArrayList<>(positions.getPositionArray().size());
+
+            for (final Position position : positions.getPositionArray())
+            {
+                dominoPositions.add(new DominoPosition(position, position));
+            }
+
+            dominoPositionsArray.add(new DominoPositions(dominoPositions));
+        }
+
+        plotKingdomsWithDominoPositionsMarked(kingdoms, dominoPositionsArray, title);
+    }
+
+
+    public static void plotKingdomsWithDominoPositionsMarked(final ArrayList<Kingdom> kingdoms, final ArrayList<DominoPositions> dominoPositionsArray, final String title)
+    {
+        assert kingdoms.size() == dominoPositionsArray.size() : "pre: array size inconsistency";
+
+        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdoms, dominoPositionsArray);
+
+        int counter = 0;
+        for (GridImage gridImage : gridImages)
+        {
+            BufferedImageViewer.displayImage(gridImage.toBufferedImage(), title + " #" + Integer.toString(counter));
+            counter++;
+        }
+    }
+
+    /*package*/ static ArrayList<GridImage> getGridImagesShowingKingdomsWithMarkedDominoes(final ArrayList<Kingdom> kingdoms, final ArrayList<DominoPositions> dominoPositionsArray)
+    {
+        assert kingdoms.size() == dominoPositionsArray.size() : "pre: array size inconsistency";
+
         int kingdomColumns = 5;
         int kingdomRows = 3;
 
@@ -168,12 +226,15 @@ public class DebugPlot
 
         final int kingdomsPerPage = kingdomColumns * kingdomRows;
 
-        final ArrayList<GridImage> gridImages = new ArrayList<>(kingdomDominoPositionPairs.size());
+        final ArrayList<GridImage> gridImages = new ArrayList<>(kingdoms.size());
 
         int counter = 0;
         GridImage gridImage = null;
-        for (final KingdomDominoPositionPair kingdomDominoPositionPair : kingdomDominoPositionPairs)
+        for (int i = 0; i < kingdoms.size(); ++i)
         {
+            final Kingdom kingdom = kingdoms.get(i);
+            final DominoPositions dominoPositions = dominoPositionsArray.get(i);
+
             if (counter % kingdomsPerPage == 0)
             {
                 counter = 0;
@@ -192,7 +253,6 @@ public class DebugPlot
             final int scoreLabelColumn = kingdomColumn * kingdomColumnWidth + 1;
             final int scoreLabelRow = kingdomRow * kingdomRowHeight + 1;
 
-            final Kingdom kingdom = kingdomDominoPositionPair.getKingdom();
             gridImage.drawLabel("Score: " + Integer.toString(kingdom.getScore()), scoreLabelColumn, scoreLabelRow);
 
             final int castleColumn = kingdomColumn * kingdomColumnWidth + 1 + 4;
@@ -201,12 +261,13 @@ public class DebugPlot
 
             addKingdomToGridImage(kingdom, castlePosition, gridImage, true);
 
-            final DominoPosition dominoPosition = kingdomDominoPositionPair.getDominoPosition();
+            for (final DominoPosition dominoPosition : dominoPositions.getDominoPositions())
+            {
+                final Position tile1Position = castlePosition.plus(dominoPosition.getTile1Position());
+                final Position tile2Position = castlePosition.plus(dominoPosition.getTile2Position());
 
-            final Position tile1Position = castlePosition.plus(dominoPosition.getTile1Position());
-            final Position tile2Position = castlePosition.plus(dominoPosition.getTile2Position());
-
-            gridImage.markArea(tile1Position, tile2Position, 0xFFFF0000);
+                gridImage.markArea(tile1Position, tile2Position, 0xFFFF0000);
+            }
 
             counter++;
         }

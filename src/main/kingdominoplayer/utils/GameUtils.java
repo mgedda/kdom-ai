@@ -4,6 +4,7 @@ import kingdominoplayer.GameResponseParser;
 import kingdominoplayer.Player;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Scorer;
+import kingdominoplayer.plot.DebugPlot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -278,6 +279,9 @@ public class GameUtils
     {
         final ArrayList<KingdomMovePair> validPairs = new ArrayList<>(kingdomMovePairs.size());
 
+        final ArrayList<Kingdom> DEBUG_kingdoms = new ArrayList<>(kingdomMovePairs.size());
+        final ArrayList<Positions> DEBUG_positionsArray = new ArrayList<>(kingdomMovePairs.size());
+
         for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
             final PlacedDomino placedDomino = kingdomMovePair.getMove().getPlacedDomino();
@@ -289,14 +293,22 @@ public class GameUtils
                 allPlacedTiles.addAll(placedDomino.getPlacedTiles());
 
                 final ArrayList<Position> adjacentPositions = getAdjacentPositions(placedDomino);
-                final boolean containsSingleTileHole = checkForSingleTileHole(adjacentPositions, allPlacedTiles);
 
-                if (! containsSingleTileHole)
+                final ArrayList<Position> singleTileHolePositions = getSingleTileHoles(adjacentPositions, allPlacedTiles);
+
+                if (singleTileHolePositions.isEmpty())
                 {
                     validPairs.add(kingdomMovePair);
                 }
+
+                DEBUG_kingdoms.add(kingdom);
+                DEBUG_positionsArray.add(new Positions(singleTileHolePositions));
             }
         }
+
+
+        //DebugPlot.plotKingdomsWithPositionsMarked(DEBUG_kingdoms, DEBUG_positionsArray, "Single Tile Hole Positions Adjacent To Placed Domino");
+        Util.noop();
 
         return validPairs;
     }
@@ -326,18 +338,20 @@ public class GameUtils
     }
 
 
-    private static boolean checkForSingleTileHole(final ArrayList<Position> positions,
-                                                  final ArrayList<PlacedTile> placedTiles)
+    private static ArrayList<Position> getSingleTileHoles(final ArrayList<Position> positions,
+                                                          final ArrayList<PlacedTile> placedTiles)
     {
+        final ArrayList<Position> singleTileHolePositions = new ArrayList<>(4);
+
         for (final Position position : positions)
         {
             if (isSingleTileHole(position, placedTiles))
             {
-                return true;
+                singleTileHolePositions.add(position);
             }
         }
 
-        return false;
+        return singleTileHolePositions;
     }
 
 

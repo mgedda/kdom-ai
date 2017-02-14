@@ -1,5 +1,6 @@
 package kingdominoplayer.strategies;
 
+import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Planner;
@@ -104,6 +105,7 @@ public class LookAheadStrategy implements Strategy
         //
         final ArrayList<KingdomMovePair> possibleNewKingdoms = Planner.getPossibleNewKingdoms(kingdom, availableMoves);
 
+        //DebugPlot.plotKingdomsWithPlacedDominoMarked(possibleNewKingdoms, "Kingdoms With Placed Domino");
         Util.noop();
 
         // Remove all kingdoms that break the Middle Kingdom rule.
@@ -185,7 +187,7 @@ public class LookAheadStrategy implements Strategy
 
                 final Set<DominoPosition> dominoPositions = Planner.getValidPositions(chosenDomino, kingdom);
 
-                final ArrayList<KingdomDominoPositionPair> DEBUGkingdomWithPlacedChosenDominoPositons = new ArrayList<>(1000);
+                final ArrayList<KingdomDominoPositionPair> DEBUG_kingdomWithPlacedChosenDominoPositons = new ArrayList<>(1000);
 
                 for (final DominoPosition dominoPosition : dominoPositions)
                 {
@@ -195,11 +197,10 @@ public class LookAheadStrategy implements Strategy
 
                     kingdomsWithChosenDominoPlacedMovePair.add(kingdomWithChosenDominoPlacedMovePair);
 
-                    DEBUGkingdomWithPlacedChosenDominoPositons.add(new KingdomDominoPositionPair(kingdomWithChosenDominoPlaced, dominoPosition));
+                    DEBUG_kingdomWithPlacedChosenDominoPositons.add(new KingdomDominoPositionPair(kingdomWithChosenDominoPlaced, dominoPosition));
                 }
 
-                //DebugPlot.plotKingdomsWithDominoPositionMarked(DEBUGkingdomWithPlacedChosenDominoPositons, "Kingdoms with Chosen Domino Placed");
-
+                //DebugPlot.plotKingdomsWithDominoPositionMarked(DEBUG_kingdomWithPlacedChosenDominoPositons, "Kingdoms with Chosen Domino Placed");
                 Util.noop();
             }
         }
