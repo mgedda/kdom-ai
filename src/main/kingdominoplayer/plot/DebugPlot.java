@@ -129,7 +129,7 @@ public class DebugPlot
 
     public static void plotKingdomsWithPlacedDominoMarked(final ArrayList<KingdomMovePair> kingdomMovePairs, final String title)
     {
-        final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs = new ArrayList<>();
+        final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs = new ArrayList<>(kingdomMovePairs.size());
 
         for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
@@ -139,6 +139,12 @@ public class DebugPlot
 
             kingdomDominoPositionPairs.add(new KingdomDominoPositionPair(kingdom, dominoPosition));
         }
+
+        plotKingdomsWithDominoPositionMarked(kingdomDominoPositionPairs, title);
+    }
+
+    public static void plotKingdomsWithDominoPositionMarked(final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs, final String title)
+    {
         final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdomDominoPositionPairs);
 
         int counter = 0;
@@ -148,6 +154,7 @@ public class DebugPlot
             counter++;
         }
     }
+
 
     /*package*/ static ArrayList<GridImage> getGridImagesShowingKingdomsWithMarkedDominoes(final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs)
     {
