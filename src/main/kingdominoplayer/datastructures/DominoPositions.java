@@ -1,6 +1,6 @@
 package kingdominoplayer.datastructures;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -10,14 +10,14 @@ import java.util.ArrayList;
  */
 public class DominoPositions
 {
-    private final ArrayList<DominoPosition> iDominoPositions;
+    private final Collection<DominoPosition> iDominoPositions;
 
-    public DominoPositions(final ArrayList<DominoPosition> dominoPositions)
+    public DominoPositions(final Collection<DominoPosition> dominoPositions)
     {
         iDominoPositions = dominoPositions;
     }
 
-    public ArrayList<DominoPosition> getDominoPositions()
+    public Collection<DominoPosition> getDominoPositions()
     {
         return iDominoPositions;
     }

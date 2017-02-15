@@ -150,10 +150,10 @@ public class DebugPlot
 
         for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
-            final Kingdom kingdom = kingdomMovePair.getKingdom();
+            assert kingdomMovePair.isChosenPlaced() : "chosen domino has not been placed";
 
-            assert kingdomMovePair.getMove() instanceof MoveWithChosenPlaced : "Move must be instance of MoveWithChosenPlaced";
-            final DominoPosition dominoPosition = ((MoveWithChosenPlaced) kingdomMovePair.getMove()).getDominoPositionForChosen();
+            final Kingdom kingdom = kingdomMovePair.getKingdom();
+            final DominoPosition dominoPosition = kingdomMovePair.getChosenDominoPosition();
 
             kingdomDominoPositionPairs.add(new KingdomDominoPositionPair(kingdom, dominoPosition));
         }
@@ -176,7 +176,7 @@ public class DebugPlot
             dominoPositionsArray.add(new DominoPositions(dominoPositions));
         }
 
-        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdoms, dominoPositionsArray);
+        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithDominoesMarked(kingdoms, dominoPositionsArray);
 
         int counter = 0;
         for (GridImage gridImage : gridImages)
@@ -186,17 +186,17 @@ public class DebugPlot
         }
     }
 
-    public static void plotKingdomWithPositionsMarked(final Kingdom kingdom, final ArrayList<Position> singleTileHolePositions, final String title)
+    public static void plotWithPositionsMarked(final Kingdom kingdom, final Collection<Position> positions, final String title)
     {
         final ArrayList<Kingdom> kingdoms = new ArrayList<>(1);
         kingdoms.add(kingdom);
         final ArrayList<Positions> positionsArray = new ArrayList<>(1);
-        positionsArray.add(new Positions(singleTileHolePositions));
+        positionsArray.add(new Positions(positions));
 
-        plotKingdomsWithPositionsMarked(kingdoms, positionsArray, title);
+        plotWithPositionsMarked(kingdoms, positionsArray, title);
     }
 
-    public static void plotKingdomsWithPositionsMarked(final ArrayList<Kingdom> kingdoms, final Collection<Positions> positionsArray, final String title)
+    public static void plotWithPositionsMarked(final ArrayList<Kingdom> kingdoms, final Collection<Positions> positionsArray, final String title)
     {
         final ArrayList<DominoPositions> dominoPositionsArray = new ArrayList<>(positionsArray.size());
 
@@ -212,15 +212,15 @@ public class DebugPlot
             dominoPositionsArray.add(new DominoPositions(dominoPositions));
         }
 
-        plotKingdomsWithDominoPositionsMarked(kingdoms, dominoPositionsArray, title);
+        plotWithDominoPositionsMarked(kingdoms, dominoPositionsArray, title);
     }
 
 
-    public static void plotKingdomsWithDominoPositionsMarked(final ArrayList<Kingdom> kingdoms, final ArrayList<DominoPositions> dominoPositionsArray, final String title)
+    public static void plotWithDominoPositionsMarked(final ArrayList<Kingdom> kingdoms, final ArrayList<DominoPositions> dominoPositionsArray, final String title)
     {
         assert kingdoms.size() == dominoPositionsArray.size() : "pre: array size inconsistency";
 
-        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithMarkedDominoes(kingdoms, dominoPositionsArray);
+        final ArrayList<GridImage> gridImages = DebugPlot.getGridImagesShowingKingdomsWithDominoesMarked(kingdoms, dominoPositionsArray);
 
         int counter = 0;
         for (GridImage gridImage : gridImages)
@@ -230,7 +230,7 @@ public class DebugPlot
         }
     }
 
-    /*package*/ static ArrayList<GridImage> getGridImagesShowingKingdomsWithMarkedDominoes(final ArrayList<Kingdom> kingdoms, final ArrayList<DominoPositions> dominoPositionsArray)
+    /*package*/ static ArrayList<GridImage> getGridImagesShowingKingdomsWithDominoesMarked(final ArrayList<Kingdom> kingdoms, final ArrayList<DominoPositions> dominoPositionsArray)
     {
         assert kingdoms.size() == dominoPositionsArray.size() : "pre: array size inconsistency";
 

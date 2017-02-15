@@ -1,13 +1,11 @@
 package kingdominoplayer.strategies;
 
-import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Planner;
 import kingdominoplayer.utils.Util;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -25,6 +23,13 @@ public class LookAheadStrategy implements Strategy
 
 
         final Kingdom kingdom = new Kingdom(placedTiles);
+        final ArrayList<KingdomMovePair> kingdomMovePairs = new ArrayList<>(availableMoves.length);
+
+        for (final Move availableMove : availableMoves)
+        {
+            kingdomMovePairs.add(new KingdomMovePair(kingdom, availableMove));
+        }
+
 
         if (previousDraft.length == 0)
         {
@@ -60,35 +65,11 @@ public class LookAheadStrategy implements Strategy
             //
             if (placedTiles.length > 0)
             {
-                // We have dominoes placed in our kingdom. // TODO [gedda] IMPORTANT! : Evaluate placed + chosen together, not first placed then chosen!
-                //
-                final ArrayList<KingdomMovePair> maxScoringMoves = selectMovesWithBestPlacedDomino(availableMoves, kingdom);
+                final Move maxScoringKingdomMovePair = evaluateBestMoveFirstPlacedThenChosen(kingdomMovePairs);
+                //final Move maxScoringKingdomMovePair = evaluateBestMovePlacedAndChosenSimultaneously(availableMoves, kingdom);
 
-                //DebugPlot.plotKingdomsWithPlacedDominoMarked(maxScoringMoves, "Max Scoring Moves With Placed Marked");
-                Util.noop();
+                return maxScoringKingdomMovePair;
 
-
-                // Now we have chosen which domino(es) to place. The next step is to chose a good domino from the
-                // current draft.
-                //
-                final ArrayList<KingdomMovePair> maxScoringMovesWithChosenDominoPlaced = selectMoveWithBestChosenDomino(maxScoringMoves);
-
-                //DebugPlot.plotKingdomsWithChosenDominoMarked(maxScoringMovesWithChosenDominoPlaced, "Max Scoring Moves With Chosen Marked");
-                Util.noop();
-
-                if (maxScoringMovesWithChosenDominoPlaced.isEmpty())
-                {
-                    // TODO [gedda] IMPORTANT! : FIX THIS!!!!!
-                    return maxScoringMoves.get(0).getMove();
-                }
-
-                if (maxScoringMovesWithChosenDominoPlaced.size() > 1)
-                {
-                    // TODO [gedda] IMPORTANT! : Select move where the chosen domino placement has best neighbour match or is completely surrounded!!!
-
-                }
-
-                return maxScoringMovesWithChosenDominoPlaced.get(0).getMove();
             }
             else
             {
@@ -103,117 +84,91 @@ public class LookAheadStrategy implements Strategy
     }
 
 
-    private ArrayList<KingdomMovePair> selectMovesWithBestPlacedDomino(final Move[] availableMoves, final Kingdom kingdom)
+    private Move evaluateBestMoveFirstPlacedThenChosen(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    {
+        // We have dominoes placed in our kingdom. // TODO [gedda] IMPORTANT! : Evaluate placed + chosen together, not first placed then chosen!
+        //
+        final ArrayList<KingdomMovePair> maxScoringKingdomMovePairsWithPlacedDominoPlaced = getMaxScoringKingdomMovePairsWithPlacedDominoPlaced(kingdomMovePairs);
+
+        //DebugPlot.plotKingdomsWithPlacedDominoMarked(maxScoringKingdomMovePairsWithPlacedDominoPlaced, "Max Scoring Moves With Placed Marked");
+        Util.noop();
+
+
+        // Now we have chosen which domino(es) to place. The next step is to chose a good domino from the
+        // current draft.
+        //
+        final ArrayList<KingdomMovePair> maxScoringMovesWithBothPlacedAndChosenDominoPlaced = selectMoveWithBestChosenDomino(maxScoringKingdomMovePairsWithPlacedDominoPlaced);
+
+        //DebugPlot.plotKingdomsWithChosenDominoMarked(maxScoringMovesWithBothPlacedAndChosenDominoPlaced, "Max Scoring Moves With Chosen Marked");
+        Util.noop();
+
+        if (maxScoringMovesWithBothPlacedAndChosenDominoPlaced.isEmpty())
+        {
+            // TODO [gedda] IMPORTANT! : FIX THIS!!!!!
+            return maxScoringKingdomMovePairsWithPlacedDominoPlaced.get(0).getMove();
+        }
+
+        if (maxScoringMovesWithBothPlacedAndChosenDominoPlaced.size() > 1)
+        {
+            // TODO [gedda] IMPORTANT! : Select move where the chosen domino placement has best neighbour match or is completely surrounded!!!
+
+        }
+
+        return maxScoringMovesWithBothPlacedAndChosenDominoPlaced.get(0).getMove();
+    }
+
+
+    private ArrayList<KingdomMovePair> getMaxScoringKingdomMovePairsWithPlacedDominoPlaced(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
         // Look ahead one move and see what kingdoms we can produce.
         //
-        final ArrayList<KingdomMovePair> possibleNewKingdoms = Planner.getPossibleNewKingdoms(kingdom, availableMoves);
+        final ArrayList<KingdomMovePair> kingdomMovePairsWithPlacedDominoPlaced = Planner.getKingdomMovePairsWithPlacedDominoPlaced(kingdomMovePairs);
 
-        //DebugPlot.plotKingdomsWithPlacedDominoMarked(possibleNewKingdoms, "Kingdoms With Placed Domino");
-        Util.noop();
-
-        // Remove all kingdoms that break the Middle Kingdom rule.
-        //
-        ArrayList<KingdomMovePair> validKingdomMovePairs = GameUtils.removeMovesBreakingMiddleKingdomRule(possibleNewKingdoms);
-
-        if (validKingdomMovePairs.isEmpty())
+        //DebugPlot.plotKingdomsWithPlacedDominoMarked(kingdomMovePairsWithPlacedDominoPlaced, "Kingdoms With Placed Domino");
+        if (kingdomMovePairsWithPlacedDominoPlaced.isEmpty())
         {
-            // TODO [gedda] IMPORTANT! : FIX THIS!!!
-            validKingdomMovePairs = possibleNewKingdoms;
+            // TODO [gedda] IMPORTANT! : is this really what we want to do?
+            return kingdomMovePairs;
         }
-
-
-        // Remove all kingdoms that leave single-tile holes.
-        //
-        ArrayList<KingdomMovePair> nonHoleMakingKingdomMovePairs = GameUtils.removeMovesCreatingSingleTileHoles(validKingdomMovePairs);
-
-        if (nonHoleMakingKingdomMovePairs.isEmpty())
+        else
         {
-            // TODO [gedda] IMPORTANT! : FIX THIS!!!
-            nonHoleMakingKingdomMovePairs = validKingdomMovePairs;
-        }
+            // Remove all kingdoms that break the Middle Kingdom rule.
+            //
+            ArrayList<KingdomMovePair> validKingdomMovePairs = GameUtils.removeMovesBreakingMiddleKingdomRule(kingdomMovePairsWithPlacedDominoPlaced);
 
-
-        // See which moves have the maximum scores.
-        //
-        final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = getMaxScoringKingdomMovePairs(nonHoleMakingKingdomMovePairs);
-
-        return maxScoringKingdomMovePairs;
-    }
-
-    private ArrayList<KingdomMovePair> getMaxScoringKingdomMovePairs(final ArrayList<KingdomMovePair> kingdomMovePairs)
-    {
-        if (kingdomMovePairs.isEmpty())
-        {
-            return new ArrayList<>();
-        }
-
-        kingdomMovePairs.sort((KingdomMovePair kingdomMovePair1, KingdomMovePair kingdomMovePair2) ->
-        {
-            final int score1 = kingdomMovePair1.getKingdom().getScore();
-            final int score2 = kingdomMovePair2.getKingdom().getScore();
-            return score1 > score2 ? -1 : score1 == score2 ? 0 : 1;
-        });
-
-
-        int maxScore = kingdomMovePairs.get(0).getKingdom().getScore();
-
-        final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = new ArrayList<>(kingdomMovePairs.size());
-        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
-        {
-            if (kingdomMovePair.getKingdom().getScore() != maxScore)
+            if (validKingdomMovePairs.isEmpty())
             {
-                break;
+                // TODO [gedda] IMPORTANT! : FIX THIS!!!
+                validKingdomMovePairs = kingdomMovePairsWithPlacedDominoPlaced;
             }
-            maxScoringKingdomMovePairs.add(kingdomMovePair);
-        }
 
-        return maxScoringKingdomMovePairs;
+
+            // Remove all kingdoms that leave single-tile holes.
+            //
+            ArrayList<KingdomMovePair> kingdomMovePairsWithoutSingleTileHoles = GameUtils.removeKingdomMovePairsWithSingleTileHoles(validKingdomMovePairs);
+
+            if (kingdomMovePairsWithoutSingleTileHoles.isEmpty())
+            {
+                // TODO [gedda] IMPORTANT! : FIX THIS!!!
+                kingdomMovePairsWithoutSingleTileHoles = validKingdomMovePairs;
+            }
+
+
+            // See which moves have the maximum scores.
+            //
+            final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = Planner.getMaxScoringKingdomMovePairs(kingdomMovePairsWithoutSingleTileHoles);
+
+            return maxScoringKingdomMovePairs;
+        }
     }
 
 
     private ArrayList<KingdomMovePair> selectMoveWithBestChosenDomino(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
-        final ArrayList<KingdomMovePair> kingdomWithChosenDominoPlacedMovePairs = placeChosenDominoes(kingdomMovePairs);
-
-        final ArrayList<KingdomMovePair> maxScoringMovesWithChosenDominoPlaced = getMaxScoringKingdomMovePairs(kingdomWithChosenDominoPlacedMovePairs);
+        final ArrayList<KingdomMovePair> kingdomMovePairsWithChosenDominoPlaced = Planner.getKingdomMovePairsWithChosenDominoPlaced(kingdomMovePairs);
+        final ArrayList<KingdomMovePair> maxScoringMovesWithChosenDominoPlaced = Planner.getMaxScoringKingdomMovePairs(kingdomMovePairsWithChosenDominoPlaced);
 
         return maxScoringMovesWithChosenDominoPlaced;
     }
-
-
-    private ArrayList<KingdomMovePair> placeChosenDominoes(final ArrayList<KingdomMovePair> kingdomMovePairs)
-    {
-        final ArrayList<KingdomMovePair> kingdomsWithChosenDominoPlacedMovePair = new ArrayList<>(1000);
-
-        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
-        {
-            final Move move = kingdomMovePair.getMove();
-            final Domino chosenDomino = move.getChosenDomino();
-
-            if (chosenDomino != null)
-            {
-                final Kingdom kingdom = kingdomMovePair.getKingdom();
-
-                final Set<DominoPosition> dominoPositions = Planner.getValidPositions(chosenDomino, kingdom);
-
-                for (final DominoPosition dominoPosition : dominoPositions)
-                {
-                    final PlacedDomino chosenDominoPlaced = new PlacedDomino(chosenDomino, dominoPosition);
-                    final Kingdom kingdomWithChosenDominoPlaced = GameUtils.getKingdomWithDominoPlaced(kingdom, chosenDominoPlaced);
-
-                    final MoveWithChosenPlaced moveWithChosenPlaced = new MoveWithChosenPlaced(move.getNumber(), chosenDominoPlaced, move.getPlacedDomino());
-                    final KingdomMovePair kingdomWithChosenDominoPlacedMovePair = new KingdomMovePair(kingdomWithChosenDominoPlaced, moveWithChosenPlaced);
-
-                    kingdomsWithChosenDominoPlacedMovePair.add(kingdomWithChosenDominoPlacedMovePair);
-                }
-
-                //DebugPlot.plotKingdomsWithChosenDominoMarked(kingdomsWithChosenDominoPlacedMovePair, "Kingdoms with Chosen Domino Placed");
-                Util.noop();
-            }
-        }
-        return kingdomsWithChosenDominoPlacedMovePair;
-    }
-
 
 }

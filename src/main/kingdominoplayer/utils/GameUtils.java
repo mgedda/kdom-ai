@@ -6,9 +6,7 @@ import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Scorer;
 import kingdominoplayer.plot.DebugPlot;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -275,7 +273,7 @@ public class GameUtils
     }
 
 
-    public static ArrayList<KingdomMovePair> removeMovesCreatingSingleTileHoles(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    public static ArrayList<KingdomMovePair> removeKingdomMovePairsWithSingleTileHoles(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
         final ArrayList<KingdomMovePair> validPairs = new ArrayList<>(kingdomMovePairs.size());
 
@@ -284,30 +282,32 @@ public class GameUtils
 
         for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
-            final PlacedDomino placedDomino = kingdomMovePair.getMove().getPlacedDomino();
+            final Kingdom kingdom = kingdomMovePair.getKingdom();
+            final ArrayList<PlacedTile> placedTiles = ArrayUtils.toArrayList(kingdom.getPlacedTiles());
 
-            if (placedDomino != null)
+            final LinkedHashSet<Position> adjacentPositions = new LinkedHashSet<>(100);
+            for (final PlacedTile placedTile : placedTiles)
             {
-                final Kingdom kingdom = kingdomMovePair.getKingdom();
-                final ArrayList<PlacedTile> allPlacedTiles = ArrayUtils.toArrayList(kingdom.getPlacedTiles());
-                allPlacedTiles.addAll(placedDomino.getPlacedTiles());
-
-                final ArrayList<Position> adjacentPositions = getAdjacentPositions(placedDomino);
-
-                final ArrayList<Position> singleTileHolePositions = getSingleTileHoles(adjacentPositions, allPlacedTiles);
-
-                if (singleTileHolePositions.isEmpty())
-                {
-                    validPairs.add(kingdomMovePair);
-                }
-
-                DEBUG_kingdoms.add(kingdom);
-                DEBUG_positionsArray.add(new Positions(singleTileHolePositions));
+                final ArrayList<Position> positions = getAdjacentPositions(placedTile.getPosition());
+                adjacentPositions.addAll(positions);
             }
+            adjacentPositions.removeAll(kingdom.getPlacedTilePositions());
+
+            final ArrayList<Position> singleTileHolePositions = getSingleTileHoles(adjacentPositions, placedTiles);
+
+            if (singleTileHolePositions.isEmpty())
+            {
+                validPairs.add(kingdomMovePair);
+            }
+
+            DEBUG_kingdoms.add(kingdom);
+            DEBUG_positionsArray.add(new Positions(singleTileHolePositions));
+
+            Util.noop();
         }
 
 
-        //DebugPlot.plotKingdomsWithPositionsMarked(DEBUG_kingdoms, DEBUG_positionsArray, "Single Tile Hole Positions Adjacent To Placed Domino");
+        //DebugPlot.plotWithPositionsMarked(DEBUG_kingdoms, DEBUG_positionsArray, "Single Tile Hole Positions Adjacent To Placed Domino");
         Util.noop();
 
         return validPairs;
@@ -338,7 +338,7 @@ public class GameUtils
     }
 
 
-    private static ArrayList<Position> getSingleTileHoles(final ArrayList<Position> positions,
+    private static ArrayList<Position> getSingleTileHoles(final Collection<Position> positions,
                                                           final ArrayList<PlacedTile> placedTiles)
     {
         final ArrayList<Position> singleTileHolePositions = new ArrayList<>(4);

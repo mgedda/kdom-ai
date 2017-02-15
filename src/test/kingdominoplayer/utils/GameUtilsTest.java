@@ -6,8 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-
-import static org.testng.Assert.*;
+import java.util.Collection;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -111,7 +110,7 @@ public class GameUtilsTest
 
     private ArrayList<PlacedTile> getPlacedTiles(final int... rowColPairs)
     {
-        final ArrayList<Position> tilePositions = Positions.from(rowColPairs).getPositionArray();
+        final Collection<Position> tilePositions = Positions.from(rowColPairs).getPositionArray();
         final ArrayList<PlacedTile> placedTiles = new ArrayList<>(tilePositions.size());
 
         for (final Position tilePosition : tilePositions)
@@ -126,7 +125,7 @@ public class GameUtilsTest
     {
         final ArrayList<Position> positions = new ArrayList<>(1);
         positions.add(position);
-        DebugPlot.plotKingdomWithPositionsMarked(new Kingdom(placedTiles.toArray(new PlacedTile[placedTiles.size()])), positions, title);
+        DebugPlot.plotWithPositionsMarked(new Kingdom(placedTiles.toArray(new PlacedTile[placedTiles.size()])), positions, title);
     }
 
 }

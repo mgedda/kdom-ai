@@ -1,5 +1,9 @@
 package kingdominoplayer.datastructures;
 
+import kingdominoplayer.utils.ArrayUtils;
+
+import java.util.ArrayList;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -10,13 +14,55 @@ public class KingdomMovePair
 {
     private final Kingdom iKingdom;
     private final Move iMove;
+    private final boolean iIsPlacedDominoPlaced;
+    private final DominoPosition iChosenDominoPosition;
 
-    public KingdomMovePair(Kingdom kingdom, Move move)
+
+    public KingdomMovePair(final Kingdom kingdom, final Move move)
+    {
+        this(kingdom, move, false, null);
+    }
+
+    public KingdomMovePair withChosenDominoPlaced(final DominoPosition chosenDominoPosition)
+    {
+        assert iMove.getChosenDomino() != null : "There is no chosen domino to place";
+        assert ! isChosenPlaced() : "chosen domino is already placed";
+
+        final PlacedDomino chosenDomino = new PlacedDomino(iMove.getChosenDomino(), chosenDominoPosition);
+        final Kingdom kingdomWithChosenDominoPlaced = getKingdomWithDominoPlaced(chosenDomino);
+
+        return new KingdomMovePair(kingdomWithChosenDominoPlaced, iMove, iIsPlacedDominoPlaced, chosenDominoPosition);
+    }
+
+    public KingdomMovePair withPlacedDominoPlaced()
+    {
+        assert iMove.getPlacedDomino() != null : "There is no placed domino to place";
+        assert ! isPlacedDominoPlaced() : "placed domino is already placed";
+
+        final PlacedDomino placedDomino = iMove.getPlacedDomino();
+        final Kingdom kingdomWithPlacedDominoPlaced = getKingdomWithDominoPlaced(placedDomino);
+
+        return new KingdomMovePair(kingdomWithPlacedDominoPlaced, iMove, true, iChosenDominoPosition);
+    }
+
+    private Kingdom getKingdomWithDominoPlaced(final PlacedDomino placedDomino)
+    {
+        final ArrayList<PlacedTile> placedTiles = new ArrayList<>(iKingdom.getPlacedTiles().length + 2);
+        placedTiles.addAll(ArrayUtils.toArrayList(iKingdom.getPlacedTiles()));
+        placedTiles.addAll(placedDomino.getPlacedTiles());
+
+        final PlacedTile[] placedTilesArray = placedTiles.toArray(new PlacedTile[placedTiles.size()]);
+        return new Kingdom(placedTilesArray);
+    }
+
+    private KingdomMovePair(final Kingdom kingdom, final Move move, final boolean isPlacedDominoPlaced, final DominoPosition chosenDominoPosition)
     {
         iKingdom = kingdom;
-
         iMove = move;
+        iIsPlacedDominoPlaced = isPlacedDominoPlaced;
+        iChosenDominoPosition = chosenDominoPosition;
     }
+
 
     public Kingdom getKingdom()
     {
@@ -26,5 +72,27 @@ public class KingdomMovePair
     public Move getMove()
     {
         return iMove;
+    }
+
+    public boolean isPlacedDominoPlaced()
+    {
+        return iIsPlacedDominoPlaced;
+    }
+
+    public boolean isChosenPlaced()
+    {
+        return iChosenDominoPosition == null;
+    }
+
+    public DominoPosition getChosenDominoPosition()
+    {
+        assert isChosenPlaced() : "chosen domino is not placed";
+        return iChosenDominoPosition;
+    }
+
+    public DominoPosition getPlacedDominoPosition()
+    {
+        assert isPlacedDominoPlaced() : "chosen domino is not placed";
+        return iMove.getPlacedDomino().getDominoPosition();
     }
 }

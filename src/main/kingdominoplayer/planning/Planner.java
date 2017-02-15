@@ -5,6 +5,7 @@ import kingdominoplayer.plot.GameState;
 import kingdominoplayer.plot.KingdomInfo;
 import kingdominoplayer.utils.ArrayUtils;
 import kingdominoplayer.utils.GameUtils;
+import kingdominoplayer.utils.Util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -18,28 +19,81 @@ import java.util.Set;
  */
 public class Planner
 {
-    public static ArrayList<KingdomMovePair> getPossibleNewKingdoms(final Kingdom kingdom, final Move[] moves)
+    public static ArrayList<KingdomMovePair> getKingdomMovePairsWithPlacedDominoPlaced(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
-        final ArrayList<KingdomMovePair> possibleNewKingdoms = new ArrayList<>();
+        final ArrayList<KingdomMovePair> kingdomsWithPlacedDominoPlaced = new ArrayList<>(100);
 
-        for (final Move move : moves)
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
-            final PlacedDomino placedDomino = move.getPlacedDomino();
+            final PlacedDomino placedDomino = kingdomMovePair.getMove().getPlacedDomino();
 
-            if (placedDomino != null) // maybe we could not place the domino
+            if (placedDomino != null) // placed domino is not always available
             {
-                final Kingdom newKingdom = GameUtils.getKingdomWithDominoPlaced(kingdom, placedDomino);
-
-                possibleNewKingdoms.add(new KingdomMovePair(newKingdom, move));
-            }
-            else
-            {
-                possibleNewKingdoms.add(new KingdomMovePair(kingdom, move));
+                kingdomsWithPlacedDominoPlaced.add(kingdomMovePair.withPlacedDominoPlaced());
             }
         }
 
-        return possibleNewKingdoms;
+        return kingdomsWithPlacedDominoPlaced;
     }
+
+
+    public static ArrayList<KingdomMovePair> getKingdomMovePairsWithChosenDominoPlaced(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    {
+        final ArrayList<KingdomMovePair> kingdomMovePairsWithChosenDominoPlaced = new ArrayList<>(1000);
+
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
+        {
+            final Domino chosenDomino = kingdomMovePair.getMove().getChosenDomino();
+
+            if (chosenDomino != null)
+            {
+                final Kingdom kingdom = kingdomMovePair.getKingdom();
+                final Set<DominoPosition> dominoPositions = Planner.getValidPositions(chosenDomino, kingdom);
+
+                for (final DominoPosition dominoPosition : dominoPositions)
+                {
+                    final KingdomMovePair kingdomMovePairWithChosenDominoPlaced = kingdomMovePair.withChosenDominoPlaced(dominoPosition);
+                    kingdomMovePairsWithChosenDominoPlaced.add(kingdomMovePairWithChosenDominoPlaced);
+                }
+
+                //DebugPlot.plotKingdomsWithChosenDominoMarked(kingdomMovePairsWithChosenDominoPlaced, "Kingdoms with Chosen Domino Placed");
+                Util.noop();
+            }
+        }
+        return kingdomMovePairsWithChosenDominoPlaced;
+    }
+
+
+    public static ArrayList<KingdomMovePair> getMaxScoringKingdomMovePairs(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    {
+        if (kingdomMovePairs.isEmpty())
+        {
+            return new ArrayList<>();
+        }
+
+        kingdomMovePairs.sort((KingdomMovePair kingdomMovePair1, KingdomMovePair kingdomMovePair2) ->
+        {
+            final int score1 = kingdomMovePair1.getKingdom().getScore();
+            final int score2 = kingdomMovePair2.getKingdom().getScore();
+            return score1 > score2 ? -1 : score1 == score2 ? 0 : 1;
+        });
+
+
+        int maxScore = kingdomMovePairs.get(0).getKingdom().getScore();
+
+        final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = new ArrayList<>(kingdomMovePairs.size());
+        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
+        {
+            if (kingdomMovePair.getKingdom().getScore() != maxScore)
+            {
+                break;
+            }
+            maxScoringKingdomMovePairs.add(kingdomMovePair);
+        }
+
+        return maxScoringKingdomMovePairs;
+    }
+
 
     /**
      * Find all valid positions for domino in kingdom.
