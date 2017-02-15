@@ -164,7 +164,7 @@ public class Game
             System.exit(0);
         }
 
-        System.out.println("kingdominoplayer.Game finished!");
+        System.out.println("Game finished!");
     }
 
     private static class DEBUG

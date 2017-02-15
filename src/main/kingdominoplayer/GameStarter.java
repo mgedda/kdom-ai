@@ -51,7 +51,7 @@ public class GameStarter
 
         final Game game = new Game(uuid);
 
-        System.out.println("kingdominoplayer.Game started! UUID: " + game.getUUID());
+        System.out.println("Game started! UUID: " + game.getUUID());
 
         return game;
     }
