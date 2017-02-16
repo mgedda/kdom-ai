@@ -3,8 +3,6 @@ package kingdominoplayer.utils;
 import kingdominoplayer.GameResponseParser;
 import kingdominoplayer.Player;
 import kingdominoplayer.datastructures.*;
-import kingdominoplayer.planning.Scorer;
-import kingdominoplayer.plot.DebugPlot;
 
 import java.util.*;
 
@@ -113,18 +111,6 @@ public class GameUtils
         }
 
         return terrainsSorted.toArray(new String[terrainsSorted.size()]);
-    }
-
-    public static LinkedHashMap<KingdomMovePair, Integer> getKingdomScores(final ArrayList<KingdomMovePair> kingdomMovePairs)
-    {
-        final LinkedHashMap<KingdomMovePair, Integer> kingdomMovePairToScoreMap = new LinkedHashMap<>(100);  // magic number
-
-        for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
-        {
-            final int score = Scorer.computeScore(kingdomMovePair.getKingdom().getPlacedTiles());
-            kingdomMovePairToScoreMap.put(kingdomMovePair, score);
-        }
-        return kingdomMovePairToScoreMap;
     }
 
 
@@ -246,30 +232,34 @@ public class GameUtils
     }
 
 
-    public static ArrayList<KingdomMovePair> removeMovesBreakingMiddleKingdomRule(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    public static ArrayList<KingdomMovePair> removeKingdomMovePairsBreakingMiddleKingdomRule(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
-        final ArrayList<KingdomMovePair> validPairs = new ArrayList<>(kingdomMovePairs.size());
+        final ArrayList<KingdomMovePair> kingdomMovePairsFulfillingRule = new ArrayList<>(kingdomMovePairs.size());
 
         for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
-            final PlacedDomino placedDomino = kingdomMovePair.getMove().getPlacedDomino();
-
-            if (placedDomino != null)
+            boolean kingdomFulfilsRule = true;
+            for (final PlacedTile placedTile : kingdomMovePair.getKingdom().getPlacedTiles())
             {
-                final Position tile1Position = placedDomino.getTile1().getPosition();
-                final Position tile2Position = placedDomino.getTile2().getPosition();
+                final Position position = placedTile.getPosition();
 
-                final boolean isWithinBounds = Math.abs(tile1Position.getColumn()) < 3 && Math.abs(tile1Position.getRow()) < 3
-                        && Math.abs(tile2Position.getColumn()) < 3 && Math.abs(tile2Position.getRow()) < 3;
+                final boolean isWithinBounds = Math.abs(position.getColumn()) < 3 && Math.abs(position.getRow()) < 3;
 
-                if (isWithinBounds)
+                if (! isWithinBounds)
                 {
-                    validPairs.add(kingdomMovePair);
+                    kingdomFulfilsRule = false;
+                    break;
                 }
             }
+
+            if (kingdomFulfilsRule)
+            {
+                kingdomMovePairsFulfillingRule.add(kingdomMovePair);
+            }
+
         }
 
-        return validPairs;
+        return kingdomMovePairsFulfillingRule;
     }
 
 
@@ -313,29 +303,6 @@ public class GameUtils
         return validPairs;
     }
 
-
-    /**
-     * Add placedDomino to kingdom.
-     *
-     * @param kingdom
-     * @param placedDomino
-     * @return kingdom with placedDomino
-     */
-    public static Kingdom getKingdomWithDominoPlaced(final Kingdom kingdom, final PlacedDomino placedDomino)
-    {
-        final PlacedTile[] placedTiles = kingdom.getPlacedTiles();
-
-        final PlacedTile placedTile1 = placedDomino.getTile1();
-        final PlacedTile placedTile2 = placedDomino.getTile2();
-
-        final ArrayList<PlacedTile> totalPlacedTiles = new ArrayList<>(placedTiles.length + 2);
-
-        Collections.addAll(totalPlacedTiles, placedTiles);
-        totalPlacedTiles.add(placedTile1);
-        totalPlacedTiles.add(placedTile2);
-
-        return new Kingdom(totalPlacedTiles.toArray(new PlacedTile[totalPlacedTiles.size()]));
-    }
 
 
     private static ArrayList<Position> getSingleTileHoles(final Collection<Position> positions,
@@ -418,23 +385,6 @@ public class GameUtils
         return tilePositions.contains(position);
     }
 
-
-    public static ArrayList<Position> getAdjacentPositions(final PlacedDomino placedDomino)
-    {
-        final Position tile1Position = placedDomino.getTile1().getPosition();
-        final Position tile2Position = placedDomino.getTile2().getPosition();
-
-        final ArrayList<Position> tile1Adjacent = getAdjacentPositions(tile1Position);
-        final ArrayList<Position> tile2Adjacent = getAdjacentPositions(tile2Position);
-
-        final ArrayList<Position> allAdjacent = new ArrayList<>(8);
-        allAdjacent.addAll(tile1Adjacent);
-        allAdjacent.addAll(tile2Adjacent);
-        allAdjacent.remove(tile1Position);
-        allAdjacent.remove(tile2Position);
-
-        return allAdjacent;
-    }
 
     public static ArrayList<Position> getAdjacentPositions(final Position position)
     {
