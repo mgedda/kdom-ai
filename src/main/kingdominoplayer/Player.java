@@ -4,7 +4,7 @@ import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.planning.Planner;
-import kingdominoplayer.plot.GameState;
+import kingdominoplayer.planning.GameState;
 import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.strategies.*;
 import kingdominoplayer.utils.GameUtils;

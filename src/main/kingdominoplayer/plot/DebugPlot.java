@@ -2,6 +2,7 @@ package kingdominoplayer.plot;
 
 import kingdominoplayer.GameResponseParser;
 import kingdominoplayer.datastructures.*;
+import kingdominoplayer.planning.GameState;
 
 import java.util.ArrayList;
 import java.util.Collection;

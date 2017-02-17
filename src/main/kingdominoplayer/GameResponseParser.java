@@ -1,7 +1,7 @@
 package kingdominoplayer;
 
 import kingdominoplayer.datastructures.*;
-import kingdominoplayer.plot.GameState;
+import kingdominoplayer.planning.GameState;
 import kingdominoplayer.plot.KingdomInfo;
 import kingdominoplayer.utils.ArrayUtils;
 import org.json.JSONArray;

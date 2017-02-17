@@ -1,6 +1,7 @@
-package kingdominoplayer.plot;
+package kingdominoplayer.planning;
 
 import kingdominoplayer.datastructures.DraftElement;
+import kingdominoplayer.plot.KingdomInfo;
 
 import java.util.ArrayList;
 
