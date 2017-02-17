@@ -28,4 +28,33 @@ public class Tile
     {
         return iCrowns;
     }
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        final Tile tile = (Tile) o;
+
+        if (iCrowns != tile.iCrowns)
+        {
+            return false;
+        }
+        return iTerrain != null ? iTerrain.equals(tile.iTerrain) : tile.iTerrain == null;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = iTerrain != null ? iTerrain.hashCode() : 0;
+        result = 31 * result + iCrowns;
+        return result;
+    }
 }
