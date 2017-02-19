@@ -2,13 +2,12 @@ package kingdominoplayer;
 
 import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.gamecontents.GameContents;
-import kingdominoplayer.planning.ExtendedGameState;
-import kingdominoplayer.planning.GameState;
+import kingdominoplayer.datastructures.ExtendedGameState;
+import kingdominoplayer.datastructures.GameState;
 import kingdominoplayer.utils.Timing;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

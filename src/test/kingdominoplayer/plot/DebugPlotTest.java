@@ -5,7 +5,7 @@ import kingdominoplayer.datastructures.DominoPosition;
 import kingdominoplayer.datastructures.Kingdom;
 import kingdominoplayer.datastructures.KingdomDominoPositionPair;
 import kingdominoplayer.datastructures.Position;
-import kingdominoplayer.planning.GameState;
+import kingdominoplayer.datastructures.GameState;
 import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
 

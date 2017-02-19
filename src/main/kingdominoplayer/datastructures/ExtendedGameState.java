@@ -1,6 +1,5 @@
-package kingdominoplayer.planning;
+package kingdominoplayer.datastructures;
 
-import kingdominoplayer.datastructures.*;
 import kingdominoplayer.plot.KingdomInfo;
 import kingdominoplayer.utils.ArrayUtils;
 
