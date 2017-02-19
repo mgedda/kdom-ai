@@ -1,9 +1,9 @@
 package kingdominoplayer.planning;
 
-import kingdominoplayer.datastructures.DraftElement;
+import kingdominoplayer.datastructures.*;
 import kingdominoplayer.plot.KingdomInfo;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -13,12 +13,23 @@ import java.util.ArrayList;
  */
 public class GameState
 {
-    private final ArrayList<KingdomInfo> iKingdomInfos;
+    /**
+     * The kingdom for each player.
+     */
+    protected final ArrayList<KingdomInfo> iKingdomInfos;
 
-    private final ArrayList<DraftElement> iPreviousDraft;
-    private final ArrayList<DraftElement> iCurrentDraft;
+    /**
+     * The dominoes selected in the previous draft.
+     */
+    protected final ArrayList<DraftElement> iPreviousDraft;
 
-    private final boolean iIsGameOver;
+    /**
+     * The dominoes to choose from in the current draft.
+     */
+    protected final ArrayList<DraftElement> iCurrentDraft;
+
+    protected final boolean iIsGameOver;
+
 
     public GameState(final ArrayList<KingdomInfo> kingdomInfos,
                      final ArrayList<DraftElement> previousDraft,
@@ -49,5 +60,41 @@ public class GameState
     public boolean isGameOver()
     {
         return iIsGameOver;
+    }
+
+
+    public int getNumPlayers()
+    {
+        return iKingdomInfos.size();
+    }
+
+    protected int getDraftSize()
+    {
+        return getNumPlayers() == 3 ? 3 : 4;
+    }
+
+    public ArrayList<Domino> getDominoesInCurrentDraft()
+    {
+        final ArrayList<Domino> currentDraftDominoes = new ArrayList<>(getDraftSize());
+
+        for (final DraftElement draftElement : iCurrentDraft)
+        {
+            currentDraftDominoes.add(draftElement.getDomino());
+        }
+
+        return currentDraftDominoes;
+    }
+
+
+    public Map<String, Integer> getScores()
+    {
+        final LinkedHashMap<String, Integer> playerNameToScoreMap = new LinkedHashMap<>(getNumPlayers());
+
+        for (final KingdomInfo kingdomInfo : iKingdomInfos)
+        {
+            playerNameToScoreMap.put(kingdomInfo.getPlayerName(), kingdomInfo.getScore());
+        }
+
+        return playerNameToScoreMap;
     }
 }

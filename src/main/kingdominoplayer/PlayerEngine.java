@@ -1,8 +1,16 @@
 package kingdominoplayer;
 
+import kingdominoplayer.datastructures.Domino;
+import kingdominoplayer.gamecontents.GameContents;
+import kingdominoplayer.planning.ExtendedGameState;
+import kingdominoplayer.planning.GameState;
 import kingdominoplayer.utils.Timing;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 /**
@@ -55,9 +63,31 @@ public class PlayerEngine
 
         game.waitForPlayersToJoin(TIMEOUT_MINUTES);
 
+        final ExtendedGameState gameState = initGameState(game);
+
         makeMoves(game, player);
 
         System.out.println("kingdominoplayer.Player " + player.getName() + " leaving (game finished).");
+    }
+
+
+    private static ExtendedGameState initGameState(final Game game)
+    {
+        final String gameStateString = CommunicationsHandler.getGameState(game);
+        final GameState gameState = GameResponseParser.getGameStateObject(gameStateString);
+
+        final Set<Domino> drawPile = GameContents.getDominoes();
+        final ArrayList<Domino> dominoesInCurrentDraft = gameState.getDominoesInCurrentDraft();
+        drawPile.removeAll(dominoesInCurrentDraft);
+
+        return new ExtendedGameState(
+                gameState.getKingdomInfos(),
+                gameState.getPreviousDraft(),
+                gameState.getCurrentDraft(),
+                gameState.isGameOver(),
+                drawPile,
+                new LinkedHashSet<>(drawPile.size()),
+                false);
     }
 
 
