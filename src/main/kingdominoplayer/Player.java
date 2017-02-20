@@ -4,11 +4,8 @@ import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Planner;
 import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.strategies.*;
-import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.utils.Util;
 
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -73,9 +70,7 @@ public class Player
 
         // Show state before move
         //
-        //DEBUG.plotGameState(iDebugEnabled, serverGameState, "Before Move " + Integer.toString(iMovesMade + 1));
         DEBUG.plotGameState(iDebugEnabled, localGameState, "Before Move (extendedState) " + Integer.toString(iMovesMade + 1));
-        //System.out.println(serverGameState);
         Util.noop();
 
         final Move move = pickAMove(localGameState, availableMoves);
@@ -84,8 +79,6 @@ public class Player
 
         // Show state after move
         //
-        // // TODO [gedda] IMPORTANT! : THIS HAS BUGS, NOT SHOWING CORRECTLY
-        //DEBUG.plotGameStateAfterMove(iDebugEnabled, serverGameState, move, iName, "After Move " + Integer.toString(iMovesMade + 1));
         DEBUG.plotGameState(iDebugEnabled, localGameStateAfterMove, "After Move (extendedState) " + Integer.toString(iMovesMade + 1));
         Util.noop();
 
@@ -99,36 +92,32 @@ public class Player
 
     private Move pickAMove(final LocalGameState gameState, final Move[] availableMoves)
     {
-        final Collection<PlacedTile> placedTiles = gameState.getPlacedTiles(getName());
-        final Collection<Domino> previousDraft = gameState.getPreviousDraft(getName());
-        final Collection<Domino> currentDraft = gameState.getCurrentDraft(getName());
-
         Move move = availableMoves[0];
 
         switch (iStrategy)
         {
             case FIRST:
-                move = new FirstStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
+                move = new FirstStrategy().selectMove(iName, availableMoves, gameState);
                 break;
 
             case RANDOM:
-                move = new RandomStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
+                move = new RandomStrategy().selectMove(iName, availableMoves, gameState);
                 break;
 
             case MOST_CROWNS:
-                move = new MostCrownsStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
+                move = new MostCrownsStrategy().selectMove(iName, availableMoves, gameState);
                 break;
 
             case WATER:
-                move = new WaterStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
+                move = new WaterStrategy().selectMove(iName, availableMoves, gameState);
                 break;
 
             case EXPAND:
-                move = new ExpandStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
+                move = new ExpandStrategy().selectMove(iName, availableMoves, gameState);
                 break;
 
             case LOOK_AHEAD:
-                move = new LookAheadStrategy().selectMove(availableMoves, previousDraft, currentDraft, placedTiles);
+                move = new LookAheadStrategy().selectMove(iName, availableMoves, gameState);
                 break;
 
             default:

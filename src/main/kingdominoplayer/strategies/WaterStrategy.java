@@ -1,6 +1,7 @@
 package kingdominoplayer.strategies;
 
 import kingdominoplayer.datastructures.Domino;
+import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 
@@ -15,10 +16,7 @@ import java.util.Collection;
 public class WaterStrategy implements Strategy
 {
     @Override
-    public Move selectMove(final Move[] availableMoves,
-                           final Collection<Domino> previousDraft,
-                           final Collection<Domino> currentDraft,
-                           final Collection<PlacedTile> placedTiles)
+    public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
         Move maxWatersMove = availableMoves[0];
 

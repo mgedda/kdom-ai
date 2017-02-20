@@ -1,10 +1,7 @@
 package kingdominoplayer.strategies;
 
-import kingdominoplayer.datastructures.Domino;
+import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
-import kingdominoplayer.datastructures.PlacedTile;
-
-import java.util.Collection;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -14,5 +11,5 @@ import java.util.Collection;
  */
 public interface Strategy
 {
-    Move selectMove(Move[] availableMoves, Collection<Domino> previousDraft, Collection<Domino> currentDraft, Collection<PlacedTile> placedTiles);
+    Move selectMove(String playerName, Move[] availableMoves, LocalGameState gameState);
 }

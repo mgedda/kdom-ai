@@ -16,11 +16,13 @@ import java.util.Collection;
 public class LookAheadStrategy implements Strategy
 {
     @Override
-    public Move selectMove(final Move[] availableMoves,
-                           final Collection<Domino> previousDraft,
-                           final Collection<Domino> currentDraft,
-                           final Collection<PlacedTile> placedTiles)
+    public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
+        final Collection<PlacedTile> placedTiles = gameState.getPlacedTiles(playerName);
+        final Collection<Domino> previousDraft = gameState.getPreviousDraft(playerName);
+        final Collection<Domino> currentDraft = gameState.getCurrentDraft(playerName);
+
+
         // TODO [gedda] IMPORTANT! : Select dominoes that have double match, i.e. which can be placed so both tiles match adjacent terrains.
 
         final Kingdom kingdom = new Kingdom(placedTiles);

@@ -1,5 +1,6 @@
 package kingdominoplayer.strategies;
 
+import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.Move;
@@ -16,15 +17,13 @@ import java.util.Collection;
 public class ExpandStrategy implements Strategy
 {
     @Override
-    public Move selectMove(final Move[] availableMoves,
-                           final Collection<Domino> previousDraft,
-                           final Collection<Domino> currentDraft,
-                           final Collection<PlacedTile> placedTiles)
+    public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
         Move expandMove = availableMoves[0];
 
         // Choose move that picks domino with terrain that we already have most of.
         //
+        final Collection<PlacedTile> placedTiles = gameState.getPlacedTiles(playerName);
         final String[] terrainsSorted = GameUtils.getTerrainsSortedBasedOnNumberOfTilesUseCrownsAsDealBreaker(placedTiles);
 
         for (final String terrain : terrainsSorted)
