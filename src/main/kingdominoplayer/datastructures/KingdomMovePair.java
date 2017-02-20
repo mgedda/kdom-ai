@@ -47,12 +47,11 @@ public class KingdomMovePair
 
     private Kingdom getKingdomWithDominoPlaced(final PlacedDomino placedDomino)
     {
-        final ArrayList<PlacedTile> placedTiles = new ArrayList<>(iKingdom.getPlacedTiles().length + 2);
-        placedTiles.addAll(ArrayUtils.toArrayList(iKingdom.getPlacedTiles()));
+        final ArrayList<PlacedTile> placedTiles = new ArrayList<>(iKingdom.getPlacedTiles().size() + 2);
+        placedTiles.addAll(iKingdom.getPlacedTiles());
         placedTiles.addAll(placedDomino.getPlacedTiles());
 
-        final PlacedTile[] placedTilesArray = placedTiles.toArray(new PlacedTile[placedTiles.size()]);
-        return new Kingdom(placedTilesArray);
+        return new Kingdom(placedTiles);
     }
 
     private KingdomMovePair(final Kingdom kingdom, final Move move, final boolean isPlacedDominoPlaced, final DominoPosition chosenDominoPosition)

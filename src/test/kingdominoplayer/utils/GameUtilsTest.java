@@ -125,7 +125,7 @@ public class GameUtilsTest
     {
         final ArrayList<Position> positions = new ArrayList<>(1);
         positions.add(position);
-        DebugPlot.plotWithPositionsMarked(new Kingdom(placedTiles.toArray(new PlacedTile[placedTiles.size()])), positions, title);
+        DebugPlot.plotWithPositionsMarked(new Kingdom(placedTiles), positions, title);
     }
 
 }

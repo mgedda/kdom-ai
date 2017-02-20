@@ -66,10 +66,11 @@ public class LocalGameState extends GameState
             {
                 if (kingdomInfo.getPlayerName().equals(playerName))
                 {
-                    final ArrayList<PlacedTile> placedTiles = ArrayUtils.toArrayList(kingdomInfo.getKingdom().getPlacedTiles());
+                    final ArrayList<PlacedTile> placedTiles = new ArrayList<>(kingdomInfo.getKingdom().getPlacedTiles().size() + 2);
+                    placedTiles.addAll(kingdomInfo.getKingdom().getPlacedTiles());
                     placedTiles.addAll(placedDomino.getPlacedTiles());
 
-                    final Kingdom kingdomWithDominoPlaced = new Kingdom(placedTiles.toArray(new PlacedTile[placedTiles.size()]));
+                    final Kingdom kingdomWithDominoPlaced = new Kingdom(placedTiles);
                     final KingdomInfo updatedKingdomInfo = new KingdomInfo(kingdomWithDominoPlaced, playerName);
 
                     kingdomInfos.add(updatedKingdomInfo);

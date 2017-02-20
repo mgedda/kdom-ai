@@ -284,7 +284,7 @@ public class ServerResponseParser
         for (final String playerName : playerNames)
         {
             final PlacedTile[] placedTiles = ServerResponseParser.getPlayerPlacedTiles(gameState, playerName);
-            kingdomInfos.add(new KingdomInfo(new Kingdom(placedTiles), playerName));
+            kingdomInfos.add(new KingdomInfo(new Kingdom(ArrayUtils.toArrayList(placedTiles)), playerName));
         }
 
         final ArrayList<DraftElement> previousDraft = ArrayUtils.toArrayList(ServerResponseParser.getPreviousDraft(gameState));

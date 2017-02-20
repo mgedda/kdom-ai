@@ -5,6 +5,7 @@ import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Planner;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -15,7 +16,10 @@ import java.util.ArrayList;
 public class LookAheadStrategy implements Strategy
 {
     @Override
-    public Move selectMove(final Move[] availableMoves, final Domino[] previousDraft, final Domino[] currentDraft, final PlacedTile[] placedTiles)
+    public Move selectMove(final Move[] availableMoves,
+                           final Collection<Domino> previousDraft,
+                           final Collection<Domino> currentDraft,
+                           final Collection<PlacedTile> placedTiles)
     {
         // TODO [gedda] IMPORTANT! : Select dominoes that have double match, i.e. which can be placed so both tiles match adjacent terrains.
 
@@ -28,13 +32,13 @@ public class LookAheadStrategy implements Strategy
         }
 
 
-        if (previousDraft.length == 0)
+        if (previousDraft.isEmpty())
         {
             // No domino to place. Only select from current draft.
 
             // See if we have selected one before (possible in 2-player game).
             //
-            if (currentDraft.length > 0)
+            if (! currentDraft.isEmpty())
             {
                 // Domino has been selected. Try to select next domino to match.
                 //
@@ -60,7 +64,7 @@ public class LookAheadStrategy implements Strategy
 
             // See if we have already placed some dominoes.
             //
-            if (placedTiles.length > 0)
+            if (! placedTiles.isEmpty())
             {
                 // We have dominoes placed in our kingdom.
                 //

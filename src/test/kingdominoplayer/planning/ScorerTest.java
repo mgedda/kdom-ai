@@ -1,11 +1,15 @@
 package kingdominoplayer.planning;
 
+import com.sun.deploy.util.ArrayUtil;
 import kingdominoplayer.ServerResponseParser;
+import kingdominoplayer.utils.ArrayUtils;
 import kingdominoplayer.utils.Util;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.plot.DebugPlot;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -23,8 +27,8 @@ public class ScorerTest
 
         DebugPlot.plotGameState(gameState, "TestRendering");
 
-        final PlacedTile[] placedTilesRandomCalrissian = ServerResponseParser.getPlayerPlacedTiles(gameState, "RandomCalrissian");
-        final PlacedTile[] placedTilesDarthCrusader = ServerResponseParser.getPlayerPlacedTiles(gameState, "DarthCrusader");
+        final ArrayList<PlacedTile> placedTilesRandomCalrissian = ArrayUtils.toArrayList(ServerResponseParser.getPlayerPlacedTiles(gameState, "RandomCalrissian"));
+        final ArrayList<PlacedTile> placedTilesDarthCrusader = ArrayUtils.toArrayList(ServerResponseParser.getPlayerPlacedTiles(gameState, "DarthCrusader"));
 
         final int scoreRandomCalrissian = Scorer.computeScore(placedTilesRandomCalrissian);
         final int scoreDarthCrusader = Scorer.computeScore(placedTilesDarthCrusader);

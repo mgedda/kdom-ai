@@ -4,6 +4,7 @@ import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 
+import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -15,7 +16,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RandomStrategy implements Strategy
 {
     @Override
-    public Move selectMove(final Move[] availableMoves, final Domino[] previousDraft, final Domino[] currentDraft, final PlacedTile[] placedTiles)
+    public Move selectMove(final Move[] availableMoves,
+                           final Collection<Domino> previousDraft,
+                           final Collection<Domino> currentDraft,
+                           final Collection<PlacedTile> placedTiles)
     {
         final int numMoves = availableMoves.length;
         final int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);

@@ -4,6 +4,8 @@ import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 
+import java.util.Collection;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -12,5 +14,5 @@ import kingdominoplayer.datastructures.PlacedTile;
  */
 public interface Strategy
 {
-    Move selectMove(Move[] availableMoves, Domino[] previousDraft, Domino[] currentDraft, PlacedTile[] placedTiles);
+    Move selectMove(Move[] availableMoves, Collection<Domino> previousDraft, Collection<Domino> currentDraft, Collection<PlacedTile> placedTiles);
 }

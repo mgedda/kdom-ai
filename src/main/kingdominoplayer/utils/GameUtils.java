@@ -38,7 +38,7 @@ public class GameUtils
     }
 
 
-    public static PlacedTile getTileAtPosition(final Position position, final PlacedTile[] placedTiles)
+    public static PlacedTile getTileAtPosition(final Position position, final Collection<PlacedTile> placedTiles)
     {
         for (final PlacedTile placedTile : placedTiles)
         {
@@ -52,7 +52,7 @@ public class GameUtils
     }
 
 
-    public static LinkedHashMap<String, Tile[]> getTerrainToTilesMap(final Tile[] tiles)
+    public static LinkedHashMap<String, Tile[]> getTerrainToTilesMap(final Collection<? extends Tile> tiles)
     {
         final LinkedHashMap<String, Tile[]> terrainToNumPlacedTilesMap = new LinkedHashMap<>(GameUtils.getTerrains().length);
         for (final Tile placedTile : tiles)
@@ -73,9 +73,9 @@ public class GameUtils
 
 
 
-    public static String[] getTerrainsSortedBasedOnNumberOfTilesUseCrownsAsDealBreaker(final Tile[] tiles)
+    public static String[] getTerrainsSortedBasedOnNumberOfTilesUseCrownsAsDealBreaker(final Collection<? extends Tile> tiles)
     {
-        if (tiles.length == 0)
+        if (tiles.isEmpty())
         {
             return new String[0];
         }
@@ -273,7 +273,7 @@ public class GameUtils
         for (final KingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
             final Kingdom kingdom = kingdomMovePair.getKingdom();
-            final ArrayList<PlacedTile> placedTiles = ArrayUtils.toArrayList(kingdom.getPlacedTiles());
+            final Collection<PlacedTile> placedTiles = kingdom.getPlacedTiles();
 
             final LinkedHashSet<Position> adjacentPositions = new LinkedHashSet<>(100);
             for (final PlacedTile placedTile : placedTiles)
@@ -306,7 +306,7 @@ public class GameUtils
 
 
     private static ArrayList<Position> getSingleTileHoles(final Collection<Position> positions,
-                                                          final ArrayList<PlacedTile> placedTiles)
+                                                          final Collection<PlacedTile> placedTiles)
     {
         final ArrayList<Position> singleTileHolePositions = new ArrayList<>(4);
 
@@ -322,7 +322,7 @@ public class GameUtils
     }
 
 
-    public static boolean isSingleTileHole(final Position position, final ArrayList<PlacedTile> placedTiles)
+    public static boolean isSingleTileHole(final Position position, final Collection<PlacedTile> placedTiles)
     {
         final boolean isPositionOutsideCastleCenteredKingdom = Math.abs(position.getColumn()) > 2 || Math.abs(position.getRow()) > 2;
         if (isPositionOutsideCastleCenteredKingdom)
@@ -375,7 +375,7 @@ public class GameUtils
     }
 
 
-    private static boolean isTilePosition(final Position position, final ArrayList<PlacedTile> placedTiles)
+    private static boolean isTilePosition(final Position position, final Collection<PlacedTile> placedTiles)
     {
         final ArrayList<Position> tilePositions = new ArrayList<>(placedTiles.size());
         for (final PlacedTile placedTile : placedTiles)

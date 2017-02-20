@@ -6,6 +6,7 @@ import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -16,7 +17,10 @@ import java.util.ArrayList;
 public class MostCrownsStrategy implements Strategy
 {
     @Override
-    public Move selectMove(final Move[] availableMoves, final Domino[] previousDraft, final Domino[] currentDraft, final PlacedTile[] placedTiles)
+    public Move selectMove(final Move[] availableMoves,
+                           final Collection<Domino> previousDraft,
+                           final Collection<Domino> currentDraft,
+                           final Collection<PlacedTile> placedTiles)
     {
         final ArrayList<Move> maxCrownsMoves = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
 

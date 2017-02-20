@@ -7,6 +7,9 @@ import kingdominoplayer.strategies.*;
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.utils.Util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -65,8 +68,6 @@ public class Player
     {
         OUTPUT.printMakingAMove(this);
 
-        final String serverGameState = game.getGameState();
-
         final Move[] availableMoves = game.getAvailableMoves();
         assert availableMoves.length > 0 : "no moves to choose from";
 
@@ -77,7 +78,7 @@ public class Player
         //System.out.println(serverGameState);
         Util.noop();
 
-        final Move move = pickAMove(serverGameState, availableMoves);
+        final Move move = pickAMove(localGameState, availableMoves);
 
         final LocalGameState localGameStateAfterMove = localGameState.makeMove(iName, move);
 
@@ -96,11 +97,11 @@ public class Player
     }
 
 
-    private Move pickAMove(final String gameState, final Move[] availableMoves)
+    private Move pickAMove(final LocalGameState gameState, final Move[] availableMoves)
     {
-        final PlacedTile[] placedTiles = GameUtils.getPlacedTiles(this, gameState);
-        final Domino[] previousDraft = GameUtils.getPreviousDraft(this, gameState);
-        final Domino[] currentDraft = GameUtils.getCurrentDraft(this, gameState);
+        final Collection<PlacedTile> placedTiles = gameState.getPlacedTiles(getName());
+        final Collection<Domino> previousDraft = gameState.getPreviousDraft(getName());
+        final Collection<Domino> currentDraft = gameState.getCurrentDraft(getName());
 
         Move move = availableMoves[0];
 

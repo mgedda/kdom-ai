@@ -3,6 +3,7 @@ package kingdominoplayer.datastructures;
 
 import kingdominoplayer.planning.Scorer;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 
 /**
@@ -13,22 +14,22 @@ import java.util.LinkedHashSet;
  */
 public class Kingdom
 {
-    private final PlacedTile[] iPlacedTiles;
+    private final Collection<PlacedTile> iPlacedTiles;
     private Integer iScore = null;   // cached score
 
-    public Kingdom(final PlacedTile[] placedTiles)
+    public Kingdom(final Collection<PlacedTile> placedTiles)
     {
         iPlacedTiles = placedTiles;
     }
 
-    public PlacedTile[] getPlacedTiles()
+    public Collection<PlacedTile> getPlacedTiles()
     {
         return iPlacedTiles;
     }
 
     public LinkedHashSet<Position> getPlacedTilePositions()
     {
-        final LinkedHashSet<Position> positions = new LinkedHashSet<>(iPlacedTiles.length);
+        final LinkedHashSet<Position> positions = new LinkedHashSet<>(iPlacedTiles.size());
 
         for (final PlacedTile placedTile : iPlacedTiles)
         {

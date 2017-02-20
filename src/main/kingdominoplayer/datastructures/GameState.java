@@ -97,4 +97,48 @@ public class GameState
 
         return playerNameToScoreMap;
     }
+
+    public Collection<PlacedTile> getPlacedTiles(final String name)
+    {
+        for (final KingdomInfo kingdomInfo : iKingdomInfos)
+        {
+            if (kingdomInfo.getPlayerName().equals(name))
+            {
+                return kingdomInfo.getKingdom().getPlacedTiles();
+            }
+        }
+
+        assert false : "Player '" + name + "' not found!";
+        return null;
+    }
+
+    public Collection<Domino> getPreviousDraft(final String name)
+    {
+        final ArrayList<Domino> previousDraft = new ArrayList<>(2);
+
+        for (final DraftElement draftElement : iPreviousDraft)
+        {
+            if (draftElement.getPlayerName() != null && draftElement.getPlayerName().equals(name))
+            {
+                previousDraft.add(draftElement.getDomino());
+            }
+        }
+
+        return previousDraft;
+    }
+
+    public Collection<Domino> getCurrentDraft(final String name)
+    {
+        final ArrayList<Domino> currentDraft = new ArrayList<>(2);
+
+        for (final DraftElement draftElement : iCurrentDraft)
+        {
+            if (draftElement.getPlayerName() != null && draftElement.getPlayerName().equals(name))
+            {
+                currentDraft.add(draftElement.getDomino());
+            }
+        }
+
+        return currentDraft;
+    }
 }

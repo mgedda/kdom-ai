@@ -5,6 +5,8 @@ import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.datastructures.PlacedTile;
 
+import java.util.Collection;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -14,7 +16,10 @@ import kingdominoplayer.datastructures.PlacedTile;
 public class ExpandStrategy implements Strategy
 {
     @Override
-    public Move selectMove(final Move[] availableMoves, final Domino[] previousDraft, final Domino[] currentDraft, final PlacedTile[] placedTiles)
+    public Move selectMove(final Move[] availableMoves,
+                           final Collection<Domino> previousDraft,
+                           final Collection<Domino> currentDraft,
+                           final Collection<PlacedTile> placedTiles)
     {
         Move expandMove = availableMoves[0];
 
@@ -35,4 +40,5 @@ public class ExpandStrategy implements Strategy
 
         return expandMove;
     }
+
 }

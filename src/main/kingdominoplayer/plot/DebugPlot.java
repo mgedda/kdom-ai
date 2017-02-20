@@ -311,7 +311,7 @@ public class DebugPlot
 
         // Draw kingdom tiles for player.
         //
-        final PlacedTile[] placedTiles = kingdom.getPlacedTiles();
+        final Collection<PlacedTile> placedTiles = kingdom.getPlacedTiles();
         gridImage.drawTile(castlePosition, TileType.CASTLE);
         for (final PlacedTile placedTile : placedTiles)
         {

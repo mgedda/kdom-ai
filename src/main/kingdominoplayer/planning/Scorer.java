@@ -5,6 +5,7 @@ import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.datastructures.Position;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import java.util.Set;
 public class Scorer
 {
     @SuppressWarnings("UnnecessaryLocalVariable")
-    public static int computeScore(final PlacedTile[] placedTiles)
+    public static int computeScore(final Collection<PlacedTile> placedTiles)
     {
         // Compute connected components score.
         //
@@ -34,13 +35,13 @@ public class Scorer
     }
 
 
-    private static int getHarmonyScore(final PlacedTile[] placedTiles)
+    private static int getHarmonyScore(final Collection<PlacedTile> placedTiles)
     {
-        return placedTiles.length == 25 ? 5 : 0;
+        return placedTiles.size() == 25 ? 5 : 0;
     }
 
 
-    private static int getMiddleKingdomScore(final PlacedTile[] placedTiles)
+    private static int getMiddleKingdomScore(final Collection<PlacedTile> placedTiles)
     {
         for (final PlacedTile placedTile : placedTiles)
         {
@@ -59,9 +60,9 @@ public class Scorer
     }
 
 
-    private static int getConnectedComponentsScore(PlacedTile[] placedTiles)
+    private static int getConnectedComponentsScore(final Collection <PlacedTile> placedTiles)
     {
-        final LinkedHashSet<PlacedTile> tilesScored = new LinkedHashSet<>(placedTiles.length);
+        final LinkedHashSet<PlacedTile> tilesScored = new LinkedHashSet<>(placedTiles.size());
 
         int connectedComponentsScore = 0;
 
@@ -138,7 +139,7 @@ public class Scorer
 
     private static void getConnectedTerrainTilesRecursively(final String terrain,
                                                             final Position position,
-                                                            final PlacedTile[] placedTiles,
+                                                            final Collection<PlacedTile> placedTiles,
                                                             /* UPDATED */ final ArrayList<PlacedTile> connectedTerrainTiles,
                                                             /* UPDATED */ final ArrayList<PlacedTile> visitedTiles)
     {

@@ -251,10 +251,11 @@ public class Planner
             {
                 if (kingdomInfo.getPlayerName().equals(playerName))
                 {
-                    final ArrayList<PlacedTile> placedTiles = ArrayUtils.toArrayList(kingdomInfo.getKingdom().getPlacedTiles());
+                    final ArrayList<PlacedTile> placedTiles = new ArrayList<>(kingdomInfo.getKingdom().getPlacedTiles().size() + 1);
+                    placedTiles.addAll(kingdomInfo.getKingdom().getPlacedTiles());
                     placedTiles.addAll(placedDomino.getPlacedTiles());
 
-                    final Kingdom updatedKingdom = new Kingdom(placedTiles.toArray(new PlacedTile[placedTiles.size()]));
+                    final Kingdom updatedKingdom = new Kingdom(placedTiles);
                     updatedKingdomInfos.add(new KingdomInfo(updatedKingdom, playerName));
                 }
                 else
