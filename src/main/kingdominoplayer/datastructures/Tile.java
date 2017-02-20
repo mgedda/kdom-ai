@@ -57,4 +57,13 @@ public class Tile
         result = 31 * result + iCrowns;
         return result;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Tile{" +
+                "iTerrain='" + iTerrain + '\'' +
+                ", iCrowns=" + iCrowns +
+                '}';
+    }
 }

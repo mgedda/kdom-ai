@@ -1,14 +1,9 @@
 package kingdominoplayer;
 
-import kingdominoplayer.datastructures.Domino;
-import kingdominoplayer.gamecontents.GameContents;
-import kingdominoplayer.datastructures.ExtendedGameState;
-import kingdominoplayer.datastructures.GameState;
+import kingdominoplayer.datastructures.*;
 import kingdominoplayer.utils.Timing;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -62,32 +57,12 @@ public class PlayerEngine
 
         game.waitForPlayersToJoin(TIMEOUT_MINUTES);
 
-        final ExtendedGameState gameState = initGameState(game);
-
         makeMoves(game, player);
 
-        System.out.println("kingdominoplayer.Player " + player.getName() + " leaving (game finished).");
+        System.out.println("Player " + player.getName() + " leaving (game finished).");
     }
 
 
-    private static ExtendedGameState initGameState(final Game game)
-    {
-        final String gameStateString = CommunicationsHandler.getGameState(game);
-        final GameState gameState = GameResponseParser.getGameStateObject(gameStateString);
-
-        final Set<Domino> drawPile = GameContents.getDominoes();
-        final ArrayList<Domino> dominoesInCurrentDraft = gameState.getDominoesInCurrentDraft();
-        drawPile.removeAll(dominoesInCurrentDraft);
-
-        return new ExtendedGameState(
-                gameState.getKingdomInfos(),
-                gameState.getPreviousDraft(),
-                gameState.getCurrentDraft(),
-                gameState.isGameOver(),
-                drawPile,
-                new LinkedHashSet<>(drawPile.size()),
-                false);
-    }
 
 
     private static void makeMoves(final Game game, final Player player)
@@ -96,20 +71,64 @@ public class PlayerEngine
         final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
         final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
 
-        int timeoutCounter = 0;
+        Set<Domino> drawnDominoes = GameStateHandler.getDraftDominoes(game);
 
+        int timeoutCounter = 0;
         while (! game.isGameOver() && timeoutCounter++ < timeoutMaxCount)
         {
-            final boolean moveWasMade = player.makeAMove(game);
-            Timing.sleep(sleepMilliSeconds);
+            if (game.getCurrentPlayer().equals(player.getName()))
+            {
+                // Update dominoes drawn.
+                //
+                final Set<Domino> draftDominoes = GameStateHandler.getDraftDominoes(game);
+                drawnDominoes.addAll(draftDominoes);
 
-            timeoutCounter = moveWasMade? 0 : timeoutCounter;
+                // Create local game state.
+                //
+                final LocalGameState localGameState = GameStateHandler.createLocalGameState(game, drawnDominoes);
+
+                // Make move for player.
+                //
+                player.makeAMove(game, localGameState);
+
+                // Reset time out counter.
+                //
+                timeoutCounter = 0;
+            }
+            else
+            {
+                // Declare that we are waiting for our turn.
+                //
+                OUTPUT.printWaiting(player);
+            }
+
+            // Wait a while between polls.
+            //
+            Timing.sleep(sleepMilliSeconds);
         }
 
         if (timeoutCounter >= timeoutMaxCount)
         {
             System.err.println("Error: Timed out!");
             System.exit(0);
+        }
+    }
+
+    private static class OUTPUT
+    {
+        private static boolean OUTPUT = true;
+
+        private static void print(final String msg)
+        {
+            if (OUTPUT)
+            {
+                System.out.print(msg);
+            }
+        }
+
+        public static void printWaiting(final Player player)
+        {
+            print(player.getName() + ": Waiting for my turn...\n");
         }
     }
 }

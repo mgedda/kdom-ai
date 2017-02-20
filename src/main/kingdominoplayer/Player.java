@@ -1,10 +1,7 @@
 package kingdominoplayer;
 
-import kingdominoplayer.datastructures.Domino;
-import kingdominoplayer.datastructures.Move;
-import kingdominoplayer.datastructures.PlacedTile;
+import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Planner;
-import kingdominoplayer.datastructures.GameState;
 import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.strategies.*;
 import kingdominoplayer.utils.GameUtils;
@@ -64,32 +61,31 @@ public class Player
                 '}';
     }
 
-    public boolean makeAMove(final Game game)
+    public void makeAMove(final Game game, final LocalGameState localGameState)
     {
-        if (! game.getCurrentPlayer().equals(getName()))
-        {
-            OUTPUT.printWaiting(this);
-            return false;
-        }
-
         OUTPUT.printMakingAMove(this);
 
-        final String gameState = game.getGameState();
+        final String serverGameState = game.getGameState();
 
         final Move[] availableMoves = game.getAvailableMoves();
         assert availableMoves.length > 0 : "no moves to choose from";
 
         // Show state before move
         //
-        DEBUG.plotGameState(iDebugEnabled, gameState, "Before Move " + Integer.toString(iMovesMade + 1));
-        //System.out.println(gameState);
+        //DEBUG.plotGameState(iDebugEnabled, serverGameState, "Before Move " + Integer.toString(iMovesMade + 1));
+        DEBUG.plotGameState(iDebugEnabled, localGameState, "Before Move (extendedState) " + Integer.toString(iMovesMade + 1));
+        //System.out.println(serverGameState);
         Util.noop();
 
-        final Move move = pickAMove(gameState, availableMoves);
+        final Move move = pickAMove(serverGameState, availableMoves);
+
+        final LocalGameState localGameStateAfterMove = localGameState.makeMove(iName, move);
 
         // Show state after move
+        //
         // // TODO [gedda] IMPORTANT! : THIS HAS BUGS, NOT SHOWING CORRECTLY
-        DEBUG.plotGameStateAfterMove(iDebugEnabled, gameState, move, iName, "After Move " + Integer.toString(iMovesMade + 1));
+        //DEBUG.plotGameStateAfterMove(iDebugEnabled, serverGameState, move, iName, "After Move " + Integer.toString(iMovesMade + 1));
+        DEBUG.plotGameState(iDebugEnabled, localGameStateAfterMove, "After Move (extendedState) " + Integer.toString(iMovesMade + 1));
         Util.noop();
 
 
@@ -97,8 +93,6 @@ public class Player
         iMovesMade++;
 
         OUTPUT.printMoveMade();
-
-        return true;
     }
 
 
@@ -158,11 +152,19 @@ public class Player
             }
         }
 
+        private static void plotGameState(final boolean isDebugEnabled, final GameState gameState, final String title)
+        {
+            if (DEBUG && isDebugEnabled)
+            {
+                DebugPlot.plotGameState(gameState, title);
+            }
+        }
+
         public static void plotGameStateAfterMove(final boolean isDebugEnabled, final String gameState, final Move move, final String playerName, final String title)
         {
             if (DEBUG && isDebugEnabled)
             {
-                final GameState gameStateObject = GameResponseParser.getGameStateObject(gameState);
+                final GameState gameStateObject = ServerResponseParser.getGameStateObject(gameState);
                 final GameState newGameState = Planner.makeMove(move, gameStateObject, playerName);
                 DebugPlot.plotGameState(newGameState, title);
             }
@@ -180,11 +182,6 @@ public class Player
             {
                 System.out.print(msg);
             }
-        }
-
-        public static void printWaiting(final Player player)
-        {
-            print(player.getName() + ": Waiting for my turn...\n");
         }
 
         public static void printMakingAMove(final Player player)

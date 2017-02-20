@@ -10,19 +10,19 @@ import org.testng.annotations.Test;
  * Date: 2017-02-09<br>
  * Time: 11:01<br><br>
  */
-public class GameResponseParserTest
+public class ServerResponseParserTest
 {
     @Test
     public void testIsGameOverFalse() throws Exception
     {
-        final boolean isGameOver = GameResponseParser.isGameOver("{\"gameOver\":false}");
+        final boolean isGameOver = ServerResponseParser.isGameOver("{\"gameOver\":false}");
         Assert.assertEquals(isGameOver, false);
     }
 
     @Test
     public void testIsGameOverTrue() throws Exception
     {
-        final boolean isGameOver = GameResponseParser.isGameOver("{\"gameOver\":true}");
+        final boolean isGameOver = ServerResponseParser.isGameOver("{\"gameOver\":true}");
         Assert.assertEquals(isGameOver, true);
     }
 
@@ -85,7 +85,7 @@ public class GameResponseParserTest
                 "  }]\n" +
                 "}\n";
 
-        final Move[] moves = GameResponseParser.getAvailableMoves(availableMoves);
+        final Move[] moves = ServerResponseParser.getAvailableMoves(availableMoves);
 
         Assert.assertEquals(moves.length, 4);
 
@@ -212,7 +212,7 @@ public class GameResponseParserTest
                 "  \"gameOver\":false\n" +
                 "}";
 
-        final int playerScore = GameResponseParser.getPlayerScore(gameState, "test");
+        final int playerScore = ServerResponseParser.getPlayerScore(gameState, "test");
         Assert.assertEquals(playerScore, 10);
     }
 
@@ -227,7 +227,7 @@ public class GameResponseParserTest
                 "  }" +
                 "}";
 
-        final String currentPlayer = GameResponseParser.getCurrentPlayer(gameState);
+        final String currentPlayer = ServerResponseParser.getCurrentPlayer(gameState);
         Assert.assertEquals(currentPlayer, "BB8");
     }
 

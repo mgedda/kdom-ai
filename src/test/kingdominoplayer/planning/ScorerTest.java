@@ -1,6 +1,6 @@
 package kingdominoplayer.planning;
 
-import kingdominoplayer.GameResponseParser;
+import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.utils.Util;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.plot.DebugPlot;
@@ -23,8 +23,8 @@ public class ScorerTest
 
         DebugPlot.plotGameState(gameState, "TestRendering");
 
-        final PlacedTile[] placedTilesRandomCalrissian = GameResponseParser.getPlayerPlacedTiles(gameState, "RandomCalrissian");
-        final PlacedTile[] placedTilesDarthCrusader = GameResponseParser.getPlayerPlacedTiles(gameState, "DarthCrusader");
+        final PlacedTile[] placedTilesRandomCalrissian = ServerResponseParser.getPlayerPlacedTiles(gameState, "RandomCalrissian");
+        final PlacedTile[] placedTilesDarthCrusader = ServerResponseParser.getPlayerPlacedTiles(gameState, "DarthCrusader");
 
         final int scoreRandomCalrissian = Scorer.computeScore(placedTilesRandomCalrissian);
         final int scoreDarthCrusader = Scorer.computeScore(placedTilesDarthCrusader);

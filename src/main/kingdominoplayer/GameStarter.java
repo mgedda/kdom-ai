@@ -47,7 +47,7 @@ public class GameStarter
         }
 
         final String response = CommunicationsHandler.startNewGame(numPlayers);
-        final String uuid = GameResponseParser.getUUID(response);
+        final String uuid = ServerResponseParser.getUUID(response);
 
         final Game game = new Game(uuid);
 

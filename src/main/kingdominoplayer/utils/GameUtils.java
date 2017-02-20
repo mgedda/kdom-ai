@@ -1,6 +1,6 @@
 package kingdominoplayer.utils;
 
-import kingdominoplayer.GameResponseParser;
+import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.Player;
 import kingdominoplayer.datastructures.*;
 
@@ -23,18 +23,18 @@ public class GameUtils
 
     public static PlacedTile[] getPlacedTiles(final Player player, final String gameState)
     {
-        return GameResponseParser.getPlayerPlacedTiles(gameState, player.getName());
+        return ServerResponseParser.getPlayerPlacedTiles(gameState, player.getName());
     }
 
 
     public static Domino[] getPreviousDraft(final Player player, final String gameState)
     {
-        return GameResponseParser.getPreviousDraftForPlayer(gameState, player.getName());
+        return ServerResponseParser.getPreviousDraftForPlayer(gameState, player.getName());
     }
 
     public static Domino[] getCurrentDraft(final Player player, final String gameState)
     {
-        return GameResponseParser.getCurrentDraftForPlayer(gameState, player.getName());
+        return ServerResponseParser.getCurrentDraftForPlayer(gameState, player.getName());
     }
 
 

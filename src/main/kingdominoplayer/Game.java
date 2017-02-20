@@ -35,7 +35,7 @@ public class Game
     public Player addPlayer(final String playerName, final String strategy, final boolean enableDebug)
     {
         final String response = CommunicationsHandler.joinGame(this, playerName);
-        final String uuid = GameResponseParser.getUUID(response);
+        final String uuid = ServerResponseParser.getUUID(response);
 
         final Player player = new Player(uuid, playerName, strategy, enableDebug);
 
@@ -53,34 +53,34 @@ public class Game
     {
         final String gameState = CommunicationsHandler.getGameState(this);
 
-        return GameResponseParser.getCurrentPlayer(gameState);
+        return ServerResponseParser.getCurrentPlayer(gameState);
     }
 
     public boolean isGameOver()
     {
         final String gameState = CommunicationsHandler.getGameState(this);
 
-        return GameResponseParser.isGameOver(gameState);
+        return ServerResponseParser.isGameOver(gameState);
     }
 
     public Move[] getAvailableMoves()
     {
         final String moves = CommunicationsHandler.getAvailableMoves(this);
 
-        return GameResponseParser.getAvailableMoves(moves);
+        return ServerResponseParser.getAvailableMoves(moves);
     }
 
     final int getPlayerScore(final String playerName)
     {
         final String gameState = CommunicationsHandler.getGameState(this);
 
-        return GameResponseParser.getPlayerScore(gameState, playerName);
+        return ServerResponseParser.getPlayerScore(gameState, playerName);
     }
 
     public void showResult()
     {
         final String gameState = CommunicationsHandler.getGameState(this);
-        final String[] playerNames = GameResponseParser.getPlayerNames(gameState);
+        final String[] playerNames = ServerResponseParser.getPlayerNames(gameState);
 
         System.out.println("=================================================");
         System.out.println("RESULTS");
@@ -132,7 +132,7 @@ public class Game
         System.out.println("All players joined!");
 
         final String gameState = CommunicationsHandler.getGameState(this);
-        final String[] playerNames = GameResponseParser.getPlayerNames(gameState);
+        final String[] playerNames = ServerResponseParser.getPlayerNames(gameState);
 
         int counter = 0;
         for (final String playerName : playerNames)

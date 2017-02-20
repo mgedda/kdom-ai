@@ -1,6 +1,6 @@
 package kingdominoplayer.plot;
 
-import kingdominoplayer.GameResponseParser;
+import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.datastructures.GameState;
 
@@ -38,7 +38,7 @@ public class DebugPlot
 
     public static void plotGameState(final String gameState, final String title)
     {
-        final GameState gameStateObject = GameResponseParser.getGameStateObject(gameState);
+        final GameState gameStateObject = ServerResponseParser.getGameStateObject(gameState);
 
         plotGameState(gameStateObject, title);
     }

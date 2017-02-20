@@ -12,17 +12,12 @@ import java.util.concurrent.ThreadLocalRandom;
  * Date: 2017-02-19<br>
  * Time: 00:30<br><br>
  */
-public class ExtendedGameState extends GameState
+public class LocalGameState extends GameState
 {
     /**
      * Dominoes left to draft.
      */
     private final Set<Domino> iDrawPile;
-
-    /**
-     * Dominoes added to kingdoms.
-     */
-    private final Set<PlacedDomino> iPlacedPile;
 
     /**
      * True if this game state is part of a search.
@@ -34,24 +29,22 @@ public class ExtendedGameState extends GameState
      */
     private boolean iIsSearching;
 
-    public ExtendedGameState(final ArrayList<KingdomInfo> kingdomInfos,
-                             final ArrayList<DraftElement> previousDraft,
-                             final ArrayList<DraftElement> currentDraft,
-                             final boolean isGameOver,
-                             final Set<Domino> drawPile,
-                             final Set<PlacedDomino> placedPile,
-                             final boolean isSearching)
+    public LocalGameState(final ArrayList<KingdomInfo> kingdomInfos,
+                          final ArrayList<DraftElement> previousDraft,
+                          final ArrayList<DraftElement> currentDraft,
+                          final boolean isGameOver,
+                          final Set<Domino> drawPile,
+                          final boolean isSearching)
     {
         super(kingdomInfos, previousDraft, currentDraft, isGameOver);
 
         iDrawPile = drawPile;
-        iPlacedPile = placedPile;
         iIsSearching = isSearching;
     }
 
 
 
-    public ExtendedGameState makeMove(final String playerName, final Move move)
+    public LocalGameState makeMove(final String playerName, final Move move)
     {
         boolean isGameOver = false;
 
@@ -61,7 +54,6 @@ public class ExtendedGameState extends GameState
 
         final ArrayList<KingdomInfo> kingdomInfos = new ArrayList<>(iKingdomInfos.size());
         final ArrayList<DraftElement> previousDraft = new ArrayList<>(iPreviousDraft.size());
-        final LinkedHashSet<PlacedDomino> placedPile = new LinkedHashSet<>(iPlacedPile.size() + 1);
 
         final PlacedDomino placedDomino = move.getPlacedDomino();
         if (placedDomino != null)
@@ -92,16 +84,11 @@ public class ExtendedGameState extends GameState
             //
             for (final DraftElement draftElement : iPreviousDraft)
             {
-                if (! draftElement.getDomino().equals(placedDomino))
+                if (draftElement.getDomino().getNumber() != placedDomino.getNumber())
                 {
                     previousDraft.add(draftElement);
                 }
             }
-
-            // Put domino in placed pile.
-            //
-            placedPile.addAll(iPlacedPile);
-            placedPile.add(placedDomino);
 
 
             // Check if game is over.
@@ -114,7 +101,6 @@ public class ExtendedGameState extends GameState
             //
             kingdomInfos.addAll(iKingdomInfos);
             previousDraft.addAll(iPreviousDraft);
-            placedPile.addAll(iPlacedPile);
         }
 
 
@@ -182,11 +168,11 @@ public class ExtendedGameState extends GameState
                 }
             }
 
-            return new ExtendedGameState(kingdomInfos, previousDraft, currentDraft, isGameOver, drawPile, placedPile, iIsSearching);
+            return new LocalGameState(kingdomInfos, previousDraft, currentDraft, isGameOver, drawPile, iIsSearching);
         }
         else
         {
-            return new ExtendedGameState(kingdomInfos, previousDraft, currentDraft, isGameOver, iDrawPile, placedPile, iIsSearching);
+            return new LocalGameState(kingdomInfos, previousDraft, currentDraft, isGameOver, iDrawPile, iIsSearching);
         }
     }
 
@@ -207,7 +193,7 @@ public class ExtendedGameState extends GameState
 
         final ArrayList<DraftElement> previousDraft = iCurrentDraft;
 
-        return new ExtendedGameState(iKingdomInfos, previousDraft, currentDraft, false, drawPile, iPlacedPile, iIsSearching);
+        return new LocalGameState(iKingdomInfos, previousDraft, currentDraft, false, drawPile, iIsSearching);
     }
 
 

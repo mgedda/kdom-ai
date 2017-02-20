@@ -1,6 +1,6 @@
 package kingdominoplayer.plot;
 
-import kingdominoplayer.GameResponseParser;
+import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.datastructures.DominoPosition;
 import kingdominoplayer.datastructures.Kingdom;
 import kingdominoplayer.datastructures.KingdomDominoPositionPair;
@@ -31,7 +31,7 @@ public class DebugPlotTest
     @Test
     public void testDrawKingdom() throws Exception
     {
-        final GameState gameState = GameResponseParser.getGameStateObject(getSampleGameState());
+        final GameState gameState = ServerResponseParser.getGameStateObject(getSampleGameState());
         final Kingdom kingdom = gameState.getKingdomInfos().get(0).getKingdom();
 
         final GridImage gridImage = new GridImage(9, 9);
@@ -46,7 +46,7 @@ public class DebugPlotTest
     @Test
     public void testDrawKingdoms() throws Exception
     {
-        final GameState gameState = GameResponseParser.getGameStateObject(getSampleGameState());
+        final GameState gameState = ServerResponseParser.getGameStateObject(getSampleGameState());
 
         final ArrayList<KingdomDominoPositionPair> kingdomDominoPositionPairs = new ArrayList<>(100);
 

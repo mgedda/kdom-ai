@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Time: 23:11<br><br>
  */
 @SuppressWarnings("WeakerAccess")
-public class GameResponseParser
+public class ServerResponseParser
 {
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getUUID(final String response)
@@ -278,19 +278,19 @@ public class GameResponseParser
 
     public static GameState getGameStateObject(final String gameState)
     {
-        final String[] playerNames = GameResponseParser.getPlayerNames(gameState);
+        final String[] playerNames = ServerResponseParser.getPlayerNames(gameState);
 
         final ArrayList<KingdomInfo> kingdomInfos = new ArrayList<>(playerNames.length);
         for (final String playerName : playerNames)
         {
-            final PlacedTile[] placedTiles = GameResponseParser.getPlayerPlacedTiles(gameState, playerName);
+            final PlacedTile[] placedTiles = ServerResponseParser.getPlayerPlacedTiles(gameState, playerName);
             kingdomInfos.add(new KingdomInfo(new Kingdom(placedTiles), playerName));
         }
 
-        final ArrayList<DraftElement> previousDraft = ArrayUtils.toArrayList(GameResponseParser.getPreviousDraft(gameState));
-        final ArrayList<DraftElement> currentDraft = ArrayUtils.toArrayList(GameResponseParser.getCurrentDraft(gameState));
+        final ArrayList<DraftElement> previousDraft = ArrayUtils.toArrayList(ServerResponseParser.getPreviousDraft(gameState));
+        final ArrayList<DraftElement> currentDraft = ArrayUtils.toArrayList(ServerResponseParser.getCurrentDraft(gameState));
 
-        final boolean isGameOver = GameResponseParser.isGameOver(gameState);
+        final boolean isGameOver = ServerResponseParser.isGameOver(gameState);
 
         return new GameState(kingdomInfos, previousDraft, currentDraft, isGameOver);
 
