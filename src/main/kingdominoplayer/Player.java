@@ -22,23 +22,13 @@ public class Player
 
     private int iMovesMade = 0;
 
-    enum Strategy
-    {
-        FIRST,
-        RANDOM,
-        MOST_CROWNS,
-        WATER,
-        EXPAND,
-        LOOK_AHEAD
-    }
-
     private final Strategy iStrategy;
 
-    public Player(final String uuid, final String name, final String strategy, final boolean enableDebug)
+    public Player(final String uuid, final String name, final StrategyID strategyID, final boolean enableDebug)
     {
         iUUID = uuid;
         iName = name;
-        iStrategy = Strategy.valueOf(strategy);
+        iStrategy = strategyID.getStrategy();
         iDebugEnabled = enableDebug;
     }
 
@@ -73,8 +63,7 @@ public class Player
         DEBUG.plotGameState(iDebugEnabled, localGameState, "Before Move (extendedState) " + Integer.toString(iMovesMade + 1));
         Util.noop();
 
-        final Move move = pickAMove(localGameState, availableMoves);
-
+        final Move move = iStrategy.selectMove(iName, availableMoves, localGameState);
         final LocalGameState localGameStateAfterMove = localGameState.makeMove(iName, move);
 
         // Show state after move
@@ -87,45 +76,6 @@ public class Player
         iMovesMade++;
 
         OUTPUT.printMoveMade();
-    }
-
-
-    private Move pickAMove(final LocalGameState gameState, final Move[] availableMoves)
-    {
-        Move move = availableMoves[0];
-
-        switch (iStrategy)
-        {
-            case FIRST:
-                move = new FirstStrategy().selectMove(iName, availableMoves, gameState);
-                break;
-
-            case RANDOM:
-                move = new RandomStrategy().selectMove(iName, availableMoves, gameState);
-                break;
-
-            case MOST_CROWNS:
-                move = new MostCrownsStrategy().selectMove(iName, availableMoves, gameState);
-                break;
-
-            case WATER:
-                move = new WaterStrategy().selectMove(iName, availableMoves, gameState);
-                break;
-
-            case EXPAND:
-                move = new ExpandStrategy().selectMove(iName, availableMoves, gameState);
-                break;
-
-            case LOOK_AHEAD:
-                move = new LookAheadStrategy().selectMove(iName, availableMoves, gameState);
-                break;
-
-            default:
-                System.err.print("Error: unknown strategy.");
-                System.exit(0);
-        }
-
-        return move;
     }
 
 

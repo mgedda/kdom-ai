@@ -3,6 +3,7 @@ package kingdominoplayer;
 import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.strategies.StrategyID;
 import kingdominoplayer.utils.Timing;
 
 import java.util.Collection;
@@ -97,12 +98,12 @@ public class Game
     }
 
 
-    public Player addPlayer(final String playerName, final String strategy, final boolean enableDebug)
+    public Player addPlayer(final String playerName, final StrategyID strategyID, final boolean enableDebug)
     {
         final String response = CommunicationsHandler.joinGame(this, playerName);
         final String uuid = ServerResponseParser.getUUID(response);
 
-        final Player player = new Player(uuid, playerName, strategy, enableDebug);
+        final Player player = new Player(uuid, playerName, strategyID, enableDebug);
 
         DEBUG.printPlayerJoined(this, playerName);
 

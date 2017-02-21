@@ -1,5 +1,7 @@
 package kingdominoplayer;
 
+import kingdominoplayer.strategies.StrategyID;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -52,7 +54,7 @@ public class PlayerEngine
         final Game game = new Game(gameUUID);
 
         final ArrayList<Player> players = new ArrayList<>(1);
-        players.add(game.addPlayer(playerName, strategy, enableDebug));
+        players.add(game.addPlayer(playerName, StrategyID.valueOf(strategy), enableDebug));
 
         GameServer.waitForPlayersToJoin(game, TIMEOUT_MINUTES);
 

@@ -1,5 +1,7 @@
 package kingdominoplayer;
 
+import kingdominoplayer.strategies.StrategyID;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,9 +18,9 @@ public class MultiPlayerEngine
         final Game game = GameServer.startGame(3);
 
         final ArrayList<Player> players = new ArrayList<>(4);
-        players.add(game.addPlayer("RandomCalrissian1", "RANDOM", false));
-        players.add(game.addPlayer("RandomCalrissian2", "RANDOM", false));
-        players.add(game.addPlayer("TyrionPlannister", "LOOK_AHEAD", false));
+        players.add(game.addPlayer("RandomCalrissian1", StrategyID.RANDOM, false));
+        players.add(game.addPlayer("RandomCalrissian2", StrategyID.RANDOM, false));
+        players.add(game.addPlayer("TyrionPlannister", StrategyID.LOOK_AHEAD, false));
 
         game.play(players);
 
