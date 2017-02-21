@@ -56,7 +56,7 @@ public class PlayerEngine
 
         GameServer.waitForPlayersToJoin(game, TIMEOUT_MINUTES);
 
-        game.makeMoves(players);
+        game.play(players);
 
         System.out.println("Player " + players.get(0).getName() + " leaving (game finished).");
     }

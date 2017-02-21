@@ -39,7 +39,7 @@ public class Game
                 '}';
     }
 
-    public void makeMoves(final Collection<Player> players)
+    public void play(final Collection<Player> players)
     {
         final int sleepMilliSeconds = 1000;
         final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s

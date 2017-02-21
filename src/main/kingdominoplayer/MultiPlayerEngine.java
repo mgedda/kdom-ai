@@ -20,7 +20,7 @@ public class MultiPlayerEngine
         players.add(game.addPlayer("RandomCalrissian2", "RANDOM", false));
         players.add(game.addPlayer("TyrionPlannister", "LOOK_AHEAD", false));
 
-        game.makeMoves(players);
+        game.play(players);
 
         System.out.println("Game finished!");
 
