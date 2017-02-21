@@ -23,10 +23,10 @@ public class GameStarter
 
         final int numPlayers = new Integer(args[0]);
 
-        final Game game = startGame(numPlayers);
+        final Game game = GameServer.startGame(numPlayers);
 
-        game.waitForPlayersToJoin(TIMEOUT_MINUTES);
-        game.waitForPlayersToFinish(TIMEOUT_MINUTES);
+        GameServer.waitForPlayersToJoin(game, TIMEOUT_MINUTES);
+        GameServer.waitForPlayersToFinish(game, TIMEOUT_MINUTES);
 
         showGameResult(game);
     }
@@ -34,26 +34,7 @@ public class GameStarter
 
     private static void showGameResult(final Game game)
     {
-        game.showResult();
-    }
-
-
-    private static Game startGame(final int numPlayers)
-    {
-        if (numPlayers < 2 && numPlayers > 4)
-        {
-            System.err.println("Wrong number of players (numPlayers=" + numPlayers + ")");
-            System.exit(0);
-        }
-
-        final String response = CommunicationsHandler.startNewGame(numPlayers);
-        final String uuid = ServerResponseParser.getUUID(response);
-
-        final Game game = new Game(uuid);
-
-        System.out.println("Game started! UUID: " + game.getUUID());
-
-        return game;
+        game.printResult();
     }
 
 }

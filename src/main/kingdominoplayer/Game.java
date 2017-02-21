@@ -1,7 +1,12 @@
 package kingdominoplayer;
 
+import kingdominoplayer.datastructures.Domino;
+import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.utils.Timing;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -12,6 +17,8 @@ import kingdominoplayer.utils.Timing;
 @SuppressWarnings("WeakerAccess")
 public class Game
 {
+    private static final int TIMEOUT_MINUTES = 30;
+
     private final String iUUID;
 
     public Game(final String uuid)
@@ -27,10 +34,68 @@ public class Game
     @Override
     public String toString()
     {
-        return "kingdominoplayer.Game{" +
+        return "Game{" +
                 "iUUID='" + iUUID + '\'' +
                 '}';
     }
+
+    public void makeMoves(final Collection<Player> players)
+    {
+        final int sleepMilliSeconds = 1000;
+        final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
+        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
+
+        Set<Domino> drawnDominoes = GameStateHandler.getDraftDominoes(this);
+
+        int timeoutCounter = 0;
+        while (! GameServer.isGameOver(this) && timeoutCounter++ < timeoutMaxCount)
+        {
+            for (final Player player : players)
+            {
+                if (GameServer.isGameOver(this))
+                {
+                    break;
+                }
+
+                if (GameServer.getCurrentPlayer(this).equals(player.getName()))
+                {
+                    // Update dominoes drawn.
+                    //
+                    final Set<Domino> draftDominoes = GameStateHandler.getDraftDominoes(this);
+                    drawnDominoes.addAll(draftDominoes);
+
+                    // Create local game state.
+                    //
+                    final LocalGameState localGameState = GameStateHandler.createLocalGameState(this, drawnDominoes);
+
+                    // Make move for player.
+                    //
+                    player.makeAMove(this, localGameState);
+
+                    // Reset time out counter.
+                    //
+                    timeoutCounter = 0;
+                }
+                else
+                {
+                    // Declare that we are waiting for our turn.
+                    //
+                    OUTPUT.printWaiting(player);
+                }
+            }
+
+            // Wait a while between polls.
+            //
+            Timing.sleep(sleepMilliSeconds);
+        }
+
+        if (timeoutCounter >= timeoutMaxCount)
+        {
+            System.err.println("Error: Timed out!");
+            System.exit(0);
+        }
+    }
+
 
     public Player addPlayer(final String playerName, final String strategy, final boolean enableDebug)
     {
@@ -44,40 +109,7 @@ public class Game
         return player;
     }
 
-    final String getGameState()
-    {
-        return CommunicationsHandler.getGameState(this);
-    }
-
-    final String getCurrentPlayer()
-    {
-        final String gameState = CommunicationsHandler.getGameState(this);
-
-        return ServerResponseParser.getCurrentPlayer(gameState);
-    }
-
-    public boolean isGameOver()
-    {
-        final String gameState = CommunicationsHandler.getGameState(this);
-
-        return ServerResponseParser.isGameOver(gameState);
-    }
-
-    public Move[] getAvailableMoves()
-    {
-        final String moves = CommunicationsHandler.getAvailableMoves(this);
-
-        return ServerResponseParser.getAvailableMoves(moves);
-    }
-
-    final int getPlayerScore(final String playerName)
-    {
-        final String gameState = CommunicationsHandler.getGameState(this);
-
-        return ServerResponseParser.getPlayerScore(gameState, playerName);
-    }
-
-    public void showResult()
+    public void printResult()
     {
         final String gameState = CommunicationsHandler.getGameState(this);
         final String[] playerNames = ServerResponseParser.getPlayerNames(gameState);
@@ -88,83 +120,28 @@ public class Game
 
         for (final String playerName : playerNames)
         {
-            System.out.println(playerName + ": " + getPlayerScore(playerName));
+            System.out.println(playerName + ": " + GameServer.getPlayerScore(this, playerName));
         }
 
         System.out.println("-------------------------------------------------");
     }
 
-    public boolean allPlayersJoined()
+    private static class OUTPUT
     {
-        return CommunicationsHandler.allPlayersJoined(this);
-    }
+        private static boolean OUTPUT = true;
 
-    public void makeMove(final Player player, final Move move)
-    {
-        final String playerUUID = player.getUUID();
-        final int moveNumber = move.getNumber();
-
-        CommunicationsHandler.makeMove(this, playerUUID, moveNumber);
-    }
-
-    public void waitForPlayersToJoin(final int timeoutMinutes)
-    {
-        final int sleepMilliSeconds = 1000;
-
-        final int timeoutMilliSeconds = timeoutMinutes * 60 * 1000;   // min * s/min * ms/s
-        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
-
-        int timeoutCounter = 0;
-
-        System.out.println("Waiting for all players to join game.");
-
-        while(! allPlayersJoined() && timeoutCounter++ < timeoutMaxCount)
+        private static void print(final String msg)
         {
-            Timing.sleep(sleepMilliSeconds);
+            if (OUTPUT)
+            {
+                System.out.print(msg);
+            }
         }
 
-        if (timeoutCounter >= timeoutMaxCount)
+        public static void printWaiting(final Player player)
         {
-            System.err.println("Error: Timed out!");
-            System.exit(0);
+            print(player.getName() + ": Waiting for my turn...\n");
         }
-
-        System.out.println("All players joined!");
-
-        final String gameState = CommunicationsHandler.getGameState(this);
-        final String[] playerNames = ServerResponseParser.getPlayerNames(gameState);
-
-        int counter = 0;
-        for (final String playerName : playerNames)
-        {
-            System.out.println(Integer.toString(++counter) + ": " + playerName);
-        }
-    }
-
-
-    public void waitForPlayersToFinish(final int timeoutMinutes)
-    {
-        final int sleepMilliSeconds = 1000;
-
-        final int timeoutMilliSeconds = timeoutMinutes * 60 * 1000;   // min * s/min * ms/s
-        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
-
-        int timeoutCounter = 0;
-
-        System.out.println("Waiting for players to finish.");
-
-        while (! isGameOver() && timeoutCounter++ < timeoutMaxCount)
-        {
-            Timing.sleep(sleepMilliSeconds);
-        }
-
-        if (timeoutCounter >= timeoutMaxCount)
-        {
-            System.err.println("Error: Timed out!");
-            System.exit(0);
-        }
-
-        System.out.println("Game finished!");
     }
 
     private static class DEBUG
@@ -181,12 +158,12 @@ public class Game
 
         public static void printGameStarted(final Game game)
         {
-            print("kingdominoplayer.Game started! UUID: " + game.getUUID() + "\n");
+            print("Game started! UUID: " + game.getUUID() + "\n");
         }
 
         public static void printPlayerJoined(final Game game, final String playerName)
         {
-            print("kingdominoplayer.Player " + playerName + " joined game " + game.getUUID() + "\n");
+            print("Player " + playerName + " joined game " + game.getUUID() + "\n");
         }
     }
 }

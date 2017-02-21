@@ -1,10 +1,7 @@
 package kingdominoplayer;
 
-import kingdominoplayer.datastructures.*;
-import kingdominoplayer.utils.Timing;
-
 import java.io.*;
-import java.util.Set;
+import java.util.ArrayList;
 
 
 /**
@@ -53,82 +50,14 @@ public class PlayerEngine
         }
 
         final Game game = new Game(gameUUID);
-        final Player player = game.addPlayer(playerName, strategy, enableDebug);
 
-        game.waitForPlayersToJoin(TIMEOUT_MINUTES);
+        final ArrayList<Player> players = new ArrayList<>(1);
+        players.add(game.addPlayer(playerName, strategy, enableDebug));
 
-        makeMoves(game, player);
+        GameServer.waitForPlayersToJoin(game, TIMEOUT_MINUTES);
 
-        System.out.println("Player " + player.getName() + " leaving (game finished).");
-    }
+        game.makeMoves(players);
 
-
-
-
-    private static void makeMoves(final Game game, final Player player)
-    {
-        final int sleepMilliSeconds = 1000;
-        final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
-        final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
-
-        Set<Domino> drawnDominoes = GameStateHandler.getDraftDominoes(game);
-
-        int timeoutCounter = 0;
-        while (! game.isGameOver() && timeoutCounter++ < timeoutMaxCount)
-        {
-            if (game.getCurrentPlayer().equals(player.getName()))
-            {
-                // Update dominoes drawn.
-                //
-                final Set<Domino> draftDominoes = GameStateHandler.getDraftDominoes(game);
-                drawnDominoes.addAll(draftDominoes);
-
-                // Create local game state.
-                //
-                final LocalGameState localGameState = GameStateHandler.createLocalGameState(game, drawnDominoes);
-
-                // Make move for player.
-                //
-                player.makeAMove(game, localGameState);
-
-                // Reset time out counter.
-                //
-                timeoutCounter = 0;
-            }
-            else
-            {
-                // Declare that we are waiting for our turn.
-                //
-                OUTPUT.printWaiting(player);
-            }
-
-            // Wait a while between polls.
-            //
-            Timing.sleep(sleepMilliSeconds);
-        }
-
-        if (timeoutCounter >= timeoutMaxCount)
-        {
-            System.err.println("Error: Timed out!");
-            System.exit(0);
-        }
-    }
-
-    private static class OUTPUT
-    {
-        private static boolean OUTPUT = true;
-
-        private static void print(final String msg)
-        {
-            if (OUTPUT)
-            {
-                System.out.print(msg);
-            }
-        }
-
-        public static void printWaiting(final Player player)
-        {
-            print(player.getName() + ": Waiting for my turn...\n");
-        }
+        System.out.println("Player " + players.get(0).getName() + " leaving (game finished).");
     }
 }

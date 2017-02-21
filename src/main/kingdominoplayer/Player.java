@@ -55,7 +55,7 @@ public class Player
     @Override
     public String toString()
     {
-        return "kingdominoplayer.Player{" +
+        return "Player{" +
                 "iName='" + iName + '\'' +
                 ", iUUID='" + iUUID + '\'' +
                 '}';
@@ -65,7 +65,7 @@ public class Player
     {
         OUTPUT.printMakingAMove(this);
 
-        final Move[] availableMoves = game.getAvailableMoves();
+        final Move[] availableMoves = GameServer.getAvailableMoves(game);
         assert availableMoves.length > 0 : "no moves to choose from";
 
         // Show state before move
@@ -83,7 +83,7 @@ public class Player
         Util.noop();
 
 
-        game.makeMove(this, move);
+        GameServer.makeMove(game, this, move);
         iMovesMade++;
 
         OUTPUT.printMoveMade();
