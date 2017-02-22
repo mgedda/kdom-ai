@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Kingdom Test Suite" verbose="10">
+  <test name="All tests">
+    <packages>
+      <package name="kingdominoplayer.*" />
+    </packages>
+  </test>
+</suite>
