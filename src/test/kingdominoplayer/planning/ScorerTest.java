@@ -1,7 +1,9 @@
 package kingdominoplayer.planning;
 
-import com.sun.deploy.util.ArrayUtil;
 import kingdominoplayer.ServerResponseParser;
+import kingdominoplayer.datastructures.Kingdom;
+import kingdominoplayer.datastructures.Position;
+import kingdominoplayer.datastructures.Tile;
 import kingdominoplayer.utils.ArrayUtils;
 import kingdominoplayer.utils.Util;
 import kingdominoplayer.datastructures.PlacedTile;
@@ -33,10 +35,10 @@ public class ScorerTest
         final int scoreRandomCalrissian = Scorer.computeScore(placedTilesRandomCalrissian);
         final int scoreDarthCrusader = Scorer.computeScore(placedTilesDarthCrusader);
 
+        Util.noop();
+
         Assert.assertEquals(scoreRandomCalrissian, 32);
         Assert.assertEquals(scoreDarthCrusader, 13);
-
-        Util.noop();
     }
 
 

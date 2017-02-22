@@ -20,4 +20,33 @@ public class PlacedTile extends Tile
     {
         return iPosition;
     }
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        if (!super.equals(o))
+        {
+            return false;
+        }
+
+        final PlacedTile that = (PlacedTile) o;
+
+        return iPosition.equals(that.iPosition) && getTerrain().equals(that.getTerrain()) && getCrowns() == that.getCrowns();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = super.hashCode();
+        result = 31 * result + iPosition.hashCode();
+        return result;
+    }
 }

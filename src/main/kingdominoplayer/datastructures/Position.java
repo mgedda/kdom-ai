@@ -60,4 +60,13 @@ public class Position
         result = 31 * result + iColumn;
         return result;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Position{" +
+                "iRow=" + iRow +
+                ", iColumn=" + iColumn +
+                '}';
+    }
 }

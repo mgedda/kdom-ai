@@ -68,7 +68,7 @@ public class Scorer
 
         for (final PlacedTile placedTile : placedTiles)
         {
-            if (tilesScored.contains(placedTile))
+            if (tilesScored.contains(placedTile) || placedTile.getTerrain().equals("castle"))
             {
                 continue;
             }
@@ -137,11 +137,11 @@ public class Scorer
     }
 
 
-    private static void getConnectedTerrainTilesRecursively(final String terrain,
-                                                            final Position position,
-                                                            final Collection<PlacedTile> placedTiles,
-                                                            /* UPDATED */ final ArrayList<PlacedTile> connectedTerrainTiles,
-                                                            /* UPDATED */ final ArrayList<PlacedTile> visitedTiles)
+    /*package*/ static void getConnectedTerrainTilesRecursively(final String terrain,
+                                                                final Position position,
+                                                                final Collection<PlacedTile> placedTiles,
+                                                                /* UPDATED */ final ArrayList<PlacedTile> connectedTerrainTiles,
+                                                                /* UPDATED */ final ArrayList<PlacedTile> visitedTiles)
     {
         final PlacedTile adjacentTile = GameUtils.getTileAtPosition(position, placedTiles);
 
