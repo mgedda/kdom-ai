@@ -1,7 +1,13 @@
 package kingdominoplayer;
 
+import kingdominoplayer.datastructures.Domino;
+import kingdominoplayer.datastructures.DraftElement;
+import kingdominoplayer.datastructures.GameState;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.utils.Timing;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -45,6 +51,25 @@ public class GameServer
     {
         final String moves = CommunicationsHandler.getAvailableMoves(game);
         return ServerResponseParser.getAvailableMoves(moves);
+    }
+
+    public static Set<Domino> getDraftDominoes(final Game game)
+    {
+        final GameState serverGameState = GameStateHandler.getServerGameState(game);
+
+        final LinkedHashSet<Domino> dominoes = new LinkedHashSet<>(8);
+
+        for (final DraftElement draftElement : serverGameState.getPreviousDraft())
+        {
+            dominoes.add(draftElement.getDomino());
+        }
+
+        for (final DraftElement draftElement : serverGameState.getCurrentDraft())
+        {
+            dominoes.add(draftElement.getDomino());
+        }
+
+        return dominoes;
     }
 
     public static int getPlayerScore(final Game game, final String playerName)

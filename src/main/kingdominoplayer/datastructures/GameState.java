@@ -1,6 +1,6 @@
 package kingdominoplayer.datastructures;
 
-import kingdominoplayer.datastructures.*;
+import kingdominoplayer.planning.Planner;
 import kingdominoplayer.plot.KingdomInfo;
 
 import java.util.*;
@@ -100,19 +100,11 @@ public class GameState
 
     public Collection<PlacedTile> getPlacedTiles(final String name)
     {
-        for (final KingdomInfo kingdomInfo : iKingdomInfos)
-        {
-            if (kingdomInfo.getPlayerName().equals(name))
-            {
-                return kingdomInfo.getKingdom().getPlacedTiles();
-            }
-        }
-
-        assert false : "Player '" + name + "' not found!";
-        return null;
+        //noinspection ConstantConditions
+        return getKingdom(name).getPlacedTiles();
     }
 
-    public Collection<Domino> getPreviousDraft(final String name)
+    public ArrayList<Domino> getPreviousDraft(final String name)
     {
         final ArrayList<Domino> previousDraft = new ArrayList<>(2);
 
@@ -140,5 +132,94 @@ public class GameState
         }
 
         return currentDraft;
+    }
+
+
+    public ArrayList<Move> getAvailableMoves(final String playerName)
+    {
+        final ArrayList<PlacedDomino> possiblePlacedDominoes = new ArrayList<>();
+        final ArrayList<DraftElement> previousDraft = getPreviousDraft();
+
+        if (! previousDraft.isEmpty())
+        {
+            final DraftElement draftElement = previousDraft.get(0);
+            final boolean isPlayersTurn = draftElement.getPlayerName().equals(playerName);
+
+            if (! isPlayersTurn)
+            {
+                return new ArrayList<>(0);
+            }
+
+            final Domino dominoToPlace = draftElement.getDomino();
+            final Kingdom kingdom = getKingdom(playerName);
+            final Set<DominoPosition> dominoPositions = Planner.getValidPositions(dominoToPlace, kingdom);
+
+            for (final DominoPosition dominoPosition : dominoPositions)
+            {
+                possiblePlacedDominoes.add(new PlacedDomino(dominoToPlace, dominoPosition));
+            }
+        }
+
+
+        final ArrayList<Domino> possibleChosenDominoes = new ArrayList<>(4);
+        final ArrayList<DraftElement> currentDraft = getCurrentDraft();
+
+        if (! currentDraft.isEmpty())
+        {
+            for (final DraftElement draftElement : currentDraft)
+            {
+                if (draftElement.getPlayerName() == null)
+                {
+                    possibleChosenDominoes.add(draftElement.getDomino());
+                }
+            }
+        }
+
+
+        final ArrayList<Move> availableMoves = new ArrayList<>();
+        int moveCounter = 0;
+        if (possibleChosenDominoes.isEmpty())
+        {
+            for (final PlacedDomino placedDomino : possiblePlacedDominoes)
+            {
+                availableMoves.add(new Move(moveCounter++, null, placedDomino));
+            }
+
+        }
+        else if (possiblePlacedDominoes.isEmpty())
+        {
+            for (final Domino chosenDomino : possibleChosenDominoes)
+            {
+                availableMoves.add(new Move(moveCounter++, chosenDomino, null));
+            }
+        }
+        else
+        {
+            for (final Domino chosenDomino : possibleChosenDominoes)
+            {
+                for (final PlacedDomino placedDomino : possiblePlacedDominoes)
+                {
+                    availableMoves.add(new Move(moveCounter++, chosenDomino, placedDomino));
+                }
+            }
+        }
+
+        return availableMoves;
+    }
+
+
+
+    private Kingdom getKingdom(final String playerName)
+    {
+        for (final KingdomInfo kingdomInfo : iKingdomInfos)
+        {
+            if (kingdomInfo.getPlayerName().equals(playerName))
+            {
+                return kingdomInfo.getKingdom();
+            }
+        }
+
+        assert false : "Player '" + playerName + "' not found!";
+        return null;
     }
 }

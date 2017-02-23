@@ -3,7 +3,6 @@ package kingdominoplayer;
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.gamecontents.GameContents;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -37,25 +36,6 @@ public class GameStateHandler
                 false);
 
         return localGameState;
-    }
-
-    public static Set<Domino> getDraftDominoes(final Game game)
-    {
-        final GameState serverGameState = GameStateHandler.getServerGameState(game);
-
-        final LinkedHashSet<Domino> dominoes = new LinkedHashSet<>(8);
-
-        for (final DraftElement draftElement : serverGameState.getPreviousDraft())
-        {
-            dominoes.add(draftElement.getDomino());
-        }
-
-        for (final DraftElement draftElement : serverGameState.getCurrentDraft())
-        {
-            dominoes.add(draftElement.getDomino());
-        }
-
-        return dominoes;
     }
 
 }

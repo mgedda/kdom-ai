@@ -46,7 +46,7 @@ public class Game
         final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
         final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
 
-        Set<Domino> drawnDominoes = GameStateHandler.getDraftDominoes(this);
+        Set<Domino> drawnDominoes = GameServer.getDraftDominoes(this);
 
         int timeoutCounter = 0;
         while (! GameServer.isGameOver(this) && timeoutCounter++ < timeoutMaxCount)
@@ -62,7 +62,7 @@ public class Game
                 {
                     // Update dominoes drawn.
                     //
-                    final Set<Domino> draftDominoes = GameStateHandler.getDraftDominoes(this);
+                    final Set<Domino> draftDominoes = GameServer.getDraftDominoes(this);
                     drawnDominoes.addAll(draftDominoes);
 
                     // Create local game state.
@@ -155,11 +155,6 @@ public class Game
             {
                 System.out.print(msg);
             }
-        }
-
-        public static void printGameStarted(final Game game)
-        {
-            print("Game started! UUID: " + game.getUUID() + "\n");
         }
 
         public static void printPlayerJoined(final Game game, final String playerName)
