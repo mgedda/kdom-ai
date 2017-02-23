@@ -1,5 +1,7 @@
 package kingdominoplayer.datastructures;
 
+import com.sun.istack.internal.Nullable;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -14,7 +16,7 @@ public class Move
     private final Domino iChosenDomino;
     private final PlacedDomino iPlacedDomino;
 
-    public Move(final int number, final Domino chosenDomino, final PlacedDomino placedDomino)
+    public Move(final int number, @Nullable final Domino chosenDomino, @Nullable final PlacedDomino placedDomino)
     {
         iNumber = number;
         iChosenDomino = chosenDomino;
