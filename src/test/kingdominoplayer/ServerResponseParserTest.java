@@ -27,7 +27,28 @@ public class ServerResponseParserTest
     }
 
     @Test
-    public void testGetAvailableMoves_onlyChosenDominos() throws Exception
+    public void testGetAvailableMoves_simple() throws Exception
+    {
+        final String availableMoves = "{\"moves\":[" +
+                " {\"number\":0, \"chosenDomino\":{\"number\":0, \"tile1\":{\"terrain\":\"water\", \"crowns\":0}, \"tile2\":{\"terrain\":\"forest\", \"crowns\":1}}}" +
+                ",{\"number\":1, \"chosenDomino\":{\"number\":1, \"tile1\":{\"terrain\":\"field\", \"crowns\":2}, \"tile2\":{\"terrain\":\"pasture\", \"crowns\":0}}}" +
+                ",{\"number\":2, \"chosenDomino\":{\"number\":2, \"tile1\":{\"terrain\":\"field\", \"crowns\":0}, \"tile2\":{\"terrain\":\"clay\", \"crowns\":0}}}" +
+                "]}";
+
+        final Move[] moves = ServerResponseParser.getAvailableMoves(availableMoves);
+
+        Assert.assertEquals(moves.length, 3);
+        Assert.assertEquals(moves[0].getNumber(), 0);
+        Assert.assertEquals(moves[0].getChosenDomino().getNumber(), 0);
+        Assert.assertEquals(moves[0].getChosenDomino().getTile1().getTerrain(), "water");
+        Assert.assertEquals(moves[0].getChosenDomino().getTile1().getCrowns(), 0);
+        Assert.assertEquals(moves[0].getChosenDomino().getTile2().getTerrain(), "forest");
+        Assert.assertEquals(moves[0].getChosenDomino().getTile2().getCrowns(), 1);
+    }
+
+
+    @Test
+    public void testGetAvailableMoves_onlyChosenDominoes() throws Exception
     {
         final String availableMoves = "{\n" +
                 "  \"moves\":[{\n" +
