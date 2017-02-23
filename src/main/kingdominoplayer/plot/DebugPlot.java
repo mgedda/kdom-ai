@@ -187,6 +187,23 @@ public class DebugPlot
         }
     }
 
+    public static void plotKingdom(final Kingdom kingdom, final String title)
+    {
+        plotWithPositionsMarked(kingdom, new ArrayList<>(), title);
+    }
+
+    public static void plotKingdoms(final ArrayList<Kingdom> kingdoms, final String title)
+    {
+        final ArrayList<Positions> positions = new ArrayList<>(kingdoms.size());
+        for (final Kingdom kingdom : kingdoms)
+        {
+            positions.add(new Positions(new ArrayList<>()));
+        }
+
+        plotWithPositionsMarked(kingdoms, positions, title);
+    }
+
+
     public static void plotWithPositionsMarked(final Kingdom kingdom, final Collection<Position> positions, final String title)
     {
         final ArrayList<Kingdom> kingdoms = new ArrayList<>(1);

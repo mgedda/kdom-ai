@@ -1,6 +1,7 @@
 package kingdominoplayer.plot;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -13,6 +14,11 @@ public class BufferedImageViewer
 {
     public static void displayImage(final BufferedImage image, final String title)
     {
+        if (GraphicsEnvironment.isHeadless())
+        {
+            return;
+        }
+
         final JFrame frame = new ImageFrame(image);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.pack();
