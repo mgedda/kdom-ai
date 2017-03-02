@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MonteCarloSearch
 {
     private static final int SURFACE_BREADTH = 10;   // max number of moves to evaluate
-    private static final int SEARCH_BREADTH = 2;     // max number of branches to evaluate for each move
+    private static final int SEARCH_BREADTH = 3;     // max number of branches to evaluate for each move
 
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
@@ -117,8 +117,9 @@ public class MonteCarloSearch
         //
         if (searchState.isGameOver())
         {
-            final boolean playerWon = hasPlayerHighestScore(playerName, searchState);
-            return playerWon ? 1.0 : 0.0;
+            final double moveScore = computeMoveScore(playerName, searchState);
+
+            return moveScore;
         }
 
 
@@ -138,6 +139,34 @@ public class MonteCarloSearch
         return totalScore / numMovesEvaluated;
     }
 
+    private double computeMoveScore_old(final String playerName, final LocalGameState searchState)
+    {
+        final boolean playerWon = hasPlayerHighestScore(playerName, searchState);
+        return playerWon ? 1.0 : 0.0;
+    }
+
+    private double computeMoveScore(final String playerName, final LocalGameState searchState)
+    {
+        final Map<String, Integer> scores = searchState.getScores();
+
+        final int playerScore = scores.get(playerName);
+        scores.remove(playerName);
+
+        final Collection<Integer> opponentScores = scores.values();
+
+        final ArrayList<Integer> opponentScoresSorted = new ArrayList<>(opponentScores.size());
+        opponentScoresSorted.addAll(opponentScores);
+        opponentScoresSorted.sort((Integer s1, Integer s2) ->
+        {
+            return s1 > s2 ? -1 : s2 > s1 ? 1 : 0;
+        });
+
+        final Integer topOpponentScore = opponentScoresSorted.get(0);
+
+        final double score = playerScore / (double)(topOpponentScore + playerScore);
+
+        return score;
+    }
 
 
     private Move selectOpponentMove(final String opponentName, final ArrayList<Move> availableMoves, final LocalGameState searchState)
