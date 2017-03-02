@@ -50,7 +50,7 @@ public class Domino
 
         final Domino domino = (Domino) o;
 
-        return iNumber == domino.iNumber;
+        return iNumber == domino.iNumber && iTile1.equals(domino.iTile1) && iTile2.equals(domino.iTile2);
     }
 
     @Override

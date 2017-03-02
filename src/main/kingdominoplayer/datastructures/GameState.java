@@ -28,18 +28,14 @@ public class GameState
      */
     protected final ArrayList<DraftElement> iCurrentDraft;
 
-    protected final boolean iIsGameOver;
-
 
     public GameState(final ArrayList<KingdomInfo> kingdomInfos,
                      final ArrayList<DraftElement> previousDraft,
-                     final ArrayList<DraftElement> currentDraft,
-                     final boolean isGameOver)
+                     final ArrayList<DraftElement> currentDraft)
     {
         iKingdomInfos = kingdomInfos;
         iPreviousDraft = previousDraft;
         iCurrentDraft = currentDraft;
-        iIsGameOver = isGameOver;
     }
 
     public ArrayList<KingdomInfo> getKingdomInfos()
@@ -59,13 +55,25 @@ public class GameState
 
     public boolean isGameOver()
     {
-        return iIsGameOver;
+        return iPreviousDraft.isEmpty() && iCurrentDraft.isEmpty();
     }
 
 
     public int getNumPlayers()
     {
         return iKingdomInfos.size();
+    }
+
+    public LinkedHashSet<String> getPlayerNames()
+    {
+        final LinkedHashSet<String> playerNames = new LinkedHashSet<>(getNumPlayers());
+
+        for (final KingdomInfo kingdomInfo : iKingdomInfos)
+        {
+            playerNames.add(kingdomInfo.getPlayerName());
+        }
+
+        return playerNames;
     }
 
     protected int getDraftSize()

@@ -37,4 +37,39 @@ public class Move
     {
         return iPlacedDomino;
     }
+
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        final Move move = (Move) o;
+
+        if (iNumber != move.iNumber)
+        {
+            return false;
+        }
+        if (iChosenDomino != null ? !iChosenDomino.equals(move.iChosenDomino) : move.iChosenDomino != null)
+        {
+            return false;
+        }
+        return iPlacedDomino != null ? iPlacedDomino.equals(move.iPlacedDomino) : move.iPlacedDomino == null;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = iNumber;
+        result = 31 * result + (iChosenDomino != null ? iChosenDomino.hashCode() : 0);
+        result = 31 * result + (iPlacedDomino != null ? iPlacedDomino.hashCode() : 0);
+        return result;
+    }
 }

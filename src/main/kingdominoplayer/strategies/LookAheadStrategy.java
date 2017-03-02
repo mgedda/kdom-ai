@@ -6,6 +6,7 @@ import kingdominoplayer.planning.Planner;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -13,10 +14,10 @@ import java.util.Collection;
  * Date: 2017-02-11<br>
  * Time: 15:18<br><br>
  */
-public class LookAheadStrategy implements Strategy
+public abstract class LookAheadStrategy
 {
-    @Override
-    public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
+
+    public ArrayList<Move> selectMaxScoringMoves(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
         final Collection<PlacedTile> placedTiles = gameState.getPlacedTiles(playerName);
         final Collection<Domino> previousDraft = gameState.getPreviousDraft(playerName);
@@ -34,6 +35,8 @@ public class LookAheadStrategy implements Strategy
         }
 
 
+        final ArrayList<Move> highestScoreMoves;
+
         if (previousDraft.isEmpty())
         {
             // No domino to place. Only select from current draft.
@@ -46,17 +49,13 @@ public class LookAheadStrategy implements Strategy
                 //
 
                 // TODO [gedda] IMPORTANT! : CHANGE THIS !!!!!!!!!!!!
-                final ArrayList<Move> movesWithMostCrowns = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
-
-                return movesWithMostCrowns.get(0);
+                highestScoreMoves = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
             }
             else
             {
                 // No domino has been selected. So select your first domino. Maximize crowns?
                 //
-                final ArrayList<Move> movesWithMostCrowns = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
-
-                return movesWithMostCrowns.get(0);
+                highestScoreMoves = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
             }
         }
         else
@@ -70,24 +69,28 @@ public class LookAheadStrategy implements Strategy
             {
                 // We have dominoes placed in our kingdom.
                 //
-                final Move maxScoringKingdomMovePair = evaluateBestMovePlacedAndChosenSimultaneously(kingdomMovePairs);
+                final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = evaluateBestMovesByLookAhead(kingdomMovePairs);
 
-                return maxScoringKingdomMovePair;
-
+                highestScoreMoves = new ArrayList<>(maxScoringKingdomMovePairs.size());
+                for (final KingdomMovePair kingdomMovePair : maxScoringKingdomMovePairs)
+                {
+                    highestScoreMoves.add(kingdomMovePair.getMove());
+                }
             }
             else
             {
                 // No domino has been placed. Simply place the selected domino.
                 // // TODO [gedda] IMPORTANT! : CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //
-                final ArrayList<Move> movesWithMostCrowns = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
-
-                return movesWithMostCrowns.get(0);
+                highestScoreMoves = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
             }
         }
+
+        return highestScoreMoves;
     }
 
-    private Move evaluateBestMovePlacedAndChosenSimultaneously(final ArrayList<KingdomMovePair> kingdomMovePairs)
+
+    private ArrayList<KingdomMovePair> evaluateBestMovesByLookAhead(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
         // Look ahead one move and see what kingdoms we can produce.
         //
@@ -110,17 +113,15 @@ public class LookAheadStrategy implements Strategy
         if (maxScoringKingdomMovePairs.isEmpty())
         {
             // TODO [gedda] IMPORTANT! : FIX THIS!!!!!
-            return kingdomMovePairsToEvaluate.get(0).getMove();
+            return kingdomMovePairsToEvaluate;
         }
         else if (maxScoringKingdomMovePairs.size() > 1)
         {
             // TODO [gedda] IMPORTANT! : Select move where the chosen domino placement has best neighbour match or is completely surrounded!!!
-            return maxScoringKingdomMovePairs.get(0).getMove();
+            return maxScoringKingdomMovePairs;
         }
-        else
-        {
-            return maxScoringKingdomMovePairs.get(0).getMove();
-        }
+
+        return maxScoringKingdomMovePairs;
     }
 
 

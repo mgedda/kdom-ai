@@ -31,7 +31,6 @@ public class GameStateHandler
                 serverGameState.getKingdomInfos(),
                 serverGameState.getPreviousDraft(),
                 serverGameState.getCurrentDraft(),
-                serverGameState.isGameOver(),
                 drawPile,
                 false);
 

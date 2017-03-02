@@ -13,7 +13,8 @@ public enum StrategyID
     MOST_CROWNS,
     WATER,
     EXPAND,
-    LOOK_AHEAD;
+    LOOK_AHEAD_RANDOM,
+    LOOK_AHEAD_MONTE_CARLO;
 
     private Strategy iStrategy;
 
@@ -23,7 +24,8 @@ public enum StrategyID
         MOST_CROWNS.iStrategy = new MostCrownsStrategy();
         WATER.iStrategy = new WaterStrategy();
         EXPAND.iStrategy = new ExpandStrategy();
-        LOOK_AHEAD.iStrategy = new LookAheadStrategy();
+        LOOK_AHEAD_RANDOM.iStrategy = new LookAheadRandom();
+        LOOK_AHEAD_MONTE_CARLO.iStrategy = new LookAheadMonteCarlo();
     }
 
     public Strategy getStrategy()

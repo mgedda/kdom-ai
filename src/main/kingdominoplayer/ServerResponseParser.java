@@ -290,9 +290,6 @@ public class ServerResponseParser
         final ArrayList<DraftElement> previousDraft = ArrayUtils.toArrayList(ServerResponseParser.getPreviousDraft(gameState));
         final ArrayList<DraftElement> currentDraft = ArrayUtils.toArrayList(ServerResponseParser.getCurrentDraft(gameState));
 
-        final boolean isGameOver = ServerResponseParser.isGameOver(gameState);
-
-        return new GameState(kingdomInfos, previousDraft, currentDraft, isGameOver);
-
+        return new GameState(kingdomInfos, previousDraft, currentDraft);
     }
 }

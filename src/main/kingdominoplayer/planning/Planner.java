@@ -291,6 +291,6 @@ public class Planner
         }
 
 
-        return new GameState(updatedKingdomInfos, updatedPreviousDraft, updatedCurrentDraft, false);
+        return new GameState(updatedKingdomInfos, updatedPreviousDraft, updatedCurrentDraft);
     }
 }

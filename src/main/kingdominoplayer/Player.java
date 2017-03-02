@@ -6,6 +6,8 @@ import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.strategies.*;
 import kingdominoplayer.utils.Util;
 
+import java.util.ArrayList;
+
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -58,6 +60,9 @@ public class Player
         final Move[] availableMoves = GameServer.getAvailableMoves(game);
         assert availableMoves.length > 0 : "no moves to choose from";
 
+        // TODO [gedda] IMPORTANT! : REMOVE DEBUG
+        //sanityCheckAvailableMovesInLocalGameState(localGameState, availableMoves);
+
         // Show state before move
         //
         DEBUG.plotGameState(iDebugEnabled, localGameState, "Before Move (extendedState) " + Integer.toString(iMovesMade + 1));
@@ -78,6 +83,17 @@ public class Player
         OUTPUT.printMoveMade();
     }
 
+
+    private void sanityCheckAvailableMovesInLocalGameState(final LocalGameState localGameState, final Move[] availableMoves)
+    {
+        final ArrayList<Move> localGameStateAvailableMoves = localGameState.getAvailableMoves(getName());
+
+        for (int i = 0; i < availableMoves.length; ++i)
+        {
+            assert availableMoves[i].equals(localGameStateAvailableMoves.get(i)) : "Available moves mismatch!";
+        }
+        Util.noop();
+    }
 
 
     private static class DEBUG

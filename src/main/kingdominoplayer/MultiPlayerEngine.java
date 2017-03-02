@@ -20,7 +20,7 @@ public class MultiPlayerEngine
         final ArrayList<Player> players = new ArrayList<>(4);
         players.add(game.addPlayer("RandomCalrissian1", StrategyID.RANDOM, false));
         players.add(game.addPlayer("RandomCalrissian2", StrategyID.RANDOM, false));
-        players.add(game.addPlayer("TyrionPlannister", StrategyID.LOOK_AHEAD, false));
+        players.add(game.addPlayer("TyrionPlannister", StrategyID.LOOK_AHEAD_MONTE_CARLO, false));
 
         game.play(players);
 

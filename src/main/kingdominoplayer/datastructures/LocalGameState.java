@@ -1,7 +1,10 @@
 package kingdominoplayer.datastructures;
 
+import kingdominoplayer.planning.Planner;
+import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.plot.KingdomInfo;
 import kingdominoplayer.utils.ArrayUtils;
+import kingdominoplayer.utils.GameUtils;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -27,27 +30,85 @@ public class LocalGameState extends GameState
      * will be set by a method call specifying what dominoes were placed in the
      * draft.
      */
-    private boolean iIsSearching;
+    private final boolean iIsSearching;
+
+    private String iPlayerTurn;
+
 
     public LocalGameState(final ArrayList<KingdomInfo> kingdomInfos,
                           final ArrayList<DraftElement> previousDraft,
                           final ArrayList<DraftElement> currentDraft,
-                          final boolean isGameOver,
                           final Set<Domino> drawPile,
                           final boolean isSearching)
     {
-        super(kingdomInfos, previousDraft, currentDraft, isGameOver);
+        super(kingdomInfos, previousDraft, currentDraft);
 
         iDrawPile = drawPile;
         iIsSearching = isSearching;
+
+        iPlayerTurn = null;
     }
 
+
+    public LocalGameState withSearchEnabled()
+    {
+        return new LocalGameState(iKingdomInfos, iPreviousDraft, iCurrentDraft, iDrawPile, true);
+    }
+
+
+    public String getPlayerTurn()
+    {
+        if (isGameOver())
+        {
+            assert false : "The game is over, so it is no ones turn!";
+        }
+
+        if (iPlayerTurn == null)
+        {
+            if (getPreviousDraft().isEmpty())
+            {
+                final LinkedHashSet<String> playerNames = getPlayerNames();
+                final ArrayList<DraftElement> currentDraft = getCurrentDraft();
+
+                assert ! currentDraft.isEmpty() : "Both previous and current draft are empty!";
+
+                for (final DraftElement draftElement : currentDraft)
+                {
+                    if (draftElement.getPlayerName() != null)
+                    {
+                        playerNames.remove(draftElement.getPlayerName());
+                    }
+                }
+
+                assert ! playerNames.isEmpty() : "All players have chosen current draft but previous draft is empty!";
+
+                final String playerWhosTurnItIs;
+                if (playerNames.size() > 1)
+                {
+                    final int numNames = playerNames.size();
+                    final ArrayList<String> playersLeft = new ArrayList<>(numNames);
+                    playersLeft.addAll(playerNames);
+
+                    final int randomNum = ThreadLocalRandom.current().nextInt(0, numNames);
+                    playerWhosTurnItIs = playersLeft.get(randomNum);
+                }
+                else
+                {
+                    playerWhosTurnItIs = playerNames.iterator().next();
+                }
+
+                return playerWhosTurnItIs;
+            }
+
+            iPlayerTurn = getPreviousDraft().get(0).getPlayerName();
+        }
+
+        return iPlayerTurn;
+    }
 
 
     public LocalGameState makeMove(final String playerName, final Move move)
     {
-        boolean isGameOver = false;
-
         /////////////////////////////////////////////////////////
         // Process placed domino.
         /////////////////////////////////////////////////////////
@@ -90,11 +151,6 @@ public class LocalGameState extends GameState
                     previousDraft.add(draftElement);
                 }
             }
-
-
-            // Check if game is over.
-            //
-            isGameOver = iCurrentDraft.isEmpty() && previousDraft.isEmpty();
         }
         else
         {
@@ -139,6 +195,8 @@ public class LocalGameState extends GameState
         // Handle finished selection
         /////////////////////////////////////////////////////////
 
+        final LocalGameState result;
+
         if (iIsSearching && isCurrentDraftSelectionComplete(currentDraft))
         {
             // Move current draft to previous draft.
@@ -147,9 +205,30 @@ public class LocalGameState extends GameState
             previousDraft.addAll(currentDraft);
             currentDraft.clear();
 
+
+            // Remove dominoes without valid placements from previous draft.
+            //
+            final ArrayList<DraftElement> invalidPreviousDraftElements = new ArrayList<>(previousDraft.size());
+
+            for (final DraftElement draftElement : previousDraft)
+            {
+                final String name = draftElement.getPlayerName();
+                final KingdomInfo kingdomInfo = getKingdomInfo(name, kingdomInfos);
+
+                final Set<DominoPosition> validPositions = Planner.getValidPositions(draftElement.getDomino(), kingdomInfo.getKingdom());
+
+                if (validPositions.isEmpty())
+                {
+                    invalidPreviousDraftElements.add(draftElement);
+                }
+            }
+            previousDraft.removeAll(invalidPreviousDraftElements);
+
+
             // Draw new current draft from draw pile.
             //
             final LinkedHashSet<Domino> drawPile = new LinkedHashSet<>(iDrawPile.size());
+            drawPile.addAll(iDrawPile);
 
             if (! iDrawPile.isEmpty())
             {
@@ -169,14 +248,55 @@ public class LocalGameState extends GameState
                 }
             }
 
-            return new LocalGameState(kingdomInfos, previousDraft, currentDraft, isGameOver, drawPile, iIsSearching);
+            result = new LocalGameState(kingdomInfos, previousDraft, currentDraft, drawPile, iIsSearching);
         }
         else
         {
-            return new LocalGameState(kingdomInfos, previousDraft, currentDraft, isGameOver, iDrawPile, iIsSearching);
+            result = new LocalGameState(kingdomInfos, previousDraft, currentDraft, iDrawPile, iIsSearching);
+        }
+
+
+        sanityCheck(result);
+
+        return result;
+    }
+
+
+    private static void sanityCheck(final LocalGameState gameState)
+    {
+        if (! gameState.getPreviousDraft().isEmpty())
+        {
+            final int maxPreviousDraftCount = gameState.getNumPlayers() == 2 ? 2 : 1;
+
+            for (final String playerName : gameState.getPlayerNames())
+            {
+                int previousDraftCount = 0;
+
+                for (final DraftElement draftElement : gameState.getPreviousDraft())
+                {
+                    previousDraftCount = draftElement.getPlayerName().equals(playerName) ? previousDraftCount + 1 : previousDraftCount;
+                }
+
+                assert previousDraftCount <= maxPreviousDraftCount : "Player '" + playerName + "' has too many dominoes in previous draft!";
+            }
         }
     }
 
+
+    private KingdomInfo getKingdomInfo(final String playerName, final ArrayList<KingdomInfo> kingdomInfos)
+    {
+        for (final KingdomInfo kingdomInfo : kingdomInfos)
+        {
+            if (kingdomInfo.getPlayerName().equals(playerName))
+            {
+                return kingdomInfo;
+            }
+        }
+
+        assert  false : "Player '" + playerName + "' has no kingdom!";
+
+        return null;
+    }
 
 
     public GameState makeNewCurrentDraft(final Collection<Integer> dominoNumbers)
@@ -194,7 +314,7 @@ public class LocalGameState extends GameState
 
         final ArrayList<DraftElement> previousDraft = iCurrentDraft;
 
-        return new LocalGameState(iKingdomInfos, previousDraft, currentDraft, false, drawPile, iIsSearching);
+        return new LocalGameState(iKingdomInfos, previousDraft, currentDraft, drawPile, iIsSearching);
     }
 
 
@@ -264,5 +384,11 @@ public class LocalGameState extends GameState
         });
 
         return dominoes;
+    }
+
+
+    public void DEBUG_plot(final String title)
+    {
+        DebugPlot.plotGameState(this, title);
     }
 }

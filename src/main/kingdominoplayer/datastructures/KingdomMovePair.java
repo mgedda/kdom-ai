@@ -80,7 +80,7 @@ public class KingdomMovePair
 
     public boolean isChosenPlaced()
     {
-        return iChosenDominoPosition == null;
+        return iChosenDominoPosition != null;
     }
 
     public DominoPosition getChosenDominoPosition()
