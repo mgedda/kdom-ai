@@ -59,9 +59,6 @@ public class Player
         final Move[] availableMoves = GameServer.getAvailableMoves(game);
         assert availableMoves.length > 0 : "no moves to choose from";
 
-        // TODO [gedda] IMPORTANT! : REMOVE DEBUG
-        //sanityCheckAvailableMovesInLocalGameState(localGameState, availableMoves);
-
         // Show state before move
         //
         final int roundNumber = iMovesMade + 1;
@@ -70,6 +67,8 @@ public class Player
 
         DEBUG.printBranchingFactor(iDebugEnabled, roundNumber, availableMoves.length);
 
+        // Select move.
+        //
         final Move move = iStrategy.selectMove(iName, availableMoves, localGameState);
         final LocalGameState localGameStateAfterMove = localGameState.makeMove(iName, move);
 
@@ -77,7 +76,6 @@ public class Player
         //
         DEBUG.plotGameState(iDebugEnabled, localGameStateAfterMove, "After Move (extendedState) " + Integer.toString(roundNumber));
         Util.noop();
-
 
         GameServer.makeMove(game, this, move);
         iMovesMade++;
