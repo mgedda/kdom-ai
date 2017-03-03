@@ -4,6 +4,7 @@ import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.strategies.StrategyID;
+import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Timing;
 
 import java.util.Collection;
@@ -71,7 +72,9 @@ public class Game
 
                     // Make move for player.
                     //
+                    Output.printMakingAMove(player);
                     player.makeAMove(this, localGameState);
+                    Output.printMoveMade();
 
                     // Reset time out counter.
                     //
@@ -81,7 +84,7 @@ public class Game
                 {
                     // Declare that we are waiting for our turn.
                     //
-                    OUTPUT.printWaiting(player);
+                    Output.printWaiting(player);
                 }
             }
 
@@ -95,6 +98,9 @@ public class Game
             System.err.println("Error: Timed out!");
             System.exit(0);
         }
+
+        Output.printGameFinished();
+
     }
 
 
@@ -105,61 +111,13 @@ public class Game
 
         final Player player = new Player(uuid, playerName, strategyID, enableDebug);
 
-        DEBUG.printPlayerJoined(this, playerName);
+        Output.printPlayerJoined(this, playerName);
 
         return player;
     }
 
     public void printResult()
     {
-        final String gameState = CommunicationsHandler.getGameState(this);
-        final String[] playerNames = ServerResponseParser.getPlayerNames(gameState);
-
-        System.out.println("=================================================");
-        System.out.println("RESULTS");
-        System.out.println("-------------------------------------------------");
-
-        for (final String playerName : playerNames)
-        {
-            System.out.println(playerName + ": " + GameServer.getPlayerScore(this, playerName));
-        }
-
-        System.out.println("-------------------------------------------------");
-    }
-
-    private static class OUTPUT
-    {
-        private static boolean OUTPUT = true;
-
-        private static void print(final String msg)
-        {
-            if (OUTPUT)
-            {
-                System.out.print(msg);
-            }
-        }
-
-        public static void printWaiting(final Player player)
-        {
-            print(player.getName() + ": Waiting for my turn...\n");
-        }
-    }
-
-    private static class DEBUG
-    {
-        private static boolean DEBUG = true;
-
-        private static void print(final String msg)
-        {
-            if (DEBUG)
-            {
-                System.out.print(msg);
-            }
-        }
-
-        public static void printPlayerJoined(final Game game, final String playerName)
-        {
-            print("Player " + playerName + " joined game " + game.getUUID() + "\n");
-        }
+        Output.printResult(this);
     }
 }

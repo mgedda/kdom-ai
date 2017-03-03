@@ -4,6 +4,7 @@ import kingdominoplayer.datastructures.*;
 import kingdominoplayer.planning.Planner;
 import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.strategies.*;
+import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Util;
 
 import java.util.ArrayList;
@@ -55,8 +56,6 @@ public class Player
 
     public void makeAMove(final Game game, final LocalGameState localGameState)
     {
-        OUTPUT.printMakingAMove(this);
-
         final Move[] availableMoves = GameServer.getAvailableMoves(game);
         assert availableMoves.length > 0 : "no moves to choose from";
 
@@ -65,34 +64,24 @@ public class Player
 
         // Show state before move
         //
-        DEBUG.plotGameState(iDebugEnabled, localGameState, "Before Move (extendedState) " + Integer.toString(iMovesMade + 1));
+        final int roundNumber = iMovesMade + 1;
+        DEBUG.plotGameState(iDebugEnabled, localGameState, "Before Move (extendedState) " + Integer.toString(roundNumber));
         Util.noop();
+
+        DEBUG.printBranchingFactor(iDebugEnabled, roundNumber, availableMoves.length);
 
         final Move move = iStrategy.selectMove(iName, availableMoves, localGameState);
         final LocalGameState localGameStateAfterMove = localGameState.makeMove(iName, move);
 
         // Show state after move
         //
-        DEBUG.plotGameState(iDebugEnabled, localGameStateAfterMove, "After Move (extendedState) " + Integer.toString(iMovesMade + 1));
+        DEBUG.plotGameState(iDebugEnabled, localGameStateAfterMove, "After Move (extendedState) " + Integer.toString(roundNumber));
         Util.noop();
 
 
         GameServer.makeMove(game, this, move);
         iMovesMade++;
 
-        OUTPUT.printMoveMade();
-    }
-
-
-    private void sanityCheckAvailableMovesInLocalGameState(final LocalGameState localGameState, final Move[] availableMoves)
-    {
-        final ArrayList<Move> localGameStateAvailableMoves = localGameState.getAvailableMoves(getName());
-
-        for (int i = 0; i < availableMoves.length; ++i)
-        {
-            assert availableMoves[i].equals(localGameStateAvailableMoves.get(i)) : "Available moves mismatch!";
-        }
-        Util.noop();
     }
 
 
@@ -100,54 +89,20 @@ public class Player
     {
         private static boolean DEBUG = true;
 
-        private static void plotGameState(final boolean isDebugEnabled, final String gameState, final String title)
-        {
-            if (DEBUG && isDebugEnabled)
-            {
-                DebugPlot.plotGameState(gameState, title);
-            }
-        }
-
         private static void plotGameState(final boolean isDebugEnabled, final GameState gameState, final String title)
         {
             if (DEBUG && isDebugEnabled)
             {
-                DebugPlot.plotGameState(gameState, title);
+                //DebugPlot.plotGameState(gameState, title);
             }
         }
 
-        public static void plotGameStateAfterMove(final boolean isDebugEnabled, final String gameState, final Move move, final String playerName, final String title)
+        public static void printBranchingFactor(final boolean isDebugEnabled, final int roundNumber, final int numAvailableMoves)
         {
             if (DEBUG && isDebugEnabled)
             {
-                final GameState gameStateObject = ServerResponseParser.getGameStateObject(gameState);
-                final GameState newGameState = Planner.makeMove(move, gameStateObject, playerName);
-                DebugPlot.plotGameState(newGameState, title);
+                Output.printBranchingFactor(roundNumber, numAvailableMoves);
             }
-        }
-    }
-
-
-    private static class OUTPUT
-    {
-        private static boolean OUTPUT = true;
-
-        private static void print(final String msg)
-        {
-            if (OUTPUT)
-            {
-                System.out.print(msg);
-            }
-        }
-
-        public static void printMakingAMove(final Player player)
-        {
-            print(player.getName() + ": Making a move...");
-        }
-
-        public static void printMoveMade()
-        {
-            print("move made!\n");
         }
     }
 }
