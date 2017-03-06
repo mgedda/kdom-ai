@@ -1,6 +1,7 @@
 package kingdominoplayer;
 
 import kingdominoplayer.datastructures.Domino;
+import kingdominoplayer.datastructures.GameState;
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.strategies.StrategyID;
@@ -41,7 +42,7 @@ public class Game
                 '}';
     }
 
-    public void play(final Collection<Player> players)
+    public GameState play(final Collection<Player> players)
     {
         final int sleepMilliSeconds = 1000;
         final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
@@ -101,6 +102,7 @@ public class Game
 
         Output.printGameFinished();
 
+        return GameStateHandler.getServerGameState(this);
     }
 
 

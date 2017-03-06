@@ -106,6 +106,12 @@ public class GameState
         return playerNameToScoreMap;
     }
 
+    public int getScore(final String playerName)
+    {
+        final Map<String, Integer> scores = getScores();
+        return scores.get(playerName);
+    }
+
     public Collection<PlacedTile> getPlacedTiles(final String name)
     {
         //noinspection ConstantConditions

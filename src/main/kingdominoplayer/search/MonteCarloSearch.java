@@ -217,37 +217,6 @@ public class MonteCarloSearch
     }
 
 
-
-    /**
-     * Check if playerName has the highest score.
-     *
-     * @param playerName
-     * @param searchState
-     * @return
-     */
-    private boolean hasPlayerHighestScore(final String playerName, final LocalGameState searchState)
-    {
-        final Map<String, Integer> scores = searchState.getScores();
-
-        final int playerScore = scores.get(playerName);
-        scores.remove(playerName);
-
-        final Collection<Integer> opponentScores = scores.values();
-
-        boolean playerHasHighestScore = true;
-        for (final int opponentScore : opponentScores)
-        {
-            if (opponentScore >= playerScore)
-            {
-                playerHasHighestScore = false;
-                break;
-            }
-        }
-
-        return playerHasHighestScore;
-    }
-
-
     /**
      * Select numberOfMoves randomly from moves. If the number of moves in moves are fewer than
      * numberOfMoves, then return all moves.
