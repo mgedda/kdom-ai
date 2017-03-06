@@ -4,6 +4,7 @@ import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -17,14 +18,17 @@ public class LookAheadRandom extends LookAheadStrategy implements Strategy
     @Override
     public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
-        final ArrayList<Move> maxScoringMoves = selectMaxScoringMoves(playerName, availableMoves, gameState);
+        final Set<Move> maxScoringMoves = selectMaxScoringMoves(playerName, availableMoves, gameState);
+
+        final ArrayList<Move> movesToEvaluate = new ArrayList<>(maxScoringMoves.size());
+        movesToEvaluate.addAll(maxScoringMoves);
 
         // Select random move among highest scoring moves.
         //
-        final int numMoves = maxScoringMoves.size();
+        final int numMoves = movesToEvaluate.size();
         final int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
 
-        return maxScoringMoves.get(randomNum);
+        return movesToEvaluate.get(randomNum);
     }
 
 }

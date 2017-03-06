@@ -57,6 +57,7 @@ public class Move
         {
             return false;
         }
+
         if (iChosenDomino != null ? !iChosenDomino.equals(move.iChosenDomino) : move.iChosenDomino != null)
         {
             return false;

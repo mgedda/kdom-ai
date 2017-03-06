@@ -5,6 +5,7 @@ import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.search.MonteCarloSearch;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -17,15 +18,18 @@ public class LookAheadMonteCarlo extends LookAheadStrategy implements Strategy
     @Override
     public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
-        final ArrayList<Move> maxScoringMoves = selectMaxScoringMoves(playerName, availableMoves, gameState);
+        final Set<Move> maxScoringMoves = selectMaxScoringMoves(playerName, availableMoves, gameState);
+
+        final ArrayList<Move> movesToEvaluate = new ArrayList<>(maxScoringMoves.size());
+        movesToEvaluate.addAll(maxScoringMoves);
 
         if (maxScoringMoves.size() > 1)
         {
-            return new MonteCarloSearch().evaluate(playerName, gameState, maxScoringMoves);
+            return new MonteCarloSearch().evaluate(playerName, gameState, movesToEvaluate);
         }
         else
         {
-            return maxScoringMoves.get(0);
+            return movesToEvaluate.get(0);
         }
     }
 

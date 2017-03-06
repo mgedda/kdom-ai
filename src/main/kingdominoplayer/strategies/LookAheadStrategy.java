@@ -6,6 +6,8 @@ import kingdominoplayer.planning.Planner;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -17,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class LookAheadStrategy
 {
 
-    public ArrayList<Move> selectMaxScoringMoves(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
+    public Set<Move> selectMaxScoringMoves(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
         final Collection<PlacedTile> placedTiles = gameState.getPlacedTiles(playerName);
         final Collection<Domino> previousDraft = gameState.getPreviousDraft(playerName);
@@ -35,7 +37,7 @@ public abstract class LookAheadStrategy
         }
 
 
-        final ArrayList<Move> highestScoreMoves;
+        final Set<Move> highestScoreMoves = new LinkedHashSet<>();
 
         if (previousDraft.isEmpty())
         {
@@ -49,13 +51,13 @@ public abstract class LookAheadStrategy
                 //
 
                 // TODO [gedda] IMPORTANT! : CHANGE THIS !!!!!!!!!!!!
-                highestScoreMoves = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
+                highestScoreMoves.addAll(GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves));
             }
             else
             {
                 // No domino has been selected. So select your first domino. Maximize crowns?
                 //
-                highestScoreMoves = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
+                highestScoreMoves.addAll(GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves));
             }
         }
         else
@@ -71,7 +73,6 @@ public abstract class LookAheadStrategy
                 //
                 final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = evaluateBestMovesByLookAhead(kingdomMovePairs);
 
-                highestScoreMoves = new ArrayList<>(maxScoringKingdomMovePairs.size());
                 for (final KingdomMovePair kingdomMovePair : maxScoringKingdomMovePairs)
                 {
                     highestScoreMoves.add(kingdomMovePair.getMove());
@@ -82,7 +83,7 @@ public abstract class LookAheadStrategy
                 // No domino has been placed. Simply place the selected domino.
                 // // TODO [gedda] IMPORTANT! : CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //
-                highestScoreMoves = GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves);
+                highestScoreMoves.addAll(GameUtils.getMovesWithMostCrownsOnSingleTile(availableMoves));
             }
         }
 
