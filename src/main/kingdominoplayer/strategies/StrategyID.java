@@ -8,18 +8,26 @@ package kingdominoplayer.strategies;
  */
 public enum StrategyID
 {
-    TRUE_RANDOM,
     EXPAND,
+    TRUE_RANDOM,
+    //RESTRICTED_RANDOM,
+    GREEDY_PLACEMENT_RANDOM_DRAFT,
     FULL_GREEDY,
-    MONTE_CARLO;
+    //MONTE_CARLO_OPPONENT_TRUE_RANDOM,
+    //MONTE_CARLO_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT,
+    MONTE_CARLO_OPPONENT_FULL_GREEDY;
 
     private Strategy iStrategy;
 
     static {
         EXPAND.iStrategy = new Expand();
         TRUE_RANDOM.iStrategy = new TrueRandom();
+        //RESTRICTED_RANDOM.iStrategy = new RestrictedRandom();
+        GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new GreedyPlacementRandomDraft();
         FULL_GREEDY.iStrategy = new FullGreedy();
-        MONTE_CARLO.iStrategy = new MonteCarlo();
+        //MONTE_CARLO_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarloOpponentTrueRandom();
+        //MONTE_CARLO_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new MonteCarloOpponentGreedyPlacementRandomDraft();
+        MONTE_CARLO_OPPONENT_FULL_GREEDY.iStrategy = new MonteCarloOpponentFullGreedy();
     }
 
     public Strategy getStrategy()

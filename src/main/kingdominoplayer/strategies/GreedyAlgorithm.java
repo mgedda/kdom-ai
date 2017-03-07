@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -16,10 +15,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * Date: 2017-02-11<br>
  * Time: 15:18<br><br>
  */
-public abstract class GreedyStrategy
+public abstract class GreedyAlgorithm
 {
 
-    public Set<Move> selectMaxScoringMoves(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
+    public ArrayList<Move> getMaxScoringMoves(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
         final Collection<PlacedTile> placedTiles = gameState.getPlacedTiles(playerName);
         final Collection<Domino> previousDraft = gameState.getPreviousDraft(playerName);
@@ -71,7 +70,7 @@ public abstract class GreedyStrategy
             {
                 // We have dominoes placed in our kingdom.
                 //
-                final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = evaluateBestMovesByLookAhead(kingdomMovePairs);
+                final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = getMaxScoringMovePairs(kingdomMovePairs);
 
                 for (final KingdomMovePair kingdomMovePair : maxScoringKingdomMovePairs)
                 {
@@ -87,11 +86,14 @@ public abstract class GreedyStrategy
             }
         }
 
-        return highestScoreMoves;
+        final ArrayList<Move> movesToEvaluate = new ArrayList<>(highestScoreMoves.size());
+        movesToEvaluate.addAll(highestScoreMoves);
+
+        return movesToEvaluate;
     }
 
 
-    private ArrayList<KingdomMovePair> evaluateBestMovesByLookAhead(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    private ArrayList<KingdomMovePair> getMaxScoringMovePairs(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
         // Look ahead one move and see what kingdoms we can produce.
         //
@@ -102,14 +104,20 @@ public abstract class GreedyStrategy
                         ? kingdomMovePairs
                         : kingdomMovePairsWithPlacedDominoPlaced;
 
-        final ArrayList<KingdomMovePair> kingdomMovePairsWithPlacedAndChosenDominoPlaced = Planner.getKingdomMovePairsWithChosenDominoPlaced(kingdomMovePairsForChosenPlacement);
+        final ArrayList<KingdomMovePair> kingdomMovePairsWithPlacedAndChosenDominoPlaced = getKingdomMovePairsWithChosenDominoPlaced(kingdomMovePairsForChosenPlacement);
 
         final ArrayList<KingdomMovePair> kingdomMovePairsToEvaluate =
                 kingdomMovePairsWithPlacedAndChosenDominoPlaced.isEmpty()
                         ? kingdomMovePairs
                         : kingdomMovePairsWithPlacedAndChosenDominoPlaced;
 
-        final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = getMaxScoringKingdomMovePairs(kingdomMovePairsToEvaluate);
+        final ArrayList<KingdomMovePair> kingdomMovePairsRefined = excludeDestructiveMoves(kingdomMovePairsToEvaluate);
+
+
+        // See which moves have the maximum scores.
+        //
+        final ArrayList<KingdomMovePair> maxScoringKingdomMovePairs = Planner.getMaxScoringKingdomMovePairs(kingdomMovePairsRefined);
+
 
         if (maxScoringKingdomMovePairs.isEmpty())
         {
@@ -126,7 +134,10 @@ public abstract class GreedyStrategy
     }
 
 
-    private ArrayList<KingdomMovePair> getMaxScoringKingdomMovePairs(final ArrayList<KingdomMovePair> kingdomMovePairs)
+    protected abstract ArrayList<KingdomMovePair> getKingdomMovePairsWithChosenDominoPlaced(final ArrayList<KingdomMovePair> kingdomMovePairsForChosenPlacement);
+
+
+    private ArrayList<KingdomMovePair> excludeDestructiveMoves(final ArrayList<KingdomMovePair> kingdomMovePairs)
     {
         // Remove all kingdoms that break the Middle Kingdom rule.
         //
@@ -149,10 +160,7 @@ public abstract class GreedyStrategy
             kingdomMovePairsWithoutSingleTileHoles = validKingdomMovePairs;
         }
 
-
-        // See which moves have the maximum scores.
-        //
-        return Planner.getMaxScoringKingdomMovePairs(kingdomMovePairsWithoutSingleTileHoles);
+        return kingdomMovePairsWithoutSingleTileHoles;
     }
 
 }
