@@ -13,19 +13,19 @@ public enum StrategyID
     MOST_CROWNS,
     WATER,
     EXPAND,
-    LOOK_AHEAD_RANDOM,
-    LOOK_AHEAD_MONTE_CARLO;
+    GREEDY_RANDOM,
+    MONTE_CARLO_GREEDY;
 
     private Strategy iStrategy;
 
     static {
         FIRST.iStrategy = new FirstStrategy();
-        RANDOM.iStrategy = new RandomStrategy();
-        MOST_CROWNS.iStrategy = new MostCrownsStrategy();
         WATER.iStrategy = new WaterStrategy();
+        MOST_CROWNS.iStrategy = new MostCrownsStrategy();
         EXPAND.iStrategy = new ExpandStrategy();
-        LOOK_AHEAD_RANDOM.iStrategy = new LookAheadRandom();
-        LOOK_AHEAD_MONTE_CARLO.iStrategy = new LookAheadMonteCarlo();
+        RANDOM.iStrategy = new RandomStrategy();
+        GREEDY_RANDOM.iStrategy = new GreedyRandom();
+        MONTE_CARLO_GREEDY.iStrategy = new MonteCarloGreedy();
     }
 
     public Strategy getStrategy()

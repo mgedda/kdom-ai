@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Date: 2017-02-11<br>
  * Time: 15:18<br><br>
  */
-public abstract class LookAheadStrategy
+public abstract class GreedyStrategy
 {
 
     public Set<Move> selectMaxScoringMoves(final String playerName, final Move[] availableMoves, final LocalGameState gameState)

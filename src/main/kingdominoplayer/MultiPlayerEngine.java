@@ -22,10 +22,10 @@ public class MultiPlayerEngine
         //players.add(game.addPlayer("RandomCalrissian2", StrategyID.RANDOM, false));
         //players.add(game.addPlayer("RandomCalrissian3", StrategyID.RANDOM, false));
         //players.add(game.addPlayer("RandomCalrissian4", StrategyID.RANDOM, true));
-        players.add(game.addPlayer("SirPranceALot1", StrategyID.LOOK_AHEAD_RANDOM, false));
-        players.add(game.addPlayer("SirPranceALot2", StrategyID.LOOK_AHEAD_RANDOM, false));
-        players.add(game.addPlayer("SirPranceALot3", StrategyID.LOOK_AHEAD_RANDOM, false));
-        players.add(game.addPlayer("TyrionPlannister", StrategyID.LOOK_AHEAD_MONTE_CARLO, true));
+        players.add(game.addPlayer("SirPranceALot1", StrategyID.GREEDY_RANDOM, false));
+        players.add(game.addPlayer("SirPranceALot2", StrategyID.GREEDY_RANDOM, false));
+        players.add(game.addPlayer("SirPranceALot3", StrategyID.GREEDY_RANDOM, false));
+        players.add(game.addPlayer("TyrionPlannister", StrategyID.MONTE_CARLO_GREEDY, true));
 
         game.play(players);
 

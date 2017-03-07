@@ -2,7 +2,7 @@ package kingdominoplayer.search;
 
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
-import kingdominoplayer.strategies.LookAheadRandom;
+import kingdominoplayer.strategies.GreedyRandom;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -213,7 +213,7 @@ public class MonteCarloSearch
 
     private Move selectMove(final String opponentName, final ArrayList<Move> availableMoves, final LocalGameState searchState)
     {
-        return new LookAheadRandom().selectMove(opponentName, availableMoves.toArray(new Move[availableMoves.size()]), searchState);
+        return new GreedyRandom().selectMove(opponentName, availableMoves.toArray(new Move[availableMoves.size()]), searchState);
     }
 
 

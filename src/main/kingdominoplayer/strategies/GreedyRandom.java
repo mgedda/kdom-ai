@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Date: 2017-03-02<br>
  * Time: 17:04<br><br>
  */
-public class LookAheadRandom extends LookAheadStrategy implements Strategy
+public class GreedyRandom extends GreedyStrategy implements Strategy
 {
     @Override
     public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
