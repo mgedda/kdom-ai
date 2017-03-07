@@ -57,7 +57,7 @@ echo "# "                                                                       
 echo "# Executing: '$SCRIPT_STR'"                                                               >> $OUTPUT_FILE
 echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
 echo ""                                                                                         >> $OUTPUT_FILE
-echo "# win, score, num_players"                                                                >> $OUTPUT_FILE
+echo "# win, score, num_players, available_moves(13), available_draft(13)"                      >> $OUTPUT_FILE
 
 
 for ((i=1; i <= $NUM_RUNS; i++))

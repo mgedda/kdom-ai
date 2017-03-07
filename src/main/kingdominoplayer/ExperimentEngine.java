@@ -54,8 +54,26 @@ public class ExperimentEngine
 
         game.printResult();
 
-        final ExperimentResult experimentResult = new ExperimentResult(gameState, players, playerName);
+        final Player player = getPlayer(players, playerName);
+        final ExperimentResult experimentResult = new ExperimentResult(gameState, player);
         experimentResult.appendToFile(outputFile);
+    }
+
+
+    private static Player getPlayer(final ArrayList<Player> players, final String playerName)
+    {
+        Player player = null;
+        for (final Player p : players)
+        {
+            if (p.getName().equals(playerName))
+            {
+                player = p;
+                break;
+            }
+        }
+        assert player != null : "Player '" + playerName + "' not found!";
+
+        return player;
     }
 
 
@@ -65,20 +83,10 @@ public class ExperimentEngine
         private final GameState iGameState;
         private final Player iPlayer;
 
-        public ExperimentResult(final GameState gameState, final ArrayList<Player> players, final String playerName)
+        public ExperimentResult(final GameState gameState, final Player player)
         {
             iGameState = gameState;
-
-            Player experimentPlayer = null;
-            for (final Player player : players)
-            {
-                if (player.getName().equals(playerName))
-                {
-                    experimentPlayer = player;
-                }
-            }
-            assert experimentPlayer != null : "Player '" + playerName + "' not found!";
-            iPlayer = experimentPlayer;
+            iPlayer = player;
         }
 
         private int getPlayerWinValue(final String playerName, final GameState gameState)
@@ -110,9 +118,31 @@ public class ExperimentEngine
             final int playerScore = iGameState.getScore(iPlayer.getName());
             final int numPlayers = iGameState.getNumPlayers();
 
+            String numAvailableMovesString = "";
+            final int[] numAvailableMovesArray = iPlayer.getNumAvailableMoves();
+            for (int i = 0; i < numAvailableMovesArray.length; ++i)
+            {
+                final int numAvailableMoves = numAvailableMovesArray[i];
+                numAvailableMovesString = i == numAvailableMovesArray.length - 1
+                        ? numAvailableMovesString.concat(Integer.toString(numAvailableMoves))
+                        : numAvailableMovesString.concat(Integer.toString(numAvailableMoves) + ", ");
+            }
+
+            String numAvailableDraftString = "";
+            final int[] numAvailableDraftArray = iPlayer.getNumAvailableDraft();
+            for (int i = 0; i < numAvailableDraftArray.length; ++i)
+            {
+                final int numAvailableDraft = numAvailableDraftArray[i];
+                numAvailableDraftString = i == numAvailableDraftArray.length - 1
+                        ? numAvailableDraftString.concat(Integer.toString(numAvailableDraft))
+                        : numAvailableDraftString.concat(Integer.toString(numAvailableDraft) + ", ");
+            }
+
             return Integer.toString(playerWinValue) + ", "
                     + Integer.toString(playerScore) + ", "
-                    + Integer.toString(numPlayers) + ""
+                    + Integer.toString(numPlayers) + ", "
+                    + numAvailableMovesString + ", "
+                    + numAvailableDraftString
                     + ";\n";
         }
 
@@ -126,7 +156,7 @@ public class ExperimentEngine
                 {
                     //noinspection ResultOfMethodCallIgnored
                     outputFile.createNewFile();
-                    Files.write(Paths.get(filename), "# win, score, num_players\n".getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get(filename), "# win, score, num_players, num_available_moves (13), num_available_draft (13)\n".getBytes(), StandardOpenOption.APPEND);
                 }
 
                 final String resultString = toString();

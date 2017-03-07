@@ -1,13 +1,9 @@
 package kingdominoplayer;
 
 import kingdominoplayer.datastructures.*;
-import kingdominoplayer.planning.Planner;
-import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.strategies.*;
 import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Util;
-
-import java.util.ArrayList;
 
 
 /**
@@ -22,6 +18,11 @@ public class Player
     private final String iUUID;
     private final String iName;
     private final boolean iDebugEnabled;
+
+    // Statistics
+    private final int[] iNumAvailableMoves = new int[13];  // Number of available moves each round.
+    private final int[] iNumAvailableDraft = new int[13];  // Number of available dominoes in the current draft each round.
+
 
     private int iMovesMade = 0;
 
@@ -65,6 +66,10 @@ public class Player
         DEBUG.plotGameState(iDebugEnabled, localGameState, "Before Move (extendedState) " + Integer.toString(roundNumber));
         Util.noop();
 
+        // Store some stats.
+        //
+        iNumAvailableMoves[roundNumber-1] = availableMoves.length;
+        iNumAvailableDraft[roundNumber-1] = localGameState.getNumAvailableDominoesInCurrentDraft();
         DEBUG.printBranchingFactor(iDebugEnabled, roundNumber, availableMoves.length);
 
         // Select move.
@@ -79,7 +84,17 @@ public class Player
 
         GameServer.makeMove(game, this, move);
         iMovesMade++;
+    }
 
+
+    public int[] getNumAvailableMoves()
+    {
+        return iNumAvailableMoves;
+    }
+
+    public int[] getNumAvailableDraft()
+    {
+        return iNumAvailableDraft;
     }
 
 

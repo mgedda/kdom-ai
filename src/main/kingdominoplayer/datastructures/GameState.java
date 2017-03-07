@@ -149,6 +149,21 @@ public class GameState
     }
 
 
+    public int getNumAvailableDominoesInCurrentDraft()
+    {
+        int counter = 0;
+
+        for (final DraftElement draftElement : getCurrentDraft())
+        {
+            if (draftElement.getPlayerName() == null)
+            {
+                counter++;
+            }
+        }
+
+        return counter;
+    }
+
     public ArrayList<Move> getAvailableMoves(final String playerName)
     {
         final ArrayList<PlacedDomino> possiblePlacedDominoes = new ArrayList<>();
