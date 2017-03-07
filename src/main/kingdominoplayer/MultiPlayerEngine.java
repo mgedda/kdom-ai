@@ -18,14 +18,14 @@ public class MultiPlayerEngine
         final Game game = GameServer.startGame(4);
 
         final ArrayList<Player> players = new ArrayList<>(4);
-        //players.add(game.addPlayer("RandomCalrissian1", StrategyID.RANDOM, false));
-        //players.add(game.addPlayer("RandomCalrissian2", StrategyID.RANDOM, false));
-        //players.add(game.addPlayer("RandomCalrissian3", StrategyID.RANDOM, false));
-        //players.add(game.addPlayer("RandomCalrissian4", StrategyID.RANDOM, true));
-        players.add(game.addPlayer("SirPranceALot1", StrategyID.GREEDY_RANDOM, false));
-        players.add(game.addPlayer("SirPranceALot2", StrategyID.GREEDY_RANDOM, false));
-        players.add(game.addPlayer("SirPranceALot3", StrategyID.GREEDY_RANDOM, false));
-        players.add(game.addPlayer("TyrionPlannister", StrategyID.MONTE_CARLO_GREEDY, true));
+        //players.add(game.addPlayer("RandomCalrissian1", StrategyID.TRUE_RANDOM, false));
+        //players.add(game.addPlayer("RandomCalrissian2", StrategyID.TRUE_RANDOM, false));
+        //players.add(game.addPlayer("RandomCalrissian3", StrategyID.TRUE_RANDOM, false));
+        //players.add(game.addPlayer("RandomCalrissian4", StrategyID.TRUE_RANDOM, true));
+        players.add(game.addPlayer("SirPranceALot1", StrategyID.FULL_GREEDY, false));
+        players.add(game.addPlayer("SirPranceALot2", StrategyID.FULL_GREEDY, false));
+        players.add(game.addPlayer("SirPranceALot3", StrategyID.FULL_GREEDY, false));
+        players.add(game.addPlayer("TyrionPlannister", StrategyID.MONTE_CARLO, true));
 
         game.play(players);
 

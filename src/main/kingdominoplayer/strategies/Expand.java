@@ -14,7 +14,7 @@ import java.util.Collection;
  * Date: 2017-02-11<br>
  * Time: 15:16<br><br>
  */
-public class ExpandStrategy implements Strategy
+public class Expand implements Strategy
 {
     @Override
     public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)

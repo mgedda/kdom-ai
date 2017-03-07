@@ -1,23 +1,24 @@
 package kingdominoplayer.strategies;
 
-import kingdominoplayer.datastructures.Domino;
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
-import kingdominoplayer.datastructures.PlacedTile;
 
-import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
  * Date: 2017-02-11<br>
- * Time: 15:10<br><br>
+ * Time: 15:11<br><br>
  */
-public class FirstStrategy implements Strategy
+public class TrueRandom implements Strategy
 {
     @Override
     public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
-        return availableMoves[0];
+        final int numMoves = availableMoves.length;
+        final int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
+
+        return availableMoves[randomNum];
     }
 }
