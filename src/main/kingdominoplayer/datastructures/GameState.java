@@ -251,4 +251,27 @@ public class GameState
         assert false : "Player '" + playerName + "' not found!";
         return null;
     }
+
+
+    public int getPositionInCurrentDraft(final Domino domino)
+    {
+        if (domino == null)
+        {
+            return 0;
+        }
+
+        final ArrayList<DraftElement> currentDraft = getCurrentDraft();
+        assert !currentDraft.isEmpty() : "No dominoes in current draft!";
+
+        for (int i = 1; i <= currentDraft.size(); ++i)
+        {
+            if (currentDraft.get(i).getDomino().equals(domino))
+            {
+                return i;
+            }
+        }
+
+        assert false : "Current draft does not contain domino";
+        return -1;
+    }
 }

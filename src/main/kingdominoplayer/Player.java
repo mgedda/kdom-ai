@@ -20,8 +20,9 @@ public class Player
     private final boolean iDebugEnabled;
 
     // Statistics
-    private final int[] iNumAvailableMoves = new int[13];  // Number of available moves each round.
-    private final int[] iNumAvailableDraft = new int[13];  // Number of available dominoes in the current draft each round.
+    private final int[] iNumAvailableMoves = new int[13];     // Number of available moves each round.
+    private final int[] iNumAvailableDraft = new int[13];     // Number of available dominoes in the current draft each round.
+    private final int[] iChosenDraftPositions = new int[13];  // The priority position of the chosen domino in current draft.
 
 
     private int iMovesMade = 0;
@@ -77,6 +78,8 @@ public class Player
         final Move move = iStrategy.selectMove(iName, availableMoves, localGameState);
         final LocalGameState localGameStateAfterMove = localGameState.makeMove(iName, move);
 
+        iChosenDraftPositions[roundNumber-1] = localGameState.getPositionInCurrentDraft(move.getChosenDomino());
+
         // Show state after move
         //
         DEBUG.plotGameState(iDebugEnabled, localGameStateAfterMove, "After Move (extendedState) " + Integer.toString(roundNumber));
@@ -97,6 +100,10 @@ public class Player
         return iNumAvailableDraft;
     }
 
+    public int[] getChosenDraftPositions()
+    {
+        return iChosenDraftPositions;
+    }
 
     private static class DEBUG
     {

@@ -138,11 +138,22 @@ public class ExperimentEngine
                         : numAvailableDraftString.concat(Integer.toString(numAvailableDraft) + ", ");
             }
 
+            String chosenDraftPositionString = "";
+            final int[] chosenDraftPositions = iPlayer.getChosenDraftPositions();
+            for (int i = 0; i < chosenDraftPositions.length; ++i)
+            {
+                final int chosenDraftPosition = chosenDraftPositions[i];
+                chosenDraftPositionString = i == chosenDraftPositions.length - 1
+                        ? chosenDraftPositionString.concat(Integer.toString(chosenDraftPosition))
+                        : chosenDraftPositionString.concat(Integer.toString(chosenDraftPosition) + ", ");
+            }
+
             return Integer.toString(playerWinValue) + ", "
                     + Integer.toString(playerScore) + ", "
                     + Integer.toString(numPlayers) + ", "
                     + numAvailableMovesString + ", "
-                    + numAvailableDraftString
+                    + numAvailableDraftString + ", "
+                    + chosenDraftPositionString
                     + ";\n";
         }
 
@@ -156,7 +167,7 @@ public class ExperimentEngine
                 {
                     //noinspection ResultOfMethodCallIgnored
                     outputFile.createNewFile();
-                    Files.write(Paths.get(filename), "# win, score, num_players, num_available_moves (13), num_available_draft (13)\n".getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get(filename), "# win, score, num_players, num_available_moves(13), num_available_draft(13), chosen_draft_position(13)\n".getBytes(), StandardOpenOption.APPEND);
                 }
 
                 final String resultString = toString();

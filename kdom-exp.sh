@@ -2,9 +2,9 @@
 
 set -e
 
-NUM_RUNS=1
-PLAYER_STRATEGY="RANDOM"
-OPPONENT_STRATEGY="RANDOM"
+NUM_RUNS=1000
+PLAYER_STRATEGY="FULL_GREEDY"
+OPPONENT_STRATEGY="BASE_PLAYER"
 
 DATE=`date +%Y%m%d-%H%M%S`
 
@@ -31,7 +31,7 @@ function print
 
 
 print "======================================================================================="
-print "| Kingdomino AI Experiment" 
+print "| Kingdomino AI Experiment"
 print "|--------------------------------------------------------------------------------------"
 print "| "
 print "| Player strategy:   $PLAYER_STRATEGY"
@@ -57,7 +57,7 @@ echo "# "                                                                       
 echo "# Executing: '$SCRIPT_STR'"                                                               >> $OUTPUT_FILE
 echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
 echo ""                                                                                         >> $OUTPUT_FILE
-echo "# win, score, num_players, available_moves(13), available_draft(13)"                      >> $OUTPUT_FILE
+echo "# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13)" >> $OUTPUT_FILE
 
 
 for ((i=1; i <= $NUM_RUNS; i++))
