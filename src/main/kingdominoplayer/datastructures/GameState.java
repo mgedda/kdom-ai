@@ -263,11 +263,11 @@ public class GameState
         final ArrayList<DraftElement> currentDraft = getCurrentDraft();
         assert !currentDraft.isEmpty() : "No dominoes in current draft!";
 
-        for (int i = 1; i <= currentDraft.size(); ++i)
+        for (int i = 0; i < currentDraft.size(); ++i)
         {
             if (currentDraft.get(i).getDomino().equals(domino))
             {
-                return i;
+                return i + 1;
             }
         }
 
