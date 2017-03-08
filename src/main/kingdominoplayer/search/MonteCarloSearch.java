@@ -2,7 +2,7 @@ package kingdominoplayer.search;
 
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
-import kingdominoplayer.strategies.FullGreedy;
+import kingdominoplayer.strategies.Strategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,13 +26,23 @@ public class MonteCarloSearch
 
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
+    private final String iPlayerName;
+    private final Strategy iPlayerStrategy;
+    private final Strategy iOpponentStrategy;
 
-    public Move evaluate(final String playerName, final LocalGameState localGameState, final ArrayList<Move> moves)
+    public MonteCarloSearch(final String playerName, final Strategy playerStrategy, final Strategy opponentStrategy)
+    {
+        iPlayerName = playerName;
+        iPlayerStrategy = playerStrategy;
+        iOpponentStrategy = opponentStrategy;
+    }
+
+    public Move evaluate(final LocalGameState localGameState, final ArrayList<Move> moves)
     {
         final LocalGameState searchGameState = localGameState.withSearchEnabled();
 
         final ArrayList<Move> movesToEvaluate = selectMovesRandomly(moves, SEARCH_BREADTH);
-        final ArrayList<MoveScorePair> moveScores = getMoveScores(playerName, searchGameState, movesToEvaluate);
+        final ArrayList<MoveScorePair> moveScores = getMoveScores(searchGameState, movesToEvaluate);
 
         // Select move with best score.
         //
@@ -52,9 +62,9 @@ public class MonteCarloSearch
         return moveScores.get(0).getMove();
     }
 
-    private ArrayList<MoveScorePair> getMoveScores(final String playerName, final LocalGameState searchGameState, final ArrayList<Move> moves)
+    private ArrayList<MoveScorePair> getMoveScores(final LocalGameState searchGameState, final ArrayList<Move> moves)
     {
-        DEBUG.println("\n" + CLASS_STRING + " " + playerName + " searching...");
+        DEBUG.println("\n" + CLASS_STRING + " " + iPlayerName + " searching...");
 
         final LinkedHashMap<Move, ArrayList<Double>> moveScoresMap = new LinkedHashMap<>(moves.size());
         for (final Move move : moves)
@@ -77,7 +87,7 @@ public class MonteCarloSearch
             //
             final int randomIndex = ThreadLocalRandom.current().nextInt(0, moves.size());
             final Move move = moves.get(randomIndex);
-            final double score = playOut(move, playerName, searchGameState);
+            final double score = playOut(move, searchGameState);
             moveScoresMap.get(move).add(score);
 
             assert moveScoresMap.size() == moves.size() : "Size discrepancy!";
@@ -157,42 +167,38 @@ public class MonteCarloSearch
     }
 
 
-    /**
-     *
-     *
-     * @param move
-     * @param playerName
-     * @param gameState
-     * @return
-     */
-    private double playOut(final Move move, final String playerName, final LocalGameState gameState)
+    private double playOut(final Move move, final LocalGameState gameState)
     {
-        // Player executes move.
+        // Player carries out move to playout.
         //
-        LocalGameState searchState = gameState.makeMove(playerName, move);
+        LocalGameState searchState = gameState.makeMove(iPlayerName, move);
 
-        // Opponents execute their moves.
+        // Play game from new state until end.
         //
         while (! searchState.isGameOver())
         {
             final String playerTurn = searchState.getPlayerTurn();
             final ArrayList<Move> availableMoves = searchState.getAvailableMoves(playerTurn);
-            final Move opponentMove = selectMove(playerTurn, availableMoves, searchState);
-            searchState = searchState.makeMove(playerTurn, opponentMove);
+
+            final Move selectedMove = playerTurn.equals(iPlayerName)
+                    ? iPlayerStrategy.selectMove(playerTurn, availableMoves.toArray(new Move[availableMoves.size()]), searchState)
+                    : iOpponentStrategy.selectMove(playerTurn, availableMoves.toArray(new Move[availableMoves.size()]), searchState);
+
+            searchState = searchState.makeMove(playerTurn, selectedMove);
         }
 
-        final double moveScore = computeMoveScore(playerName, searchState);
+        final double moveScore = computeMoveScore(searchState);
 
         return moveScore;
     }
 
 
-    private double computeMoveScore(final String playerName, final LocalGameState searchState)
+    private double computeMoveScore(final LocalGameState searchState)
     {
         final Map<String, Integer> scores = searchState.getScores();
 
-        final int playerScore = scores.get(playerName);
-        scores.remove(playerName);
+        final int playerScore = scores.get(iPlayerName);
+        scores.remove(iPlayerName);
 
         final Collection<Integer> opponentScores = scores.values();
 
@@ -211,10 +217,6 @@ public class MonteCarloSearch
     }
 
 
-    private Move selectMove(final String opponentName, final ArrayList<Move> availableMoves, final LocalGameState searchState)
-    {
-        return new FullGreedy().selectMove(opponentName, availableMoves.toArray(new Move[availableMoves.size()]), searchState);
-    }
 
 
     /**

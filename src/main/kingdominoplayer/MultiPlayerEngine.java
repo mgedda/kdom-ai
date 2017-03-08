@@ -25,7 +25,7 @@ public class MultiPlayerEngine
         players.add(game.addPlayer("SirPranceALot1", StrategyID.FULL_GREEDY, false));
         players.add(game.addPlayer("SirPranceALot2", StrategyID.FULL_GREEDY, false));
         players.add(game.addPlayer("SirPranceALot3", StrategyID.FULL_GREEDY, false));
-        players.add(game.addPlayer("TyrionPlannister", StrategyID.MONTE_CARLO_OPPONENT_FULL_GREEDY, true));
+        players.add(game.addPlayer("TyrionPlannister", StrategyID.MC_OPPONENT_FULL_GREEDY, true));
 
         game.play(players);
 

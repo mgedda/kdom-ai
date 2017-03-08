@@ -14,9 +14,9 @@ public enum StrategyID
     GREEDY_PLACEMENT_RANDOM_DRAFT,
     BASE_PLAYER,                     // alias for FULL_GREEDY
     FULL_GREEDY,
-    //MONTE_CARLO_OPPONENT_TRUE_RANDOM,
-    //MONTE_CARLO_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT,
-    MONTE_CARLO_OPPONENT_FULL_GREEDY;
+    MC_OPPONENT_TRUE_RANDOM,
+    MC_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT,
+    MC_OPPONENT_FULL_GREEDY;
 
     private Strategy iStrategy;
 
@@ -27,9 +27,9 @@ public enum StrategyID
         GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new GreedyPlacementRandomDraft();
         BASE_PLAYER.iStrategy = new FullGreedy();
         FULL_GREEDY.iStrategy = new FullGreedy();
-        //MONTE_CARLO_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarloOpponentTrueRandom();
-        //MONTE_CARLO_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new MonteCarloOpponentGreedyPlacementRandomDraft();
-        MONTE_CARLO_OPPONENT_FULL_GREEDY.iStrategy = new MonteCarloOpponentFullGreedy();
+        MC_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarloOpponentTrueRandom();
+        MC_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new MonteCarloOpponentGreedyPlacementRandomDraft();
+        MC_OPPONENT_FULL_GREEDY.iStrategy = new MonteCarloOpponentFullGreedy();
     }
 
     public Strategy getStrategy()
