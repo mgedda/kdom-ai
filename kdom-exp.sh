@@ -14,8 +14,8 @@ REVISION=$(eval "git rev-parse --short HEAD")
 
 TARGET_DIR="kdom_exp-${DATE}-rev-${REVISION}"
 
-OUTPUT_FILE="${TARGET_DIR}/kdom-exp-${DATE}-[${PLAYER_STRATEGY}-vs-${OPPONENT_STRATEGY}].m"
-LOG_FILE="${TARGET_DIR}/kdom-exp-${DATE}-[${PLAYER_STRATEGY}-vs-${OPPONENT_STRATEGY}].log"
+OUTPUT_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}.m"
+LOG_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}.log"
 
 SCRIPT_STR="java -jar out/kdom-exp.jar ${PLAYER_STRATEGY} ${OPPONENT_STRATEGY} ${OUTPUT_FILE}"
 
@@ -58,7 +58,7 @@ echo "# Git Revision: $REVISION"                                                
 echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
 echo ""                                                                                         >> $OUTPUT_FILE
 echo "# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13)" >> $OUTPUT_FILE
-echo "kdom_exp_${DATE_DAY}_${DATE_TIME}_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY} = [" >> $OUTPUT_FILE
+echo "kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY} = ["                                  >> $OUTPUT_FILE
 
 for ((i=1; i <= $NUM_RUNS; i++))
 do
