@@ -3,6 +3,7 @@ package kingdominoplayer.search;
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.strategies.Strategy;
+import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -85,7 +85,7 @@ public class MonteCarloSearch
         {
             // Play out a random move.
             //
-            final int randomIndex = ThreadLocalRandom.current().nextInt(0, moves.size());
+            final int randomIndex = Random.getInt(moves.size());
             final Move move = moves.get(randomIndex);
             final double score = playOut(move, searchGameState);
             moveScoresMap.get(move).add(score);
@@ -240,7 +240,7 @@ public class MonteCarloSearch
         final int numMoves = moves.size();
         while (movesToEvaluate.size() < numberOfMoves)
         {
-            final int randomIndex = ThreadLocalRandom.current().nextInt(0, numMoves);
+            final int randomIndex = Random.getInt(numMoves);
             if (! pickedIndices.contains(randomIndex))
             {
                 movesToEvaluate.add(moves.get(randomIndex));

@@ -3,11 +3,9 @@ package kingdominoplayer.datastructures;
 import kingdominoplayer.planning.Planner;
 import kingdominoplayer.plot.DebugPlot;
 import kingdominoplayer.plot.KingdomInfo;
-import kingdominoplayer.utils.ArrayUtils;
-import kingdominoplayer.utils.GameUtils;
+import kingdominoplayer.utils.Random;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -89,7 +87,7 @@ public class LocalGameState extends GameState
                     final ArrayList<String> playersLeft = new ArrayList<>(numNames);
                     playersLeft.addAll(playerNames);
 
-                    final int randomNum = ThreadLocalRandom.current().nextInt(0, numNames);
+                    final int randomNum = Random.getInt(numNames);
                     playerWhosTurnItIs = playersLeft.get(randomNum);
                 }
                 else
@@ -325,7 +323,7 @@ public class LocalGameState extends GameState
 
         for (int i = 0; i < draftSize; ++i)
         {
-            final int index = ThreadLocalRandom.current().nextInt(0, dominoNumbersInDrawPile.size());
+            final int index = Random.getInt(dominoNumbersInDrawPile.size());
             draftedDominoNumbers.add(dominoNumbersInDrawPile.get(index));
             dominoNumbersInDrawPile.remove(index);
         }

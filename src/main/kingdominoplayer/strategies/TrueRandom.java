@@ -2,8 +2,8 @@ package kingdominoplayer.strategies;
 
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.utils.Random;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -17,7 +17,7 @@ public class TrueRandom implements Strategy
     public Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
         final int numMoves = availableMoves.length;
-        final int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
+        final int randomNum = Random.getInt(numMoves);
 
         return availableMoves[randomNum];
     }

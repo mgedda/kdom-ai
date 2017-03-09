@@ -1,10 +1,10 @@
 package kingdominoplayer.plot;
 
 import kingdominoplayer.datastructures.Position;
+import kingdominoplayer.utils.Random;
 import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -104,8 +104,8 @@ public class GridImageTest
             {
                 final boolean isCastleTile = cellPosX == castleX && cellPosY == castleY;
 
-                final int numCrowns = isCastleTile ? 0 : ThreadLocalRandom.current().nextInt(0, 3);
-                final int tileIndex = isCastleTile ? 1 : ThreadLocalRandom.current().nextInt(2, tileTypes.length);
+                final int numCrowns = isCastleTile ? 0 : Random.getInt(3);
+                final int tileIndex = isCastleTile ? 1 : Random.getInt(2, tileTypes.length);
 
                 gridImage.drawTile(cellPosX, cellPosY, tileTypes[tileIndex], numCrowns);
             }

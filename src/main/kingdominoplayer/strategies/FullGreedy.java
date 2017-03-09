@@ -2,9 +2,9 @@ package kingdominoplayer.strategies;
 
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -22,7 +22,7 @@ public class FullGreedy implements Strategy
         // Select random move among highest scoring moves.
         //
         final int numMoves = maxScoringMoves.size();
-        final int randomNum = ThreadLocalRandom.current().nextInt(0, numMoves);
+        final int randomNum = Random.getInt(numMoves);
 
         return maxScoringMoves.get(randomNum);
     }
