@@ -6,9 +6,11 @@ NUM_RUNS=1000
 PLAYER_STRATEGY="FULL_GREEDY"
 OPPONENT_STRATEGY="BASE_PLAYER"
 
-DATE=`date +%Y%m%d-%H%M%S`
+DATE_DAY=`date +%Y%m%d`
+DATE_TIME=`date +%H%M%S`
+DATE="$DATE_DAY-$DATE_TIME"
 
-OUTPUT_FILE="kdom-exp-${DATE}-[${PLAYER_STRATEGY}-vs-${OPPONENT_STRATEGY}].out"
+OUTPUT_FILE="kdom-exp-${DATE}-[${PLAYER_STRATEGY}-vs-${OPPONENT_STRATEGY}].m"
 LOG_FILE="kdom-exp-${DATE}-[${PLAYER_STRATEGY}-vs-${OPPONENT_STRATEGY}].log"
 SCRIPT_STR="java -jar out/kdom-exp.jar ${PLAYER_STRATEGY} ${OPPONENT_STRATEGY} ${OUTPUT_FILE}"
 
@@ -58,7 +60,7 @@ echo "# Executing: '$SCRIPT_STR'"                                               
 echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
 echo ""                                                                                         >> $OUTPUT_FILE
 echo "# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13)" >> $OUTPUT_FILE
-
+echo "kdom_exp_${DATE_DAY}_${DATE_TIME}_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY} = [" >> $OUTPUT_FILE
 
 for ((i=1; i <= $NUM_RUNS; i++))
 do
