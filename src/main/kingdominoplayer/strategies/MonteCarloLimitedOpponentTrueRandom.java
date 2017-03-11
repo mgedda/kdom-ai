@@ -1,13 +1,12 @@
 package kingdominoplayer.strategies;
 
-
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
- * Date: 2017-03-08<br>
- * Time: 22:03<br><br>
+ * Date: 2017-03-11<br>
+ * Time: 20:19<br><br>
  */
-public class MonteCarloOpponentGreedyPlacementRandomDraft extends MonteCarlo
+public class MonteCarloLimitedOpponentTrueRandom extends MonteCarlo
 {
     @Override
     protected Strategy getPlayerStrategy()
@@ -18,12 +17,12 @@ public class MonteCarloOpponentGreedyPlacementRandomDraft extends MonteCarlo
     @Override
     protected Strategy getOpponentStrategy()
     {
-        return new GreedyPlacementRandomDraft();
+        return new TrueRandom();
     }
 
     @Override
     protected boolean useRelativeBranchScore()
     {
-        return true;
+        return false;
     }
 }

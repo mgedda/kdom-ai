@@ -16,7 +16,8 @@ public enum StrategyID
     FULL_GREEDY,
     MC_OPPONENT_TRUE_RANDOM,
     MC_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT,
-    MC_OPPONENT_FULL_GREEDY;
+    MC_OPPONENT_FULL_GREEDY,
+    MC_LIMITED_OPPONENT_TRUE_RANDOM;
 
     private Strategy iStrategy;
 
@@ -30,6 +31,7 @@ public enum StrategyID
         MC_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarloOpponentTrueRandom();
         MC_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new MonteCarloOpponentGreedyPlacementRandomDraft();
         MC_OPPONENT_FULL_GREEDY.iStrategy = new MonteCarloOpponentFullGreedy();
+        MC_LIMITED_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarloLimitedOpponentTrueRandom();
     }
 
     public Strategy getStrategy()

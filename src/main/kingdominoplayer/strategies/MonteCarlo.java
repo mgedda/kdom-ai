@@ -23,8 +23,9 @@ public abstract class MonteCarlo implements Strategy
         {
             final Strategy playerStrategy = getPlayerStrategy();
             final Strategy opponentStrategy = getOpponentStrategy();
+            final boolean relativeBranchScore = useRelativeBranchScore();
 
-            return new MonteCarloSearch(playerName, playerStrategy, opponentStrategy).evaluate(gameState, maxScoringMoves);
+            return new MonteCarloSearch(playerName, playerStrategy, opponentStrategy, relativeBranchScore).evaluate(gameState, maxScoringMoves);
         }
         else
         {
@@ -35,4 +36,6 @@ public abstract class MonteCarlo implements Strategy
     protected abstract Strategy getPlayerStrategy();
 
     protected abstract Strategy getOpponentStrategy();
+
+    protected abstract boolean useRelativeBranchScore();
 }

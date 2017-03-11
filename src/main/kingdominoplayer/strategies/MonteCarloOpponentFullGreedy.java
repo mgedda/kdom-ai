@@ -20,4 +20,10 @@ public class MonteCarloOpponentFullGreedy extends MonteCarlo
     {
         return new FullGreedy();
     }
+
+    @Override
+    protected boolean useRelativeBranchScore()
+    {
+        return true;
+    }
 }

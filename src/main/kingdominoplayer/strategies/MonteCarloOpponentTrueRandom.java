@@ -20,4 +20,10 @@ public class MonteCarloOpponentTrueRandom extends MonteCarlo
     {
         return new TrueRandom();
     }
+
+    @Override
+    protected boolean useRelativeBranchScore()
+    {
+        return true;
+    }
 }

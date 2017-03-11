@@ -29,12 +29,17 @@ public class MonteCarloSearch
     private final String iPlayerName;
     private final Strategy iPlayerStrategy;
     private final Strategy iOpponentStrategy;
+    private final boolean iRelativeBranchScore;
 
-    public MonteCarloSearch(final String playerName, final Strategy playerStrategy, final Strategy opponentStrategy)
+    public MonteCarloSearch(final String playerName,
+                            final Strategy playerStrategy,
+                            final Strategy opponentStrategy,
+                            final boolean relativeBranchScore)
     {
         iPlayerName = playerName;
         iPlayerStrategy = playerStrategy;
         iOpponentStrategy = opponentStrategy;
+        iRelativeBranchScore = relativeBranchScore;
     }
 
     public Move evaluate(final LocalGameState localGameState, final ArrayList<Move> moves)
@@ -187,13 +192,15 @@ public class MonteCarloSearch
             searchState = searchState.makeMove(playerTurn, selectedMove);
         }
 
-        final double moveScore = computeMoveScore(searchState);
+        final double moveScore = iRelativeBranchScore
+                ? computeRelativeBranchScore(searchState)
+                : searchState.getScore(iPlayerName);
 
         return moveScore;
     }
 
 
-    private double computeMoveScore(final LocalGameState searchState)
+    private double computeRelativeBranchScore(final LocalGameState searchState)
     {
         final Map<String, Integer> scores = searchState.getScores();
 
