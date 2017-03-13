@@ -81,8 +81,6 @@ public class MonteCarloSearch
 
         final long searchStartTime = System.nanoTime();
 
-        long previousPrintTime = searchStartTime;
-
         final long numPlayOuts = PLAYOUT_FACTOR * moves.size();  // X playouts per move
         long playOutCounter = 1;
         while (playOutCounter <= numPlayOuts
@@ -96,18 +94,6 @@ public class MonteCarloSearch
             moveScoresMap.get(move).add(score);
 
             assert moveScoresMap.size() == moves.size() : "Size discrepancy!";
-
-            /*
-            // Print move scores every X seconds.
-            //
-            final long currentTime = System.nanoTime();
-            final double printDurationSeconds = (currentTime - previousPrintTime) / 1e9d;
-            if (printDurationSeconds > 5.0)
-            {
-                printMoveScores(assembleScores(moveScoresMap));
-                previousPrintTime = currentTime;
-            }
-            */
 
             playOutCounter++;
         }
