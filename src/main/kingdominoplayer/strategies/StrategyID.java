@@ -29,11 +29,12 @@ public enum StrategyID
         GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new GreedyPlacementRandomDraft();
         BASE_PLAYER.iStrategy = new FullGreedy();
         FULL_GREEDY.iStrategy = new FullGreedy();
-        MC_TR_TR_R.iStrategy = new MonteCarloPlayerTrueRandomOpponentTrueRandom();
-        MC_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarloOpponentTrueRandom();
-        MC_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new MonteCarloOpponentGreedyPlacementRandomDraft();
-        MC_OPPONENT_FULL_GREEDY.iStrategy = new MonteCarloOpponentFullGreedy();
-        MC_LIMITED_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarloLimitedOpponentTrueRandom();
+
+        MC_TR_TR_R.iStrategy = new MonteCarlo(new TrueRandom(), new TrueRandom(), true);
+        MC_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarlo(new FullGreedy(), new TrueRandom(), true);
+        MC_OPPONENT_GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new MonteCarlo(new FullGreedy(), new GreedyPlacementRandomDraft(), true);
+        MC_OPPONENT_FULL_GREEDY.iStrategy = new MonteCarlo(new FullGreedy(), new FullGreedy(), true);
+        MC_LIMITED_OPPONENT_TRUE_RANDOM.iStrategy = new MonteCarlo(new FullGreedy(), new TrueRandom(), false);
     }
 
     public Strategy getStrategy()

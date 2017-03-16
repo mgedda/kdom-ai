@@ -12,8 +12,20 @@ import java.util.ArrayList;
  * Date: 2017-03-08<br>
  * Time: 22:08<br><br>
  */
-public abstract class MonteCarlo implements Strategy
+public class MonteCarlo implements Strategy
 {
+
+    private final Strategy iPlayerStrategy;
+    private final Strategy iOpponentStrategy;
+    private final boolean iUseRelativeBranchScore;
+
+    public MonteCarlo(final Strategy playerStrategy, final Strategy opponentStrategy, final boolean useRelativeBranchScore)
+    {
+        iPlayerStrategy = playerStrategy;
+        iOpponentStrategy = opponentStrategy;
+        iUseRelativeBranchScore = useRelativeBranchScore;
+    }
+
     @Override
     public final Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
@@ -40,9 +52,18 @@ public abstract class MonteCarlo implements Strategy
         }
     }
 
-    protected abstract Strategy getPlayerStrategy();
+    private Strategy getPlayerStrategy()
+    {
+        return iPlayerStrategy;
+    }
 
-    protected abstract Strategy getOpponentStrategy();
+    private Strategy getOpponentStrategy()
+    {
+        return iOpponentStrategy;
+    }
 
-    protected abstract boolean useRelativeBranchScore();
+    private boolean useRelativeBranchScore()
+    {
+        return iUseRelativeBranchScore;
+    }
 }
