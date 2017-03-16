@@ -1,7 +1,8 @@
 package kingdominoplayer.strategies.tinystrategies;
 
+import kingdominoplayer.movefilters.tinymovefilters.AllTinyMoves;
+import kingdominoplayer.movefilters.tinymovefilters.TinyMoveFilter;
 import kingdominoplayer.search.TinyMonteCarloSearch;
-import kingdominoplayer.strategies.FullGreedyAlgorithm;
 import kingdominoplayer.tinyrepresentation.TinyGameState;
 
 /**
@@ -13,12 +14,14 @@ import kingdominoplayer.tinyrepresentation.TinyGameState;
 public class TinyMonteCarlo implements TinyStrategy
 {
 
+    private final TinyMoveFilter iMoveFilter;
     private final TinyStrategy iPlayerStrategy;
     private final TinyStrategy iOpponentStrategy;
     private final boolean iUseRelativeBranchScore;
 
     public TinyMonteCarlo(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy, final boolean useRelativeBranchScore)
     {
+        iMoveFilter = new AllTinyMoves();
         iPlayerStrategy = playerStrategy;
         iOpponentStrategy = opponentStrategy;
         iUseRelativeBranchScore = useRelativeBranchScore;
@@ -27,38 +30,17 @@ public class TinyMonteCarlo implements TinyStrategy
     @Override
     public final byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
     {
-        // TODO [gedda] IMPORTANT! : Write new full greedy algorithm for tiny representation!
-        //final byte[] maxScoringMoves = new FullGreedyAlgorithm().getMaxScoringMoves(playerName, availableMoves, gameState);
-        final byte[] maxScoringMoves = availableMoves;
+        final byte[] moves = iMoveFilter.filterMoves(playerName, availableMoves, gameState);
 
-        final int numMaxScoringMoves = maxScoringMoves.length / TinyGameState.MOVE_ELEMENT_SIZE;
+        final int numMaxScoringMoves = moves.length / TinyGameState.MOVE_ELEMENT_SIZE;
 
         if (numMaxScoringMoves > 1)
         {
-            final TinyStrategy playerStrategy = getPlayerStrategy();
-            final TinyStrategy opponentStrategy = getOpponentStrategy();
-            final boolean relativeBranchScore = useRelativeBranchScore();
-
-            return new TinyMonteCarloSearch(playerName, playerStrategy, opponentStrategy, relativeBranchScore).evaluate(gameState, maxScoringMoves);
+            return new TinyMonteCarloSearch(playerName, iPlayerStrategy, iOpponentStrategy, iUseRelativeBranchScore).evaluate(gameState, moves);
         }
         else
         {
-            return maxScoringMoves;
+            return moves;
         }
-    }
-
-    private TinyStrategy getPlayerStrategy()
-    {
-        return iPlayerStrategy;
-    }
-
-    private TinyStrategy getOpponentStrategy()
-    {
-        return iOpponentStrategy;
-    }
-
-    private boolean useRelativeBranchScore()
-    {
-        return iUseRelativeBranchScore;
     }
 }

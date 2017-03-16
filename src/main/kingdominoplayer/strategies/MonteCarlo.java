@@ -2,7 +2,9 @@ package kingdominoplayer.strategies;
 
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.movefilters.AllMoves;
 import kingdominoplayer.search.MonteCarloSearch;
+import kingdominoplayer.utils.ArrayUtils;
 
 import java.util.ArrayList;
 
@@ -15,12 +17,14 @@ import java.util.ArrayList;
 public class MonteCarlo implements Strategy
 {
 
+    private final AllMoves iMoveFilter;
     private final Strategy iPlayerStrategy;
     private final Strategy iOpponentStrategy;
     private final boolean iUseRelativeBranchScore;
 
     public MonteCarlo(final Strategy playerStrategy, final Strategy opponentStrategy, final boolean useRelativeBranchScore)
     {
+        iMoveFilter = new AllMoves();
         iPlayerStrategy = playerStrategy;
         iOpponentStrategy = opponentStrategy;
         iUseRelativeBranchScore = useRelativeBranchScore;
@@ -29,41 +33,15 @@ public class MonteCarlo implements Strategy
     @Override
     public final Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
-        // TODO [gedda] IMPORTANT! : Change back to full greedy algorithm!
-        //final ArrayList<Move> maxScoringMoves = new FullGreedyAlgorithm().getMaxScoringMoves(playerName, availableMoves, gameState);
-        final ArrayList<Move> maxScoringMoves = new ArrayList<>(availableMoves.length);
-        for (final Move move : availableMoves)
+        final ArrayList<Move> moves = iMoveFilter.filterMoves(playerName, availableMoves, gameState);
+
+        if (moves.size() > 1)
         {
-            maxScoringMoves.add(move);
-        }
-
-
-        if (maxScoringMoves.size() > 1)
-        {
-            final Strategy playerStrategy = getPlayerStrategy();
-            final Strategy opponentStrategy = getOpponentStrategy();
-            final boolean relativeBranchScore = useRelativeBranchScore();
-
-            return new MonteCarloSearch(playerName, playerStrategy, opponentStrategy, relativeBranchScore).evaluate(gameState, maxScoringMoves);
+            return new MonteCarloSearch(playerName, iPlayerStrategy, iOpponentStrategy, iUseRelativeBranchScore).evaluate(gameState, moves);
         }
         else
         {
-            return maxScoringMoves.get(0);
+            return moves.get(0);
         }
-    }
-
-    private Strategy getPlayerStrategy()
-    {
-        return iPlayerStrategy;
-    }
-
-    private Strategy getOpponentStrategy()
-    {
-        return iOpponentStrategy;
-    }
-
-    private boolean useRelativeBranchScore()
-    {
-        return iUseRelativeBranchScore;
     }
 }
