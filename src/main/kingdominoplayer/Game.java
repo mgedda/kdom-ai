@@ -106,16 +106,14 @@ public class Game
     }
 
 
-    public Player addPlayer(final String playerName, final StrategyID strategyID, final boolean enableDebug)
+    public String addPlayer(final String playerName)
     {
         final String response = CommunicationsHandler.joinGame(this, playerName);
         final String uuid = ServerResponseParser.getUUID(response);
 
-        final Player player = new Player(uuid, playerName, strategyID, enableDebug);
-
         Output.printPlayerJoined(this, playerName);
 
-        return player;
+        return uuid;
     }
 
     public void printResult()

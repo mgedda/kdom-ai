@@ -43,12 +43,24 @@ public class ExperimentEngine
 
         final Game game = GameServer.startGame(4);
 
-        final ArrayList<Player> players = new ArrayList<>(4);
-        players.add(game.addPlayer("Opponent1", StrategyID.valueOf(opponentStrategy), false));
-        players.add(game.addPlayer("Opponent2", StrategyID.valueOf(opponentStrategy), false));
-        players.add(game.addPlayer("Opponent3", StrategyID.valueOf(opponentStrategy), false));
+        final String opponent1Name = "Opponent1";
+        final String opponent2Name = "Opponent2";
+        final String opponent3Name = "Opponent3";
         final String playerName = "Player";
-        players.add(game.addPlayer(playerName, StrategyID.valueOf(playerStrategy), false));
+
+        final StrategyID opponentStrategyID = StrategyID.valueOf(opponentStrategy);
+        final StrategyID playerStrategyID = StrategyID.valueOf(playerStrategy);
+
+        final String opponent1UUID = game.addPlayer(opponent1Name);
+        final String opponent2UUID = game.addPlayer(opponent2Name);
+        final String opponent3UUID = game.addPlayer(opponent3Name);
+        final String playerUUID = game.addPlayer(playerName);
+
+        final ArrayList<Player> players = new ArrayList<>(4);
+        players.add(new Player(opponent1UUID, opponent1Name, opponentStrategyID, false));
+        players.add(new Player(opponent2UUID, opponent2Name, opponentStrategyID, false));
+        players.add(new Player(opponent3UUID, opponent3Name, opponentStrategyID, false));
+        players.add(new Player(playerUUID, playerName, playerStrategyID, false));
 
         final GameState gameState = game.play(players);
 

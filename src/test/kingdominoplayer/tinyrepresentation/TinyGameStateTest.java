@@ -357,7 +357,7 @@ public class TinyGameStateTest
                 2, 4, 1, 5, 2, 0, -1, 0, -2,      // placed domino
         };
 
-        final TinyGameState newTinyGameState = tinyGameState.makeAMove("PlayerA", move);
+        final TinyGameState newTinyGameState = tinyGameState.makeMove("PlayerA", move);
 
 
         final byte[] expectedKingdomTerrains = new byte[]{
@@ -508,7 +508,7 @@ public class TinyGameStateTest
                 26, 3, 1, 4, 0, 1, 0, 1, 1,       // placed domino
         };
 
-        final TinyGameState newTinyGameState = tinyGameState.makeAMove("PlayerA", move);
+        final TinyGameState newTinyGameState = tinyGameState.makeMove("PlayerA", move);
 
 
         final byte[] expectedKingdomTerrains = new byte[]{
@@ -576,6 +576,101 @@ public class TinyGameStateTest
         Assert.assertEquals(Arrays.equals(newTinyGameState.getCurrentDraft(), expectedCurrentDraft), true);
         Assert.assertEquals(Arrays.equals(newTinyGameState.getPreviousDraft(), expectedPreviousDraft), true);
         Assert.assertEquals(newTinyGameState.getDrawPile().length == 0, true);
+    }
+
+
+    @Test
+    public void testMakeMove_invalidMovesInCurrentDraft() throws Exception
+    {
+        final byte[] kingdomTerrains = {
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 2, 3, 5, 5, 5, 0, 0,
+                0, 0, 4, 5, 4, 5, 5, 0, 0,
+                0, 0, 4, 6, 1, 4, 2, 0, 0,
+                0, 0, 6, 2, 7, 3, 4, 0, 0,
+                0, 0, 7, 7, 7, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 5, 5, 5, 0, 0,
+                0, 0, 4, 5, 4, 5, 5, 0, 0,
+                0, 0, 4, 6, 1, 4, 2, 0, 0,
+                0, 0, 6, 2, 7, 3, 4, 0, 0,
+                0, 0, 7, 7, 7, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+        };
+
+        final byte[] kingdomCrowns = {
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 2, 0, 0, 0, 0,
+                0, 0, 0, 0, 1, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 2, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+        };
+
+        final byte[] currentDraft = {
+                14, 5, 0, 2, 0, -1, -1, -1, -1, 0,
+                18, 2, 0, 5, 0, -1, -1, -1, -1, 1,
+                22, 6, 1, 6, 2, -1, -1, -1, -1, -1,
+                39, 6, 0, 2, 0, -1, -1, -1, -1, 1,
+        };
+
+        final byte[] previousDraft = {
+                26, 5, 1, 4, 0, -1, -1, -1, -1, 1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        };
+
+        final String[] players = new String[]{
+                "PlayerA",
+                "PlayerB",
+        };
+
+
+        final byte[] drawPile = new byte[]{
+        };
+
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, drawPile, true);
+
+        final byte[] move = new byte[]{
+                1,                                // move number
+                22, 6, 1, 6, 2, -1, -1, -1, -1,   // chosen domino
+                26, 5, 1, 4, 0, -1, -2, -2, -2,       // placed domino
+        };
+
+        final TinyGameState newTinyGameState = tinyGameState.makeMove("PlayerB", move);
+
+
+        final byte[] expectedPreviousDraft = new byte[]{
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        };
+
+        System.out.print(newTinyGameState.toString());
+
+        Assert.assertEquals(Arrays.equals(newTinyGameState.getPreviousDraft(), expectedPreviousDraft), true);
+        Assert.assertEquals(newTinyGameState.isGameOver(), true);
     }
 
 
@@ -716,7 +811,7 @@ public class TinyGameStateTest
 
         final byte[] move = new byte[TinyGameState.MOVE_ELEMENT_SIZE];
         System.arraycopy(availableMoves, 0, move, 0, TinyGameState.MOVE_ELEMENT_SIZE);
-        final TinyGameState newTinyGameState = tinyGameState.makeAMove("PlayerA", move);
+        final TinyGameState newTinyGameState = tinyGameState.makeMove("PlayerA", move);
         System.out.println(newTinyGameState);
     }
 

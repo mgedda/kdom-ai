@@ -51,15 +51,19 @@ public class PlayerEngine
             System.exit(0);
         }
 
+        final StrategyID strategyID = StrategyID.valueOf(strategy);
+
         final Game game = new Game(gameUUID);
+        final String playerUUID = game.addPlayer(playerName);
+        final Player player = new Player(playerUUID, playerName, strategyID, enableDebug);
 
         final ArrayList<Player> players = new ArrayList<>(1);
-        players.add(game.addPlayer(playerName, StrategyID.valueOf(strategy), enableDebug));
+        players.add(player);
 
         GameServer.waitForPlayersToJoin(game, TIMEOUT_MINUTES);
 
         game.play(players);
 
-        System.out.println("Player " + players.get(0).getName() + " leaving (game finished).");
+        System.out.println("Player " + player.getName() + " leaving (game finished).");
     }
 }

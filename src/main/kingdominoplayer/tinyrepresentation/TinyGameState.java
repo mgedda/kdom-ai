@@ -4,7 +4,9 @@ import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -172,7 +174,7 @@ public class TinyGameState
      * @param move the move to make
      * @return updated game state after move
      */
-    public TinyGameState makeAMove(final String playerName, final byte[] move)
+    public TinyGameState makeMove(final String playerName, final byte[] move)
     {
         //final int moveNumber = move[MOVE_NUMBER_INDEX] & 0xFF;  // signed byte to unsigned value
 
@@ -201,7 +203,7 @@ public class TinyGameState
 
             // Update kingdom.
             //
-            final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(playerName);
+            final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(playerName, iKingdomTerrains);
             final byte[] playerKingdomCrowns = getPlayerKingdomCrowns(playerName);
 
             final byte tile1Terrain = placedDomino[DOMINO_TILE_1_TERRAIN_INDEX];
@@ -295,7 +297,7 @@ public class TinyGameState
                     final byte draftPlayerId = getPlayerIdFromDraft(previousDraft, i);
                     final String draftPlayer = iPlayers[draftPlayerId];
 
-                    final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(draftPlayer);
+                    final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(draftPlayer, kingdomTerrains);
 
                     if (! hasValidPosition(domino, playerKingdomTerrains))
                     {
@@ -476,6 +478,24 @@ public class TinyGameState
 
 
     /**
+     * Get row from two-dimensional array.
+     *
+     * @param array the two-dimensional array
+     * @param rowIndex the row index
+     * @param rowSize the row size
+     * @return one row from a two-dimensional array
+     */
+    public static byte[] getRow(final byte[] array, final int rowIndex, final int rowSize)
+    {
+        final int rowStartIndex = rowIndex * rowSize;
+        final byte[] element = new byte[rowSize];
+        System.arraycopy(array, rowStartIndex, element, 0, rowSize);
+
+        return element;
+    }
+
+
+    /**
      * Check if game is over.
      *
      * @return True if game is over, False otherwise
@@ -507,9 +527,11 @@ public class TinyGameState
 
                 for (int i = 0; i < iDraftDominoCount; ++i)
                 {
-                    if (iCurrentDraft[DRAFT_ELEMENT_PLAYER_ID_INDEX] != INVALID_PLAYER_ID)
+                    final byte playerId = iCurrentDraft[i * TinyGameState.DRAFT_ELEMENT_SIZE + DRAFT_ELEMENT_PLAYER_ID_INDEX];
+
+                    if (playerId != INVALID_PLAYER_ID)
                     {
-                        playerIDs.remove(iCurrentDraft[DRAFT_ELEMENT_PLAYER_ID_INDEX]);
+                        playerIDs.remove(new Byte(playerId));
                     }
                 }
 
@@ -563,7 +585,7 @@ public class TinyGameState
      *
      * @return all available moves
      */
-    /*package*/ byte[] getAvailableMoves(final String playerName)
+    public byte[] getAvailableMoves(final String playerName)
     {
         final byte[] possiblePlacedDominoes;
         if (! isDraftEmpty(iPreviousDraft))
@@ -576,7 +598,7 @@ public class TinyGameState
             }
 
             final byte[] dominoToPlace = getDominoFromDraft(iPreviousDraft, 0);
-            final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(playerName);
+            final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(playerName, iKingdomTerrains);
 
             final byte[] dominoPositions = getValidPositionsUnique(dominoToPlace, playerKingdomTerrains);
             final int numDominoPositions = dominoPositions.length / DOMINOPOSITION_ELEMENT_SIZE;
@@ -713,19 +735,32 @@ public class TinyGameState
      */
     public int getScore(final String playerName)
     {
-        final byte[] kingdomTerrains = getPlayerKingdomTerrains(playerName);
+        final byte[] kingdomTerrains = getPlayerKingdomTerrains(playerName, iKingdomTerrains);
         final byte[] kingdomCrowns = getPlayerKingdomCrowns(playerName);
 
         return TinyScorerAlgorithm.applyTo(kingdomTerrains, kingdomCrowns);
     }
 
-    private byte[] getPlayerKingdomTerrains(final String playerName)
+    public Map<String, Integer> getScores()
+    {
+        final LinkedHashMap<String, Integer> playerNameToScoreMap = new LinkedHashMap<>(iNumPlayers);
+
+        for (int i = 0; i < iNumPlayers; ++i)
+        {
+            playerNameToScoreMap.put(iPlayers[i], getScore(iPlayers[i]));
+        }
+
+        return playerNameToScoreMap;
+    }
+
+
+    private byte[] getPlayerKingdomTerrains(final String playerName, final byte[] kingdomTerrains)
     {
         final byte id = getPlayerID(playerName, iPlayers);
-        final byte[] kingdomTerrains = new byte[SINGLE_PLAYER_KINGDOM_SIZE];
-        System.arraycopy(iKingdomTerrains, id * SINGLE_PLAYER_KINGDOM_SIZE, kingdomTerrains, 0, SINGLE_PLAYER_KINGDOM_SIZE);
+        final byte[] playerKingdomTerrains = new byte[SINGLE_PLAYER_KINGDOM_SIZE];
+        System.arraycopy(kingdomTerrains, id * SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomTerrains, 0, SINGLE_PLAYER_KINGDOM_SIZE);
 
-        return kingdomTerrains;
+        return playerKingdomTerrains;
     }
 
     private byte[] getPlayerKingdomCrowns(final String playerName)
@@ -807,7 +842,7 @@ public class TinyGameState
         {
             result = result.concat("\n");
             result = result.concat("Terrains(" + iPlayers[p] + ")=\n");
-            final byte[] kingdomTerrains = getPlayerKingdomTerrains(iPlayers[p]);
+            final byte[] kingdomTerrains = getPlayerKingdomTerrains(iPlayers[p], iKingdomTerrains);
 
             for (int i = 0; i < SINGLE_PLAYER_KINGDOM_SIZE; ++i)
             {

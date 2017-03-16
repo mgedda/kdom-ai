@@ -27,13 +27,13 @@ public class Player
 
     private int iMovesMade = 0;
 
-    private final Strategy iStrategy;
+    private final StrategyID iStrategyID;
 
     public Player(final String uuid, final String name, final StrategyID strategyID, final boolean enableDebug)
     {
         iUUID = uuid;
         iName = name;
-        iStrategy = strategyID.getStrategy();
+        iStrategyID = strategyID;
         iDebugEnabled = enableDebug;
     }
 
@@ -64,6 +64,7 @@ public class Player
         // Show state before move
         //
         final int roundNumber = iMovesMade + 1;
+        System.out.println("\nRound: " + Integer.toString(roundNumber));
         DEBUG.plotGameState(iDebugEnabled, localGameState, "Before Move (extendedState) " + Integer.toString(roundNumber));
         Util.noop();
 
@@ -75,7 +76,7 @@ public class Player
 
         // Select move.
         //
-        final Move move = iStrategy.selectMove(iName, availableMoves, localGameState);
+        final Move move = selectMove(availableMoves, localGameState);
         final LocalGameState localGameStateAfterMove = localGameState.makeMove(iName, move);
 
         iChosenDraftPositions[roundNumber-1] = localGameState.getPositionInCurrentDraft(move.getChosenDomino());
@@ -87,6 +88,11 @@ public class Player
 
         GameServer.makeMove(game, this, move);
         iMovesMade++;
+    }
+
+    protected Move selectMove(final Move[] availableMoves, final LocalGameState localGameState)
+    {
+        return iStrategyID.getStrategy().selectMove(iName, availableMoves, localGameState);
     }
 
 

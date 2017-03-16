@@ -17,7 +17,14 @@ public abstract class MonteCarlo implements Strategy
     @Override
     public final Move selectMove(final String playerName, final Move[] availableMoves, final LocalGameState gameState)
     {
-        final ArrayList<Move> maxScoringMoves = new FullGreedyAlgorithm().getMaxScoringMoves(playerName, availableMoves, gameState);
+        // TODO [gedda] IMPORTANT! : Change back to full greedy algorithm!
+        //final ArrayList<Move> maxScoringMoves = new FullGreedyAlgorithm().getMaxScoringMoves(playerName, availableMoves, gameState);
+        final ArrayList<Move> maxScoringMoves = new ArrayList<>(availableMoves.length);
+        for (final Move move : availableMoves)
+        {
+            maxScoringMoves.add(move);
+        }
+
 
         if (maxScoringMoves.size() > 1)
         {
