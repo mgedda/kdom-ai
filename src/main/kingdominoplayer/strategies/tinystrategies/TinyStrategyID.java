@@ -13,7 +13,7 @@ public enum TinyStrategyID
     private TinyStrategy iStrategy;
 
     static {
-        MC_TR_TR_R.iStrategy = new TinyMonteCarlo();
+        MC_TR_TR_R.iStrategy = new TinyMonteCarlo(new TinyTrueRandom(), new TinyTrueRandom(), true);
     }
 
     public TinyStrategy getStrategy()

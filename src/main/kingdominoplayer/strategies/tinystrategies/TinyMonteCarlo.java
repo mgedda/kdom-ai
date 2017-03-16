@@ -12,6 +12,18 @@ import kingdominoplayer.tinyrepresentation.TinyGameState;
  */
 public class TinyMonteCarlo implements TinyStrategy
 {
+
+    private final TinyStrategy iPlayerStrategy;
+    private final TinyStrategy iOpponentStrategy;
+    private final boolean iUseRelativeBranchScore;
+
+    public TinyMonteCarlo(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy, final boolean useRelativeBranchScore)
+    {
+        iPlayerStrategy = playerStrategy;
+        iOpponentStrategy = opponentStrategy;
+        iUseRelativeBranchScore = useRelativeBranchScore;
+    }
+
     @Override
     public final byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
     {
@@ -37,16 +49,16 @@ public class TinyMonteCarlo implements TinyStrategy
 
     private TinyStrategy getPlayerStrategy()
     {
-        return new TinyTrueRandom();
+        return iPlayerStrategy;
     }
 
     private TinyStrategy getOpponentStrategy()
     {
-        return new TinyTrueRandom();
+        return iOpponentStrategy;
     }
 
     private boolean useRelativeBranchScore()
     {
-        return true;
+        return iUseRelativeBranchScore;
     }
 }
