@@ -14,7 +14,7 @@ import java.util.LinkedHashSet;
  */
 public class Kingdom
 {
-    private final Collection<PlacedTile> iPlacedTiles;
+    private final Collection<PlacedTile> iPlacedTiles;  // including castle (?)
     private Integer iScore = null;   // cached score
 
     public Kingdom(final Collection<PlacedTile> placedTiles)

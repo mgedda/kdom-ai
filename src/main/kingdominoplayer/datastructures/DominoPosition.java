@@ -18,6 +18,11 @@ public class DominoPosition
         iTile2Position = tile2Position;
     }
 
+    public DominoPosition getInverted()
+    {
+        return new DominoPosition(iTile2Position, iTile1Position);
+    }
+
     public Position getTile1Position()
     {
         return iTile1Position;

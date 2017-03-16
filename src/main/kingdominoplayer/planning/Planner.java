@@ -2,7 +2,6 @@ package kingdominoplayer.planning;
 
 import kingdominoplayer.datastructures.*;
 import kingdominoplayer.plot.KingdomInfo;
-import kingdominoplayer.utils.ArrayUtils;
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.utils.Util;
 
@@ -211,6 +210,24 @@ public class Planner
                     }
                 }
             }
+        }
+
+        // Remove any symmetrical domino positions
+        //
+        if (terrain1.equals(terrain2))
+        {
+            final LinkedHashSet<DominoPosition> result = new LinkedHashSet<>(2 * validDominoPositions.size());
+
+            for (final DominoPosition dominoPosition : validDominoPositions)
+            {
+                if (! result.contains(dominoPosition.getInverted()))
+                {
+                    result.add(dominoPosition);
+                }
+            }
+
+            validDominoPositions.clear();
+            validDominoPositions.addAll(result);
         }
 
         return validDominoPositions;

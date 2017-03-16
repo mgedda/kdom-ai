@@ -68,7 +68,7 @@ public class DebugPlotTest
 
 
 
-    private String getSampleGameState()
+    public static String getSampleGameState()
     {
         return "{\n" +
                 "  \"uuid\":\"50c6fcbb-feee-4b10-bf5e-d71948a52d12\",\n" +
