@@ -14,7 +14,7 @@ public class TinyScorerAlgorithm
 {
     public static int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        final ArrayList<Integer> placedIndices = getPlacedIndices(kingdomTerrains);
+        final ArrayList<Byte> placedIndices = getPlacedIndices(kingdomTerrains);
 
         int connectedComponentsScore = getConnectedTerrainsScore(placedIndices, kingdomTerrains, kingdomCrowns);
         int middleKingdomScore = getMiddleKingdomScore(placedIndices);
@@ -30,7 +30,7 @@ public class TinyScorerAlgorithm
      * @param placedIndices
      * @return
      */
-    private static int getHarmonyScore(final ArrayList<Integer> placedIndices)
+    private static int getHarmonyScore(final ArrayList<Byte> placedIndices)
     {
         return placedIndices.size() == 24 ? 5 : 0;
     }
@@ -41,7 +41,7 @@ public class TinyScorerAlgorithm
      *
      * @return
      */
-    private static int getMiddleKingdomScore(final ArrayList<Integer> placedIndices)
+    private static int getMiddleKingdomScore(final ArrayList<Byte> placedIndices)
     {
         for (final int placedIndex : placedIndices)
         {
@@ -68,28 +68,28 @@ public class TinyScorerAlgorithm
      * @param kingdomCrowns
      * @return
      */
-    private static int getConnectedTerrainsScore(final ArrayList<Integer> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
+    private static int getConnectedTerrainsScore(final ArrayList<Byte> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        final LinkedHashSet<Integer> scoredIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
+        final LinkedHashSet<Byte> scoredIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
 
         int connectedComponentsScore = 0;
 
-        for (final int index : placedIndices)
+        for (final byte index : placedIndices)
         {
             if (scoredIndices.contains(index))
             {
                 continue;
             }
 
-            final Set<Integer> visitedIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
-            final Set<Integer> connectedTerrainIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
+            final Set<Byte> visitedIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
+            final Set<Byte> connectedTerrainIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
 
             visitedIndices.addAll(scoredIndices);
             visitedIndices.add(index);
             connectedTerrainIndices.add(index);
 
             final byte terrain = kingdomTerrains[index];
-            for (final int adjacentIndex : getAdjacentIndices(index))
+            for (final byte adjacentIndex : getAdjacentIndices(index))
             {
                 if (! visitedIndices.contains(adjacentIndex))
                 {
@@ -113,11 +113,11 @@ public class TinyScorerAlgorithm
      * @param kingdomTerrains
      * @return
      */
-    private static ArrayList<Integer> getPlacedIndices(final byte[] kingdomTerrains)
+    private static ArrayList<Byte> getPlacedIndices(final byte[] kingdomTerrains)
     {
-        final ArrayList<Integer> placedIndices = new ArrayList<>(kingdomTerrains.length);
+        final ArrayList<Byte> placedIndices = new ArrayList<>(kingdomTerrains.length);
 
-        for (int i = 0; i < kingdomTerrains.length; i++)
+        for (byte i = 0; i < kingdomTerrains.length; i++)
         {
             if (kingdomTerrains[i] != TerrainCode.from("castle")
                     && kingdomTerrains[i] != TerrainCode.from("none"))
@@ -140,9 +140,9 @@ public class TinyScorerAlgorithm
      * @param kingdomTerrains
      */
     private static void getConnectedTerrainTilesRecursively(final byte currentTerrain,
-                                                            final int index,
-                                                            /* UPDATED */ final Set<Integer> connectedTerrainIndices,
-                                                            /* UPDATED */ final Set<Integer> visitedIndices,
+                                                            final byte index,
+                                                            /* UPDATED */ final Set<Byte> connectedTerrainIndices,
+                                                            /* UPDATED */ final Set<Byte> visitedIndices,
                                                             final byte[] kingdomTerrains)
     {
         final byte terrain = kingdomTerrains[index];
@@ -157,9 +157,9 @@ public class TinyScorerAlgorithm
         {
             connectedTerrainIndices.add(index);
 
-            final ArrayList<Integer> adjacentIndices = getAdjacentIndices(index);
+            final ArrayList<Byte> adjacentIndices = getAdjacentIndices(index);
 
-            for (final int adjacentIndex : adjacentIndices)
+            for (final byte adjacentIndex : adjacentIndices)
             {
                 if (! visitedIndices.contains(adjacentIndex))
                 {
@@ -179,7 +179,7 @@ public class TinyScorerAlgorithm
      * @param kingdomCrowns
      * @return
      */
-    private static int computeConnectedTerrainScore(final Set<Integer> indices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
+    private static int computeConnectedTerrainScore(final Set<Byte> indices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
         if (indices.isEmpty())
         {
@@ -211,9 +211,9 @@ public class TinyScorerAlgorithm
      * @param i
      * @return
      */
-    private static ArrayList<Integer> getAdjacentIndices(final int i)
+    private static ArrayList<Byte> getAdjacentIndices(final byte i)
     {
-        final ArrayList<Integer> adjacentIndices = new ArrayList<>(4);
+        final ArrayList<Byte> adjacentIndices = new ArrayList<>(4);
 
         final int xSize = TinyConst.KINGDOM_X_SIZE;
         final int ySize = TinyConst.KINGDOM_X_SIZE;
@@ -223,22 +223,22 @@ public class TinyScorerAlgorithm
 
         if (x > 0)
         {
-            adjacentIndices.add(i - 1);
+            adjacentIndices.add((byte)(i - 1));
         }
 
         if (x < xSize-1)
         {
-            adjacentIndices.add(i + 1);
+            adjacentIndices.add((byte)(i + 1));
         }
 
         if (y > 0)
         {
-            adjacentIndices.add(i - xSize);
+            adjacentIndices.add((byte)(i - xSize));
         }
 
         if (y < ySize-1)
         {
-            adjacentIndices.add(i + xSize);
+            adjacentIndices.add((byte)(i + xSize));
         }
 
         return adjacentIndices;
