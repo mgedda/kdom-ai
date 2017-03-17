@@ -10,7 +10,8 @@ import java.awt.image.BufferedImage;
  * Date: 2017-02-10<br>
  * Time: 19:08<br><br>
  */
-public class BufferedImageViewer
+@SuppressWarnings("WeakerAccess")
+/*package*/ class BufferedImageViewer
 {
     public static void displayImage(final BufferedImage image, final String title)
     {

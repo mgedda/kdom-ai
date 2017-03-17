@@ -16,7 +16,7 @@ import java.util.Arrays;
  * Time: 19:17<br><br>
  */
 @SuppressWarnings("WeakerAccess")
-public class GridImage
+/*package*/ class GridImage
 {
     private final int[] iData;
 

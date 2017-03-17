@@ -10,7 +10,8 @@ import java.util.ArrayList;
  * Date: 2017-02-10<br>
  * Time: 19:13<br><br>
  */
-public class BufferedImageUtils
+@SuppressWarnings("WeakerAccess")
+/*package*/ class BufferedImageUtils
 {
     /**
      * Add a text string to the image.

@@ -8,7 +8,7 @@ import kingdominoplayer.datastructures.Tile;
  * Date: 2017-02-10<br>
  * Time: 19:29<br><br>
  */
-public enum TileType
+/*package*/ enum TileType
 {
     UNOCCUPIED,
     CASTLE,
