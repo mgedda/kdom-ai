@@ -14,7 +14,7 @@ public class TinyScorerAlgorithm
 {
     public static int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        final ArrayList<Byte> placedIndices = getPlacedIndices(kingdomTerrains);
+        final ArrayList<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
 
         int connectedComponentsScore = getConnectedTerrainsScore(placedIndices, kingdomTerrains, kingdomCrowns);
         int middleKingdomScore = getMiddleKingdomScore(placedIndices);
@@ -89,7 +89,7 @@ public class TinyScorerAlgorithm
             connectedTerrainIndices.add(index);
 
             final byte terrain = kingdomTerrains[index];
-            for (final byte adjacentIndex : getAdjacentIndices(index))
+            for (final byte adjacentIndex : TinyUtils.getAdjacentIndices(index, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE))
             {
                 if (! visitedIndices.contains(adjacentIndex))
                 {
@@ -107,27 +107,6 @@ public class TinyScorerAlgorithm
     }
 
 
-    /**
-     * Get indices of all placed tiles (excluding the castle).
-     *
-     * @param kingdomTerrains
-     * @return
-     */
-    private static ArrayList<Byte> getPlacedIndices(final byte[] kingdomTerrains)
-    {
-        final ArrayList<Byte> placedIndices = new ArrayList<>(kingdomTerrains.length);
-
-        for (byte i = 0; i < kingdomTerrains.length; i++)
-        {
-            if (kingdomTerrains[i] != TerrainCode.from("castle")
-                    && kingdomTerrains[i] != TerrainCode.from("none"))
-            {
-                placedIndices.add(i);
-            }
-        }
-
-        return placedIndices;
-    }
 
 
     /**
@@ -157,7 +136,7 @@ public class TinyScorerAlgorithm
         {
             connectedTerrainIndices.add(index);
 
-            final ArrayList<Byte> adjacentIndices = getAdjacentIndices(index);
+            final ArrayList<Byte> adjacentIndices = TinyUtils.getAdjacentIndices(index, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
 
             for (final byte adjacentIndex : adjacentIndices)
             {
@@ -205,44 +184,6 @@ public class TinyScorerAlgorithm
     }
 
 
-    /**
-     * Get indices adjacent to i.
-     *
-     * @param i
-     * @return
-     */
-    private static ArrayList<Byte> getAdjacentIndices(final byte i)
-    {
-        final ArrayList<Byte> adjacentIndices = new ArrayList<>(4);
-
-        final int xSize = TinyConst.KINGDOM_X_SIZE;
-        final int ySize = TinyConst.KINGDOM_X_SIZE;
-
-        final int x = TinyGameState.indexToArrayXCoordinate(i);
-        final int y = TinyGameState.indexToArrayYCoordinate(i);
-
-        if (x > 0)
-        {
-            adjacentIndices.add((byte)(i - 1));
-        }
-
-        if (x < xSize-1)
-        {
-            adjacentIndices.add((byte)(i + 1));
-        }
-
-        if (y > 0)
-        {
-            adjacentIndices.add((byte)(i - xSize));
-        }
-
-        if (y < ySize-1)
-        {
-            adjacentIndices.add((byte)(i + xSize));
-        }
-
-        return adjacentIndices;
-    }
 
 
 }
