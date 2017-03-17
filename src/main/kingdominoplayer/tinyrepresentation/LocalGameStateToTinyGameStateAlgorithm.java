@@ -9,7 +9,7 @@ import kingdominoplayer.datastructures.PlacedDomino;
 import kingdominoplayer.datastructures.PlacedTile;
 import kingdominoplayer.datastructures.Position;
 import kingdominoplayer.datastructures.Tile;
-import kingdominoplayer.plot.KingdomInfo;
+import kingdominoplayer.datastructures.KingdomInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

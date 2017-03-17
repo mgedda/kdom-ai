@@ -1,4 +1,4 @@
-package kingdominoplayer.plot;
+package kingdominoplayer.datastructures;
 
 import kingdominoplayer.datastructures.Kingdom;
 

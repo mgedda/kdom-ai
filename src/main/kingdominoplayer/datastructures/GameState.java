@@ -1,7 +1,6 @@
 package kingdominoplayer.datastructures;
 
 import kingdominoplayer.planning.Planner;
-import kingdominoplayer.plot.KingdomInfo;
 
 import java.util.*;
 

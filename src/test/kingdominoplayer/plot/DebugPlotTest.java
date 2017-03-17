@@ -4,6 +4,7 @@ import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.datastructures.DominoPosition;
 import kingdominoplayer.datastructures.Kingdom;
 import kingdominoplayer.datastructures.KingdomDominoPositionPair;
+import kingdominoplayer.datastructures.KingdomInfo;
 import kingdominoplayer.datastructures.Position;
 import kingdominoplayer.datastructures.GameState;
 import kingdominoplayer.utils.Util;
