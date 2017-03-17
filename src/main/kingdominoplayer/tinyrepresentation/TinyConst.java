@@ -81,7 +81,8 @@ public class TinyConst
     // KINGDOM
 
     public static int KINGDOM_X_SIZE = 9;
-    public static int SINGLE_PLAYER_KINGDOM_SIZE = KINGDOM_X_SIZE * KINGDOM_X_SIZE;   // 9x9 terrains or crowns
+    public static int KINGDOM_Y_SIZE = 9;
+    public static int SINGLE_PLAYER_KINGDOM_SIZE = KINGDOM_X_SIZE * KINGDOM_Y_SIZE;   // 9x9 terrains or crowns
 
 
     // DOMINO
