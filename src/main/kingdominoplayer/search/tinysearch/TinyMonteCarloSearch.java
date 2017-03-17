@@ -1,4 +1,4 @@
-package kingdominoplayer.search;
+package kingdominoplayer.search.tinysearch;
 
 import kingdominoplayer.strategies.tinystrategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.TinyConst;

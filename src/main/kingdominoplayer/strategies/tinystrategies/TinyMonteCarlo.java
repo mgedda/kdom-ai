@@ -2,7 +2,7 @@ package kingdominoplayer.strategies.tinystrategies;
 
 import kingdominoplayer.movefilters.tinymovefilters.AllTinyMoves;
 import kingdominoplayer.movefilters.tinymovefilters.TinyMoveFilter;
-import kingdominoplayer.search.TinyMonteCarloSearch;
+import kingdominoplayer.search.tinysearch.TinyMonteCarloSearch;
 import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyGameState;
 

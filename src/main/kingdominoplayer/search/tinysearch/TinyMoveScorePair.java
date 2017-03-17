@@ -1,4 +1,4 @@
-package kingdominoplayer.search;
+package kingdominoplayer.search.tinysearch;
 
 /**
  * Copyright 2017 Tomologic AB<br>
