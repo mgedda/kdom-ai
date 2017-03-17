@@ -670,8 +670,7 @@ public class TinyGameState
 
     /*package*/ byte[] getValidPositionsUnique(final byte[] dominoToPlace, final byte[] kingdomTerrains)
     {
-        // TODO [gedda] IMPORTANT! : CHANGE TO USE NEW NEW REPRESENTATION INSTEAD OF ADAPTER!
-        return new PlannerAdapter().getValidPositionsUnique(dominoToPlace, kingdomTerrains);
+        return new TinyValidPositionsAlgorithm().applyTo(dominoToPlace, kingdomTerrains);
     }
 
 
