@@ -14,78 +14,26 @@ import java.util.Set;
  * User: gedda<br>
  * Date: 2017-03-13<br>
  * Time: 15:29<br><br>
+ *
+ * Game state with efficient data representation.
+
+ * <pre>
+ *     byte[] iKingdomTerrains    (Type: KINGDOM_TERRAINS)
+ *     byte[] iKingdomCrowns      (Type: KINGDOM_CROWNS)
+ *     byte[] iCurrentDraft       (Type: DRAFT)
+ *     byte[] iPreviousDraft      (Type: DRAFT)
+ *     byte[] iDrawPile           (Type: DRAW_PILE)
+ * </pre>
+ *
  */
 @SuppressWarnings("WeakerAccess")
 public class TinyGameState
 {
     private final byte[] iKingdomTerrains;
     private final byte[] iKingdomCrowns;
-
-    /**
-     * Drafts are structured as follows,
-     *
-     *   draft[] =
-     *   {{DOMINO_1_ID, TILE_1_TERRAIN, TILE_1_CROWNS, TILE_2_TERRAIN, TILE_2_CROWNS, TILE_1_X, TILE_1_Y, TILE_2_X, TILE_2_Y, PLAYER_ID},   // Draft element 1
-     *    {DOMINO_2_ID, TILE_1_TERRAIN, TILE_1_CROWNS, TILE_2_TERRAIN, TILE_2_CROWNS, TILE_1_X, TILE_1_Y, TILE_2_X, TILE_2_Y, PLAYER_ID},   // Draft element 2
-     *    ...
-     *    {DOMINO_N_ID, TILE_1_TERRAIN, TILE_1_CROWNS, TILE_2_TERRAIN, TILE_2_CROWNS, TILE_1_X, TILE_1_Y, TILE_2_X, TILE_2_Y, PLAYER_ID}}   // Draft element N
-     *
-     * Any empty slots are always at the end of the draft. So if a middle element is removed
-     * from the draft the succeeding elements in the draft are moved up one place.
-     * This enables us to check if a draft is empty by simply checking the first element
-     * in the array.
-     *
-     */
     private final byte[] iCurrentDraft;
     private final byte[] iPreviousDraft;
-
-    /**
-     * Draw pile is structured as follows (list of dominoes),
-     *
-     *   drawPile[] =
-     *   {{DOMINO_1_ID, TILE_1_TERRAIN, TILE_1_CROWNS, TILE_2_TERRAIN, TILE_2_CROWNS, TILE_1_X, TILE_1_Y, TILE_2_X, TILE_2_Y},   // Draw pile element 1
-     *    {DOMINO_2_ID, TILE_1_TERRAIN, TILE_1_CROWNS, TILE_2_TERRAIN, TILE_2_CROWNS, TILE_1_X, TILE_1_Y, TILE_2_X, TILE_2_Y},   // Draw pile element 2
-     *    ...
-     *    {DOMINO_N_ID, TILE_1_TERRAIN, TILE_1_CROWNS, TILE_2_TERRAIN, TILE_2_CROWNS, TILE_1_X, TILE_1_Y, TILE_2_X, TILE_2_Y}}   // Draw pile element N
-     *
-     */
     private final byte[] iDrawPile;
-
-    public static int KINGDOM_X_SIZE = 9;
-    public static int SINGLE_PLAYER_KINGDOM_SIZE = KINGDOM_X_SIZE * KINGDOM_X_SIZE;   // 9x9 terrains or crowns
-
-    public static int DOMINO_SIZE = 9;
-    public static int DOMINO_ID_INDEX = 0;
-    public static int DOMINO_TILE_1_TERRAIN_INDEX = 1;
-    public static int DOMINO_TILE_1_CROWNS_INDEX = 2;
-    public static int DOMINO_TILE_2_TERRAIN_INDEX = 3;
-    public static int DOMINO_TILE_2_CROWNS_INDEX = 4;
-    public static int DOMINO_TILE_1_X_INDEX = 5;
-    public static int DOMINO_TILE_1_Y_INDEX = 6;
-    public static int DOMINO_TILE_2_X_INDEX = 7;
-    public static int DOMINO_TILE_2_Y_INDEX = 8;
-
-    public static int DRAFT_ELEMENT_SIZE = DOMINO_SIZE + 1;
-    public static int DRAFT_ELEMENT_PLAYER_ID_INDEX = DRAFT_ELEMENT_SIZE - 1;
-
-    public static int DOMINOPOSITION_ELEMENT_SIZE = 4;
-    public static int DOMINOPOSITION_TILE_1_X_INDEX = 0;
-    public static int DOMINOPOSITION_TILE_1_Y_INDEX = 1;
-    public static int DOMINOPOSITION_TILE_2_X_INDEX = 2;
-    public static int DOMINOPOSITION_TILE_2_Y_INDEX = 3;
-
-    /**
-     * Move: {MOVE_NUMBER, CHOSEN_DOMINO, PLACED_DOMINO}
-     */
-    public static int MOVE_ELEMENT_SIZE = 1 + 2 * DOMINO_SIZE;
-    public static int MOVE_NUMBER_INDEX = 0;
-    public static int MOVE_CHOSEN_DOMINO_INDEX = 1;
-    public static int MOVE_PLACED_DOMINO_INDEX = MOVE_CHOSEN_DOMINO_INDEX + DOMINO_SIZE;
-
-
-    public static byte INVALID_PLAYER_ID = (byte) -1;
-    public static byte INVALID_PLACEMENT_VALUE = (byte) -99;
-    public static byte INVALID_DOMINO_VALUE = (byte) -1;
 
     private final String[] iPlayers;
     private final byte iNumPlayers;
@@ -105,11 +53,11 @@ public class TinyGameState
         iNumPlayers = (byte) players.length;
         iDraftDominoCount = iNumPlayers == 3 ? (byte) 3 : (byte) 4;
 
-        assert kingdomTerrains.length == iNumPlayers * SINGLE_PLAYER_KINGDOM_SIZE;
-        assert kingdomCrowns.length == iNumPlayers * SINGLE_PLAYER_KINGDOM_SIZE;
-        assert currentDraft.length == iDraftDominoCount * DRAFT_ELEMENT_SIZE;
-        assert previousDraft.length == iDraftDominoCount * DRAFT_ELEMENT_SIZE;
-        assert drawPile.length % DOMINO_SIZE == 0 : "Inconsistent draw pile size!";
+        assert kingdomTerrains.length == iNumPlayers * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE;
+        assert kingdomCrowns.length == iNumPlayers * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE;
+        assert currentDraft.length == iDraftDominoCount * TinyConst.DRAFT_ELEMENT_SIZE;
+        assert previousDraft.length == iDraftDominoCount * TinyConst.DRAFT_ELEMENT_SIZE;
+        assert drawPile.length % TinyConst.DOMINO_SIZE == 0 : "Inconsistent draw pile size!";
         assert drawPile.length % iDraftDominoCount == 0 : "Inconsistent draw pile size!";
 
         iKingdomTerrains = kingdomTerrains;
@@ -163,7 +111,7 @@ public class TinyGameState
             }
         }
 
-        return INVALID_PLAYER_ID;
+        return TinyConst.INVALID_PLAYER_ID;
     }
 
 
@@ -178,11 +126,11 @@ public class TinyGameState
     {
         //final int moveNumber = move[MOVE_NUMBER_INDEX] & 0xFF;  // signed byte to unsigned value
 
-        final byte[] chosenDomino = new byte[DOMINO_SIZE];
-        System.arraycopy(move, 1, chosenDomino, 0, DOMINO_SIZE);
+        final byte[] chosenDomino = new byte[TinyConst.DOMINO_SIZE];
+        System.arraycopy(move, 1, chosenDomino, 0, TinyConst.DOMINO_SIZE);
 
-        final byte[] placedDomino = new byte[DOMINO_SIZE];
-        System.arraycopy(move, 1 + DOMINO_SIZE, placedDomino, 0, DOMINO_SIZE);
+        final byte[] placedDomino = new byte[TinyConst.DOMINO_SIZE];
+        System.arraycopy(move, 1 + TinyConst.DOMINO_SIZE, placedDomino, 0, TinyConst.DOMINO_SIZE);
 
         final byte playerID = getPlayerID(playerName, iPlayers);
 
@@ -197,7 +145,7 @@ public class TinyGameState
         final byte[] previousDraft = Arrays.copyOf(iPreviousDraft, iPreviousDraft.length);
 
 
-        if (placedDomino[0] != INVALID_DOMINO_VALUE)
+        if (placedDomino[0] != TinyConst.INVALID_DOMINO_VALUE)
         {
             // Player placed a domino.
 
@@ -206,15 +154,15 @@ public class TinyGameState
             final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(playerName, iKingdomTerrains);
             final byte[] playerKingdomCrowns = getPlayerKingdomCrowns(playerName);
 
-            final byte tile1Terrain = placedDomino[DOMINO_TILE_1_TERRAIN_INDEX];
-            final byte tile1Crowns = placedDomino[DOMINO_TILE_1_CROWNS_INDEX];
-            final byte tile2Terrain = placedDomino[DOMINO_TILE_2_TERRAIN_INDEX];
-            final byte tile2Crowns = placedDomino[DOMINO_TILE_2_CROWNS_INDEX];
+            final byte tile1Terrain = placedDomino[TinyConst.DOMINO_TILE_1_TERRAIN_INDEX];
+            final byte tile1Crowns = placedDomino[TinyConst.DOMINO_TILE_1_CROWNS_INDEX];
+            final byte tile2Terrain = placedDomino[TinyConst.DOMINO_TILE_2_TERRAIN_INDEX];
+            final byte tile2Crowns = placedDomino[TinyConst.DOMINO_TILE_2_CROWNS_INDEX];
 
-            final byte tile1X = placedDomino[DOMINO_TILE_1_X_INDEX];
-            final byte tile1Y = placedDomino[DOMINO_TILE_1_Y_INDEX];
-            final byte tile2X = placedDomino[DOMINO_TILE_2_X_INDEX];
-            final byte tile2Y = placedDomino[DOMINO_TILE_2_Y_INDEX];
+            final byte tile1X = placedDomino[TinyConst.DOMINO_TILE_1_X_INDEX];
+            final byte tile1Y = placedDomino[TinyConst.DOMINO_TILE_1_Y_INDEX];
+            final byte tile2X = placedDomino[TinyConst.DOMINO_TILE_2_X_INDEX];
+            final byte tile2Y = placedDomino[TinyConst.DOMINO_TILE_2_Y_INDEX];
 
             final int tile1Index = tileCoordinateToLinearIndex(tile1X, tile1Y);
             final int tile2Index = tileCoordinateToLinearIndex(tile2X, tile2Y);
@@ -224,8 +172,8 @@ public class TinyGameState
             playerKingdomTerrains[tile2Index] = tile2Terrain;
             playerKingdomCrowns[tile2Index] = tile2Crowns;
 
-            System.arraycopy(playerKingdomTerrains, 0, kingdomTerrains, playerID * SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomTerrains.length);
-            System.arraycopy(playerKingdomCrowns, 0, kingdomCrowns, playerID * SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomCrowns.length);
+            System.arraycopy(playerKingdomTerrains, 0, kingdomTerrains, playerID * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomTerrains.length);
+            System.arraycopy(playerKingdomCrowns, 0, kingdomCrowns, playerID * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomCrowns.length);
 
 
             // Remove from previous draft
@@ -234,7 +182,7 @@ public class TinyGameState
 
             for (int i = 0; i < iDraftDominoCount; ++i)
             {
-                final int elementStartIndex = i * DRAFT_ELEMENT_SIZE;
+                final int elementStartIndex = i * TinyConst.DRAFT_ELEMENT_SIZE;
 
                 if (previousDraft[elementStartIndex] == dominoID)
                 {
@@ -253,7 +201,7 @@ public class TinyGameState
 
         final byte[] currentDraft = Arrays.copyOf(iCurrentDraft, iCurrentDraft.length);
 
-        if (chosenDomino[0] != INVALID_DOMINO_VALUE)
+        if (chosenDomino[0] != TinyConst.INVALID_DOMINO_VALUE)
         {
             final byte dominoId = chosenDomino[0];
 
@@ -261,10 +209,10 @@ public class TinyGameState
             //
             for (int i = 0; i < iDraftDominoCount; ++i)
             {
-                final int elementStartIndex = i * DRAFT_ELEMENT_SIZE;
+                final int elementStartIndex = i * TinyConst.DRAFT_ELEMENT_SIZE;
                 if (currentDraft[elementStartIndex] == dominoId)
                 {
-                    currentDraft[elementStartIndex + DRAFT_ELEMENT_PLAYER_ID_INDEX] = playerID;
+                    currentDraft[elementStartIndex + TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX] = playerID;
                     break;
                 }
             }
@@ -282,15 +230,15 @@ public class TinyGameState
             // Move current draft to previous draft.
             //
             System.arraycopy(currentDraft, 0, previousDraft, 0, currentDraft.length);
-            Arrays.fill(currentDraft, INVALID_DOMINO_VALUE);
+            Arrays.fill(currentDraft, TinyConst.INVALID_DOMINO_VALUE);
 
 
             // Remove dominoes without valid placements from previous draft.
             //
             for (int i = 0; i < iDraftDominoCount; ++i)
             {
-                final int elementStartIndex = i * DRAFT_ELEMENT_SIZE;
-                if (previousDraft[elementStartIndex] != INVALID_DOMINO_VALUE)
+                final int elementStartIndex = i * TinyConst.DRAFT_ELEMENT_SIZE;
+                if (previousDraft[elementStartIndex] != TinyConst.INVALID_DOMINO_VALUE)
                 {
                     final byte[] domino = getDominoFromDraft(previousDraft, i);
 
@@ -314,12 +262,12 @@ public class TinyGameState
             //
             if (iDrawPile.length > 0)
             {
-                assert iDrawPile.length >= iDraftDominoCount * DOMINO_SIZE : "Draw pile not big enough!";
+                assert iDrawPile.length >= iDraftDominoCount * TinyConst.DOMINO_SIZE : "Draw pile not big enough!";
 
                 final Set<Integer> drawnIndices = new LinkedHashSet<>(8);  // max 4 elements
                 for (int i = 0; i < iDraftDominoCount; ++i)
                 {
-                    final int numDrawPileElements = iDrawPile.length / DOMINO_SIZE;
+                    final int numDrawPileElements = iDrawPile.length / TinyConst.DOMINO_SIZE;
                     int drawPileIndex = Random.getInt(numDrawPileElements);
 
                     while (drawnIndices.contains(drawPileIndex))
@@ -329,7 +277,7 @@ public class TinyGameState
                     }
 
                     // draw domino
-                    System.arraycopy(iDrawPile, drawPileIndex * DOMINO_SIZE, currentDraft, i * DRAFT_ELEMENT_SIZE, DOMINO_SIZE);
+                    System.arraycopy(iDrawPile, drawPileIndex * TinyConst.DOMINO_SIZE, currentDraft, i * TinyConst.DRAFT_ELEMENT_SIZE, TinyConst.DOMINO_SIZE);
 
                     drawnIndices.add(drawPileIndex);
                 }
@@ -339,14 +287,14 @@ public class TinyGameState
 
                 // build new reduced draw pile
                 //
-                drawPile = new byte[iDrawPile.length - iDraftDominoCount * DOMINO_SIZE];
+                drawPile = new byte[iDrawPile.length - iDraftDominoCount * TinyConst.DOMINO_SIZE];
 
                 int newDrawPileElementCounter = 0;
-                for (int i = 0; i < iDrawPile.length / DOMINO_SIZE; ++i)
+                for (int i = 0; i < iDrawPile.length / TinyConst.DOMINO_SIZE; ++i)
                 {
                     if (! drawnIndices.contains(i))
                     {
-                        System.arraycopy(iDrawPile, i * DOMINO_SIZE, drawPile, newDrawPileElementCounter * DOMINO_SIZE, DOMINO_SIZE);
+                        System.arraycopy(iDrawPile, i * TinyConst.DOMINO_SIZE, drawPile, newDrawPileElementCounter * TinyConst.DOMINO_SIZE, TinyConst.DOMINO_SIZE);
                         newDrawPileElementCounter++;
                     }
                 }
@@ -379,7 +327,7 @@ public class TinyGameState
 
         for (int i = 0; i < iDraftDominoCount; ++i)
         {
-            ids.add(draft[i * DRAFT_ELEMENT_SIZE]);
+            ids.add(draft[i * TinyConst.DRAFT_ELEMENT_SIZE]);
         }
 
         ids.sort((Byte b1, Byte b2) ->
@@ -396,9 +344,9 @@ public class TinyGameState
         {
             for (int i = 0; i < iDraftDominoCount; ++i)
             {
-                if (draft[i * DRAFT_ELEMENT_SIZE] == id)
+                if (draft[i * TinyConst.DRAFT_ELEMENT_SIZE] == id)
                 {
-                    System.arraycopy(draft, i * DRAFT_ELEMENT_SIZE, temp, tempCounter * DRAFT_ELEMENT_SIZE, DRAFT_ELEMENT_SIZE);
+                    System.arraycopy(draft, i * TinyConst.DRAFT_ELEMENT_SIZE, temp, tempCounter * TinyConst.DRAFT_ELEMENT_SIZE, TinyConst.DRAFT_ELEMENT_SIZE);
                     break;
                 }
             }
@@ -417,16 +365,16 @@ public class TinyGameState
     /*package*/ void reorderDraft(final byte[] draft)
     {
         final byte[] temp = new byte[draft.length];
-        Arrays.fill(temp, INVALID_DOMINO_VALUE);
+        Arrays.fill(temp, TinyConst.INVALID_DOMINO_VALUE);
 
         int counter = 0;
         for (int i = 0; i < iDraftDominoCount; ++i)
         {
-            final int elementStartIndex = i * DRAFT_ELEMENT_SIZE;
-            if (draft[elementStartIndex] != INVALID_DOMINO_VALUE)
+            final int elementStartIndex = i * TinyConst.DRAFT_ELEMENT_SIZE;
+            if (draft[elementStartIndex] != TinyConst.INVALID_DOMINO_VALUE)
             {
-                final int destPos = counter * DRAFT_ELEMENT_SIZE;
-                System.arraycopy(draft, elementStartIndex, temp, destPos, DRAFT_ELEMENT_SIZE);
+                final int destPos = counter * TinyConst.DRAFT_ELEMENT_SIZE;
+                System.arraycopy(draft, elementStartIndex, temp, destPos, TinyConst.DRAFT_ELEMENT_SIZE);
                 counter++;
             }
         }
@@ -437,25 +385,25 @@ public class TinyGameState
 
     /*package*/ void clearElementInDraft(final byte[] draft, final int elementIndex)
     {
-        final int elementStartIndex = elementIndex * DRAFT_ELEMENT_SIZE;
-        final int toIndex = elementStartIndex + DRAFT_ELEMENT_SIZE;
-        Arrays.fill(draft, elementStartIndex, toIndex, INVALID_DOMINO_VALUE);
+        final int elementStartIndex = elementIndex * TinyConst.DRAFT_ELEMENT_SIZE;
+        final int toIndex = elementStartIndex + TinyConst.DRAFT_ELEMENT_SIZE;
+        Arrays.fill(draft, elementStartIndex, toIndex, TinyConst.INVALID_DOMINO_VALUE);
     }
 
 
     /*package*/ byte[] getDominoFromDraft(final byte[] draft, final int elementIndex)
     {
-        final int dominoStartIndex = elementIndex * DRAFT_ELEMENT_SIZE;
-        final byte[] domino = new byte[DOMINO_SIZE];
-        System.arraycopy(draft, dominoStartIndex, domino, 0, DOMINO_SIZE);
+        final int dominoStartIndex = elementIndex * TinyConst.DRAFT_ELEMENT_SIZE;
+        final byte[] domino = new byte[TinyConst.DOMINO_SIZE];
+        System.arraycopy(draft, dominoStartIndex, domino, 0, TinyConst.DOMINO_SIZE);
 
         return domino;
     }
 
     /*package*/ byte getPlayerIdFromDraft(final byte[] draft, final int elementIndex)
     {
-        final int elementStartIndex = elementIndex * DRAFT_ELEMENT_SIZE;
-        final int playerIndex = elementStartIndex + DRAFT_ELEMENT_PLAYER_ID_INDEX;
+        final int elementStartIndex = elementIndex * TinyConst.DRAFT_ELEMENT_SIZE;
+        final int playerIndex = elementStartIndex + TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX;
 
         return draft[playerIndex];
     }
@@ -465,9 +413,9 @@ public class TinyGameState
     {
         for (int i = 0; i < iDraftDominoCount; ++i)
         {
-            final int draftElementIndex = i * DRAFT_ELEMENT_SIZE;
+            final int draftElementIndex = i * TinyConst.DRAFT_ELEMENT_SIZE;
 
-            if (currentDraft[draftElementIndex + DRAFT_ELEMENT_PLAYER_ID_INDEX] == INVALID_DOMINO_VALUE)
+            if (currentDraft[draftElementIndex + TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX] == TinyConst.INVALID_DOMINO_VALUE)
             {
                 return false;
             }
@@ -527,9 +475,9 @@ public class TinyGameState
 
                 for (int i = 0; i < iDraftDominoCount; ++i)
                 {
-                    final byte playerId = iCurrentDraft[i * TinyGameState.DRAFT_ELEMENT_SIZE + DRAFT_ELEMENT_PLAYER_ID_INDEX];
+                    final byte playerId = iCurrentDraft[i * TinyConst.DRAFT_ELEMENT_SIZE + TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX];
 
-                    if (playerId != INVALID_PLAYER_ID)
+                    if (playerId != TinyConst.INVALID_PLAYER_ID)
                     {
                         playerIDs.remove(new Byte(playerId));
                     }
@@ -555,7 +503,7 @@ public class TinyGameState
                 return playerWhosTurnItIs;
             }
 
-            final byte playerID = iPreviousDraft[DRAFT_ELEMENT_PLAYER_ID_INDEX];   // player id of first draft element.
+            final byte playerID = iPreviousDraft[TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX];   // player id of first draft element.
             iPlayerTurn = iPlayers[playerID];
         }
 
@@ -576,7 +524,7 @@ public class TinyGameState
 
     /*package*/ boolean isDraftEmpty(final byte[] draft)
     {
-        return draft[0] == INVALID_DOMINO_VALUE;
+        return draft[0] == TinyConst.INVALID_DOMINO_VALUE;
     }
 
 
@@ -590,7 +538,7 @@ public class TinyGameState
         final byte[] possiblePlacedDominoes;
         if (! isDraftEmpty(iPreviousDraft))
         {
-            final byte playerId = iPreviousDraft[DRAFT_ELEMENT_PLAYER_ID_INDEX];
+            final byte playerId = iPreviousDraft[TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX];
 
             if (! iPlayers[playerId].equals(playerName))
             {
@@ -601,25 +549,25 @@ public class TinyGameState
             final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(playerName, iKingdomTerrains);
 
             final byte[] dominoPositions = getValidPositionsUnique(dominoToPlace, playerKingdomTerrains);
-            final int numDominoPositions = dominoPositions.length / DOMINOPOSITION_ELEMENT_SIZE;
+            final int numDominoPositions = dominoPositions.length / TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
 
-            possiblePlacedDominoes = new byte[numDominoPositions * DOMINO_SIZE];
+            possiblePlacedDominoes = new byte[numDominoPositions * TinyConst.DOMINO_SIZE];
             for (int i = 0; i < numDominoPositions; ++i)
             {
-                final int dominoPositionElementIndex = i * DOMINOPOSITION_ELEMENT_SIZE;
+                final int dominoPositionElementIndex = i * TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
 
-                final byte tile1X = dominoPositions[dominoPositionElementIndex + DOMINOPOSITION_TILE_1_X_INDEX];
-                final byte tile1Y = dominoPositions[dominoPositionElementIndex + DOMINOPOSITION_TILE_1_Y_INDEX];
-                final byte tile2X = dominoPositions[dominoPositionElementIndex + DOMINOPOSITION_TILE_2_X_INDEX];
-                final byte tile2Y = dominoPositions[dominoPositionElementIndex + DOMINOPOSITION_TILE_2_Y_INDEX];
+                final byte tile1X = dominoPositions[dominoPositionElementIndex + TinyConst.DOMINOPOSITION_TILE_1_X_INDEX];
+                final byte tile1Y = dominoPositions[dominoPositionElementIndex + TinyConst.DOMINOPOSITION_TILE_1_Y_INDEX];
+                final byte tile2X = dominoPositions[dominoPositionElementIndex + TinyConst.DOMINOPOSITION_TILE_2_X_INDEX];
+                final byte tile2Y = dominoPositions[dominoPositionElementIndex + TinyConst.DOMINOPOSITION_TILE_2_Y_INDEX];
 
-                final int placedDominoIndex = i * DOMINO_SIZE;
+                final int placedDominoIndex = i * TinyConst.DOMINO_SIZE;
 
-                System.arraycopy(dominoToPlace, 0, possiblePlacedDominoes, placedDominoIndex, DOMINO_SIZE);
-                possiblePlacedDominoes[placedDominoIndex + DOMINO_TILE_1_X_INDEX] = tile1X;
-                possiblePlacedDominoes[placedDominoIndex + DOMINO_TILE_1_Y_INDEX] = tile1Y;
-                possiblePlacedDominoes[placedDominoIndex + DOMINO_TILE_2_X_INDEX] = tile2X;
-                possiblePlacedDominoes[placedDominoIndex + DOMINO_TILE_2_Y_INDEX] = tile2Y;
+                System.arraycopy(dominoToPlace, 0, possiblePlacedDominoes, placedDominoIndex, TinyConst.DOMINO_SIZE);
+                possiblePlacedDominoes[placedDominoIndex + TinyConst.DOMINO_TILE_1_X_INDEX] = tile1X;
+                possiblePlacedDominoes[placedDominoIndex + TinyConst.DOMINO_TILE_1_Y_INDEX] = tile1Y;
+                possiblePlacedDominoes[placedDominoIndex + TinyConst.DOMINO_TILE_2_X_INDEX] = tile2X;
+                possiblePlacedDominoes[placedDominoIndex + TinyConst.DOMINO_TILE_2_Y_INDEX] = tile2Y;
             }
         }
         else
@@ -631,18 +579,18 @@ public class TinyGameState
         final byte[] possibleChosenDominoes;
         if (! isDraftEmpty(iCurrentDraft))
         {
-            final byte[] temp = new byte[4 * DOMINO_SIZE];
+            final byte[] temp = new byte[4 * TinyConst.DOMINO_SIZE];
             int tempCounter = 0;
             for (int i = 0; i < iDraftDominoCount; ++i)
             {
-                if (iCurrentDraft[i * DRAFT_ELEMENT_SIZE + DRAFT_ELEMENT_PLAYER_ID_INDEX] == INVALID_PLAYER_ID)
+                if (iCurrentDraft[i * TinyConst.DRAFT_ELEMENT_SIZE + TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX] == TinyConst.INVALID_PLAYER_ID)
                 {
-                    System.arraycopy(iCurrentDraft, i * DRAFT_ELEMENT_SIZE, temp, tempCounter * DOMINO_SIZE, DOMINO_SIZE);
+                    System.arraycopy(iCurrentDraft, i * TinyConst.DRAFT_ELEMENT_SIZE, temp, tempCounter * TinyConst.DOMINO_SIZE, TinyConst.DOMINO_SIZE);
                     tempCounter++;
                 }
             }
 
-            possibleChosenDominoes = new byte[tempCounter * DOMINO_SIZE];
+            possibleChosenDominoes = new byte[tempCounter * TinyConst.DOMINO_SIZE];
             System.arraycopy(temp, 0, possibleChosenDominoes, 0, possibleChosenDominoes.length);
         }
         else
@@ -655,54 +603,54 @@ public class TinyGameState
         int moveCounter = 0;
         if (possibleChosenDominoes.length == 0)
         {
-            final int numPossiblePlacedDominoes = possiblePlacedDominoes.length / DOMINO_SIZE;
+            final int numPossiblePlacedDominoes = possiblePlacedDominoes.length / TinyConst.DOMINO_SIZE;
 
-            availableMoves = new byte[numPossiblePlacedDominoes * MOVE_ELEMENT_SIZE];
+            availableMoves = new byte[numPossiblePlacedDominoes * TinyConst.MOVE_ELEMENT_SIZE];
 
             for (int i = 0; i < numPossiblePlacedDominoes; ++i)
             {
-                final int moveElementIndex = i * MOVE_ELEMENT_SIZE;
+                final int moveElementIndex = i * TinyConst.MOVE_ELEMENT_SIZE;
 
                 availableMoves[moveElementIndex] = (byte) moveCounter;
-                Arrays.fill(availableMoves, moveElementIndex + MOVE_CHOSEN_DOMINO_INDEX, moveElementIndex + MOVE_CHOSEN_DOMINO_INDEX + DOMINO_SIZE, INVALID_DOMINO_VALUE);
-                System.arraycopy(possiblePlacedDominoes, i * DOMINO_SIZE, availableMoves, moveElementIndex + MOVE_PLACED_DOMINO_INDEX, DOMINO_SIZE);
+                Arrays.fill(availableMoves, moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX, moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_SIZE, TinyConst.INVALID_DOMINO_VALUE);
+                System.arraycopy(possiblePlacedDominoes, i * TinyConst.DOMINO_SIZE, availableMoves, moveElementIndex + TinyConst.MOVE_PLACED_DOMINO_INDEX, TinyConst.DOMINO_SIZE);
 
                 moveCounter++;
             }
         }
         else if (possiblePlacedDominoes.length == 0)
         {
-            final int numPossibleChosenDominoes = possibleChosenDominoes.length / DOMINO_SIZE;
+            final int numPossibleChosenDominoes = possibleChosenDominoes.length / TinyConst.DOMINO_SIZE;
 
-            availableMoves = new byte[numPossibleChosenDominoes * MOVE_ELEMENT_SIZE];
+            availableMoves = new byte[numPossibleChosenDominoes * TinyConst.MOVE_ELEMENT_SIZE];
 
             for (int i = 0; i < numPossibleChosenDominoes; ++i)
             {
-                final int moveElementIndex = i * MOVE_ELEMENT_SIZE;
+                final int moveElementIndex = i * TinyConst.MOVE_ELEMENT_SIZE;
 
                 availableMoves[moveElementIndex] = (byte) moveCounter;
-                System.arraycopy(possibleChosenDominoes, i * DOMINO_SIZE, availableMoves, moveElementIndex + MOVE_CHOSEN_DOMINO_INDEX, DOMINO_SIZE);
-                Arrays.fill(availableMoves, moveElementIndex + MOVE_PLACED_DOMINO_INDEX, moveElementIndex + MOVE_PLACED_DOMINO_INDEX + DOMINO_SIZE, INVALID_DOMINO_VALUE);
+                System.arraycopy(possibleChosenDominoes, i * TinyConst.DOMINO_SIZE, availableMoves, moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX, TinyConst.DOMINO_SIZE);
+                Arrays.fill(availableMoves, moveElementIndex + TinyConst.MOVE_PLACED_DOMINO_INDEX, moveElementIndex + TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_SIZE, TinyConst.INVALID_DOMINO_VALUE);
 
                 moveCounter++;
             }
         }
         else
         {
-            final int numPossibleChosenDominoes = possibleChosenDominoes.length / DOMINO_SIZE;
-            final int numPossiblePlacedDominoes = possiblePlacedDominoes.length / DOMINO_SIZE;
+            final int numPossibleChosenDominoes = possibleChosenDominoes.length / TinyConst.DOMINO_SIZE;
+            final int numPossiblePlacedDominoes = possiblePlacedDominoes.length / TinyConst.DOMINO_SIZE;
 
-            availableMoves = new byte[numPossibleChosenDominoes * numPossiblePlacedDominoes * MOVE_ELEMENT_SIZE];
+            availableMoves = new byte[numPossibleChosenDominoes * numPossiblePlacedDominoes * TinyConst.MOVE_ELEMENT_SIZE];
 
             for (int i = 0; i < numPossibleChosenDominoes; ++i)
             {
                 for (int j = 0; j < numPossiblePlacedDominoes; ++j)
                 {
-                    final int moveElementIndex = moveCounter * MOVE_ELEMENT_SIZE;
+                    final int moveElementIndex = moveCounter * TinyConst.MOVE_ELEMENT_SIZE;
 
                     availableMoves[moveElementIndex] = (byte) moveCounter;
-                    System.arraycopy(possibleChosenDominoes, i * DOMINO_SIZE, availableMoves, moveElementIndex + MOVE_CHOSEN_DOMINO_INDEX, DOMINO_SIZE);
-                    System.arraycopy(possiblePlacedDominoes, j * DOMINO_SIZE, availableMoves, moveElementIndex + MOVE_PLACED_DOMINO_INDEX, DOMINO_SIZE);
+                    System.arraycopy(possibleChosenDominoes, i * TinyConst.DOMINO_SIZE, availableMoves, moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX, TinyConst.DOMINO_SIZE);
+                    System.arraycopy(possiblePlacedDominoes, j * TinyConst.DOMINO_SIZE, availableMoves, moveElementIndex + TinyConst.MOVE_PLACED_DOMINO_INDEX, TinyConst.DOMINO_SIZE);
 
                     moveCounter++;
                 }
@@ -757,8 +705,8 @@ public class TinyGameState
     private byte[] getPlayerKingdomTerrains(final String playerName, final byte[] kingdomTerrains)
     {
         final byte id = getPlayerID(playerName, iPlayers);
-        final byte[] playerKingdomTerrains = new byte[SINGLE_PLAYER_KINGDOM_SIZE];
-        System.arraycopy(kingdomTerrains, id * SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomTerrains, 0, SINGLE_PLAYER_KINGDOM_SIZE);
+        final byte[] playerKingdomTerrains = new byte[TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        System.arraycopy(kingdomTerrains, id * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomTerrains, 0, TinyConst.SINGLE_PLAYER_KINGDOM_SIZE);
 
         return playerKingdomTerrains;
     }
@@ -766,8 +714,8 @@ public class TinyGameState
     private byte[] getPlayerKingdomCrowns(final String playerName)
     {
         final byte id = getPlayerID(playerName, iPlayers);
-        final byte[] kingdomCrowns = new byte[SINGLE_PLAYER_KINGDOM_SIZE];
-        System.arraycopy(iKingdomCrowns, id * SINGLE_PLAYER_KINGDOM_SIZE, kingdomCrowns, 0, SINGLE_PLAYER_KINGDOM_SIZE);
+        final byte[] kingdomCrowns = new byte[TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        System.arraycopy(iKingdomCrowns, id * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE, kingdomCrowns, 0, TinyConst.SINGLE_PLAYER_KINGDOM_SIZE);
 
         return kingdomCrowns;
     }
@@ -780,7 +728,7 @@ public class TinyGameState
      */
     public static int indexToArrayXCoordinate(final int i)
     {
-        return i % KINGDOM_X_SIZE;
+        return i % TinyConst.KINGDOM_X_SIZE;
     }
 
     /**
@@ -791,7 +739,7 @@ public class TinyGameState
      */
     public static int indexToArrayYCoordinate(final int i)
     {
-        return i / KINGDOM_X_SIZE;
+        return i / TinyConst.KINGDOM_X_SIZE;
     }
 
     /**
@@ -844,7 +792,7 @@ public class TinyGameState
             result = result.concat("Terrains(" + iPlayers[p] + ")=\n");
             final byte[] kingdomTerrains = getPlayerKingdomTerrains(iPlayers[p], iKingdomTerrains);
 
-            for (int i = 0; i < SINGLE_PLAYER_KINGDOM_SIZE; ++i)
+            for (int i = 0; i < TinyConst.SINGLE_PLAYER_KINGDOM_SIZE; ++i)
             {
                 if (i % 9 == 0)
                 {
@@ -859,7 +807,7 @@ public class TinyGameState
 
             final byte[] kingdomCrowns = getPlayerKingdomCrowns(iPlayers[p]);
 
-            for (int i = 0; i < SINGLE_PLAYER_KINGDOM_SIZE; ++i)
+            for (int i = 0; i < TinyConst.SINGLE_PLAYER_KINGDOM_SIZE; ++i)
             {
                 if (i % 9 == 0)
                 {
@@ -877,9 +825,9 @@ public class TinyGameState
 
         for (int i = 0; i < iDraftDominoCount; ++i)
         {
-            for (int j = 0; j < DRAFT_ELEMENT_SIZE; ++j)
+            for (int j = 0; j < TinyConst.DRAFT_ELEMENT_SIZE; ++j)
             {
-                result = result.concat(Byte.toString(iCurrentDraft[j + i * DRAFT_ELEMENT_SIZE]).concat(", "));
+                result = result.concat(Byte.toString(iCurrentDraft[j + i * TinyConst.DRAFT_ELEMENT_SIZE]).concat(", "));
             }
 
             result = result.concat("\n");
@@ -890,9 +838,9 @@ public class TinyGameState
 
         for (int i = 0; i < iDraftDominoCount; ++i)
         {
-            for (int j = 0; j < DRAFT_ELEMENT_SIZE; ++j)
+            for (int j = 0; j < TinyConst.DRAFT_ELEMENT_SIZE; ++j)
             {
-                result = result.concat(Byte.toString(iPreviousDraft[j + i * DRAFT_ELEMENT_SIZE]).concat(", "));
+                result = result.concat(Byte.toString(iPreviousDraft[j + i * TinyConst.DRAFT_ELEMENT_SIZE]).concat(", "));
             }
 
             result = result.concat("\n");

@@ -6,6 +6,7 @@ import kingdominoplayer.strategies.tinystrategies.TinyStrategy;
 import kingdominoplayer.strategies.tinystrategies.TinyStrategyID;
 import kingdominoplayer.tinyrepresentation.LocalGameStateToTinyGameStateAlgorithm;
 import kingdominoplayer.tinyrepresentation.MoveAdapter;
+import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyGameState;
 
 /**
@@ -29,12 +30,12 @@ public class TinyPlayer extends Player
     @Override
     protected Move selectMove(final Move[] availableMoves, final LocalGameState localGameState)
     {
-        final byte[] moves = new byte[availableMoves.length * TinyGameState.MOVE_ELEMENT_SIZE];
+        final byte[] moves = new byte[availableMoves.length * TinyConst.MOVE_ELEMENT_SIZE];
 
         for (int i = 0; i < availableMoves.length; ++i)
         {
             final byte[] move = MoveAdapter.toTinyRepresentation(availableMoves[i]);
-            System.arraycopy(move, 0, moves, i * TinyGameState.MOVE_ELEMENT_SIZE, TinyGameState.MOVE_ELEMENT_SIZE);
+            System.arraycopy(move, 0, moves, i * TinyConst.MOVE_ELEMENT_SIZE, TinyConst.MOVE_ELEMENT_SIZE);
         }
 
         final TinyGameState tinyGameState = new LocalGameStateToTinyGameStateAlgorithm().applyTo(localGameState);

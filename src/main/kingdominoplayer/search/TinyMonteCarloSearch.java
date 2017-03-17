@@ -1,6 +1,7 @@
 package kingdominoplayer.search;
 
 import kingdominoplayer.strategies.tinystrategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyGameState;
 import kingdominoplayer.utils.Random;
 
@@ -74,13 +75,13 @@ public class TinyMonteCarloSearch
     {
         DEBUG.println("\n" + CLASS_STRING + " " + iPlayerName + " searching...");
 
-        final int numMoves = moves.length / TinyGameState.MOVE_ELEMENT_SIZE;
+        final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
 
         final LinkedHashMap<Byte, ArrayList<Double>> moveScoresMap = new LinkedHashMap<>(numMoves);
         for (int i = 0; i < numMoves; ++i)
         {
-            final byte[] move = TinyGameState.getRow(moves, i, TinyGameState.MOVE_ELEMENT_SIZE);
-            moveScoresMap.put(move[TinyGameState.MOVE_NUMBER_INDEX], new ArrayList<>());
+            final byte[] move = TinyGameState.getRow(moves, i, TinyConst.MOVE_ELEMENT_SIZE);
+            moveScoresMap.put(move[TinyConst.MOVE_NUMBER_INDEX], new ArrayList<>());
         }
 
         final long searchStartTime = System.nanoTime();
@@ -93,9 +94,9 @@ public class TinyMonteCarloSearch
             // Play out a random move.
             //
             final int randomIndex = Random.getInt(numMoves);
-            final byte[] move = TinyGameState.getRow(moves, randomIndex, TinyGameState.MOVE_ELEMENT_SIZE);
+            final byte[] move = TinyGameState.getRow(moves, randomIndex, TinyConst.MOVE_ELEMENT_SIZE);
             final double score = playOut(move, gameState);
-            moveScoresMap.get(move[TinyGameState.MOVE_NUMBER_INDEX]).add(score);
+            moveScoresMap.get(move[TinyConst.MOVE_NUMBER_INDEX]).add(score);
 
             assert moveScoresMap.size() == numMoves : "Size discrepancy!";
 
@@ -155,17 +156,17 @@ public class TinyMonteCarloSearch
 
     private byte[] getMove(final byte moveNumber, final byte[] moves)
     {
-        final int numMoves = moves.length / TinyGameState.MOVE_ELEMENT_SIZE;
+        final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
 
         byte[] move = new byte[0];
 
         for (int i = 0; i < numMoves; ++i)
         {
-            final int moveIndex = i * TinyGameState.MOVE_ELEMENT_SIZE;
+            final int moveIndex = i * TinyConst.MOVE_ELEMENT_SIZE;
 
-            if (moves[moveIndex + TinyGameState.MOVE_NUMBER_INDEX] == moveNumber)
+            if (moves[moveIndex + TinyConst.MOVE_NUMBER_INDEX] == moveNumber)
             {
-                move = TinyGameState.getRow(moves, i, TinyGameState.MOVE_ELEMENT_SIZE);
+                move = TinyGameState.getRow(moves, i, TinyConst.MOVE_ELEMENT_SIZE);
                 break;
             }
         }
@@ -182,7 +183,7 @@ public class TinyMonteCarloSearch
         for (final TinyMoveScorePair moveScorePair : moveScores)
         {
             final String scoreString = String.format("%.3f", moveScorePair.getScore());
-            DEBUG.println(CLASS_STRING + " move: " + Integer.toString(moveScorePair.getMove()[TinyGameState.MOVE_NUMBER_INDEX]) +  ", score: " + scoreString);
+            DEBUG.println(CLASS_STRING + " move: " + Integer.toString(moveScorePair.getMove()[TinyConst.MOVE_NUMBER_INDEX]) +  ", score: " + scoreString);
         }
         DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
     }
@@ -252,13 +253,13 @@ public class TinyMonteCarloSearch
      */
     private byte[] selectMovesRandomly(final byte[] moves, final int numMovesToPick)
     {
-        final int numMoves = moves.length / TinyGameState.MOVE_ELEMENT_SIZE;
+        final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
         if (numMoves <= numMovesToPick)
         {
             return moves;
         }
 
-        final byte[] movesToEvaluate = new byte[numMovesToPick * TinyGameState.MOVE_ELEMENT_SIZE];
+        final byte[] movesToEvaluate = new byte[numMovesToPick * TinyConst.MOVE_ELEMENT_SIZE];
 
         final Set<Integer> pickedIndices = new LinkedHashSet<>(2 * numMovesToPick);
 
@@ -267,7 +268,7 @@ public class TinyMonteCarloSearch
             final int randomIndex = Random.getInt(numMoves);
             if (! pickedIndices.contains(randomIndex))
             {
-                System.arraycopy(moves, randomIndex * TinyGameState.MOVE_ELEMENT_SIZE, movesToEvaluate, pickedIndices.size() * TinyGameState.MOVE_ELEMENT_SIZE, TinyGameState.MOVE_ELEMENT_SIZE);
+                System.arraycopy(moves, randomIndex * TinyConst.MOVE_ELEMENT_SIZE, movesToEvaluate, pickedIndices.size() * TinyConst.MOVE_ELEMENT_SIZE, TinyConst.MOVE_ELEMENT_SIZE);
                 pickedIndices.add(randomIndex);
             }
         }

@@ -22,24 +22,24 @@ public class PlannerAdapter
 {
     public byte[] getValidPositionsUnique(final byte[] dominoToPlace, final byte[] kingdomTerrains)
     {
-        assert kingdomTerrains.length == TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE : "Kingdom has wrong size. Passed entire game state instead of player kingdom?";
+        assert kingdomTerrains.length == TinyConst.SINGLE_PLAYER_KINGDOM_SIZE : "Kingdom has wrong size. Passed entire game state instead of player kingdom?";
 
         final Domino domino = toDominoObject(dominoToPlace);
         final Kingdom kingdom = toKingdom(kingdomTerrains);
 
         final Set<DominoPosition> validPositions = Planner.getValidPositions(domino, kingdom);
 
-        final byte[] result = new byte[validPositions.size() * TinyGameState.DOMINOPOSITION_ELEMENT_SIZE];
+        final byte[] result = new byte[validPositions.size() * TinyConst.DOMINOPOSITION_ELEMENT_SIZE];
 
         int counter = 0;
         for (final DominoPosition dominoPosition : validPositions)
         {
-            final int positionIndex = counter * TinyGameState.DOMINOPOSITION_ELEMENT_SIZE;
+            final int positionIndex = counter * TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
 
-            result[positionIndex + TinyGameState.DOMINOPOSITION_TILE_1_X_INDEX] = (byte )dominoPosition.getTile1Position().getColumn();
-            result[positionIndex + TinyGameState.DOMINOPOSITION_TILE_1_Y_INDEX] = (byte )dominoPosition.getTile1Position().getRow();
-            result[positionIndex + TinyGameState.DOMINOPOSITION_TILE_2_X_INDEX] = (byte )dominoPosition.getTile2Position().getColumn();
-            result[positionIndex + TinyGameState.DOMINOPOSITION_TILE_2_Y_INDEX] = (byte )dominoPosition.getTile2Position().getRow();
+            result[positionIndex + TinyConst.DOMINOPOSITION_TILE_1_X_INDEX] = (byte )dominoPosition.getTile1Position().getColumn();
+            result[positionIndex + TinyConst.DOMINOPOSITION_TILE_1_Y_INDEX] = (byte )dominoPosition.getTile1Position().getRow();
+            result[positionIndex + TinyConst.DOMINOPOSITION_TILE_2_X_INDEX] = (byte )dominoPosition.getTile2Position().getColumn();
+            result[positionIndex + TinyConst.DOMINOPOSITION_TILE_2_Y_INDEX] = (byte )dominoPosition.getTile2Position().getRow();
 
             counter++;
         }
@@ -77,8 +77,8 @@ public class PlannerAdapter
 
     private Domino toDominoObject(final byte[] domino)
     {
-        final byte tile1TerrainIndex = domino[TinyGameState.DOMINO_TILE_1_TERRAIN_INDEX];
-        final byte tile2TerrainIndex = domino[TinyGameState.DOMINO_TILE_2_TERRAIN_INDEX];
+        final byte tile1TerrainIndex = domino[TinyConst.DOMINO_TILE_1_TERRAIN_INDEX];
+        final byte tile2TerrainIndex = domino[TinyConst.DOMINO_TILE_2_TERRAIN_INDEX];
 
         final String tile1Terrain = TerrainCode.getName(tile1TerrainIndex);
         final String tile2Terrain = TerrainCode.getName(tile2TerrainIndex);

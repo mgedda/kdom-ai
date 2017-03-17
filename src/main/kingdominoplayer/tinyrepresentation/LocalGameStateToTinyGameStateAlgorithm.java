@@ -30,13 +30,13 @@ public class LocalGameStateToTinyGameStateAlgorithm
 
         // Init array with default values.
         //
-        final byte[] kingdomTerrains = new byte[numPlayers * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[numPlayers * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] currentDraft = new byte[draftDominoCount * TinyGameState.DRAFT_ELEMENT_SIZE];
-        final byte[] previousDraft = new byte[draftDominoCount * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[numPlayers * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[numPlayers * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] currentDraft = new byte[draftDominoCount * TinyConst.DRAFT_ELEMENT_SIZE];
+        final byte[] previousDraft = new byte[draftDominoCount * TinyConst.DRAFT_ELEMENT_SIZE];
 
-        Arrays.fill(currentDraft, TinyGameState.INVALID_DOMINO_VALUE);
-        Arrays.fill(previousDraft, TinyGameState.INVALID_DOMINO_VALUE);
+        Arrays.fill(currentDraft, TinyConst.INVALID_DOMINO_VALUE);
+        Arrays.fill(previousDraft, TinyConst.INVALID_DOMINO_VALUE);
 
 
         // Get players.
@@ -58,10 +58,10 @@ public class LocalGameStateToTinyGameStateAlgorithm
             final Kingdom kingdom = kingdomInfos.get(i).getKingdom();
 
             final byte[] playerKingdomTerrains = getKingdomTerrains(kingdom);
-            System.arraycopy(playerKingdomTerrains, 0, kingdomTerrains, i * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomTerrains.length);
+            System.arraycopy(playerKingdomTerrains, 0, kingdomTerrains, i * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomTerrains.length);
 
             final byte[] playerKingdomCrowns = getKingdomCrowns(kingdom);
-            System.arraycopy(playerKingdomCrowns, 0, kingdomCrowns, i * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomCrowns.length);
+            System.arraycopy(playerKingdomCrowns, 0, kingdomCrowns, i * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomCrowns.length);
         }
 
 
@@ -71,7 +71,7 @@ public class LocalGameStateToTinyGameStateAlgorithm
         for (int i = 0; i < localGameStateCurrentDraft.size(); ++i)
         {
             final byte[] draftElement = getDraftElementAsByteArray(localGameStateCurrentDraft.get(i), players);
-            final int destPos = i * TinyGameState.DRAFT_ELEMENT_SIZE;
+            final int destPos = i * TinyConst.DRAFT_ELEMENT_SIZE;
             System.arraycopy(draftElement, 0, currentDraft, destPos, draftElement.length);
         }
 
@@ -82,7 +82,7 @@ public class LocalGameStateToTinyGameStateAlgorithm
         for (int i = 0; i < localGameStatePreviousDraft.size(); ++i)
         {
             final byte[] draftElement = getDraftElementAsByteArray(localGameStatePreviousDraft.get(i), players);
-            final int destPos = i * TinyGameState.DRAFT_ELEMENT_SIZE;
+            final int destPos = i * TinyConst.DRAFT_ELEMENT_SIZE;
             System.arraycopy(draftElement, 0, previousDraft, destPos, draftElement.length);
         }
 
@@ -99,7 +99,7 @@ public class LocalGameStateToTinyGameStateAlgorithm
      */
     private byte[] getKingdomTerrains(final Kingdom kingdom)
     {
-        final byte[] result = new byte[TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] result = new byte[TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
 
         for (final PlacedTile placedTile : kingdom.getPlacedTiles())
         {
@@ -123,7 +123,7 @@ public class LocalGameStateToTinyGameStateAlgorithm
      */
     private byte[] getKingdomCrowns(final Kingdom kingdom)
     {
-        final byte[] result = new byte[TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] result = new byte[TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
 
         for (final PlacedTile placedTile : kingdom.getPlacedTiles())
         {
@@ -152,33 +152,33 @@ public class LocalGameStateToTinyGameStateAlgorithm
         final Tile tile1 = domino.getTile1();
         final Tile tile2 = domino.getTile2();
 
-        final byte[] result = new byte[TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] result = new byte[TinyConst.DRAFT_ELEMENT_SIZE];
 
-        result[TinyGameState.DOMINO_ID_INDEX] = (byte) domino.getNumber();;
-        result[TinyGameState.DOMINO_TILE_1_TERRAIN_INDEX] = (byte) TerrainCode.from(tile1.getTerrain());
-        result[TinyGameState.DOMINO_TILE_1_CROWNS_INDEX] = (byte) tile1.getCrowns();
-        result[TinyGameState.DOMINO_TILE_2_TERRAIN_INDEX] = (byte) TerrainCode.from(tile2.getTerrain());
-        result[TinyGameState.DOMINO_TILE_2_CROWNS_INDEX] = (byte) tile2.getCrowns();
+        result[TinyConst.DOMINO_ID_INDEX] = (byte) domino.getNumber();;
+        result[TinyConst.DOMINO_TILE_1_TERRAIN_INDEX] = (byte) TerrainCode.from(tile1.getTerrain());
+        result[TinyConst.DOMINO_TILE_1_CROWNS_INDEX] = (byte) tile1.getCrowns();
+        result[TinyConst.DOMINO_TILE_2_TERRAIN_INDEX] = (byte) TerrainCode.from(tile2.getTerrain());
+        result[TinyConst.DOMINO_TILE_2_CROWNS_INDEX] = (byte) tile2.getCrowns();
 
         final boolean isPlaced = draftElement.getDomino() instanceof PlacedDomino;
         if (isPlaced)
         {
             final DominoPosition dominoPosition = ((PlacedDomino) domino).getDominoPosition();
 
-            result[TinyGameState.DOMINO_TILE_1_X_INDEX] = (byte) dominoPosition.getTile1Position().getColumn();
-            result[TinyGameState.DOMINO_TILE_1_Y_INDEX] = (byte) dominoPosition.getTile1Position().getRow();
-            result[TinyGameState.DOMINO_TILE_2_X_INDEX] = (byte) dominoPosition.getTile2Position().getColumn();
-            result[TinyGameState.DOMINO_TILE_2_Y_INDEX] = (byte) dominoPosition.getTile2Position().getRow();
+            result[TinyConst.DOMINO_TILE_1_X_INDEX] = (byte) dominoPosition.getTile1Position().getColumn();
+            result[TinyConst.DOMINO_TILE_1_Y_INDEX] = (byte) dominoPosition.getTile1Position().getRow();
+            result[TinyConst.DOMINO_TILE_2_X_INDEX] = (byte) dominoPosition.getTile2Position().getColumn();
+            result[TinyConst.DOMINO_TILE_2_Y_INDEX] = (byte) dominoPosition.getTile2Position().getRow();
         }
         else
         {
-            result[TinyGameState.DOMINO_TILE_1_X_INDEX] = TinyGameState.INVALID_PLACEMENT_VALUE;
-            result[TinyGameState.DOMINO_TILE_1_Y_INDEX] = TinyGameState.INVALID_PLACEMENT_VALUE;
-            result[TinyGameState.DOMINO_TILE_2_X_INDEX] = TinyGameState.INVALID_PLACEMENT_VALUE;
-            result[TinyGameState.DOMINO_TILE_2_Y_INDEX] = TinyGameState.INVALID_PLACEMENT_VALUE;
+            result[TinyConst.DOMINO_TILE_1_X_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+            result[TinyConst.DOMINO_TILE_1_Y_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+            result[TinyConst.DOMINO_TILE_2_X_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+            result[TinyConst.DOMINO_TILE_2_Y_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
         }
 
-        result[TinyGameState.DRAFT_ELEMENT_PLAYER_ID_INDEX] = TinyGameState.getPlayerID(draftElement.getPlayerName(), players);
+        result[TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX] = TinyGameState.getPlayerID(draftElement.getPlayerName(), players);
 
         return result;
     }

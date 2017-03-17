@@ -3,6 +3,7 @@ package kingdominoplayer.strategies.tinystrategies;
 import kingdominoplayer.movefilters.tinymovefilters.AllTinyMoves;
 import kingdominoplayer.movefilters.tinymovefilters.TinyMoveFilter;
 import kingdominoplayer.search.TinyMonteCarloSearch;
+import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyGameState;
 
 /**
@@ -32,7 +33,7 @@ public class TinyMonteCarlo implements TinyStrategy
     {
         final byte[] moves = iMoveFilter.filterMoves(playerName, availableMoves, gameState);
 
-        final int numMaxScoringMoves = moves.length / TinyGameState.MOVE_ELEMENT_SIZE;
+        final int numMaxScoringMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
 
         if (numMaxScoringMoves > 1)
         {

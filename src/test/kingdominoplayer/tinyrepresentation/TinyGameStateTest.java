@@ -53,9 +53,9 @@ public class TinyGameStateTest
     @Test
     public void testReorderDraft() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] currentDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] currentDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] previousDraft = new byte[]{
@@ -83,9 +83,9 @@ public class TinyGameStateTest
     @Test
     public void testSortDraft() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] currentDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] currentDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] previousDraft = new byte[]{
@@ -113,9 +113,9 @@ public class TinyGameStateTest
     @Test
     public void testGetPlayerIdFromDraft() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] currentDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] currentDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] previousDraft = new byte[]{
@@ -137,9 +137,9 @@ public class TinyGameStateTest
     @Test
     public void testClearElementInDraft() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] currentDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] currentDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] previousDraft = new byte[]{
@@ -168,9 +168,9 @@ public class TinyGameStateTest
     @Test
     public void testGetDominoFromDraft() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] currentDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] currentDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] previousDraft = new byte[]{
@@ -193,9 +193,9 @@ public class TinyGameStateTest
     @Test
     public void testIsCurrentDraftSelectionComplete_false() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] previousDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] previousDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] currentDraft = new byte[]{
@@ -215,9 +215,9 @@ public class TinyGameStateTest
     @Test
     public void testIsCurrentDraftSelectionComplete_true() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] previousDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] previousDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] currentDraft = new byte[]{
@@ -238,9 +238,9 @@ public class TinyGameStateTest
     @Test
     public void testIsDraftEmpty_false() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] previousDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] previousDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] currentDraft = new byte[]{
@@ -260,9 +260,9 @@ public class TinyGameStateTest
     @Test
     public void testIsDraftEmpty_true() throws Exception
     {
-        final byte[] kingdomTerrains = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[2 * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] previousDraft = new byte[4 * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[2 * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] previousDraft = new byte[4 * TinyConst.DRAFT_ELEMENT_SIZE];
         final String[] players = new String[]{"PlayerA", "PlayerB"};
 
         final byte[] currentDraft = new byte[]{
@@ -697,7 +697,7 @@ public class TinyGameStateTest
 
         final byte[] validPositions = tinyGameState.getValidPositionsUnique(dominoToPlace, playerKingdomTerrains);
 
-        System.out.println(TinyUtils.to2DArrayString(validPositions, TinyGameState.DOMINOPOSITION_ELEMENT_SIZE));
+        System.out.println(TinyUtils.to2DArrayString(validPositions, TinyConst.DOMINOPOSITION_ELEMENT_SIZE));
 
         //Assert.assertEquals(Arrays.equals(previousDraft, expected), true);
     }
@@ -725,9 +725,9 @@ public class TinyGameStateTest
 
         final byte[] validPositions = tinyGameState.getValidPositionsUnique(dominoToPlace, playerKingdomTerrains);
 
-        System.out.println(TinyUtils.to2DArrayString(validPositions, TinyGameState.DOMINOPOSITION_ELEMENT_SIZE));
+        System.out.println(TinyUtils.to2DArrayString(validPositions, TinyConst.DOMINOPOSITION_ELEMENT_SIZE));
 
-        final int numValidPositions = validPositions.length / TinyGameState.DOMINOPOSITION_ELEMENT_SIZE;
+        final int numValidPositions = validPositions.length / TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
         Assert.assertEquals(numValidPositions, 1);
     }
 
@@ -804,13 +804,13 @@ public class TinyGameStateTest
 
         final byte[] availableMoves = tinyGameState.getAvailableMoves("PlayerA");
 
-        System.out.println(TinyUtils.to2DArrayString(availableMoves, TinyGameState.MOVE_ELEMENT_SIZE));
+        System.out.println(TinyUtils.to2DArrayString(availableMoves, TinyConst.MOVE_ELEMENT_SIZE));
 
-        final int numAvailableMoves = availableMoves.length / TinyGameState.MOVE_ELEMENT_SIZE;
+        final int numAvailableMoves = availableMoves.length / TinyConst.MOVE_ELEMENT_SIZE;
         Assert.assertEquals(numAvailableMoves, 4 * 24);    // 24 possible placements of previous draft domino, times 4 dominoes to choose from
 
-        final byte[] move = new byte[TinyGameState.MOVE_ELEMENT_SIZE];
-        System.arraycopy(availableMoves, 0, move, 0, TinyGameState.MOVE_ELEMENT_SIZE);
+        final byte[] move = new byte[TinyConst.MOVE_ELEMENT_SIZE];
+        System.arraycopy(availableMoves, 0, move, 0, TinyConst.MOVE_ELEMENT_SIZE);
         final TinyGameState newTinyGameState = tinyGameState.makeMove("PlayerA", move);
         System.out.println(newTinyGameState);
     }
@@ -824,10 +824,10 @@ public class TinyGameStateTest
         final int numPlayers = players.length;
         final int draftSize = numPlayers == 3 ? 3 : 4;
 
-        final byte[] kingdomTerrains = new byte[numPlayers * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] kingdomCrowns = new byte[numPlayers * TinyGameState.SINGLE_PLAYER_KINGDOM_SIZE];
-        final byte[] previousDraft = new byte[draftSize * TinyGameState.DRAFT_ELEMENT_SIZE];
-        final byte[] currentDraft = new byte[draftSize * TinyGameState.DRAFT_ELEMENT_SIZE];
+        final byte[] kingdomTerrains = new byte[numPlayers * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] kingdomCrowns = new byte[numPlayers * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
+        final byte[] previousDraft = new byte[draftSize * TinyConst.DRAFT_ELEMENT_SIZE];
+        final byte[] currentDraft = new byte[draftSize * TinyConst.DRAFT_ELEMENT_SIZE];
 
         return new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
     }

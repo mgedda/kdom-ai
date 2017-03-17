@@ -215,8 +215,8 @@ public class TinyScorerAlgorithm
     {
         final ArrayList<Integer> adjacentIndices = new ArrayList<>(4);
 
-        final int xSize = TinyGameState.KINGDOM_X_SIZE;
-        final int ySize = TinyGameState.KINGDOM_X_SIZE;
+        final int xSize = TinyConst.KINGDOM_X_SIZE;
+        final int ySize = TinyConst.KINGDOM_X_SIZE;
 
         final int x = TinyGameState.indexToArrayXCoordinate(i);
         final int y = TinyGameState.indexToArrayYCoordinate(i);
