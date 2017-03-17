@@ -21,8 +21,8 @@ import java.util.Set;
 public class MonteCarloSearch
 {
     private static final double MAX_SEARCH_TIME_SECONDS = 10d;       // maximum time for one move
-    private static final int SEARCH_BREADTH = 40;                    // max number of moves to evaluate
-    private static final long PLAYOUT_FACTOR = 30;                   // number of desired playouts per move
+    private static final int SEARCH_BREADTH = 1000;                  // max number of moves to evaluate
+    private static final long PLAYOUT_FACTOR = 1000000;              // number of desired playouts per move
 
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
@@ -102,7 +102,10 @@ public class MonteCarloSearch
         final long searchEndTime = System.nanoTime();
         final double searchDurationSeconds = (searchEndTime - searchStartTime) / 1e9d;
         final String searchDurationString = String.format("%.3f", searchDurationSeconds);
-        DEBUG.println(CLASS_STRING + " Search finished! (moves: " + Integer.toString(moves.size()) + ", playouts: " + Long.toString(playOutCounter - 1) + ", time: " + searchDurationString + "s)");
+        DEBUG.println(CLASS_STRING + " Search finished! (moves: " + Integer.toString(moves.size()) +
+                ", playouts: " + Long.toString(playOutCounter - 1) +
+                ", time: " + searchDurationString + "s)" +
+                ", playouts/s: " + String.format("%.3f", (playOutCounter - 1) / searchDurationSeconds));
 
         final ArrayList<MoveScorePair> moveScores = assembleScores(moveScoresMap);
         printMoveScores(moveScores);
