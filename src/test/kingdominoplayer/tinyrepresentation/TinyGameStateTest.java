@@ -693,18 +693,48 @@ public class TinyGameStateTest
                 0, 0, 0, 0, 0, 0, 0, 0, 0,
         };
 
+        final byte[] dominoToPlace = {0, 3, 0, 2, 0, -99, -99, -99, -99};
+
+        final byte[] validPositions = tinyGameState.getValidPositionsUnique(dominoToPlace, playerKingdomTerrains);
+
+        System.out.println(TinyUtils.to2DArrayString(validPositions, TinyConst.DOMINOPOSITION_ELEMENT_SIZE));
+
+        final int numValidPositions = validPositions.length / TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
+        Assert.assertEquals(numValidPositions, 24);
+    }
+
+
+    @Test
+    public void testGetValidPositionsUnique_noSymmetry() throws Exception
+    {
+        final TinyGameState tinyGameState = getEmptyTinyGameState("PlayerA", "PlayerB");
+
+
+        final byte[] playerKingdomTerrains = {
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 1, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+        };
+
         final byte[] dominoToPlace = {0, 2, 0, 2, 0, -99, -99, -99, -99};
 
         final byte[] validPositions = tinyGameState.getValidPositionsUnique(dominoToPlace, playerKingdomTerrains);
 
         System.out.println(TinyUtils.to2DArrayString(validPositions, TinyConst.DOMINOPOSITION_ELEMENT_SIZE));
 
-        //Assert.assertEquals(Arrays.equals(previousDraft, expected), true);
+        final int numValidPositions = validPositions.length / TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
+        Assert.assertEquals(numValidPositions, 12);
     }
 
 
     @Test
-    public void testGetValidPositionsUnique_noSymmetry() throws Exception
+    public void testGetValidPositionsUnique_noSymmetrySingleDomino() throws Exception
     {
         final TinyGameState tinyGameState = getEmptyTinyGameState("PlayerA", "PlayerB");
 
