@@ -192,24 +192,24 @@ public abstract class TinyGreedyAlgorithm
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
         for (int i = 0; i < numMoves; ++i)
         {
-            final byte[] move = TinyGameState.getRow(moves, i, TinyConst.MOVE_ELEMENT_SIZE);
-
             final int moveElementIndex = i * TinyConst.MOVE_ELEMENT_SIZE;
-            final boolean chosenDominoValid = move[moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX] != TinyConst.INVALID_DOMINO_VALUE;
+            final boolean chosenDominoValid = moves[moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX] != TinyConst.INVALID_DOMINO_VALUE;
 
             if (chosenDominoValid)
             {
-                final byte tile1Crowns = move[moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_CROWNS_INDEX];
-                final byte tile2Crowns = move[moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_CROWNS_INDEX];
+                final byte tile1Crowns = moves[moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_CROWNS_INDEX];
+                final byte tile2Crowns = moves[moveElementIndex + TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_CROWNS_INDEX];
 
                 final int max = Math.max(tile1Crowns, tile2Crowns);
 
                 if (max == maxCrowns)
                 {
+                    final byte[] move = TinyGameState.getRow(moves, i, TinyConst.MOVE_ELEMENT_SIZE);
                     maxCrownsMoves.add(new TinyMove(move));
                 }
                 else if (max > maxCrowns)
                 {
+                    final byte[] move = TinyGameState.getRow(moves, i, TinyConst.MOVE_ELEMENT_SIZE);
                     maxCrownsMoves.clear();
                     maxCrownsMoves.add(new TinyMove(move));
 
