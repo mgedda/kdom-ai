@@ -1,6 +1,8 @@
 package kingdominoplayer.tinyrepresentation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -86,10 +88,9 @@ public class TinyUtils
      * @param playerKingdomTerrains
      * @return
      */
-    // TODO [gedda] IMPORTANT! : Change to return LinkedHashSet!
-    public static ArrayList<Byte> getPlacedIndices(final byte[] playerKingdomTerrains)
+    public static LinkedHashSet<Byte> getPlacedIndices(final byte[] playerKingdomTerrains)
     {
-        final ArrayList<Byte> placedIndices = new ArrayList<>(playerKingdomTerrains.length);
+        final LinkedHashSet<Byte> placedIndices = new LinkedHashSet<>(2 * 5 * 5);  // 2x upper bound
 
         for (byte i = 0; i < playerKingdomTerrains.length; i++)
         {
@@ -102,4 +103,71 @@ public class TinyUtils
         return placedIndices;
     }
 
+    public static byte[] place(final byte tile1Value,
+                               final byte tile2Value,
+                               final byte tile1X,
+                               final byte tile1Y,
+                               final byte tile2X,
+                               final byte tile2Y,
+                               final byte[] kingdom)
+    {
+        final byte[] updatedKingdom = Arrays.copyOf(kingdom, kingdom.length);
+
+        final int tile1Index = TinyGameState.tileCoordinateToLinearIndex(tile1X, tile1Y);
+        final int tile2Index = TinyGameState.tileCoordinateToLinearIndex(tile2X, tile2Y);
+
+        updatedKingdom[tile1Index] = tile1Value;
+        updatedKingdom[tile2Index] = tile2Value;
+
+        return updatedKingdom;
+    }
+
+
+    public static byte[] placeTerrains(final byte[] move, final byte[] kingdomTerrains)
+    {
+        assert move[TinyConst.MOVE_PLACED_DOMINO_INDEX] != TinyConst.INVALID_DOMINO_VALUE : "Move has no placed domino!";
+
+        final byte[] updatedKingdomTerrains = Arrays.copyOf(kingdomTerrains, kingdomTerrains.length);
+
+        final byte tile1Terrain = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_TERRAIN_INDEX];
+        final byte tile2Terrain = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_TERRAIN_INDEX];
+
+        final byte tile1X = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_X_INDEX];
+        final byte tile1Y = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_Y_INDEX];
+
+        final byte tile2X = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_X_INDEX];
+        final byte tile2Y = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_Y_INDEX];
+
+        final int tile1Index = TinyGameState.tileCoordinateToLinearIndex(tile1X, tile1Y);
+        final int tile2Index = TinyGameState.tileCoordinateToLinearIndex(tile2X, tile2Y);
+
+        updatedKingdomTerrains[tile1Index] = tile1Terrain;
+        updatedKingdomTerrains[tile2Index] = tile2Terrain;
+
+        return updatedKingdomTerrains;
+    }
+
+    public static byte[] placeCrowns(final byte[] move, final byte[] kingdomCrowns)
+    {
+        assert move[TinyConst.MOVE_PLACED_DOMINO_INDEX] != TinyConst.INVALID_DOMINO_VALUE : "Move has no placed domino!";
+
+        final byte[] updatedKingdomCrowns = Arrays.copyOf(kingdomCrowns, kingdomCrowns.length);
+
+        final byte tile1Crowns = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_CROWNS_INDEX];
+        final byte tile2Crowns = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_CROWNS_INDEX];
+
+        final byte tile1X = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_X_INDEX];
+        final byte tile1Y = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_Y_INDEX];
+
+        final byte tile2X = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_X_INDEX];
+        final byte tile2Y = move[TinyConst.MOVE_PLACED_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_Y_INDEX];
+
+        final int tile1Index = TinyGameState.tileCoordinateToLinearIndex(tile1X, tile1Y);
+        final int tile2Index = TinyGameState.tileCoordinateToLinearIndex(tile2X, tile2Y);
+
+        updatedKingdomCrowns[tile1Index] = tile1Crowns;
+        updatedKingdomCrowns[tile2Index] = tile2Crowns;
+
+        return updatedKingdomCrowns;
+    }
 }

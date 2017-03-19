@@ -31,9 +31,7 @@ public class TinyValidPositionsAlgorithm
 
         LinkedHashSet<TinyDominoPosition> validDominoPositions = new LinkedHashSet<>(2 * 36 * 3);  // 2x approximated upper limit
 
-        final Set<Byte> placedIndices = new LinkedHashSet<>(2 * 5 * 5);  // 2x upper limit
-        placedIndices.addAll(TinyUtils.getPlacedIndices(kingdomTerrains));
-
+        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
 
         for (final byte terrain : terrains)
         {

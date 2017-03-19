@@ -14,7 +14,7 @@ public class TinyScorerAlgorithm
 {
     public static int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        final ArrayList<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
+        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
 
         int connectedComponentsScore = getConnectedTerrainsScore(placedIndices, kingdomTerrains, kingdomCrowns);
         int middleKingdomScore = getMiddleKingdomScore(placedIndices);
@@ -30,7 +30,7 @@ public class TinyScorerAlgorithm
      * @param placedIndices
      * @return
      */
-    private static int getHarmonyScore(final ArrayList<Byte> placedIndices)
+    private static int getHarmonyScore(final Set<Byte> placedIndices)
     {
         return placedIndices.size() == 24 ? 5 : 0;
     }
@@ -41,7 +41,7 @@ public class TinyScorerAlgorithm
      *
      * @return
      */
-    private static int getMiddleKingdomScore(final ArrayList<Byte> placedIndices)
+    private static int getMiddleKingdomScore(final Set<Byte> placedIndices)
     {
         for (final int placedIndex : placedIndices)
         {
@@ -68,7 +68,7 @@ public class TinyScorerAlgorithm
      * @param kingdomCrowns
      * @return
      */
-    private static int getConnectedTerrainsScore(final ArrayList<Byte> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
+    private static int getConnectedTerrainsScore(final Set<Byte> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
         final LinkedHashSet<Byte> scoredIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
 
