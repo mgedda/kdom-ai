@@ -8,7 +8,7 @@ import kingdominoplayer.tinyrepresentation.TinyGameState;
  * Date: 2017-03-16<br>
  * Time: 21:39<br><br>
  */
-public class AllTinyMoves implements TinyMoveFilter
+public class TinyAllMoves implements TinyMoveFilter
 {
     @Override
     public byte[] filterMoves(final String playerName, final byte[] moves, final TinyGameState gameState)

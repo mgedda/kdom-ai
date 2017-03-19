@@ -1,6 +1,6 @@
 package kingdominoplayer.strategies.tinystrategies;
 
-import kingdominoplayer.movefilters.tinymovefilters.AllTinyMoves;
+import kingdominoplayer.movefilters.tinymovefilters.TinyMaxScoringMoves;
 import kingdominoplayer.movefilters.tinymovefilters.TinyMoveFilter;
 import kingdominoplayer.search.tinysearch.TinyMonteCarloSearch;
 import kingdominoplayer.tinyrepresentation.TinyConst;
@@ -22,7 +22,7 @@ public class TinyMonteCarlo implements TinyStrategy
 
     public TinyMonteCarlo(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy, final boolean useRelativeBranchScore)
     {
-        iMoveFilter = new AllTinyMoves();
+        iMoveFilter = new TinyMaxScoringMoves();
         iPlayerStrategy = playerStrategy;
         iOpponentStrategy = opponentStrategy;
         iUseRelativeBranchScore = useRelativeBranchScore;
