@@ -31,8 +31,8 @@ public class MultiPlayerEngine
         final ArrayList<Player> players = new ArrayList<>(4);
         players.add(new Player(player1UUID, player1Name, StrategyID.FULL_GREEDY, false));
         players.add(new Player(player2UUID, player2Name, StrategyID.FULL_GREEDY, false));
-        players.add(new Player(player3UUID, player3Name, StrategyID.MC_TR_TR_R, false));
-        players.add(new TinyPlayer(player4UUID, player4Name, TinyStrategyID.MC_TR_TR_R, false));
+        players.add(new Player(player3UUID, player3Name, StrategyID.MC_FG_TR_R, false));
+        players.add(new TinyPlayer(player4UUID, player4Name, TinyStrategyID.MC_FG_TR_R, false));
 
         game.play(players);
 
