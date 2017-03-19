@@ -20,6 +20,7 @@ import java.util.Set;
 @SuppressWarnings("WeakerAccess")
 public class Game
 {
+    private static final double POLL_EVERY_X_SECONDS = 0.1;
     private static final int TIMEOUT_MINUTES = 30;
 
     private final String iUUID;
@@ -44,7 +45,7 @@ public class Game
 
     public GameState play(final Collection<Player> players)
     {
-        final int sleepMilliSeconds = 1000;
+        final int sleepMilliSeconds = (int)(1000 * POLL_EVERY_X_SECONDS);
         final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
         final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
 
