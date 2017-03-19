@@ -3,6 +3,8 @@ package kingdominoplayer.strategies;
 import kingdominoplayer.datastructures.LocalGameState;
 import kingdominoplayer.datastructures.Move;
 import kingdominoplayer.movefilters.AllMoves;
+import kingdominoplayer.movefilters.MaxScoringMoves;
+import kingdominoplayer.movefilters.MoveFilter;
 import kingdominoplayer.search.MonteCarloSearch;
 import kingdominoplayer.utils.ArrayUtils;
 
@@ -17,14 +19,14 @@ import java.util.ArrayList;
 public class MonteCarlo implements Strategy
 {
 
-    private final AllMoves iMoveFilter;
+    private final MoveFilter iMoveFilter;
     private final Strategy iPlayerStrategy;
     private final Strategy iOpponentStrategy;
     private final boolean iUseRelativeBranchScore;
 
     public MonteCarlo(final Strategy playerStrategy, final Strategy opponentStrategy, final boolean useRelativeBranchScore)
     {
-        iMoveFilter = new AllMoves();
+        iMoveFilter = new MaxScoringMoves();
         iPlayerStrategy = playerStrategy;
         iOpponentStrategy = opponentStrategy;
         iUseRelativeBranchScore = useRelativeBranchScore;

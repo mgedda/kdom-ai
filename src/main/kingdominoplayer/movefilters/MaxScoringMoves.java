@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class MaxScoringMoves implements MoveFilter
 {
+    @SuppressWarnings("UnnecessaryLocalVariable")
     @Override
     public ArrayList<Move> filterMoves(final String playerName, final Move[] moves, final LocalGameState gameState)
     {
