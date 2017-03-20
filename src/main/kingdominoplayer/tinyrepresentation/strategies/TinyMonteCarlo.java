@@ -2,7 +2,7 @@ package kingdominoplayer.tinyrepresentation.strategies;
 
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMaxScoringMoves;
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMoveFilter;
-import kingdominoplayer.tinyrepresentation.search.TinyMonteCarloSearch;
+import kingdominoplayer.tinyrepresentation.search.TinyMonteCarloSimulation;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
@@ -37,7 +37,7 @@ public class TinyMonteCarlo implements TinyStrategy
 
         if (numMaxScoringMoves > 1)
         {
-            return new TinyMonteCarloSearch(playerName, iPlayerStrategy, iOpponentStrategy, iUseRelativeBranchScore).evaluate(gameState, moves);
+            return new TinyMonteCarloSimulation(playerName, iPlayerStrategy, iOpponentStrategy, iUseRelativeBranchScore).evaluate(gameState, moves);
         }
         else
         {

@@ -18,10 +18,10 @@ import java.util.Set;
  * Date: 2017-03-16<br>
  * Time: 13:46<br><br>
  */
-public class TinyMonteCarloSearch
+public class TinyMonteCarloSimulation
 {
-    private static final double MAX_SEARCH_TIME_SECONDS = 10d;       // maximum time for one move
-    private static final int SEARCH_BREADTH = 1000;                  // max number of moves to evaluate
+    private static final double MAX_SIMULATION_TIME_SECONDS = 10d;   // maximum time for one move
+    private static final int SIMULATION_BREADTH = 1000;              // max number of moves to evaluate
     private static final long PLAYOUT_FACTOR = 1000000;              // number of desired playouts per move
 
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
@@ -31,10 +31,10 @@ public class TinyMonteCarloSearch
     private final TinyStrategy iOpponentStrategy;
     private final boolean iRelativeBranchScore;
 
-    public TinyMonteCarloSearch(final String playerName,
-                                final TinyStrategy playerStrategy,
-                                final TinyStrategy opponentStrategy,
-                                final boolean relativeBranchScore)
+    public TinyMonteCarloSimulation(final String playerName,
+                                    final TinyStrategy playerStrategy,
+                                    final TinyStrategy opponentStrategy,
+                                    final boolean relativeBranchScore)
     {
         iPlayerName = playerName;
         iPlayerStrategy = playerStrategy;
@@ -50,7 +50,7 @@ public class TinyMonteCarloSearch
      */
     public byte[] evaluate(final TinyGameState gameState, final byte[] moves)
     {
-        final byte[] movesToEvaluate = selectMovesRandomly(moves, SEARCH_BREADTH);
+        final byte[] movesToEvaluate = selectMovesRandomly(moves, SIMULATION_BREADTH);
         final ArrayList<TinyMoveAverageScorePair> moveScores = getMoveScores(gameState, movesToEvaluate);
 
         // Select move with best score.
@@ -89,7 +89,7 @@ public class TinyMonteCarloSearch
         final long numPlayOuts = PLAYOUT_FACTOR * numMoves;  // max X playouts per move
         long playOutCounter = 1;
         while (playOutCounter <= numPlayOuts
-                && getSeconds(System.nanoTime() - searchStartTime) < MAX_SEARCH_TIME_SECONDS)
+                && getSeconds(System.nanoTime() - searchStartTime) < MAX_SIMULATION_TIME_SECONDS)
         {
             // Play out a random move.
             //
@@ -126,29 +126,6 @@ public class TinyMonteCarloSearch
     private double getSeconds(final long nanoTime)
     {
         return nanoTime / 1e9d;
-    }
-
-
-    private byte[] getMove(final byte moveNumber, final byte[] moves)
-    {
-        final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
-
-        byte[] move = new byte[0];
-
-        for (int i = 0; i < numMoves; ++i)
-        {
-            final int moveIndex = i * TinyConst.MOVE_ELEMENT_SIZE;
-
-            if (moves[moveIndex + TinyConst.MOVE_NUMBER_INDEX] == moveNumber)
-            {
-                move = TinyGameState.getRow(moves, i, TinyConst.MOVE_ELEMENT_SIZE);
-                break;
-            }
-        }
-
-        assert move.length > 0 : "Move not found!";
-
-        return move;
     }
 
 
