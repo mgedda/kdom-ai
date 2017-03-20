@@ -1,4 +1,4 @@
-package kingdominoplayer.naivesearch;
+package kingdominoplayer.naiverepresentation.search;
 
 import kingdominoplayer.naiverepresentation.datastructures.Move;
 
