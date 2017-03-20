@@ -1,7 +1,7 @@
 package kingdominoplayer;
 
 import kingdominoplayer.naivedatastructures.GameState;
-import kingdominoplayer.strategies.StrategyID;
+import kingdominoplayer.naivestrategies.StrategyID;
 
 import java.io.File;
 import java.io.IOException;

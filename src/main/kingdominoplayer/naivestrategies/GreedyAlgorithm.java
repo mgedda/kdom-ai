@@ -1,4 +1,4 @@
-package kingdominoplayer.strategies;
+package kingdominoplayer.naivestrategies;
 
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.naivedatastructures.*;

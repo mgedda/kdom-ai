@@ -1,4 +1,4 @@
-package kingdominoplayer.strategies;
+package kingdominoplayer.naivestrategies;
 
 import kingdominoplayer.naivedatastructures.LocalGameState;
 import kingdominoplayer.naivedatastructures.Move;
