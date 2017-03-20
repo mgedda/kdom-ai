@@ -1,4 +1,4 @@
-package kingdominoplayer.naivestrategies;
+package kingdominoplayer.naiverepresentation.strategies;
 
 import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.utils.GameUtils;

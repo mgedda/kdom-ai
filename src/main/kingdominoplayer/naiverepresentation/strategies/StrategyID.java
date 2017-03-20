@@ -1,4 +1,4 @@
-package kingdominoplayer.naivestrategies;
+package kingdominoplayer.naiverepresentation.strategies;
 
 /**
  * Copyright 2017 Tomologic AB<br>

@@ -1,6 +1,6 @@
 package kingdominoplayer;
 
-import kingdominoplayer.naivestrategies.StrategyID;
+import kingdominoplayer.naiverepresentation.strategies.StrategyID;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package kingdominoplayer;
 
-import kingdominoplayer.naivestrategies.StrategyID;
+import kingdominoplayer.naiverepresentation.strategies.StrategyID;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategyID;
 
 import java.io.IOException;

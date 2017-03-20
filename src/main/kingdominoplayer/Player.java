@@ -3,7 +3,7 @@ package kingdominoplayer;
 import kingdominoplayer.naiverepresentation.datastructures.GameState;
 import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.naiverepresentation.datastructures.Move;
-import kingdominoplayer.naivestrategies.*;
+import kingdominoplayer.naiverepresentation.strategies.StrategyID;
 import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Util;
 

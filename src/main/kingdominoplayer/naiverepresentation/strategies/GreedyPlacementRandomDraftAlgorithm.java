@@ -1,7 +1,6 @@
-package kingdominoplayer.naivestrategies;
+package kingdominoplayer.naiverepresentation.strategies;
 
 import kingdominoplayer.naiverepresentation.datastructures.KingdomMovePair;
-import kingdominoplayer.naiveplanning.Planner;
 
 import java.util.ArrayList;
 
@@ -11,10 +10,13 @@ import java.util.ArrayList;
  * Date: 2017-03-07<br>
  * Time: 21:46<br><br>
  */
-public class FullGreedyAlgorithm extends GreedyAlgorithm
+public class GreedyPlacementRandomDraftAlgorithm extends GreedyAlgorithm
 {
     protected ArrayList<KingdomMovePair> getKingdomMovePairsWithChosenDominoPlaced(final ArrayList<KingdomMovePair> kingdomMovePairsForChosenPlacement)
     {
-        return Planner.getKingdomMovePairsWithChosenDominoPlaced(kingdomMovePairsForChosenPlacement);
+        // Do not place any dominoes from the current draft.
+        //
+        return kingdomMovePairsForChosenPlacement;
     }
+
 }

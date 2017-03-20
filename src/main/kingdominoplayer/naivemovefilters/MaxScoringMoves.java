@@ -2,7 +2,7 @@ package kingdominoplayer.naivemovefilters;
 
 import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.naiverepresentation.datastructures.Move;
-import kingdominoplayer.naivestrategies.FullGreedyAlgorithm;
+import kingdominoplayer.naiverepresentation.strategies.FullGreedyAlgorithm;
 
 import java.util.ArrayList;
 

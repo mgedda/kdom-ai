@@ -2,7 +2,7 @@ package kingdominoplayer.naivesearch;
 
 import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.naiverepresentation.datastructures.Move;
-import kingdominoplayer.naivestrategies.Strategy;
+import kingdominoplayer.naiverepresentation.strategies.Strategy;
 import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
