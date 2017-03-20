@@ -1,4 +1,4 @@
-package kingdominoplayer.naivemovefilters;
+package kingdominoplayer.naiverepresentation.movefilters;
 
 import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.naiverepresentation.datastructures.Move;
