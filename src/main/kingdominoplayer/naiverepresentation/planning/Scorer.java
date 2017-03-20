@@ -1,4 +1,4 @@
-package kingdominoplayer.naiveplanning;
+package kingdominoplayer.naiverepresentation.planning;
 
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;

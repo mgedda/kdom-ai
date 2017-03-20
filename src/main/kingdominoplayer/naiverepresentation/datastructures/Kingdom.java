@@ -1,7 +1,7 @@
 package kingdominoplayer.naiverepresentation.datastructures;
 
 
-import kingdominoplayer.naiveplanning.Scorer;
+import kingdominoplayer.naiverepresentation.planning.Scorer;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

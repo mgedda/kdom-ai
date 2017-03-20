@@ -1,4 +1,4 @@
-package kingdominoplayer.naiveplanning;
+package kingdominoplayer.naiverepresentation.planning;
 
 import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.utils.ArrayUtils;

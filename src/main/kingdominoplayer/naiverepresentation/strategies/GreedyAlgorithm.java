@@ -7,7 +7,7 @@ import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.naiverepresentation.datastructures.Move;
 import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
 import kingdominoplayer.utils.GameUtils;
-import kingdominoplayer.naiveplanning.Planner;
+import kingdominoplayer.naiverepresentation.planning.Planner;
 
 import java.util.ArrayList;
 import java.util.Collection;

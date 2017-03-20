@@ -1,4 +1,4 @@
-package kingdominoplayer.naiveplanning;
+package kingdominoplayer.naiverepresentation.planning;
 
 import kingdominoplayer.naiverepresentation.datastructures.Domino;
 import kingdominoplayer.naiverepresentation.datastructures.DominoPosition;
