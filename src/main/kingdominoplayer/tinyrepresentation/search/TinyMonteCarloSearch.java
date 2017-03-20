@@ -51,19 +51,19 @@ public class TinyMonteCarloSearch
     public byte[] evaluate(final TinyGameState gameState, final byte[] moves)
     {
         final byte[] movesToEvaluate = selectMovesRandomly(moves, SEARCH_BREADTH);
-        final ArrayList<TinyMoveScorePair> moveScores = getMoveScores(gameState, movesToEvaluate);
+        final ArrayList<TinyMoveAverageScorePair> moveScores = getMoveScores(gameState, movesToEvaluate);
 
         // Select move with best score.
         //
         return getMoveWithHighestScore(moveScores);
     }
 
-    private byte[] getMoveWithHighestScore(final ArrayList<TinyMoveScorePair> moveScores)
+    private byte[] getMoveWithHighestScore(final ArrayList<TinyMoveAverageScorePair> moveScores)
     {
-        moveScores.sort((TinyMoveScorePair moveScore1, TinyMoveScorePair moveScore2) ->
+        moveScores.sort((TinyMoveAverageScorePair moveScore1, TinyMoveAverageScorePair moveScore2) ->
         {
-            final double s1 = moveScore1.getScore();
-            final double s2 = moveScore2.getScore();
+            final double s1 = moveScore1.getAverageScore();
+            final double s2 = moveScore2.getAverageScore();
 
             return s1 > s2 ? -1 : s2 > s1 ? 1 : 0;
         });
@@ -71,22 +71,22 @@ public class TinyMonteCarloSearch
         return moveScores.get(0).getMove();
     }
 
-    private ArrayList<TinyMoveScorePair> getMoveScores(final TinyGameState gameState, final byte[] moves)
+    private ArrayList<TinyMoveAverageScorePair> getMoveScores(final TinyGameState gameState, final byte[] moves)
     {
         DEBUG.println("\n" + CLASS_STRING + " " + iPlayerName + " searching...");
 
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
 
-        final LinkedHashMap<Byte, ArrayList<Double>> moveScoresMap = new LinkedHashMap<>(numMoves);
+        final LinkedHashMap<Byte, TinyMoveAverageScorePair> moveScoresMap = new LinkedHashMap<>(numMoves);
         for (int i = 0; i < numMoves; ++i)
         {
             final byte[] move = TinyGameState.getRow(moves, i, TinyConst.MOVE_ELEMENT_SIZE);
-            moveScoresMap.put(move[TinyConst.MOVE_NUMBER_INDEX], new ArrayList<>());
+            moveScoresMap.put(move[TinyConst.MOVE_NUMBER_INDEX], new TinyMoveAverageScorePair(move));
         }
 
         final long searchStartTime = System.nanoTime();
 
-        final long numPlayOuts = PLAYOUT_FACTOR * numMoves;  // X playouts per move
+        final long numPlayOuts = PLAYOUT_FACTOR * numMoves;  // max X playouts per move
         long playOutCounter = 1;
         while (playOutCounter <= numPlayOuts
                 && getSeconds(System.nanoTime() - searchStartTime) < MAX_SEARCH_TIME_SECONDS)
@@ -96,7 +96,7 @@ public class TinyMonteCarloSearch
             final int randomIndex = Random.getInt(numMoves);
             final byte[] move = TinyGameState.getRow(moves, randomIndex, TinyConst.MOVE_ELEMENT_SIZE);
             final double score = playOut(move, gameState);
-            moveScoresMap.get(move[TinyConst.MOVE_NUMBER_INDEX]).add(score);
+            moveScoresMap.get(move[TinyConst.MOVE_NUMBER_INDEX]).addScore(score);
 
             assert moveScoresMap.size() == numMoves : "Size discrepancy!";
 
@@ -112,10 +112,12 @@ public class TinyMonteCarloSearch
                 ", time: " + searchDurationString + "s)" +
                 ", playouts/s: " + String.format("%.3f", (playOutCounter - 1) / searchDurationSeconds));
 
-        final ArrayList<TinyMoveScorePair> moveScores = assembleScores(moveScoresMap, moves);
-        printMoveScores(moveScores);
+        printMoveScores(moveScoresMap.values());
 
         assert moveScoresMap.size() == numMoves : "Size discrepancy!";
+
+        final ArrayList<TinyMoveAverageScorePair> moveScores = new ArrayList<>(moveScoresMap.values().size());
+        moveScores.addAll(moveScoresMap.values());
 
         return moveScores;
     }
@@ -126,33 +128,6 @@ public class TinyMonteCarloSearch
         return nanoTime / 1e9d;
     }
 
-
-    private ArrayList<TinyMoveScorePair> assembleScores(final Map<Byte, ArrayList<Double>> moveScoresMap, byte[] moves)
-    {
-        final ArrayList<TinyMoveScorePair> moveScorePairs = new ArrayList<>(moveScoresMap.size());
-
-        for (final byte moveNumber : moveScoresMap.keySet())
-        {
-            final byte[] move = getMove(moveNumber, moves);
-            final ArrayList<Double> scores = moveScoresMap.get(moveNumber);
-
-            if (scores.isEmpty())
-            {
-                moveScorePairs.add(new TinyMoveScorePair(move, 0.0));
-            }
-            else
-            {
-                double accScore = 0.0;
-                for (final Double score : scores)
-                {
-                    accScore += score;
-                }
-                moveScorePairs.add(new TinyMoveScorePair(move, accScore / scores.size()));
-            }
-        }
-
-        return moveScorePairs;
-    }
 
     private byte[] getMove(final byte moveNumber, final byte[] moves)
     {
@@ -177,13 +152,15 @@ public class TinyMonteCarloSearch
     }
 
 
-    private void printMoveScores(final ArrayList<TinyMoveScorePair> moveScores)
+    private void printMoveScores(final Collection<TinyMoveAverageScorePair> moveScores)
     {
         DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
-        for (final TinyMoveScorePair moveScorePair : moveScores)
+        for (final TinyMoveAverageScorePair moveScorePair : moveScores)
         {
-            final String scoreString = String.format("%.3f", moveScorePair.getScore());
-            DEBUG.println(CLASS_STRING + " move: " + Integer.toString(moveScorePair.getMove()[TinyConst.MOVE_NUMBER_INDEX]) +  ", score: " + scoreString);
+            final String scoreString = String.format("%.3f", moveScorePair.getAverageScore());
+            DEBUG.println(CLASS_STRING + " move: " + Integer.toString(moveScorePair.getMove()[TinyConst.MOVE_NUMBER_INDEX])
+                    + ", score: " + scoreString
+                    + ", playouts: " + Integer.toString(moveScorePair.getPlayouts()));
         }
         DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
     }
