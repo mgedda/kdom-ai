@@ -3,8 +3,8 @@ package kingdominoplayer.tinyrepresentation.strategies;
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMaxScoringMoves;
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMoveFilter;
 import kingdominoplayer.tinyrepresentation.search.TinyMonteCarloSearch;
-import kingdominoplayer.tinyrepresentation.TinyConst;
-import kingdominoplayer.tinyrepresentation.TinyGameState;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
 /**
  * Copyright 2017 Tomologic AB<br>

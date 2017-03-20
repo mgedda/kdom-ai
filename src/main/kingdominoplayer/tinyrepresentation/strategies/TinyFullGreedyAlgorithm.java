@@ -1,7 +1,7 @@
 package kingdominoplayer.tinyrepresentation.strategies;
 
-import kingdominoplayer.tinyrepresentation.TinyConst;
-import kingdominoplayer.tinyrepresentation.TinyKingdomMovePair;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyKingdomMovePair;
 import kingdominoplayer.tinyrepresentation.TinyValidPositionsAlgorithm;
 
 import java.util.ArrayList;

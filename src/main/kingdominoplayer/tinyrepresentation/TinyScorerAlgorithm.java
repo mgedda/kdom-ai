@@ -1,5 +1,9 @@
 package kingdominoplayer.tinyrepresentation;
 
+import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;

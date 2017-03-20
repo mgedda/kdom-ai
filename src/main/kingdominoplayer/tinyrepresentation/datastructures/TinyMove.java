@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation;
+package kingdominoplayer.tinyrepresentation.datastructures;
 
 import java.util.Arrays;
 

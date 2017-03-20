@@ -1,9 +1,9 @@
 package kingdominoplayer.tinyrepresentation.strategies;
 
-import kingdominoplayer.tinyrepresentation.TinyConst;
-import kingdominoplayer.tinyrepresentation.TinyGameState;
-import kingdominoplayer.tinyrepresentation.TinyKingdomMovePair;
-import kingdominoplayer.tinyrepresentation.TinyMove;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyKingdomMovePair;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyMove;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.utils.Util;
 

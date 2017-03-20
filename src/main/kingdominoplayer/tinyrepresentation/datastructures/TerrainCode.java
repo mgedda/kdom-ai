@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation;
+package kingdominoplayer.tinyrepresentation.datastructures;
 
 /**
  * Copyright 2017 Tomologic AB<br>

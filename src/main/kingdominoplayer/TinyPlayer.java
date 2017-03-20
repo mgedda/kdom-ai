@@ -6,8 +6,8 @@ import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategyID;
 import kingdominoplayer.tinyrepresentation.adapters.LocalGameStateToTinyGameStateAlgorithm;
 import kingdominoplayer.tinyrepresentation.adapters.MoveAdapter;
-import kingdominoplayer.tinyrepresentation.TinyConst;
-import kingdominoplayer.tinyrepresentation.TinyGameState;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
 /**
  * Copyright 2017 Tomologic AB<br>

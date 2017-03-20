@@ -1,6 +1,6 @@
 package kingdominoplayer.tinyrepresentation.strategies;
 
-import kingdominoplayer.tinyrepresentation.TinyGameState;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
 /**
  * Copyright 2017 Tomologic AB<br>

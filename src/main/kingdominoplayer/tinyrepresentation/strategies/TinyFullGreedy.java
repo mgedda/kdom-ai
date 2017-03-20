@@ -1,7 +1,7 @@
 package kingdominoplayer.tinyrepresentation.strategies;
 
-import kingdominoplayer.tinyrepresentation.TinyConst;
-import kingdominoplayer.tinyrepresentation.TinyGameState;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
+import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.utils.Random;
 
 /**
