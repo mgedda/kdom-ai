@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation;
+package kingdominoplayer.tinyrepresentation.adapters;
 
 import kingdominoplayer.naivedatastructures.Domino;
 import kingdominoplayer.naivedatastructures.DominoPosition;
@@ -6,6 +6,8 @@ import kingdominoplayer.naivedatastructures.Move;
 import kingdominoplayer.naivedatastructures.PlacedDomino;
 import kingdominoplayer.naivedatastructures.Position;
 import kingdominoplayer.naivedatastructures.Tile;
+import kingdominoplayer.tinyrepresentation.TerrainCode;
+import kingdominoplayer.tinyrepresentation.TinyConst;
 
 import java.util.Arrays;
 

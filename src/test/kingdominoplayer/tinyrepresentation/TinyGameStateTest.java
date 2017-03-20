@@ -4,6 +4,7 @@ import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.naivedatastructures.GameState;
 import kingdominoplayer.naivedatastructures.LocalGameState;
 import kingdominoplayer.plot.DebugPlotTest;
+import kingdominoplayer.tinyrepresentation.adapters.LocalGameStateToTinyGameStateAlgorithm;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

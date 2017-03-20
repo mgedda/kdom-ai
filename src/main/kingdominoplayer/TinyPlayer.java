@@ -4,8 +4,8 @@ import kingdominoplayer.naivedatastructures.LocalGameState;
 import kingdominoplayer.naivedatastructures.Move;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategyID;
-import kingdominoplayer.tinyrepresentation.LocalGameStateToTinyGameStateAlgorithm;
-import kingdominoplayer.tinyrepresentation.MoveAdapter;
+import kingdominoplayer.tinyrepresentation.adapters.LocalGameStateToTinyGameStateAlgorithm;
+import kingdominoplayer.tinyrepresentation.adapters.MoveAdapter;
 import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyGameState;
 
