@@ -106,6 +106,8 @@ public class LocalGameState extends GameState
 
     public LocalGameState makeMove(final String playerName, final Move move)
     {
+        //DEBUG_checkDominoAlreadyChosen(iCurrentDraft, playerName);
+
         /////////////////////////////////////////////////////////
         // Process placed domino.
         /////////////////////////////////////////////////////////
@@ -151,11 +153,43 @@ public class LocalGameState extends GameState
         }
         else
         {
-            // Kingdoms and previous draft remain unchanged.
+            // Placed domino == null
+
+            // Check if player had domino with no valid placement in draft.
             //
-            kingdomInfos.addAll(iKingdomInfos);
-            previousDraft.addAll(iPreviousDraft);
+            if (! iPreviousDraft.isEmpty())
+            {
+                if (iPreviousDraft.get(0).getPlayerName().equals(playerName))
+                {
+                    // Player was unable to place the domino.
+                    // Remove non-placeable domino from draft.
+                    //
+                    for (int i = 1; i < iPreviousDraft.size(); ++i)
+                    {
+                        final DraftElement draftElement = iPreviousDraft.get(i);
+                        previousDraft.add(draftElement);
+                    }
+                }
+                else
+                {
+                    // Previous draft remains unchanged.
+                    //
+                    previousDraft.addAll(iPreviousDraft);
+                }
+
+                // Kingdoms remain unchanged.
+                //
+                kingdomInfos.addAll(iKingdomInfos);
+            }
+            else
+            {
+                // Previous draft and Kingdoms remain unchanged.
+                //
+                previousDraft.addAll(iPreviousDraft);
+                kingdomInfos.addAll(iKingdomInfos);
+            }
         }
+
 
 
         /////////////////////////////////////////////////////////
@@ -188,6 +222,10 @@ public class LocalGameState extends GameState
         }
 
 
+
+        //DEBUG_countPlayerAllocations(currentDraft);
+
+
         /////////////////////////////////////////////////////////
         // Handle finished selection
         /////////////////////////////////////////////////////////
@@ -203,23 +241,27 @@ public class LocalGameState extends GameState
             currentDraft.clear();
 
 
-            // Remove dominoes without valid placements from previous draft.
-            //
-            final ArrayList<DraftElement> invalidPreviousDraftElements = new ArrayList<>(previousDraft.size());
-
-            for (final DraftElement draftElement : previousDraft)
+            if (isDrawPileEmpty())
             {
-                final String name = draftElement.getPlayerName();
-                final KingdomInfo kingdomInfo = getKingdomInfo(name, kingdomInfos);
+                // Remove dominoes without valid placements from previous draft.
+                //
+                final ArrayList<DraftElement> invalidPreviousDraftElements = new ArrayList<>(previousDraft.size());
 
-                final Set<DominoPosition> validPositions = Planner.getValidPositions(draftElement.getDomino(), kingdomInfo.getKingdom());
-
-                if (validPositions.isEmpty())
+                for (final DraftElement draftElement : previousDraft)
                 {
-                    invalidPreviousDraftElements.add(draftElement);
+                    final String name = draftElement.getPlayerName();
+                    final KingdomInfo kingdomInfo = getKingdomInfo(name, kingdomInfos);
+
+                    final Set<DominoPosition> validPositions = Planner.getValidPositions(draftElement.getDomino(), kingdomInfo.getKingdom());
+
+                    if (validPositions.isEmpty())
+                    {
+                        invalidPreviousDraftElements.add(draftElement);
+                    }
                 }
+
+                previousDraft.removeAll(invalidPreviousDraftElements);
             }
-            previousDraft.removeAll(invalidPreviousDraftElements);
 
 
             // Draw new current draft from draw pile.
@@ -227,7 +269,7 @@ public class LocalGameState extends GameState
             final LinkedHashSet<Domino> drawPile = new LinkedHashSet<>(iDrawPile.size());
             drawPile.addAll(iDrawPile);
 
-            if (! iDrawPile.isEmpty())
+            if (!isDrawPileEmpty())
             {
                 final int numDominoesToDraw = iDrawPile.size();
 
@@ -253,9 +295,52 @@ public class LocalGameState extends GameState
         }
 
 
-        sanityCheck(result);
+        //sanityCheck(result);
 
         return result;
+    }
+
+    private void DEBUG_checkDominoAlreadyChosen(final ArrayList<DraftElement> currentDraft, final String player)
+    {
+        for (final DraftElement draftElement : currentDraft)
+        {
+            if (draftElement.getPlayerName() != null && draftElement.getPlayerName().equals(player))
+            {
+                assert false : "Player already has a chosen domino!";
+            }
+        }
+    }
+
+
+    private void DEBUG_countPlayerAllocations(final ArrayList<DraftElement> currentDraft)
+    {
+        final LinkedHashMap<String, Integer> playerCountMap = new LinkedHashMap<>(2 * getNumPlayers());
+
+        for (final String player : getPlayerNames())
+        {
+            playerCountMap.put(player, 0);
+        }
+
+        for (final DraftElement draftElement : currentDraft)
+        {
+            final String player = draftElement.getPlayerName();
+            if (player != null)
+            {
+                playerCountMap.put(player, playerCountMap.get(player) + 1);
+            }
+        }
+
+        for (final int numAllocations : playerCountMap.values())
+        {
+            final int maxAllocations = getNumPlayers() == 2 ? 2 : 1;
+            assert numAllocations <= maxAllocations : "Player has too many dominoes allocated!";
+        }
+    }
+
+
+    private boolean isDrawPileEmpty()
+    {
+        return iDrawPile.isEmpty();
     }
 
 
