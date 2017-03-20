@@ -1,4 +1,4 @@
-package kingdominoplayer.strategies.tinystrategies;
+package kingdominoplayer.tinyrepresentation.strategies;
 
 /**
  * Copyright 2017 Tomologic AB<br>

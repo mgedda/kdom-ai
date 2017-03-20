@@ -1,4 +1,4 @@
-package kingdominoplayer.strategies.tinystrategies;
+package kingdominoplayer.tinyrepresentation.strategies;
 
 import kingdominoplayer.movefilters.tinymovefilters.TinyMaxScoringMoves;
 import kingdominoplayer.movefilters.tinymovefilters.TinyMoveFilter;

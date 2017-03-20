@@ -1,4 +1,4 @@
-package kingdominoplayer.strategies.tinystrategies;
+package kingdominoplayer.tinyrepresentation.strategies;
 
 import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyKingdomMovePair;

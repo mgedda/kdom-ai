@@ -1,6 +1,6 @@
 package kingdominoplayer.search.tinysearch;
 
-import kingdominoplayer.strategies.tinystrategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyGameState;
 import kingdominoplayer.utils.Random;
