@@ -2,7 +2,7 @@ package kingdominoplayer.tinyrepresentation.strategies;
 
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMaxScoringMoves;
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMoveFilter;
-import kingdominoplayer.search.tinysearch.TinyMonteCarloSearch;
+import kingdominoplayer.tinyrepresentation.search.TinyMonteCarloSearch;
 import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyGameState;
 
