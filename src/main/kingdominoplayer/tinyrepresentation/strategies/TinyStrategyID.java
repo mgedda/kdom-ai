@@ -8,6 +8,7 @@ package kingdominoplayer.tinyrepresentation.strategies;
  */
 public enum TinyStrategyID
 {
+    GREEDY_PLACEMENT_RANDOM_DRAFT,
     FULL_GREEDY,
     MC_TR_TR_R,
     MC_FG_TR_R,
@@ -17,6 +18,7 @@ public enum TinyStrategyID
 
     static
     {
+        GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new TinyGreedyPlacementRandomDraft();
         FULL_GREEDY.iStrategy = new TinyFullGreedy();
         MC_TR_TR_R.iStrategy = new TinyMonteCarlo(new TinyTrueRandom(), new TinyTrueRandom(), true);
         MC_FG_TR_R.iStrategy = new TinyMonteCarlo(new TinyFullGreedy(), new TinyTrueRandom(), true);
