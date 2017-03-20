@@ -4,7 +4,7 @@ import kingdominoplayer.naivedatastructures.LocalGameState;
 import kingdominoplayer.naivedatastructures.Move;
 import kingdominoplayer.naivemovefilters.MaxScoringMoves;
 import kingdominoplayer.naivemovefilters.MoveFilter;
-import kingdominoplayer.search.MonteCarloSearch;
+import kingdominoplayer.naivesearch.MonteCarloSearch;
 
 import java.util.ArrayList;
 
