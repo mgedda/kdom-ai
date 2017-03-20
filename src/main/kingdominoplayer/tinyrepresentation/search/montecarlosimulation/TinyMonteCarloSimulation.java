@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation.search;
+package kingdominoplayer.tinyrepresentation.search.montecarlosimulation;
 
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;

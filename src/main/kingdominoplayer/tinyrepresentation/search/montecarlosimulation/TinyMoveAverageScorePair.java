@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation.search;
+package kingdominoplayer.tinyrepresentation.search.montecarlosimulation;
 
 /**
  * Copyright 2017 Tomologic AB<br>
