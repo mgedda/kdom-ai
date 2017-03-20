@@ -497,6 +497,12 @@ public class TinyGameState
                 assert ! isDraftEmpty(iCurrentDraft) : "Both previous and current draft are empty!";
                 final ArrayList<Byte> playerIDs = getPlayerIDs();
 
+                if (playerIDs.size() == 2)
+                {
+                    playerIDs.add((byte) 0);
+                    playerIDs.add((byte) 1);
+                }
+
                 for (int i = 0; i < iDraftDominoCount; ++i)
                 {
                     final byte playerId = iCurrentDraft[i * TinyConst.DRAFT_ELEMENT_SIZE + TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX];
