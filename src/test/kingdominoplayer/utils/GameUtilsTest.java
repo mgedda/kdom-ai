@@ -5,7 +5,7 @@ import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
 import kingdominoplayer.naiverepresentation.datastructures.Position;
 import kingdominoplayer.naiverepresentation.datastructures.Positions;
 import kingdominoplayer.naiverepresentation.datastructures.Tile;
-import kingdominoplayer.plot.DebugPlot;
+import kingdominoplayer.utils.plot.DebugPlot;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

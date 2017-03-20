@@ -1,4 +1,4 @@
-package kingdominoplayer.plot;
+package kingdominoplayer.utils.plot;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

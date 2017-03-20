@@ -1,7 +1,7 @@
 package kingdominoplayer.naiverepresentation.datastructures;
 
 import kingdominoplayer.naiverepresentation.planning.Planner;
-import kingdominoplayer.plot.DebugPlot;
+import kingdominoplayer.utils.plot.DebugPlot;
 import kingdominoplayer.utils.Random;
 
 import java.util.*;

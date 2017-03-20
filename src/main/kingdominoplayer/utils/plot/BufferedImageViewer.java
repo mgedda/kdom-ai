@@ -1,4 +1,4 @@
-package kingdominoplayer.plot;
+package kingdominoplayer.utils.plot;
 
 import javax.swing.*;
 import java.awt.*;

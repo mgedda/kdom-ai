@@ -3,7 +3,7 @@ package kingdominoplayer.tinyrepresentation.datastructures;
 import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.naiverepresentation.datastructures.GameState;
 import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
-import kingdominoplayer.plot.DebugPlotTest;
+import kingdominoplayer.utils.plot.DebugPlotTest;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.adapters.LocalGameStateToTinyGameStateAlgorithm;
 import org.testng.Assert;

@@ -1,4 +1,4 @@
-package kingdominoplayer.plot;
+package kingdominoplayer.utils.plot;
 
 import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.naiverepresentation.datastructures.DominoPosition;

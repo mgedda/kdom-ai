@@ -4,7 +4,7 @@ import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.utils.ArrayUtils;
 import kingdominoplayer.utils.Util;
 import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
-import kingdominoplayer.plot.DebugPlot;
+import kingdominoplayer.utils.plot.DebugPlot;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

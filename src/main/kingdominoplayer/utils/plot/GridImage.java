@@ -1,4 +1,4 @@
-package kingdominoplayer.plot;
+package kingdominoplayer.utils.plot;
 
 import kingdominoplayer.naiverepresentation.datastructures.Position;
 import kingdominoplayer.naiverepresentation.datastructures.Tile;
