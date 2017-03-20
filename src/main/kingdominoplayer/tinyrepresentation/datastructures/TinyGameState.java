@@ -1,8 +1,8 @@
 package kingdominoplayer.tinyrepresentation.datastructures;
 
-import kingdominoplayer.tinyrepresentation.TinyScorerAlgorithm;
+import kingdominoplayer.tinyrepresentation.algorithms.TinyScorerAlgorithm;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
-import kingdominoplayer.tinyrepresentation.TinyValidPositionsAlgorithm;
+import kingdominoplayer.tinyrepresentation.algorithms.TinyValidPositionsAlgorithm;
 import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;

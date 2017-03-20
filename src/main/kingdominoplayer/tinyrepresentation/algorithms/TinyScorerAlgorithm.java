@@ -1,5 +1,6 @@
-package kingdominoplayer.tinyrepresentation;
+package kingdominoplayer.tinyrepresentation.algorithms;
 
+import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;

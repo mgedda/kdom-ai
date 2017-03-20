@@ -1,6 +1,6 @@
 package kingdominoplayer.tinyrepresentation.datastructures;
 
-import kingdominoplayer.tinyrepresentation.TinyScorerAlgorithm;
+import kingdominoplayer.tinyrepresentation.algorithms.TinyScorerAlgorithm;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 
 import java.util.Set;
