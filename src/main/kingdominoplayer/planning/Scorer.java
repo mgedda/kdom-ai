@@ -1,8 +1,8 @@
 package kingdominoplayer.planning;
 
 import kingdominoplayer.utils.GameUtils;
-import kingdominoplayer.datastructures.PlacedTile;
-import kingdominoplayer.datastructures.Position;
+import kingdominoplayer.naivedatastructures.PlacedTile;
+import kingdominoplayer.naivedatastructures.Position;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,12 +1,9 @@
 package kingdominoplayer.planning;
 
 import kingdominoplayer.ServerResponseParser;
-import kingdominoplayer.datastructures.Kingdom;
-import kingdominoplayer.datastructures.Position;
-import kingdominoplayer.datastructures.Tile;
 import kingdominoplayer.utils.ArrayUtils;
 import kingdominoplayer.utils.Util;
-import kingdominoplayer.datastructures.PlacedTile;
+import kingdominoplayer.naivedatastructures.PlacedTile;
 import kingdominoplayer.plot.DebugPlot;
 import org.testng.Assert;
 import org.testng.annotations.Test;

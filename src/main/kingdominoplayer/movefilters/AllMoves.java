@@ -1,7 +1,7 @@
 package kingdominoplayer.movefilters;
 
-import kingdominoplayer.datastructures.LocalGameState;
-import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.naivedatastructures.LocalGameState;
+import kingdominoplayer.naivedatastructures.Move;
 import kingdominoplayer.utils.ArrayUtils;
 
 import java.util.ArrayList;

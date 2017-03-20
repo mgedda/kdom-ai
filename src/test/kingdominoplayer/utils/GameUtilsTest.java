@@ -1,6 +1,6 @@
 package kingdominoplayer.utils;
 
-import kingdominoplayer.datastructures.*;
+import kingdominoplayer.naivedatastructures.*;
 import kingdominoplayer.plot.DebugPlot;
 import org.testng.Assert;
 import org.testng.annotations.Test;

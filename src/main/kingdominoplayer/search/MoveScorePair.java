@@ -1,6 +1,6 @@
 package kingdominoplayer.search;
 
-import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.naivedatastructures.Move;
 
 /**
  * Copyright 2017 Tomologic AB<br>

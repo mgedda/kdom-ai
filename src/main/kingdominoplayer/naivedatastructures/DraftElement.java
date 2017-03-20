@@ -1,4 +1,4 @@
-package kingdominoplayer.datastructures;
+package kingdominoplayer.naivedatastructures;
 
 import com.sun.istack.internal.Nullable;
 

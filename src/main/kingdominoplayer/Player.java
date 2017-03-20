@@ -1,6 +1,6 @@
 package kingdominoplayer;
 
-import kingdominoplayer.datastructures.*;
+import kingdominoplayer.naivedatastructures.*;
 import kingdominoplayer.strategies.*;
 import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Util;

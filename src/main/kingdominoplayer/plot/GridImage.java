@@ -1,7 +1,7 @@
 package kingdominoplayer.plot;
 
-import kingdominoplayer.datastructures.Position;
-import kingdominoplayer.datastructures.Tile;
+import kingdominoplayer.naivedatastructures.Position;
+import kingdominoplayer.naivedatastructures.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

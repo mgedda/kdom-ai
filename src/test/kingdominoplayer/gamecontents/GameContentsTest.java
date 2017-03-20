@@ -1,13 +1,11 @@
 package kingdominoplayer.gamecontents;
 
-import kingdominoplayer.datastructures.Tile;
+import kingdominoplayer.naivedatastructures.Tile;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 /**
  * Copyright 2017 Tomologic AB<br>

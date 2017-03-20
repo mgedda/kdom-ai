@@ -1,11 +1,11 @@
 package kingdominoplayer.tinyrepresentation;
 
-import kingdominoplayer.datastructures.Domino;
-import kingdominoplayer.datastructures.DominoPosition;
-import kingdominoplayer.datastructures.Move;
-import kingdominoplayer.datastructures.PlacedDomino;
-import kingdominoplayer.datastructures.Position;
-import kingdominoplayer.datastructures.Tile;
+import kingdominoplayer.naivedatastructures.Domino;
+import kingdominoplayer.naivedatastructures.DominoPosition;
+import kingdominoplayer.naivedatastructures.Move;
+import kingdominoplayer.naivedatastructures.PlacedDomino;
+import kingdominoplayer.naivedatastructures.Position;
+import kingdominoplayer.naivedatastructures.Tile;
 
 import java.util.Arrays;
 

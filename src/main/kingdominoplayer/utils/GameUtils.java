@@ -2,7 +2,7 @@ package kingdominoplayer.utils;
 
 import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.Player;
-import kingdominoplayer.datastructures.*;
+import kingdominoplayer.naivedatastructures.*;
 
 import java.util.*;
 

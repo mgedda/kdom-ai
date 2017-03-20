@@ -1,7 +1,7 @@
 package kingdominoplayer.search;
 
-import kingdominoplayer.datastructures.LocalGameState;
-import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.naivedatastructures.LocalGameState;
+import kingdominoplayer.naivedatastructures.Move;
 import kingdominoplayer.strategies.Strategy;
 import kingdominoplayer.utils.Random;
 

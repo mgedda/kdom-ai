@@ -1,6 +1,6 @@
 package kingdominoplayer.strategies;
 
-import kingdominoplayer.datastructures.KingdomMovePair;
+import kingdominoplayer.naivedatastructures.KingdomMovePair;
 import kingdominoplayer.planning.Planner;
 
 import java.util.ArrayList;

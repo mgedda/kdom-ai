@@ -1,4 +1,4 @@
-package kingdominoplayer.datastructures;
+package kingdominoplayer.naivedatastructures;
 
 import java.util.ArrayList;
 import java.util.Collection;

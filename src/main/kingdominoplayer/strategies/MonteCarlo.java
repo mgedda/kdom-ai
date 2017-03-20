@@ -1,12 +1,10 @@
 package kingdominoplayer.strategies;
 
-import kingdominoplayer.datastructures.LocalGameState;
-import kingdominoplayer.datastructures.Move;
-import kingdominoplayer.movefilters.AllMoves;
+import kingdominoplayer.naivedatastructures.LocalGameState;
+import kingdominoplayer.naivedatastructures.Move;
 import kingdominoplayer.movefilters.MaxScoringMoves;
 import kingdominoplayer.movefilters.MoveFilter;
 import kingdominoplayer.search.MonteCarloSearch;
-import kingdominoplayer.utils.ArrayUtils;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
 package kingdominoplayer;
 
-import kingdominoplayer.datastructures.*;
+import kingdominoplayer.naivedatastructures.*;
 import kingdominoplayer.gamecontents.GameContents;
 
 import java.util.Set;

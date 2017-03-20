@@ -1,15 +1,15 @@
 package kingdominoplayer.tinyrepresentation;
 
-import kingdominoplayer.datastructures.Domino;
-import kingdominoplayer.datastructures.DominoPosition;
-import kingdominoplayer.datastructures.DraftElement;
-import kingdominoplayer.datastructures.Kingdom;
-import kingdominoplayer.datastructures.LocalGameState;
-import kingdominoplayer.datastructures.PlacedDomino;
-import kingdominoplayer.datastructures.PlacedTile;
-import kingdominoplayer.datastructures.Position;
-import kingdominoplayer.datastructures.Tile;
-import kingdominoplayer.datastructures.KingdomInfo;
+import kingdominoplayer.naivedatastructures.Domino;
+import kingdominoplayer.naivedatastructures.DominoPosition;
+import kingdominoplayer.naivedatastructures.DraftElement;
+import kingdominoplayer.naivedatastructures.Kingdom;
+import kingdominoplayer.naivedatastructures.LocalGameState;
+import kingdominoplayer.naivedatastructures.PlacedDomino;
+import kingdominoplayer.naivedatastructures.PlacedTile;
+import kingdominoplayer.naivedatastructures.Position;
+import kingdominoplayer.naivedatastructures.Tile;
+import kingdominoplayer.naivedatastructures.KingdomInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

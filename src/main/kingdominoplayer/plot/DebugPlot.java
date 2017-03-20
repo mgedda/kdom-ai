@@ -1,8 +1,8 @@
 package kingdominoplayer.plot;
 
 import kingdominoplayer.ServerResponseParser;
-import kingdominoplayer.datastructures.*;
-import kingdominoplayer.datastructures.GameState;
+import kingdominoplayer.naivedatastructures.*;
+import kingdominoplayer.naivedatastructures.GameState;
 
 import java.util.ArrayList;
 import java.util.Collection;

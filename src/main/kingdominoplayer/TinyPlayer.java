@@ -1,7 +1,7 @@
 package kingdominoplayer;
 
-import kingdominoplayer.datastructures.LocalGameState;
-import kingdominoplayer.datastructures.Move;
+import kingdominoplayer.naivedatastructures.LocalGameState;
+import kingdominoplayer.naivedatastructures.Move;
 import kingdominoplayer.strategies.tinystrategies.TinyStrategy;
 import kingdominoplayer.strategies.tinystrategies.TinyStrategyID;
 import kingdominoplayer.tinyrepresentation.LocalGameStateToTinyGameStateAlgorithm;

@@ -1,8 +1,8 @@
 package kingdominoplayer;
 
-import kingdominoplayer.datastructures.*;
-import kingdominoplayer.datastructures.GameState;
-import kingdominoplayer.datastructures.KingdomInfo;
+import kingdominoplayer.naivedatastructures.*;
+import kingdominoplayer.naivedatastructures.GameState;
+import kingdominoplayer.naivedatastructures.KingdomInfo;
 import kingdominoplayer.utils.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
