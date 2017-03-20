@@ -3,10 +3,12 @@ package kingdominoplayer.tinyrepresentation;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
+import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -174,4 +176,39 @@ public class TinyUtils
 
         return updatedKingdomCrowns;
     }
+
+
+    /**
+     * Select numMovesToPick randomly from moves. If the number of moves in moves are fewer than
+     * numMovesToPick, then return all moves.
+     *
+     * @param moves
+     * @param numMovesToPick
+     * @return
+     */
+    public static byte[] selectMovesRandomly(final byte[] moves, final int numMovesToPick)
+    {
+        final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
+        if (numMoves <= numMovesToPick)
+        {
+            return moves;
+        }
+
+        final byte[] movesToEvaluate = new byte[numMovesToPick * TinyConst.MOVE_ELEMENT_SIZE];
+
+        final Set<Integer> pickedIndices = new LinkedHashSet<>(2 * numMovesToPick);
+
+        while (pickedIndices.size() < numMovesToPick)
+        {
+            final int randomIndex = Random.getInt(numMoves);
+            if (! pickedIndices.contains(randomIndex))
+            {
+                System.arraycopy(moves, randomIndex * TinyConst.MOVE_ELEMENT_SIZE, movesToEvaluate, pickedIndices.size() * TinyConst.MOVE_ELEMENT_SIZE, TinyConst.MOVE_ELEMENT_SIZE);
+                pickedIndices.add(randomIndex);
+            }
+        }
+
+        return movesToEvaluate;
+    }
+
 }

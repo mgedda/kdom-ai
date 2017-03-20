@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.search.montecarlosimulation;
 
+import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
@@ -50,7 +51,7 @@ public class TinyMonteCarloSimulation
      */
     public byte[] evaluate(final TinyGameState gameState, final byte[] moves)
     {
-        final byte[] movesToEvaluate = selectMovesRandomly(moves, SIMULATION_BREADTH);
+        final byte[] movesToEvaluate = TinyUtils.selectMovesRandomly(moves, SIMULATION_BREADTH);
         final ArrayList<TinyMoveAverageScorePair> moveScores = getMoveScores(gameState, movesToEvaluate);
 
         // Select move with best score.
@@ -192,42 +193,6 @@ public class TinyMonteCarloSimulation
         final double score = playerScore / (double)(topOpponentScore + playerScore);
 
         return score;
-    }
-
-
-
-
-    /**
-     * Select numMovesToPick randomly from moves. If the number of moves in moves are fewer than
-     * numMovesToPick, then return all moves.
-     *
-     * @param moves
-     * @param numMovesToPick
-     * @return
-     */
-    private byte[] selectMovesRandomly(final byte[] moves, final int numMovesToPick)
-    {
-        final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
-        if (numMoves <= numMovesToPick)
-        {
-            return moves;
-        }
-
-        final byte[] movesToEvaluate = new byte[numMovesToPick * TinyConst.MOVE_ELEMENT_SIZE];
-
-        final Set<Integer> pickedIndices = new LinkedHashSet<>(2 * numMovesToPick);
-
-        while (pickedIndices.size() < numMovesToPick)
-        {
-            final int randomIndex = Random.getInt(numMoves);
-            if (! pickedIndices.contains(randomIndex))
-            {
-                System.arraycopy(moves, randomIndex * TinyConst.MOVE_ELEMENT_SIZE, movesToEvaluate, pickedIndices.size() * TinyConst.MOVE_ELEMENT_SIZE, TinyConst.MOVE_ELEMENT_SIZE);
-                pickedIndices.add(randomIndex);
-            }
-        }
-
-        return movesToEvaluate;
     }
 
 
