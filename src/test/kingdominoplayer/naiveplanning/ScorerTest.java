@@ -3,7 +3,7 @@ package kingdominoplayer.naiveplanning;
 import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.utils.ArrayUtils;
 import kingdominoplayer.utils.Util;
-import kingdominoplayer.naivedatastructures.PlacedTile;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
 import kingdominoplayer.plot.DebugPlot;
 import org.testng.Assert;
 import org.testng.annotations.Test;

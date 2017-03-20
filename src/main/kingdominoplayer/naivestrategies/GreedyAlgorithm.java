@@ -1,7 +1,12 @@
 package kingdominoplayer.naivestrategies;
 
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.Kingdom;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomMovePair;
+import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
 import kingdominoplayer.utils.GameUtils;
-import kingdominoplayer.naivedatastructures.*;
 import kingdominoplayer.naiveplanning.Planner;
 
 import java.util.ArrayList;

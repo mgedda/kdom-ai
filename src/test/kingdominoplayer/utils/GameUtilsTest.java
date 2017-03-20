@@ -1,6 +1,10 @@
 package kingdominoplayer.utils;
 
-import kingdominoplayer.naivedatastructures.*;
+import kingdominoplayer.naiverepresentation.datastructures.Kingdom;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
+import kingdominoplayer.naiverepresentation.datastructures.Position;
+import kingdominoplayer.naiverepresentation.datastructures.Positions;
+import kingdominoplayer.naiverepresentation.datastructures.Tile;
 import kingdominoplayer.plot.DebugPlot;
 import org.testng.Assert;
 import org.testng.annotations.Test;

@@ -1,7 +1,16 @@
 package kingdominoplayer.naiveplanning;
 
-import kingdominoplayer.naivedatastructures.*;
-import kingdominoplayer.naivedatastructures.KingdomInfo;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.DominoPosition;
+import kingdominoplayer.naiverepresentation.datastructures.DraftElement;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.Kingdom;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomInfo;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomMovePair;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedDomino;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
+import kingdominoplayer.naiverepresentation.datastructures.Position;
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.utils.Util;
 

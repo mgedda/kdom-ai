@@ -1,7 +1,7 @@
 package kingdominoplayer.gamecontents;
 
-import kingdominoplayer.naivedatastructures.Domino;
-import kingdominoplayer.naivedatastructures.Tile;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.Tile;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

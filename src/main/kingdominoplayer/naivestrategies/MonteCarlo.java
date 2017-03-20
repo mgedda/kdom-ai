@@ -1,7 +1,7 @@
 package kingdominoplayer.naivestrategies;
 
-import kingdominoplayer.naivedatastructures.LocalGameState;
-import kingdominoplayer.naivedatastructures.Move;
+import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
 import kingdominoplayer.naivemovefilters.MaxScoringMoves;
 import kingdominoplayer.naivemovefilters.MoveFilter;
 import kingdominoplayer.naivesearch.MonteCarloSearch;

@@ -1,7 +1,9 @@
 package kingdominoplayer;
 
-import kingdominoplayer.naivedatastructures.*;
 import kingdominoplayer.gamecontents.GameContents;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 
 import java.util.Set;
 

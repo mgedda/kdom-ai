@@ -1,6 +1,6 @@
 package kingdominoplayer.plot;
 
-import kingdominoplayer.naivedatastructures.Position;
+import kingdominoplayer.naiverepresentation.datastructures.Position;
 import kingdominoplayer.utils.Random;
 import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;

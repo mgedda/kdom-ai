@@ -1,9 +1,9 @@
 package kingdominoplayer.naivestrategies;
 
-import kingdominoplayer.naivedatastructures.LocalGameState;
+import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.utils.GameUtils;
-import kingdominoplayer.naivedatastructures.Move;
-import kingdominoplayer.naivedatastructures.PlacedTile;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
 
 import java.util.Collection;
 

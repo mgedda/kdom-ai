@@ -2,7 +2,14 @@ package kingdominoplayer.utils;
 
 import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.Player;
-import kingdominoplayer.naivedatastructures.*;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.Kingdom;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomMovePair;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
+import kingdominoplayer.naiverepresentation.datastructures.Position;
+import kingdominoplayer.naiverepresentation.datastructures.Positions;
+import kingdominoplayer.naiverepresentation.datastructures.Tile;
 
 import java.util.*;
 

@@ -1,6 +1,6 @@
 package kingdominoplayer.plot;
 
-import kingdominoplayer.naivedatastructures.Tile;
+import kingdominoplayer.naiverepresentation.datastructures.Tile;
 
 /**
  * Copyright 2017 Tomologic AB<br>

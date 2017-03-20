@@ -1,6 +1,6 @@
 package kingdominoplayer.gamecontents;
 
-import kingdominoplayer.naivedatastructures.Tile;
+import kingdominoplayer.naiverepresentation.datastructures.Tile;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

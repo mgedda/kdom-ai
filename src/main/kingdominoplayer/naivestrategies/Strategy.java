@@ -1,7 +1,7 @@
 package kingdominoplayer.naivestrategies;
 
-import kingdominoplayer.naivedatastructures.LocalGameState;
-import kingdominoplayer.naivedatastructures.Move;
+import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
 
 /**
  * Copyright 2017 Tomologic AB<br>

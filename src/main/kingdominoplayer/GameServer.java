@@ -1,9 +1,9 @@
 package kingdominoplayer;
 
-import kingdominoplayer.naivedatastructures.Domino;
-import kingdominoplayer.naivedatastructures.DraftElement;
-import kingdominoplayer.naivedatastructures.GameState;
-import kingdominoplayer.naivedatastructures.Move;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.DraftElement;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
 import kingdominoplayer.utils.Timing;
 
 import java.util.LinkedHashSet;

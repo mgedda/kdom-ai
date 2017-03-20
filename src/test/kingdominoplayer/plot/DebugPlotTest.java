@@ -1,12 +1,12 @@
 package kingdominoplayer.plot;
 
 import kingdominoplayer.ServerResponseParser;
-import kingdominoplayer.naivedatastructures.DominoPosition;
-import kingdominoplayer.naivedatastructures.Kingdom;
-import kingdominoplayer.naivedatastructures.KingdomDominoPositionPair;
-import kingdominoplayer.naivedatastructures.KingdomInfo;
-import kingdominoplayer.naivedatastructures.Position;
-import kingdominoplayer.naivedatastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.DominoPosition;
+import kingdominoplayer.naiverepresentation.datastructures.Kingdom;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomDominoPositionPair;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomInfo;
+import kingdominoplayer.naiverepresentation.datastructures.Position;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
 import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
 

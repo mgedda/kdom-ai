@@ -1,6 +1,8 @@
 package kingdominoplayer;
 
-import kingdominoplayer.naivedatastructures.*;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
 import kingdominoplayer.naivestrategies.*;
 import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Util;

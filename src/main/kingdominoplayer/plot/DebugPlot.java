@@ -1,8 +1,20 @@
 package kingdominoplayer.plot;
 
 import kingdominoplayer.ServerResponseParser;
-import kingdominoplayer.naivedatastructures.*;
-import kingdominoplayer.naivedatastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.DominoPosition;
+import kingdominoplayer.naiverepresentation.datastructures.DominoPositions;
+import kingdominoplayer.naiverepresentation.datastructures.DraftElement;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.Kingdom;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomDominoPositionPair;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomInfo;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomMovePair;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedDomino;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
+import kingdominoplayer.naiverepresentation.datastructures.Position;
+import kingdominoplayer.naiverepresentation.datastructures.Positions;
+import kingdominoplayer.naiverepresentation.datastructures.Tile;
 
 import java.util.ArrayList;
 import java.util.Collection;

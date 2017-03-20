@@ -1,4 +1,4 @@
-package kingdominoplayer.naivedatastructures;
+package kingdominoplayer.naiverepresentation.datastructures;
 
 /**
  * Copyright 2017 Tomologic AB<br>

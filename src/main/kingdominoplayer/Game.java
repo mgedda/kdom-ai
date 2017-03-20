@@ -1,8 +1,8 @@
 package kingdominoplayer;
 
-import kingdominoplayer.naivedatastructures.Domino;
-import kingdominoplayer.naivedatastructures.GameState;
-import kingdominoplayer.naivedatastructures.LocalGameState;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Timing;
 

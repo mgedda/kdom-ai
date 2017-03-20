@@ -1,15 +1,15 @@
 package kingdominoplayer.tinyrepresentation.adapters;
 
-import kingdominoplayer.naivedatastructures.Domino;
-import kingdominoplayer.naivedatastructures.DominoPosition;
-import kingdominoplayer.naivedatastructures.DraftElement;
-import kingdominoplayer.naivedatastructures.Kingdom;
-import kingdominoplayer.naivedatastructures.LocalGameState;
-import kingdominoplayer.naivedatastructures.PlacedDomino;
-import kingdominoplayer.naivedatastructures.PlacedTile;
-import kingdominoplayer.naivedatastructures.Position;
-import kingdominoplayer.naivedatastructures.Tile;
-import kingdominoplayer.naivedatastructures.KingdomInfo;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.DominoPosition;
+import kingdominoplayer.naiverepresentation.datastructures.DraftElement;
+import kingdominoplayer.naiverepresentation.datastructures.Kingdom;
+import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedDomino;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
+import kingdominoplayer.naiverepresentation.datastructures.Position;
+import kingdominoplayer.naiverepresentation.datastructures.Tile;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomInfo;
 import kingdominoplayer.tinyrepresentation.TerrainCode;
 import kingdominoplayer.tinyrepresentation.TinyConst;
 import kingdominoplayer.tinyrepresentation.TinyGameState;

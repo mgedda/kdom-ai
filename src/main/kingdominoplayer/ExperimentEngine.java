@@ -1,6 +1,6 @@
 package kingdominoplayer;
 
-import kingdominoplayer.naivedatastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
 import kingdominoplayer.naivestrategies.StrategyID;
 
 import java.io.File;

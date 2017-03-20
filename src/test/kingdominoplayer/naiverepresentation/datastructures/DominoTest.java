@@ -1,4 +1,4 @@
-package kingdominoplayer.naivedatastructures;
+package kingdominoplayer.naiverepresentation.datastructures;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;

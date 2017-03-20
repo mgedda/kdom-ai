@@ -1,8 +1,16 @@
 package kingdominoplayer;
 
-import kingdominoplayer.naivedatastructures.*;
-import kingdominoplayer.naivedatastructures.GameState;
-import kingdominoplayer.naivedatastructures.KingdomInfo;
+import kingdominoplayer.naiverepresentation.datastructures.Domino;
+import kingdominoplayer.naiverepresentation.datastructures.DominoPosition;
+import kingdominoplayer.naiverepresentation.datastructures.DraftElement;
+import kingdominoplayer.naiverepresentation.datastructures.GameState;
+import kingdominoplayer.naiverepresentation.datastructures.Kingdom;
+import kingdominoplayer.naiverepresentation.datastructures.KingdomInfo;
+import kingdominoplayer.naiverepresentation.datastructures.Move;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedDomino;
+import kingdominoplayer.naiverepresentation.datastructures.PlacedTile;
+import kingdominoplayer.naiverepresentation.datastructures.Position;
+import kingdominoplayer.naiverepresentation.datastructures.Tile;
 import kingdominoplayer.utils.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
