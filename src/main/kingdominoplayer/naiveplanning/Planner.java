@@ -1,4 +1,4 @@
-package kingdominoplayer.planning;
+package kingdominoplayer.naiveplanning;
 
 import kingdominoplayer.naivedatastructures.*;
 import kingdominoplayer.naivedatastructures.KingdomInfo;

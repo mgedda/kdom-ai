@@ -2,7 +2,7 @@ package kingdominoplayer.strategies;
 
 import kingdominoplayer.utils.GameUtils;
 import kingdominoplayer.naivedatastructures.*;
-import kingdominoplayer.planning.Planner;
+import kingdominoplayer.naiveplanning.Planner;
 
 import java.util.ArrayList;
 import java.util.Collection;

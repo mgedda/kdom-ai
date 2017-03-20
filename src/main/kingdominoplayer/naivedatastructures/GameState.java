@@ -1,6 +1,6 @@
 package kingdominoplayer.naivedatastructures;
 
-import kingdominoplayer.planning.Planner;
+import kingdominoplayer.naiveplanning.Planner;
 
 import java.util.*;
 
