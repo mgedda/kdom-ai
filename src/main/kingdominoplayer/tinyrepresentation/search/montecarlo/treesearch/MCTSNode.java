@@ -14,6 +14,7 @@ import java.util.ArrayList;
 /*package*/ class MCTSNode
 {
     private final TinyGameState iGameState;
+    private final String iPlayerName;
 
     private final MCTSNode iParent;             // Parent node
     private final byte[] iMove;                 // Action leading from parent to this node
@@ -25,7 +26,13 @@ import java.util.ArrayList;
 
     public MCTSNode(final TinyGameState gameState, @Nullable final MCTSNode parent, final byte[] move)
     {
+        this(gameState, parent, move, gameState.getPlayerTurn());
+    }
+
+    public MCTSNode(final TinyGameState gameState, @Nullable final MCTSNode parent, final byte[] move, final String playerName)
+    {
         iGameState = gameState;
+        iPlayerName = playerName;
 
         iParent = parent;
         iMove = move;
@@ -44,6 +51,11 @@ import java.util.ArrayList;
     public TinyGameState getGameState()
     {
         return iGameState;
+    }
+
+    public String getPlayerName()
+    {
+        return iPlayerName;
     }
 
     public void setChildren(final ArrayList<MCTSNode> children)

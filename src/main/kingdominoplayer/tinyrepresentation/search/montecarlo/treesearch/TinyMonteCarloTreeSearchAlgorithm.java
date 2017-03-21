@@ -44,14 +44,13 @@ public class TinyMonteCarloTreeSearchAlgorithm
     {
         DEBUG.println(CLASS_STRING + " " + iPlayerName + " searching...");
 
-        final MCTSNode root = new MCTSNode(gameState, null, new byte[0]);
+        final MCTSNode root = new MCTSNode(gameState, null, new byte[0], iPlayerName);
 
         final long searchStartTime = System.nanoTime();
 
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
         final long numPlayOuts = PLAYOUT_FACTOR * numMoves;  // max X playouts per move
-        long playOutCounter = 1;
-        while (playOutCounter <= numPlayOuts
+        while (root.getVisits() <= numPlayOuts
                 && getSeconds(System.nanoTime() - searchStartTime) < MAX_SIMULATION_TIME_SECONDS)
         {
 
@@ -64,9 +63,9 @@ public class TinyMonteCarloTreeSearchAlgorithm
         final String searchDurationString = String.format("%.3f", searchDurationSeconds);
 
         DEBUG.println(CLASS_STRING + " Search finished! (moves: " + Integer.toString(numMoves) +
-                ", playouts: " + Long.toString(playOutCounter - 1) +
+                ", playouts: " + Long.toString(root.getVisits()) +
                 ", time: " + searchDurationString + "s)" +
-                ", playouts/s: " + String.format("%.3f", (playOutCounter - 1) / searchDurationSeconds));
+                ", playouts/s: " + String.format("%.3f", root.getVisits() / searchDurationSeconds));
 
 
         //noinspection UnnecessaryLocalVariable
@@ -81,7 +80,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
         final MCTSNode bestChild = getBestChild(node);
 
         final MCTSResult result;
-        if (! bestChild.isExpanded())
+        if (! bestChild.isExpanded() || bestChild.getGameState().isGameOver())
         {
             result = playout(bestChild);
         }
@@ -141,8 +140,8 @@ public class TinyMonteCarloTreeSearchAlgorithm
         if (node.getChildren().isEmpty())
         {
             final TinyGameState gameState = node.getGameState();
-            final String playerTurn = gameState.getPlayerTurn();
-            final byte[] availableMoves = gameState.getAvailableMoves(playerTurn);
+            final String playerName = node.getPlayerName();
+            final byte[] availableMoves = gameState.getAvailableMoves(playerName);
 
             final int numAvailableMoves = availableMoves.length / TinyConst.MOVE_ELEMENT_SIZE;
 
@@ -151,7 +150,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
             for (int i = 0; i < numAvailableMoves; ++i)
             {
                 final byte[] move = TinyGameState.getRow(availableMoves, i, TinyConst.MOVE_ELEMENT_SIZE);
-                final TinyGameState nextGameState = gameState.makeMove(playerTurn, move);
+                final TinyGameState nextGameState = gameState.makeMove(playerName, move);
                 final MCTSNode child = new MCTSNode(nextGameState, node, move);
 
                 children.add(child);
@@ -206,7 +205,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
         return new MCTSResult(result);
     }
 
-    private double[] getResultArrayFromIndexedScores(final int[] scores)
+    /*protected*/ static double[] getResultArrayFromIndexedScores(final int[] scores)
     {
         final int numPlayers = scores.length;
         final double[] result = new double[numPlayers];
@@ -219,6 +218,11 @@ public class TinyMonteCarloTreeSearchAlgorithm
             int draw = 0;
             for (int j = 0; j < numPlayers; ++j)
             {
+                if (j == i)
+                {
+                    continue;
+                }
+
                 if (scores[j] > playerScore)
                 {
                     win = false;
