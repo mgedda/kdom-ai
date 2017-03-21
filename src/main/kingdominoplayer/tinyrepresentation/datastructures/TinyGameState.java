@@ -487,7 +487,8 @@ public class TinyGameState
     {
         if (isGameOver())
         {
-            assert false : "The game is over, so it is no ones turn!";
+            //assert false : "The game is over, so it is no ones turn!";
+            return "";
         }
 
         if (iPlayerTurn == null)
@@ -629,12 +630,26 @@ public class TinyGameState
         {
             final byte[] temp = new byte[4 * TinyConst.DOMINO_SIZE];
             int tempCounter = 0;
+
+            int playerDominoesInDraft = 0;                                           // for sanity check
+            final int maxAllowedPlayerDominoesInDraft = iNumPlayers == 2 ? 1 : 0;    // for sanity check
+
             for (int i = 0; i < iDraftDominoCount; ++i)
             {
-                if (iCurrentDraft[i * TinyConst.DRAFT_ELEMENT_SIZE + TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX] == TinyConst.INVALID_PLAYER_ID)
+                final byte playerId = iCurrentDraft[i * TinyConst.DRAFT_ELEMENT_SIZE + TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX];
+                if (playerId == TinyConst.INVALID_PLAYER_ID)
                 {
                     System.arraycopy(iCurrentDraft, i * TinyConst.DRAFT_ELEMENT_SIZE, temp, tempCounter * TinyConst.DOMINO_SIZE, TinyConst.DOMINO_SIZE);
                     tempCounter++;
+                }
+                else
+                {
+                    // Sanity check
+                    if (playerId == getPlayerID(playerName, iPlayers))
+                    {
+                        playerDominoesInDraft++;
+                        assert playerDominoesInDraft <= maxAllowedPlayerDominoesInDraft : "Player has too many chosen dominoes in current draft!";
+                    }
                 }
             }
 
