@@ -14,7 +14,8 @@ public enum TinyStrategyID
     MC_TR_TR_R,
     MC_FG_TR_R,
     MC_FG_FG_R,
-    MCTS_TR_TR;
+    MCTS_TR_TR,
+    MCTS_FG_FG;
 
     private TinyStrategy iStrategy;
 
@@ -27,6 +28,7 @@ public enum TinyStrategyID
         MC_FG_TR_R.iStrategy = new TinyMonteCarlo(new TinyFullGreedy(), new TinyTrueRandom(), true);
         MC_FG_FG_R.iStrategy = new TinyMonteCarlo(new TinyFullGreedy(), new TinyFullGreedy(), true);
         MCTS_TR_TR.iStrategy = new TinyMonteCarloTreeSearch(new TinyTrueRandom(), new TinyTrueRandom());
+        MCTS_FG_FG.iStrategy = new TinyMonteCarloTreeSearch(new TinyFullGreedy(), new TinyFullGreedy());
     }
 
     public TinyStrategy getStrategy()
