@@ -119,7 +119,7 @@ public class GameUtilsTest
 
         for (final Position tilePosition : tilePositions)
         {
-            placedTiles.add(new PlacedTile(new Tile("water", 0), tilePosition));
+            placedTiles.add(new PlacedTile(new Tile("WATER", 0), tilePosition));
         }
         return placedTiles;
     }

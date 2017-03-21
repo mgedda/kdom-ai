@@ -14,18 +14,18 @@ public class DominoTest
     @Test
     public void testEquals() throws Exception
     {
-        Assert.assertEquals(new Domino(1, new Tile("field", 0), new Tile("forest", 1)).equals(
-                new Domino(1, new Tile("field", 0), new Tile("forest", 1))),
+        Assert.assertEquals(new Domino(1, new Tile("FIELD", 0), new Tile("FOREST", 1)).equals(
+                new Domino(1, new Tile("FIELD", 0), new Tile("FOREST", 1))),
                 true);
 
-        Assert.assertEquals(new Domino(1, new Tile("field", 0), new Tile("forest", 1)).equals(
-                new Domino(2, new Tile("field", 0), new Tile("forest", 1))),
+        Assert.assertEquals(new Domino(1, new Tile("FIELD", 0), new Tile("FOREST", 1)).equals(
+                new Domino(2, new Tile("FIELD", 0), new Tile("FOREST", 1))),
                 false);
-        Assert.assertEquals(new Domino(1, new Tile("field", 0), new Tile("forest", 1)).equals(
-                new Domino(1, new Tile("forest", 0), new Tile("forest", 1))),
+        Assert.assertEquals(new Domino(1, new Tile("FIELD", 0), new Tile("FOREST", 1)).equals(
+                new Domino(1, new Tile("FOREST", 0), new Tile("FOREST", 1))),
                 false);
-        Assert.assertEquals(new Domino(1, new Tile("field", 0), new Tile("forest", 1)).equals(
-                new Domino(1, new Tile("field", 1), new Tile("forest", 1))),
+        Assert.assertEquals(new Domino(1, new Tile("FIELD", 0), new Tile("FOREST", 1)).equals(
+                new Domino(1, new Tile("FIELD", 1), new Tile("FOREST", 1))),
                 false);
     }
 

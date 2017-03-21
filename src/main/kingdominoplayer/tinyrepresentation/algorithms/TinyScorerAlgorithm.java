@@ -130,7 +130,7 @@ public class TinyScorerAlgorithm
                                                             final byte[] kingdomTerrains)
     {
         final byte terrain = kingdomTerrains[index];
-        if (terrain == TerrainCode.from("none") || terrain == TerrainCode.from("castle"))
+        if (terrain == TerrainCode.from("NONE") || terrain == TerrainCode.from("CASTLE"))
         {
             return;
         }
@@ -170,15 +170,15 @@ public class TinyScorerAlgorithm
             return 0;
         }
 
-        byte terrain = TerrainCode.from("none");   // for debug purposes
+        byte terrain = TerrainCode.from("NONE");   // for debug purposes
         int numCrowns = 0;
 
         for (final int i : indices)
         {
-            if (terrain == TerrainCode.from("none"))
+            if (terrain == TerrainCode.from("NONE"))
             {
                 terrain = kingdomTerrains[i];
-                assert terrain != TerrainCode.from("none") : "Computing connected terrain score on unoccupied terrain!";
+                assert terrain != TerrainCode.from("NONE") : "Computing connected terrain score on unoccupied terrain!";
             }
 
             assert kingdomTerrains[i] == terrain : "Found placed tile with different terrain!";

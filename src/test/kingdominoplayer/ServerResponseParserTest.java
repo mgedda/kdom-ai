@@ -40,9 +40,9 @@ public class ServerResponseParserTest
         Assert.assertEquals(moves.length, 3);
         Assert.assertEquals(moves[0].getNumber(), 0);
         Assert.assertEquals(moves[0].getChosenDomino().getNumber(), 0);
-        Assert.assertEquals(moves[0].getChosenDomino().getTile1().getTerrain(), "water");
+        Assert.assertEquals(moves[0].getChosenDomino().getTile1().getTerrain(), "WATER");
         Assert.assertEquals(moves[0].getChosenDomino().getTile1().getCrowns(), 0);
-        Assert.assertEquals(moves[0].getChosenDomino().getTile2().getTerrain(), "forest");
+        Assert.assertEquals(moves[0].getChosenDomino().getTile2().getTerrain(), "FOREST");
         Assert.assertEquals(moves[0].getChosenDomino().getTile2().getCrowns(), 1);
     }
 
@@ -116,9 +116,9 @@ public class ServerResponseParserTest
         Assert.assertEquals(moves[3].getNumber(), 3);
 
         Assert.assertEquals(moves[3].getChosenDomino().getNumber(), 44);
-        Assert.assertEquals(moves[3].getChosenDomino().getTile1().getTerrain(), "pasture");
+        Assert.assertEquals(moves[3].getChosenDomino().getTile1().getTerrain(), "PASTURE");
         Assert.assertEquals(moves[3].getChosenDomino().getTile1().getCrowns(), 0);
-        Assert.assertEquals(moves[3].getChosenDomino().getTile2().getTerrain(), "clay");
+        Assert.assertEquals(moves[3].getChosenDomino().getTile2().getTerrain(), "CLAY");
         Assert.assertEquals(moves[3].getChosenDomino().getTile2().getCrowns(), 2);
 
         Assert.assertEquals(moves[3].getPlacedDomino(), null);

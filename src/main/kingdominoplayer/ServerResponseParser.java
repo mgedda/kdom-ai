@@ -109,7 +109,7 @@ public class ServerResponseParser
     private static Tile getTile(final JSONObject chosenDominoJSON, final String tileName)
     {
         final JSONObject obj = chosenDominoJSON.getJSONObject(tileName);
-        final String terrain = obj.getString("terrain");
+        final String terrain = obj.getString("terrain").toUpperCase();
         final int crowns = obj.getInt("crowns");
 
         return new Tile(terrain, crowns);
@@ -185,7 +185,7 @@ public class ServerResponseParser
                 for (int j = 0; j < placedTiles.length(); ++j)
                 {
                     final JSONObject tileJSON = placedTiles.getJSONObject(j).getJSONObject("tile");
-                    final String terrain = tileJSON.getString("terrain");
+                    final String terrain = tileJSON.getString("terrain").toUpperCase();
                     final int crowns = tileJSON.getInt("crowns");
 
                     final Tile tile = new Tile(terrain, crowns);

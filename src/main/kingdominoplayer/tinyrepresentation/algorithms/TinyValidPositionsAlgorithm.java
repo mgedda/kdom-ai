@@ -193,7 +193,7 @@ public class TinyValidPositionsAlgorithm
 
         for (final byte placedIndex : placedIndices)
         {
-            if (kingdomTerrains[placedIndex] == terrain || kingdomTerrains[placedIndex] == TerrainCode.from("castle"))
+            if (kingdomTerrains[placedIndex] == terrain || kingdomTerrains[placedIndex] == TerrainCode.from("CASTLE"))
             {
                 final ArrayList<Byte> adjacentIndices = TinyUtils.getAdjacentIndices(placedIndex, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
                 allAdjacentTilePositions.addAll(adjacentIndices);

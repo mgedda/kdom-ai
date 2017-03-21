@@ -98,9 +98,11 @@ public class TinyUtils
     {
         final LinkedHashSet<Byte> placedIndices = new LinkedHashSet<>(2 * 5 * 5);  // 2x upper bound
 
+        final byte noTerrain = TerrainCode.from("NONE");
+
         for (byte i = 0; i < playerKingdomTerrains.length; i++)
         {
-            if (playerKingdomTerrains[i] != TerrainCode.from("none"))
+            if (playerKingdomTerrains[i] != noTerrain)
             {
                 placedIndices.add(i);
             }

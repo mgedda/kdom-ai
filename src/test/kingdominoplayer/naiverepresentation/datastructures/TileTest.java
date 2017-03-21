@@ -14,8 +14,8 @@ public class TileTest
     @Test
     public void testEquals() throws Exception
     {
-        Assert.assertEquals(new Tile("field", 1).equals(new Tile("field", 1)), true);
-        Assert.assertEquals(new Tile("water", 1).equals(new Tile("field", 1)), false);
-        Assert.assertEquals(new Tile("field", 1).equals(new Tile("field", 0)), false);
+        Assert.assertEquals(new Tile("FIELD", 1).equals(new Tile("FIELD", 1)), true);
+        Assert.assertEquals(new Tile("WATER", 1).equals(new Tile("FIELD", 1)), false);
+        Assert.assertEquals(new Tile("FIELD", 1).equals(new Tile("FIELD", 0)), false);
     }
 }

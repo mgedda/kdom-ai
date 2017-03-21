@@ -20,19 +20,19 @@ public enum TerrainCode
     private String name;
 
     static {
-        NONE.name = "none";
-        CASTLE.name = "castle";
-        WATER.name = "water";
-        FOREST.name = "forest";
-        FIELD.name = "field";
-        MINE.name = "mine";
-        PASTURE.name = "pasture";
-        CLAY.name = "clay";
+        NONE.name = "NONE";
+        CASTLE.name = "CASTLE";
+        WATER.name = "WATER";
+        FOREST.name = "FOREST";
+        FIELD.name = "FIELD";
+        MINE.name = "MINE";
+        PASTURE.name = "PASTURE";
+        CLAY.name = "CLAY";
     }
 
     public static byte from(final String terrain)
     {
-        return (byte) TerrainCode.valueOf(terrain.toUpperCase()).ordinal();
+        return (byte) TerrainCode.valueOf(terrain).ordinal();
     }
 
     public static String getName(final int index)
