@@ -5,6 +5,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 import kingdominoplayer.utils.Random;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 /**
@@ -53,7 +54,6 @@ public class TinyMonteCarloTreeSearchAlgorithm
         while (root.getVisits() <= numPlayOuts
                 && getSeconds(System.nanoTime() - searchStartTime) < MAX_SIMULATION_TIME_SECONDS)
         {
-
             final MCTSResult result = applyMCTS(root);
             root.updateResult(result);
         }
@@ -68,16 +68,59 @@ public class TinyMonteCarloTreeSearchAlgorithm
                 ", playouts/s: " + String.format("%.3f", root.getVisits() / searchDurationSeconds));
 
 
+        final MCTSNode highestScoreChild = getHighestScoreChild(root);
         //noinspection UnnecessaryLocalVariable
-        final byte[] bestMove = getBestChild(root).getMove();
+        final byte[] bestMove = highestScoreChild.getMove();
 
         return bestMove;
+    }
+
+    private MCTSNode getHighestScoreChild(final MCTSNode node)
+    {
+        final ArrayList<MCTSNode> maxScoreChildren = new ArrayList<>(10);
+        double maxScore = 0;
+
+        for (final MCTSNode child : node.getChildren())
+        {
+            if (! child.isExpanded())
+            {
+                continue;
+            }
+
+            final double score = (double) child.getWins() / (double) child.getVisits();
+
+            if (score == maxScore)
+            {
+                maxScoreChildren.add(child);
+            }
+
+            if (score > maxScore)
+            {
+                maxScoreChildren.clear();
+
+                maxScore = score;
+                maxScoreChildren.add(child);
+            }
+        }
+
+
+        if (maxScoreChildren.size() > 1)
+        {
+            final int numBestChildren = maxScoreChildren.size();
+            int randomIndex = Random.getInt(numBestChildren);
+
+            return maxScoreChildren.get(randomIndex);
+        }
+        else
+        {
+            return maxScoreChildren.get(0);
+        }
     }
 
 
     private MCTSResult applyMCTS(final MCTSNode node)
     {
-        final MCTSNode bestChild = getBestChild(node);
+        final MCTSNode bestChild = getHighestUCBChild(node);
 
         final MCTSResult result;
         if (! bestChild.isExpanded() || bestChild.getGameState().isGameOver())
@@ -95,7 +138,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
     }
 
 
-    public MCTSNode getBestChild(final MCTSNode node)
+    public MCTSNode getHighestUCBChild(final MCTSNode node)
     {
         final ArrayList<MCTSNode> children = getChildren(node);
 
@@ -170,7 +213,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
     {
         if (! node.isExpanded())
         {
-            return 0;
+            return 0.5;
         }
 
         final int parentVisits = node.getParent().getVisits();
@@ -262,6 +305,127 @@ public class TinyMonteCarloTreeSearchAlgorithm
     {
         return nanoTime / 1e9d;
     }
+
+
+    private void printTree(final MCTSNode root)
+    {
+        System.out.println("Monte-Carlo Search Tree:");
+        printTree(root, new ArrayList<>());
+    }
+
+
+    private void printChildren(final MCTSNode node)
+    {
+        int counter = 0;
+        for (final MCTSNode child : node.getChildren())
+        {
+            final ArrayList<Integer> depthIndices = new ArrayList<>();
+            depthIndices.add(counter++);
+            System.out.println(getNodeString(child, depthIndices));
+        }
+    }
+
+    private void printTree(final MCTSNode node, final ArrayList<Integer> depthIndices)
+    {
+        if (! node.isExpanded())
+        {
+            return;
+        }
+
+        String nodeString = getNodeString(node, depthIndices);
+
+        System.out.println(nodeString);
+
+
+        final ArrayList<MCTSNode> children = node.getChildren();
+        for (int i = 0; i < children.size(); ++i)
+        {
+            final ArrayList<Integer> indices = new ArrayList<>(depthIndices.size() + 1);
+            indices.addAll(depthIndices);
+            indices.add(i);
+
+            printTree(children.get(i), indices);
+        }
+    }
+
+    private void printTreeBFS(final MCTSNode root)
+    {
+        printTreeBFS(root, -1);
+    }
+
+    private void printTreeBFS(final MCTSNode root, final long numNodes)
+    {
+        final ArrayDeque<NodeDepthIndicesPair> nodeQueue = new ArrayDeque<>(1000);
+
+        nodeQueue.add(new NodeDepthIndicesPair(root, new ArrayList<>()));
+
+        long counter = 0;
+        final long maxCount = numNodes == -1 ? Long.MAX_VALUE : numNodes;
+
+        while (! nodeQueue.isEmpty() && counter++ < maxCount)
+        {
+            final NodeDepthIndicesPair current = nodeQueue.pop();
+
+            final String nodeString = getNodeString(current.iNode, current.iDepthIndices);
+            System.out.println(nodeString);
+
+            final ArrayList<MCTSNode> children = current.iNode.getChildren();
+            for (int i = 0; i < children.size(); ++i)
+            {
+                final ArrayList<Integer> depthIndices = new ArrayList<>();
+                depthIndices.addAll(current.iDepthIndices);
+                depthIndices.add(i);
+
+                nodeQueue.add(new NodeDepthIndicesPair(children.get(i), depthIndices));
+            }
+        }
+    }
+
+
+    private class NodeDepthIndicesPair
+    {
+        MCTSNode iNode;
+        ArrayList<Integer> iDepthIndices;
+
+        public NodeDepthIndicesPair(final MCTSNode node, final ArrayList<Integer> depthIndices)
+        {
+            iNode = node;
+            iDepthIndices = depthIndices;
+        }
+    }
+
+
+    private String getNodeString(final MCTSNode node, final ArrayList<Integer> depthIndices)
+    {
+        String nodeString = "{";
+
+        for (int i = 0; i < depthIndices.size(); ++i)
+        {
+            nodeString = nodeString.concat(Integer.toString(depthIndices.get(i)));
+
+            if (i < depthIndices.size() - 1)
+            {
+                nodeString = nodeString.concat(", ");
+            }
+        }
+        nodeString = nodeString.concat("}");
+
+        final int wins = node.getWins();
+        final int visits = node.getVisits();
+        nodeString = nodeString.concat(" ").concat(Integer.toString(wins)).concat("/").concat(Integer.toString(visits));
+        nodeString = nodeString.concat(" ").concat(String.format("%.2f", wins/(double)visits));
+
+        if (node.getParent() != null)
+        {
+            final double upperConfidenceBound = getUpperConfidenceBound(node);
+            nodeString = nodeString.concat(" ").concat(String.format("%.2f", upperConfidenceBound));
+        }
+
+        final String playerName = node.getPlayerName();
+        nodeString = nodeString.concat(" [").concat(playerName).concat("]");
+        return nodeString;
+    }
+
 
     private static class DEBUG
     {
