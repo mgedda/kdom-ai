@@ -520,6 +520,7 @@ public class TinyGameState
                 {
                     final int numIDsToChoseFrom = playerIDs.size();
 
+                    // TODO [gedda] IMPORTANT! : MAKE THIS DETERMINISTIC!!!
                     final int randomNum = Random.getInt(numIDsToChoseFrom);
                     final Byte playerIDTurn = playerIDs.get(randomNum);
 
@@ -551,6 +552,15 @@ public class TinyGameState
         return ids;
     }
 
+    public String[] getPlayers()
+    {
+        return iPlayers;
+    }
+
+    public byte getNumPlayers()
+    {
+        return iNumPlayers;
+    }
 
     public boolean isPreviousDraftEmpty()
     {
@@ -740,6 +750,18 @@ public class TinyGameState
         return playerNameToScoreMap;
     }
 
+    public int[] getScoresIndexed()
+    {
+        final int[] scores = new int[iNumPlayers];
+
+        for (int i = 0; i < iNumPlayers; ++i)
+        {
+            scores[i] = getScore(iPlayers[i]);
+        }
+
+        return scores;
+    }
+
 
     public byte[] getPlayerKingdomTerrains(final String playerName)
     {
@@ -906,6 +928,58 @@ public class TinyGameState
 
         }
 
+        return result;
+    }
+
+
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        final TinyGameState that = (TinyGameState) o;
+
+        if (iDraftDominoCount != that.iDraftDominoCount)
+        {
+            return false;
+        }
+        if (!Arrays.equals(iKingdomTerrains, that.iKingdomTerrains))
+        {
+            return false;
+        }
+        if (!Arrays.equals(iKingdomCrowns, that.iKingdomCrowns))
+        {
+            return false;
+        }
+        if (!Arrays.equals(iCurrentDraft, that.iCurrentDraft))
+        {
+            return false;
+        }
+        if (!Arrays.equals(iPreviousDraft, that.iPreviousDraft))
+        {
+            return false;
+        }
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(iPlayers, that.iPlayers);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = Arrays.hashCode(iKingdomTerrains);
+        result = 31 * result + Arrays.hashCode(iKingdomCrowns);
+        result = 31 * result + Arrays.hashCode(iCurrentDraft);
+        result = 31 * result + Arrays.hashCode(iPreviousDraft);
+        result = 31 * result + Arrays.hashCode(iPlayers);
+        result = 31 * result + (int) iDraftDominoCount;
         return result;
     }
 }
