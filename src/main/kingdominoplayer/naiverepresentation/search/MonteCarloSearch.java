@@ -69,7 +69,7 @@ public class MonteCarloSearch
 
     private ArrayList<MoveScorePair> getMoveScores(final LocalGameState searchGameState, final ArrayList<Move> moves)
     {
-        DEBUG.println("\n" + CLASS_STRING + " " + iPlayerName + " searching...");
+        DEBUG.println(CLASS_STRING + " " + iPlayerName + " searching...");
 
         final LinkedHashMap<Move, ArrayList<Double>> moveScoresMap = new LinkedHashMap<>(moves.size());
         for (final Move move : moves)
