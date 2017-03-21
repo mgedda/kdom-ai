@@ -60,7 +60,7 @@ public class TinyMonteCarloSimulation
 
     private ArrayList<TinyMoveAverageScorePair> getMoveScores(final TinyGameState gameState, final byte[] moves)
     {
-        DEBUG.println("\n" + CLASS_STRING + " " + iPlayerName + " searching...");
+        DEBUG.println(CLASS_STRING + " " + iPlayerName + " searching...");
 
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
 
