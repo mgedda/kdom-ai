@@ -42,7 +42,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
      */
     public byte[] evaluate(final TinyGameState gameState, final byte[] moves)
     {
-        DEBUG.println("\n" + CLASS_STRING + " " + iPlayerName + " searching...");
+        DEBUG.println(CLASS_STRING + " " + iPlayerName + " searching...");
 
         final MCTSNode root = new MCTSNode(gameState, null, new byte[0]);
 
