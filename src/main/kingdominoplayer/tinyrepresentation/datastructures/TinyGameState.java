@@ -515,27 +515,25 @@ public class TinyGameState
 
                 assert ! playerIDs.isEmpty() : "All players have chosen current draft but previous draft is empty!";
 
-                final String playerWhosTurnItIs;
                 if (playerIDs.size() > 1)
                 {
                     final int numIDsToChoseFrom = playerIDs.size();
 
-                    // TODO [gedda] IMPORTANT! : MAKE THIS DETERMINISTIC!!!
                     final int randomNum = Random.getInt(numIDsToChoseFrom);
                     final Byte playerIDTurn = playerIDs.get(randomNum);
 
-                    playerWhosTurnItIs = iPlayers[playerIDTurn];
+                    iPlayerTurn = iPlayers[playerIDTurn];
                 }
                 else
                 {
-                    playerWhosTurnItIs = iPlayers[playerIDs.iterator().next()];
+                    iPlayerTurn = iPlayers[playerIDs.iterator().next()];
                 }
-
-                return playerWhosTurnItIs;
             }
-
-            final byte playerID = iPreviousDraft[TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX];   // player id of first draft element.
-            iPlayerTurn = iPlayers[playerID];
+            else
+            {
+                final byte playerID = iPreviousDraft[TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX];   // player id of first draft element.
+                iPlayerTurn = iPlayers[playerID];
+            }
         }
 
         return iPlayerTurn;
@@ -872,7 +870,7 @@ public class TinyGameState
                     result = result.concat("\n");
                 }
 
-                result = result.concat(Byte.toString(kingdomTerrains[i]));
+                result = result.concat(Byte.toString(kingdomTerrains[i])).concat(" ");
             }
             result = result.concat("\n");
             result = result.concat("\n");
@@ -887,7 +885,7 @@ public class TinyGameState
                     result = result.concat("\n");
                 }
 
-                result = result.concat(Byte.toString(kingdomCrowns[i]));
+                result = result.concat(Byte.toString(kingdomCrowns[i])).concat(" ");
             }
 
             result = result.concat("\n");
