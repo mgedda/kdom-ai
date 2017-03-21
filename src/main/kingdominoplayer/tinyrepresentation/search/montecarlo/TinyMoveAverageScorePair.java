@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation.search.montecarlosimulation;
+package kingdominoplayer.tinyrepresentation.search.montecarlo;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -6,7 +6,7 @@ package kingdominoplayer.tinyrepresentation.search.montecarlosimulation;
  * Date: 2017-03-16<br>
  * Time: 14:35<br><br>
  */
-/*package*/ class TinyMoveAverageScorePair
+public class TinyMoveAverageScorePair
 {
     private byte[] iMove;
     private double iAverageScore;

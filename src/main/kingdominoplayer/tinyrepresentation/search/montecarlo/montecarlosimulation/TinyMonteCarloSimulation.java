@@ -1,17 +1,15 @@
-package kingdominoplayer.tinyrepresentation.search.montecarlosimulation;
+package kingdominoplayer.tinyrepresentation.search.montecarlo.montecarlosimulation;
 
 import kingdominoplayer.tinyrepresentation.TinyUtils;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.TinyMoveAverageScorePair;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -56,21 +54,9 @@ public class TinyMonteCarloSimulation
 
         // Select move with best score.
         //
-        return getMoveWithHighestScore(moveScores);
+        return MonteCarloMethods.getMoveWithHighestScore(moveScores);
     }
 
-    private byte[] getMoveWithHighestScore(final ArrayList<TinyMoveAverageScorePair> moveScores)
-    {
-        moveScores.sort((TinyMoveAverageScorePair moveScore1, TinyMoveAverageScorePair moveScore2) ->
-        {
-            final double s1 = moveScore1.getAverageScore();
-            final double s2 = moveScore2.getAverageScore();
-
-            return s1 > s2 ? -1 : s2 > s1 ? 1 : 0;
-        });
-
-        return moveScores.get(0).getMove();
-    }
 
     private ArrayList<TinyMoveAverageScorePair> getMoveScores(final TinyGameState gameState, final byte[] moves)
     {
@@ -96,7 +82,7 @@ public class TinyMonteCarloSimulation
             //
             final int randomIndex = Random.getInt(numMoves);
             final byte[] move = TinyGameState.getRow(moves, randomIndex, TinyConst.MOVE_ELEMENT_SIZE);
-            final double score = playOut(move, gameState);
+            final double score = MonteCarloMethods.playOut(move, gameState, iPlayerName, iPlayerStrategy, iOpponentStrategy, iRelativeBranchScore);
             moveScoresMap.get(move[TinyConst.MOVE_NUMBER_INDEX]).addScore(score);
 
             assert moveScoresMap.size() == numMoves : "Size discrepancy!";
@@ -108,12 +94,9 @@ public class TinyMonteCarloSimulation
         final long searchEndTime = System.nanoTime();
         final double searchDurationSeconds = (searchEndTime - searchStartTime) / 1e9d;
         final String searchDurationString = String.format("%.3f", searchDurationSeconds);
-        DEBUG.println(CLASS_STRING + " Search finished! (moves: " + Integer.toString(numMoves) +
-                ", playouts: " + Long.toString(playOutCounter - 1) +
-                ", time: " + searchDurationString + "s)" +
-                ", playouts/s: " + String.format("%.3f", (playOutCounter - 1) / searchDurationSeconds));
 
-        printMoveScores(moveScoresMap.values());
+        MonteCarloMethods.printMoveScores(moveScoresMap.values(), CLASS_STRING, numMoves, playOutCounter,
+                searchDurationString, searchDurationSeconds);
 
         assert moveScoresMap.size() == numMoves : "Size discrepancy!";
 
@@ -127,72 +110,6 @@ public class TinyMonteCarloSimulation
     private double getSeconds(final long nanoTime)
     {
         return nanoTime / 1e9d;
-    }
-
-
-    private void printMoveScores(final Collection<TinyMoveAverageScorePair> moveScores)
-    {
-        DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
-        for (final TinyMoveAverageScorePair moveScorePair : moveScores)
-        {
-            final String scoreString = String.format("%.3f", moveScorePair.getAverageScore());
-            DEBUG.println(CLASS_STRING + " move: " + Integer.toString(moveScorePair.getMove()[TinyConst.MOVE_NUMBER_INDEX])
-                    + ", score: " + scoreString
-                    + ", playouts: " + Integer.toString(moveScorePair.getPlayouts()));
-        }
-        DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
-    }
-
-
-    private double playOut(final byte[] move, final TinyGameState gameState)
-    {
-        // Player carries out move to playout.
-        //
-        TinyGameState searchState = gameState.makeMove(iPlayerName, move);
-
-        // Play game from new state until end.
-        //
-        while (! searchState.isGameOver())
-        {
-            final String playerTurn = searchState.getPlayerTurn();
-            final byte[] availableMoves = searchState.getAvailableMoves(playerTurn);
-
-            final byte[] selectedMove = playerTurn.equals(iPlayerName)
-                    ? iPlayerStrategy.selectMove(playerTurn, availableMoves, searchState)
-                    : iOpponentStrategy.selectMove(playerTurn, availableMoves, searchState);
-
-            searchState = searchState.makeMove(playerTurn, selectedMove);
-        }
-
-        final double moveScore = iRelativeBranchScore
-                ? computeRelativeBranchScore(searchState)
-                : searchState.getScore(iPlayerName);
-
-        return moveScore;
-    }
-
-
-    private double computeRelativeBranchScore(final TinyGameState searchState)
-    {
-        final Map<String, Integer> scores = searchState.getScores();
-
-        final int playerScore = scores.get(iPlayerName);
-        scores.remove(iPlayerName);
-
-        final Collection<Integer> opponentScores = scores.values();
-
-        final ArrayList<Integer> opponentScoresSorted = new ArrayList<>(opponentScores.size());
-        opponentScoresSorted.addAll(opponentScores);
-        opponentScoresSorted.sort((Integer s1, Integer s2) ->
-        {
-            return s1 > s2 ? -1 : s2 > s1 ? 1 : 0;
-        });
-
-        final Integer topOpponentScore = opponentScoresSorted.get(0);
-
-        final double score = playerScore / (double)(topOpponentScore + playerScore);
-
-        return score;
     }
 
 
