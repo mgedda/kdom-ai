@@ -17,6 +17,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -37,6 +38,7 @@ public class LocalGameStateToTinyGameStateAlgorithm
         final byte[] kingdomCrowns = new byte[numPlayers * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
         final byte[] currentDraft = new byte[draftDominoCount * TinyConst.DRAFT_ELEMENT_SIZE];
         final byte[] previousDraft = new byte[draftDominoCount * TinyConst.DRAFT_ELEMENT_SIZE];
+        final byte[] drawPile = new byte[localGameState.getDrawPile().size() * TinyConst.DOMINO_SIZE];
 
         Arrays.fill(currentDraft, TinyConst.INVALID_DOMINO_VALUE);
         Arrays.fill(previousDraft, TinyConst.INVALID_DOMINO_VALUE);
@@ -89,8 +91,20 @@ public class LocalGameStateToTinyGameStateAlgorithm
             System.arraycopy(draftElement, 0, previousDraft, destPos, draftElement.length);
         }
 
-        // TODO [gedda] IMPORTANT! : ADD DRAW PILE HERE!
-        return new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        // Get draw pile
+        //
+        final Set<Domino> localGameStateDrawPile = localGameState.getDrawPile();
+        int dominoCounter = 0;
+        for (final Domino drawPileElement : localGameStateDrawPile)
+        {
+            final byte[] domino = getDrawPileDominoAsByteArray(drawPileElement);
+            final int destPos = dominoCounter * TinyConst.DOMINO_SIZE;
+            System.arraycopy(domino, 0, drawPile, destPos, domino.length);
+            dominoCounter++;
+        }
+
+
+        return new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, drawPile, true);
     }
 
 
@@ -158,9 +172,9 @@ public class LocalGameStateToTinyGameStateAlgorithm
         final byte[] result = new byte[TinyConst.DRAFT_ELEMENT_SIZE];
 
         result[TinyConst.DOMINO_ID_INDEX] = (byte) domino.getNumber();;
-        result[TinyConst.DOMINO_TILE_1_TERRAIN_INDEX] = (byte) TerrainCode.from(tile1.getTerrain());
+        result[TinyConst.DOMINO_TILE_1_TERRAIN_INDEX] = TerrainCode.from(tile1.getTerrain());
         result[TinyConst.DOMINO_TILE_1_CROWNS_INDEX] = (byte) tile1.getCrowns();
-        result[TinyConst.DOMINO_TILE_2_TERRAIN_INDEX] = (byte) TerrainCode.from(tile2.getTerrain());
+        result[TinyConst.DOMINO_TILE_2_TERRAIN_INDEX] = TerrainCode.from(tile2.getTerrain());
         result[TinyConst.DOMINO_TILE_2_CROWNS_INDEX] = (byte) tile2.getCrowns();
 
         final boolean isPlaced = draftElement.getDomino() instanceof PlacedDomino;
@@ -182,6 +196,33 @@ public class LocalGameStateToTinyGameStateAlgorithm
         }
 
         result[TinyConst.DRAFT_ELEMENT_PLAYER_ID_INDEX] = TinyGameState.getPlayerID(draftElement.getPlayerName(), players);
+
+        return result;
+    }
+
+    /**
+     * Convert domino to byte array representation.
+     *
+     * @param domino
+     * @return
+     */
+    private byte[] getDrawPileDominoAsByteArray(final Domino domino)
+    {
+        final Tile tile1 = domino.getTile1();
+        final Tile tile2 = domino.getTile2();
+
+        final byte[] result = new byte[TinyConst.DOMINO_SIZE];
+
+        result[TinyConst.DOMINO_ID_INDEX] = (byte) domino.getNumber();;
+        result[TinyConst.DOMINO_TILE_1_TERRAIN_INDEX] = TerrainCode.from(tile1.getTerrain());
+        result[TinyConst.DOMINO_TILE_1_CROWNS_INDEX] = (byte) tile1.getCrowns();
+        result[TinyConst.DOMINO_TILE_2_TERRAIN_INDEX] = TerrainCode.from(tile2.getTerrain());
+        result[TinyConst.DOMINO_TILE_2_CROWNS_INDEX] = (byte) tile2.getCrowns();
+
+        result[TinyConst.DOMINO_TILE_1_X_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+        result[TinyConst.DOMINO_TILE_1_Y_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+        result[TinyConst.DOMINO_TILE_2_X_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+        result[TinyConst.DOMINO_TILE_2_Y_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
 
         return result;
     }

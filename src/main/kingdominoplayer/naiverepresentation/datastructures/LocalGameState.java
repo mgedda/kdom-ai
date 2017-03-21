@@ -338,6 +338,11 @@ public class LocalGameState extends GameState
     }
 
 
+    public Set<Domino> getDrawPile()
+    {
+        return iDrawPile;
+    }
+
     private boolean isDrawPileEmpty()
     {
         return iDrawPile.isEmpty();
