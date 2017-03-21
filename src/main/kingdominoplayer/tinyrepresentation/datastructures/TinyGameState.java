@@ -42,7 +42,6 @@ public class TinyGameState
     private final byte iNumPlayers;
     private final byte iDraftDominoCount;  // 3 or 4 depending on the number of players.
 
-    private final boolean iIsSearching;
     private String iPlayerTurn;
 
     public TinyGameState(final byte[] kingdomTerrains,
@@ -69,7 +68,6 @@ public class TinyGameState
         iPreviousDraft = previousDraft;
         iPlayers = players;
         iDrawPile = drawPile;
-        iIsSearching = isSearching;
     }
 
 
@@ -242,7 +240,7 @@ public class TinyGameState
 
         final byte[] drawPile;
 
-        if (iIsSearching && isCurrentDraftSelectionComplete(currentDraft))
+        if (isCurrentDraftSelectionComplete(currentDraft))
         {
             // Move current draft to previous draft.
             //
@@ -331,7 +329,7 @@ public class TinyGameState
         }
 
         @SuppressWarnings("UnnecessaryLocalVariable")
-        final TinyGameState result = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, iPlayers, drawPile, iIsSearching);
+        final TinyGameState result = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, iPlayers, drawPile, true);
 
         // TODO [gedda] IMPORTANT! : Sanity check result like in LocalGameState
         //sanityCheck(result);
