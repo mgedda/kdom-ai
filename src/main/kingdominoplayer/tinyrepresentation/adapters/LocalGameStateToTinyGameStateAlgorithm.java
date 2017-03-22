@@ -62,10 +62,10 @@ public class LocalGameStateToTinyGameStateAlgorithm
         {
             final Kingdom kingdom = kingdomInfos.get(i).getKingdom();
 
-            final byte[] playerKingdomTerrains = getKingdomTerrains(kingdom);
+            final byte[] playerKingdomTerrains = KingdomAdapter.toTinyKingdomTerrains(kingdom);
             System.arraycopy(playerKingdomTerrains, 0, kingdomTerrains, i * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomTerrains.length);
 
-            final byte[] playerKingdomCrowns = getKingdomCrowns(kingdom);
+            final byte[] playerKingdomCrowns = KingdomAdapter.toTinyKingdomCrowns(kingdom);
             System.arraycopy(playerKingdomCrowns, 0, kingdomCrowns, i * TinyConst.SINGLE_PLAYER_KINGDOM_SIZE, playerKingdomCrowns.length);
         }
 
@@ -108,53 +108,6 @@ public class LocalGameStateToTinyGameStateAlgorithm
     }
 
 
-    /**
-     * Get kingdom terrains as byte array representation.
-     *
-     * @param kingdom
-     * @return
-     */
-    private byte[] getKingdomTerrains(final Kingdom kingdom)
-    {
-        final byte[] result = new byte[TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
-
-        for (final PlacedTile placedTile : kingdom.getPlacedTiles())
-        {
-            final Position position = placedTile.getPosition();
-            final int x = position.getColumn();
-            final int y = position.getRow();
-
-            final String terrain = placedTile.getTerrain();
-            final int terrainIndex = TinyGameState.tileCoordinateToLinearIndex(x, y);
-            result[terrainIndex] = TerrainCode.from(terrain);
-        }
-
-        return result;
-    }
-
-    /**
-     * Get kingdom crowns as byte array representation.
-     *
-     * @param kingdom
-     * @return
-     */
-    private byte[] getKingdomCrowns(final Kingdom kingdom)
-    {
-        final byte[] result = new byte[TinyConst.SINGLE_PLAYER_KINGDOM_SIZE];
-
-        for (final PlacedTile placedTile : kingdom.getPlacedTiles())
-        {
-            final Position position = placedTile.getPosition();
-            final int x = position.getColumn();
-            final int y = position.getRow();
-
-            final int crowns = placedTile.getCrowns();
-            final int crownsIndex = TinyGameState.tileCoordinateToLinearIndex(x, y);
-            result[crownsIndex] = (byte) crowns;
-        }
-
-        return result;
-    }
 
     /**
      * Convert draft element to byte array representation.
