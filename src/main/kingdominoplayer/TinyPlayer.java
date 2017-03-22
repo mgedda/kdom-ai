@@ -28,7 +28,7 @@ public class TinyPlayer extends Player
     }
 
     @Override
-    protected Move selectMove(final Move[] availableMoves, final LocalGameState localGameState)
+    protected Move selectMove(final Move[] availableMoves, final LocalGameState localGameState, final int roundNumber)
     {
         final byte[] moves = new byte[availableMoves.length * TinyConst.MOVE_ELEMENT_SIZE];
 
@@ -40,6 +40,8 @@ public class TinyPlayer extends Player
 
         final TinyGameState tinyGameState = new LocalGameStateToTinyGameStateAlgorithm().applyTo(localGameState);
         final byte[] selectedMove = iStrategy.selectMove(getName(), moves, tinyGameState);
+
+        getNumPlayoutsPerSecond()[roundNumber - 1] = iStrategy.getNumPlayoutsPerSecond();
 
         return MoveAdapter.toMove(selectedMove);
     }

@@ -25,6 +25,8 @@ public class TinyMonteCarloTreeSearchAlgorithm
     private final TinyStrategy iPlayerStrategy;
     private final TinyStrategy iOpponentStrategy;
 
+    private double iNumPlayoutsPerSecond = -1;
+
     public TinyMonteCarloTreeSearchAlgorithm(final String playerName,
                                              final TinyStrategy playerStrategy,
                                              final TinyStrategy opponentStrategy)
@@ -62,11 +64,12 @@ public class TinyMonteCarloTreeSearchAlgorithm
         final double searchDurationSeconds = (searchEndTime - searchStartTime) / 1e9d;
         final String searchDurationString = String.format("%.3f", searchDurationSeconds);
 
+        iNumPlayoutsPerSecond = root.getVisits() / searchDurationSeconds;
+
         DEBUG.println(CLASS_STRING + " Search finished! (moves: " + Integer.toString(numMoves) +
                 ", playouts: " + Long.toString(root.getVisits()) +
                 ", time: " + searchDurationString + "s)" +
-                ", playouts/s: " + String.format("%.3f", root.getVisits() / searchDurationSeconds));
-
+                ", playouts/s: " + String.format("%.3f", iNumPlayoutsPerSecond));
 
         final MCTSNode highestScoreChild = getHighestScoreChild(root);
         //noinspection UnnecessaryLocalVariable
@@ -304,6 +307,11 @@ public class TinyMonteCarloTreeSearchAlgorithm
     private double getSeconds(final long nanoTime)
     {
         return nanoTime / 1e9d;
+    }
+
+    public double getNumPlayoutsPerSecond()
+    {
+        return iNumPlayoutsPerSecond;
     }
 
 

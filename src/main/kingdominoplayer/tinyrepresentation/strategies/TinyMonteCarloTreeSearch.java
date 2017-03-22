@@ -16,6 +16,8 @@ public class TinyMonteCarloTreeSearch implements TinyStrategy
     private final TinyStrategy iPlayerStrategy;
     private final TinyStrategy iOpponentStrategy;
 
+    private TinyMonteCarloTreeSearchAlgorithm iSearchAlgorithm;
+
     public TinyMonteCarloTreeSearch(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy)
     {
         iPlayerStrategy = playerStrategy;
@@ -25,16 +27,14 @@ public class TinyMonteCarloTreeSearch implements TinyStrategy
     @Override
     public final byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
     {
-        final int numMoves = availableMoves.length / TinyConst.MOVE_ELEMENT_SIZE;
-
-        if (numMoves > 1)
-        {
-            return new TinyMonteCarloTreeSearchAlgorithm(playerName, iPlayerStrategy, iOpponentStrategy).evaluate(gameState, availableMoves);
-        }
-        else
-        {
-            return availableMoves;
-        }
+        iSearchAlgorithm = new TinyMonteCarloTreeSearchAlgorithm(playerName, iPlayerStrategy, iOpponentStrategy);
+        return iSearchAlgorithm.evaluate(gameState, availableMoves);
     }
 
+    @Override
+    public double getNumPlayoutsPerSecond()
+    {
+        assert iSearchAlgorithm != null : "Search algorithm not initialized yet!";
+        return iSearchAlgorithm.getNumPlayoutsPerSecond();
+    }
 }

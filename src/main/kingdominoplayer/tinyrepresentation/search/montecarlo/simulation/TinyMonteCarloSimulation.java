@@ -30,6 +30,8 @@ public class TinyMonteCarloSimulation
     private final TinyStrategy iOpponentStrategy;
     private final boolean iRelativeBranchScore;
 
+    private double iNumPlayoutsPerSecond = -1;
+
     public TinyMonteCarloSimulation(final String playerName,
                                     final TinyStrategy playerStrategy,
                                     final TinyStrategy opponentStrategy,
@@ -98,6 +100,8 @@ public class TinyMonteCarloSimulation
         MonteCarloMethods.printMoveScores(moveScoresMap.values(), CLASS_STRING, numMoves, playOutCounter,
                 searchDurationString, searchDurationSeconds);
 
+        iNumPlayoutsPerSecond = (playOutCounter - 1) / searchDurationSeconds;
+
         assert moveScoresMap.size() == numMoves : "Size discrepancy!";
 
         final ArrayList<TinyMoveAverageScorePair> moveScores = new ArrayList<>(moveScoresMap.values().size());
@@ -112,7 +116,11 @@ public class TinyMonteCarloSimulation
         return nanoTime / 1e9d;
     }
 
-
+    public double getNumPlayoutsPerSecond()
+    {
+        assert iNumPlayoutsPerSecond >= 0 : "Value not initialized yet.";
+        return iNumPlayoutsPerSecond;
+    }
 
     private static class DEBUG
     {

@@ -2,6 +2,7 @@ package kingdominoplayer;
 
 import kingdominoplayer.naiverepresentation.datastructures.GameState;
 import kingdominoplayer.naiverepresentation.strategies.StrategyID;
+import kingdominoplayer.tinyrepresentation.strategies.TinyStrategyID;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,44 +49,28 @@ public class ExperimentEngine
         final String opponent3Name = "Opponent3";
         final String playerName = "Player";
 
-        final StrategyID opponentStrategyID = StrategyID.valueOf(opponentStrategy);
-        final StrategyID playerStrategyID = StrategyID.valueOf(playerStrategy);
+        final TinyStrategyID opponentStrategyID = TinyStrategyID.valueOf(opponentStrategy);
+        final TinyStrategyID playerStrategyID = TinyStrategyID.valueOf(playerStrategy);
 
         final String opponent1UUID = game.addPlayer(opponent1Name);
         final String opponent2UUID = game.addPlayer(opponent2Name);
         final String opponent3UUID = game.addPlayer(opponent3Name);
+
         final String playerUUID = game.addPlayer(playerName);
+        final TinyPlayer player = new TinyPlayer(playerUUID, playerName, playerStrategyID, false);
 
         final ArrayList<Player> players = new ArrayList<>(4);
-        players.add(new Player(opponent1UUID, opponent1Name, opponentStrategyID, false));
-        players.add(new Player(opponent2UUID, opponent2Name, opponentStrategyID, false));
-        players.add(new Player(opponent3UUID, opponent3Name, opponentStrategyID, false));
-        players.add(new Player(playerUUID, playerName, playerStrategyID, false));
+        players.add(new TinyPlayer(opponent1UUID, opponent1Name, opponentStrategyID, false));
+        players.add(new TinyPlayer(opponent2UUID, opponent2Name, opponentStrategyID, false));
+        players.add(new TinyPlayer(opponent3UUID, opponent3Name, opponentStrategyID, false));
+        players.add(player);
 
         final GameState gameState = game.play(players);
 
         game.printResult();
 
-        final Player player = getPlayer(players, playerName);
         final ExperimentResult experimentResult = new ExperimentResult(gameState, player);
         experimentResult.appendToFile(outputFile);
-    }
-
-
-    private static Player getPlayer(final ArrayList<Player> players, final String playerName)
-    {
-        Player player = null;
-        for (final Player p : players)
-        {
-            if (p.getName().equals(playerName))
-            {
-                player = p;
-                break;
-            }
-        }
-        assert player != null : "Player '" + playerName + "' not found!";
-
-        return player;
     }
 
 
@@ -160,12 +145,23 @@ public class ExperimentEngine
                         : chosenDraftPositionString.concat(Integer.toString(chosenDraftPosition) + ", ");
             }
 
+            String numPlayoutsPerSecondString = "";
+            final double[] numPlayoutsPerSecondArray = iPlayer.getNumPlayoutsPerSecond();
+            for (int i = 0; i < numPlayoutsPerSecondArray.length; ++i)
+            {
+                final double numPlayoutsPerSecond = numPlayoutsPerSecondArray[i];
+                numPlayoutsPerSecondString = i == numPlayoutsPerSecondArray.length - 1
+                        ? numPlayoutsPerSecondString.concat(String.format("%.1f", numPlayoutsPerSecond))
+                        : numPlayoutsPerSecondString.concat(String.format("%.1f", numPlayoutsPerSecond) + ", ");
+            }
+
             return Integer.toString(playerWinValue) + ", "
                     + Integer.toString(playerScore) + ", "
                     + Integer.toString(numPlayers) + ", "
                     + numAvailableMovesString + ", "
                     + numAvailableDraftString + ", "
-                    + chosenDraftPositionString
+                    + chosenDraftPositionString + ", "
+                    + numPlayoutsPerSecondString
                     + ";\n";
         }
 

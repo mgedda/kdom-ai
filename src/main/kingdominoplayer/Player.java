@@ -3,6 +3,7 @@ package kingdominoplayer;
 import kingdominoplayer.naiverepresentation.datastructures.GameState;
 import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.naiverepresentation.datastructures.Move;
+import kingdominoplayer.naiverepresentation.strategies.Strategy;
 import kingdominoplayer.naiverepresentation.strategies.StrategyID;
 import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Util;
@@ -25,7 +26,7 @@ public class Player
     private final int[] iNumAvailableMoves = new int[13];     // Number of available moves each round.
     private final int[] iNumAvailableDraft = new int[13];     // Number of available dominoes in the current draft each round.
     private final int[] iChosenDraftPositions = new int[13];  // The priority position of the chosen domino in current draft.
-
+    private final double[] iNumPlayoutsPerSecond = new double[13];
 
     private int iMovesMade = 0;
 
@@ -78,7 +79,7 @@ public class Player
 
         // Select move.
         //
-        final Move move = selectMove(availableMoves, localGameState);
+        final Move move = selectMove(availableMoves, localGameState, roundNumber);
         final LocalGameState localGameStateAfterMove = localGameState.makeMove(iName, move);
 
         iChosenDraftPositions[roundNumber-1] = localGameState.getPositionInCurrentDraft(move.getChosenDomino());
@@ -92,9 +93,12 @@ public class Player
         iMovesMade++;
     }
 
-    protected Move selectMove(final Move[] availableMoves, final LocalGameState localGameState)
+    protected Move selectMove(final Move[] availableMoves, final LocalGameState localGameState, final int roundNumber)
     {
-        return iStrategyID.getStrategy().selectMove(iName, availableMoves, localGameState);
+        final Strategy strategy = iStrategyID.getStrategy();
+        final Move move = strategy.selectMove(iName, availableMoves, localGameState);
+
+        return move;
     }
 
 
@@ -111,6 +115,11 @@ public class Player
     public int[] getChosenDraftPositions()
     {
         return iChosenDraftPositions;
+    }
+
+    public double[] getNumPlayoutsPerSecond()
+    {
+        return iNumPlayoutsPerSecond;
     }
 
     private static class DEBUG

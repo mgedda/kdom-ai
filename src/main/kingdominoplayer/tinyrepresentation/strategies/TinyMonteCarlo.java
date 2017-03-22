@@ -20,6 +20,8 @@ public class TinyMonteCarlo implements TinyStrategy
     private final TinyStrategy iOpponentStrategy;
     private final boolean iUseRelativeBranchScore;
 
+    private TinyMonteCarloSimulation iSimulation;
+
     public TinyMonteCarlo(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy, final boolean useRelativeBranchScore)
     {
         iMoveFilter = new TinyMaxScoringMoves();
@@ -33,15 +35,15 @@ public class TinyMonteCarlo implements TinyStrategy
     {
         final byte[] moves = iMoveFilter.filterMoves(playerName, availableMoves, gameState);
 
-        final int numMaxScoringMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
+        iSimulation = new TinyMonteCarloSimulation(playerName, iPlayerStrategy, iOpponentStrategy, iUseRelativeBranchScore);
 
-        if (numMaxScoringMoves > 1)
-        {
-            return new TinyMonteCarloSimulation(playerName, iPlayerStrategy, iOpponentStrategy, iUseRelativeBranchScore).evaluate(gameState, moves);
-        }
-        else
-        {
-            return moves;
-        }
+        return iSimulation.evaluate(gameState, moves);
+    }
+
+    @Override
+    public double getNumPlayoutsPerSecond()
+    {
+        assert iSimulation != null : "Simulation not initialized.";
+        return iSimulation.getNumPlayoutsPerSecond();
     }
 }
