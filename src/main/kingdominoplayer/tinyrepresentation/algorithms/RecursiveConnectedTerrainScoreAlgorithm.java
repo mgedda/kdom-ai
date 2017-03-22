@@ -14,6 +14,7 @@ import java.util.Set;
  * Date: 2017-03-22<br>
  * Time: 08:28<br><br>
  */
+@Deprecated // use TwoPassConnectedTerrainScoreAlgorithm instead.
 /*package*/ class RecursiveConnectedTerrainScoreAlgorithm implements ConnectedTerrainScoreAlgorithm
 {
 

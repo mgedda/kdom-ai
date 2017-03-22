@@ -15,10 +15,40 @@ import java.util.Set;
  * Date: 2017-03-17<br>
  * Time: 13:46<br><br>
  */
+@Deprecated // use TinyValidPositionsEfficientAlgorithm instead.
 public class TinyValidPositionsAlgorithm
 {
 
     public byte[] applyTo(final byte[] dominoToPlace, final byte[] kingdomTerrains)
+    {
+        final LinkedHashSet<TinyDominoPosition> validDominoPositions = getValidPositions(dominoToPlace, kingdomTerrains);
+
+
+        // Build result.
+        //
+        final byte[] result = new byte[validDominoPositions.size() * TinyConst.DOMINOPOSITION_ELEMENT_SIZE];
+
+        int counter = 0;
+        for (final TinyDominoPosition position : validDominoPositions)
+        {
+            final byte tile1X = (byte) TinyGameState.indexToTileXCoordinate(position.iTile1Index);
+            final byte tile1Y = (byte) TinyGameState.indexToTileYCoordinate(position.iTile1Index);
+            final byte tile2X = (byte) TinyGameState.indexToTileXCoordinate(position.iTile2Index);
+            final byte tile2Y = (byte) TinyGameState.indexToTileYCoordinate(position.iTile2Index);
+
+            final int dominoPositionIndex = counter * TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
+            result[dominoPositionIndex + TinyConst.DOMINOPOSITION_TILE_1_X_INDEX] = tile1X;
+            result[dominoPositionIndex + TinyConst.DOMINOPOSITION_TILE_1_Y_INDEX] = tile1Y;
+            result[dominoPositionIndex + TinyConst.DOMINOPOSITION_TILE_2_X_INDEX] = tile2X;
+            result[dominoPositionIndex + TinyConst.DOMINOPOSITION_TILE_2_Y_INDEX] = tile2Y;
+
+            counter++;
+        }
+
+        return result;
+    }
+
+    /*package*/ LinkedHashSet<TinyDominoPosition> getValidPositions(final byte[] dominoToPlace, final byte[] kingdomTerrains)
     {
         final byte terrain1 = dominoToPlace[TinyConst.DOMINO_TILE_1_TERRAIN_INDEX];
         final byte terrain2 = dominoToPlace[TinyConst.DOMINO_TILE_2_TERRAIN_INDEX];
@@ -104,30 +134,7 @@ public class TinyValidPositionsAlgorithm
         {
             validDominoPositions = removeSymmetricalPositions(validDominoPositions);
         }
-
-
-        // Build result.
-        //
-        final byte[] result = new byte[validDominoPositions.size() * TinyConst.DOMINOPOSITION_ELEMENT_SIZE];
-
-        int counter = 0;
-        for (final TinyDominoPosition position : validDominoPositions)
-        {
-            final byte tile1X = (byte) TinyGameState.indexToTileXCoordinate(position.iTile1Index);
-            final byte tile1Y = (byte) TinyGameState.indexToTileYCoordinate(position.iTile1Index);
-            final byte tile2X = (byte) TinyGameState.indexToTileXCoordinate(position.iTile2Index);
-            final byte tile2Y = (byte) TinyGameState.indexToTileYCoordinate(position.iTile2Index);
-
-            final int dominoPositionIndex = counter * TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
-            result[dominoPositionIndex + TinyConst.DOMINOPOSITION_TILE_1_X_INDEX] = tile1X;
-            result[dominoPositionIndex + TinyConst.DOMINOPOSITION_TILE_1_Y_INDEX] = tile1Y;
-            result[dominoPositionIndex + TinyConst.DOMINOPOSITION_TILE_2_X_INDEX] = tile2X;
-            result[dominoPositionIndex + TinyConst.DOMINOPOSITION_TILE_2_Y_INDEX] = tile2Y;
-
-            counter++;
-        }
-
-        return result;
+        return validDominoPositions;
     }
 
     private LinkedHashSet<TinyDominoPosition> removeSymmetricalPositions(final LinkedHashSet<TinyDominoPosition> validDominoPositions)
@@ -201,52 +208,5 @@ public class TinyValidPositionsAlgorithm
         }
 
         return allAdjacentTilePositions;
-    }
-
-
-    private class TinyDominoPosition
-    {
-        byte iTile1Index;
-        byte iTile2Index;
-
-        public TinyDominoPosition(final byte tile1Index, final byte tile2Index)
-        {
-            iTile1Index = tile1Index;
-            iTile2Index = tile2Index;
-        }
-
-        @Override
-        public boolean equals(final Object o)
-        {
-            if (this == o)
-            {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass())
-            {
-                return false;
-            }
-
-            final TinyDominoPosition that = (TinyDominoPosition) o;
-
-            if (iTile1Index != that.iTile1Index)
-            {
-                return false;
-            }
-            return iTile2Index == that.iTile2Index;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            int result = (int) iTile1Index;
-            result = 31 * result + (int) iTile2Index;
-            return result;
-        }
-
-        public TinyDominoPosition getInverted()
-        {
-            return new TinyDominoPosition(iTile2Index, iTile1Index);
-        }
     }
 }

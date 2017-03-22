@@ -3,6 +3,7 @@ package kingdominoplayer.tinyrepresentation.datastructures;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyScorerAlgorithm;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyValidPositionsAlgorithm;
+import kingdominoplayer.tinyrepresentation.algorithms.TinyValidPositionsEfficientAlgorithm;
 import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
@@ -731,7 +732,8 @@ public class TinyGameState
 
     /*package*/ byte[] getValidPositionsUnique(final byte[] dominoToPlace, final byte[] kingdomTerrains)
     {
-        return new TinyValidPositionsAlgorithm().applyTo(dominoToPlace, kingdomTerrains);
+        //return new TinyValidPositionsAlgorithm().applyTo(dominoToPlace, kingdomTerrains);
+        return new TinyValidPositionsEfficientAlgorithm().applyTo(dominoToPlace, kingdomTerrains);
     }
 
 
