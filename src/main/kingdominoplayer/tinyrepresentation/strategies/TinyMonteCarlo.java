@@ -22,9 +22,9 @@ public class TinyMonteCarlo implements TinyStrategy
 
     private TinyMonteCarloSimulation iSimulation;
 
-    public TinyMonteCarlo(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy, final boolean useRelativeBranchScore)
+    public TinyMonteCarlo(final TinyMoveFilter moveFilter, final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy, final boolean useRelativeBranchScore)
     {
-        iMoveFilter = new TinyMaxScoringMoves();
+        iMoveFilter = moveFilter;
         iPlayerStrategy = playerStrategy;
         iOpponentStrategy = opponentStrategy;
         iUseRelativeBranchScore = useRelativeBranchScore;

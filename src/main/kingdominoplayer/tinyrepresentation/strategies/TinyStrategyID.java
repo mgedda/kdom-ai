@@ -1,5 +1,8 @@
 package kingdominoplayer.tinyrepresentation.strategies;
 
+import kingdominoplayer.tinyrepresentation.movefilters.TinyAllMoves;
+import kingdominoplayer.tinyrepresentation.movefilters.TinyMaxScoringMoves;
+
 /**
  * Copyright 2017 Tomologic AB<br>
  * User: gedda<br>
@@ -24,9 +27,9 @@ public enum TinyStrategyID
         TRUE_RANDOM.iStrategy = new TinyTrueRandom();
         GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new TinyGreedyPlacementRandomDraft();
         FULL_GREEDY.iStrategy = new TinyFullGreedy();
-        MC_TR_TR_R.iStrategy = new TinyMonteCarlo(new TinyTrueRandom(), new TinyTrueRandom(), true);
-        MC_FG_TR_R.iStrategy = new TinyMonteCarlo(new TinyFullGreedy(), new TinyTrueRandom(), true);
-        MC_FG_FG_R.iStrategy = new TinyMonteCarlo(new TinyFullGreedy(), new TinyFullGreedy(), true);
+        MC_TR_TR_R.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandom(), new TinyTrueRandom(), true);
+        MC_FG_TR_R.iStrategy = new TinyMonteCarlo(new TinyMaxScoringMoves(), new TinyFullGreedy(), new TinyTrueRandom(), true);
+        MC_FG_FG_R.iStrategy = new TinyMonteCarlo(new TinyMaxScoringMoves(), new TinyFullGreedy(), new TinyFullGreedy(), true);
         MCTS_TR_TR.iStrategy = new TinyMonteCarloTreeSearch(new TinyTrueRandom(), new TinyTrueRandom());
         MCTS_FG_FG.iStrategy = new TinyMonteCarloTreeSearch(new TinyFullGreedy(), new TinyFullGreedy());
     }
