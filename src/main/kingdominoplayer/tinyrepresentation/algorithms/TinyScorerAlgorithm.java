@@ -30,7 +30,11 @@ public class TinyScorerAlgorithm
 
     private static int getConnectedTerrainsScore(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        return new RecursiveConnectedTerrainScoreAlgorithm().applyTo(kingdomTerrains, kingdomCrowns);
+        // The "two-pass" algorithm makes each round ~10-100% faster than the recursive
+        // algorithm according to tests 2017-03-22.
+        //
+        //return new RecursiveConnectedTerrainScoreAlgorithm().applyTo(kingdomTerrains, kingdomCrowns);
+        return new TwoPassConnectedTerrainScoreAlgorithm().applyTo(kingdomTerrains, kingdomCrowns);
     }
 
 
