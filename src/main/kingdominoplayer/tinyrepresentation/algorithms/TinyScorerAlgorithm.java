@@ -28,6 +28,11 @@ public class TinyScorerAlgorithm
         return connectedComponentsScore + middleKingdomScore + harmonyScore;
     }
 
+    private static int getConnectedTerrainsScore(final Set<Byte> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
+    {
+        return new RecursiveConnectedTerrainScoreAlgorithm().applyTo(placedIndices, kingdomTerrains, kingdomCrowns);
+    }
+
 
     /**
      * Get bonus score if all dominoes are placed.
@@ -63,130 +68,6 @@ public class TinyScorerAlgorithm
         return 10;
     }
 
-
-    /**
-     * Get score for all connected terrain areas.
-     *
-     *
-     * @param placedIndices
-     * @param kingdomTerrains
-     * @param kingdomCrowns
-     * @return
-     */
-    private static int getConnectedTerrainsScore(final Set<Byte> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
-    {
-        final LinkedHashSet<Byte> scoredIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
-
-        int connectedComponentsScore = 0;
-
-        for (final byte index : placedIndices)
-        {
-            if (scoredIndices.contains(index))
-            {
-                continue;
-            }
-
-            final Set<Byte> visitedIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
-            final Set<Byte> connectedTerrainIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
-
-            visitedIndices.addAll(scoredIndices);
-            visitedIndices.add(index);
-            connectedTerrainIndices.add(index);
-
-            final byte terrain = kingdomTerrains[index];
-            for (final byte adjacentIndex : TinyUtils.getAdjacentIndices(index, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE))
-            {
-                if (! visitedIndices.contains(adjacentIndex))
-                {
-                    getConnectedTerrainTilesRecursively(terrain, adjacentIndex, /* output */ connectedTerrainIndices, /* output */ visitedIndices, kingdomTerrains);
-                }
-            }
-
-            final int connectedTerrainScore = computeConnectedTerrainScore(connectedTerrainIndices, kingdomTerrains, kingdomCrowns);
-
-            connectedComponentsScore += connectedTerrainScore;
-            scoredIndices.addAll(connectedTerrainIndices);
-        }
-
-        return connectedComponentsScore;
-    }
-
-
-
-
-    /**
-     * Find adjacent tiles that has terrain=currentTerrain recursively.
-     *
-     * @param currentTerrain
-     * @param index
-     * @param connectedTerrainIndices
-     * @param visitedIndices
-     * @param kingdomTerrains
-     */
-    private static void getConnectedTerrainTilesRecursively(final byte currentTerrain,
-                                                            final byte index,
-                                                            /* UPDATED */ final Set<Byte> connectedTerrainIndices,
-                                                            /* UPDATED */ final Set<Byte> visitedIndices,
-                                                            final byte[] kingdomTerrains)
-    {
-        final byte terrain = kingdomTerrains[index];
-        if (terrain == TerrainCode.from("NONE") || terrain == TerrainCode.from("CASTLE"))
-        {
-            return;
-        }
-
-        visitedIndices.add(index);
-
-        if (terrain == currentTerrain)
-        {
-            connectedTerrainIndices.add(index);
-
-            final ArrayList<Byte> adjacentIndices = TinyUtils.getAdjacentIndices(index, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
-
-            for (final byte adjacentIndex : adjacentIndices)
-            {
-                if (! visitedIndices.contains(adjacentIndex))
-                {
-                    getConnectedTerrainTilesRecursively(currentTerrain, adjacentIndex, connectedTerrainIndices, visitedIndices, kingdomTerrains);
-                }
-            }
-        }
-    }
-
-
-
-    /**
-     * Compute score for connected terrains at indices.
-     *
-     * @param indices
-     * @param kingdomTerrains
-     * @param kingdomCrowns
-     * @return
-     */
-    private static int computeConnectedTerrainScore(final Set<Byte> indices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
-    {
-        if (indices.isEmpty())
-        {
-            return 0;
-        }
-
-        byte terrain = TerrainCode.from("NONE");   // for debug purposes
-        int numCrowns = 0;
-
-        for (final int i : indices)
-        {
-            if (terrain == TerrainCode.from("NONE"))
-            {
-                terrain = kingdomTerrains[i];
-                assert terrain != TerrainCode.from("NONE") : "Computing connected terrain score on unoccupied terrain!";
-            }
-
-            assert kingdomTerrains[i] == terrain : "Found placed tile with different terrain!";
-            numCrowns += kingdomCrowns[i];
-        }
-
-        return numCrowns * indices.size();
-    }
 
 
 
