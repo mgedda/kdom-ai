@@ -19,18 +19,18 @@ public class TinyScorerAlgorithm
 {
     public static int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
+        int connectedComponentsScore = getConnectedTerrainsScore(kingdomTerrains, kingdomCrowns);
 
-        int connectedComponentsScore = getConnectedTerrainsScore(placedIndices, kingdomTerrains, kingdomCrowns);
+        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
         int middleKingdomScore = getMiddleKingdomScore(placedIndices);
         int harmonyScore = getHarmonyScore(placedIndices);
 
         return connectedComponentsScore + middleKingdomScore + harmonyScore;
     }
 
-    private static int getConnectedTerrainsScore(final Set<Byte> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
+    private static int getConnectedTerrainsScore(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        return new RecursiveConnectedTerrainScoreAlgorithm().applyTo(placedIndices, kingdomTerrains, kingdomCrowns);
+        return new RecursiveConnectedTerrainScoreAlgorithm().applyTo(kingdomTerrains, kingdomCrowns);
     }
 
 

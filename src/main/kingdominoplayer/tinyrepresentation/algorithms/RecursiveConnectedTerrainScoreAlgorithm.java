@@ -20,17 +20,17 @@ import java.util.Set;
     /**
      * Get score for all connected terrain areas.
      *
-     *
-     * @param placedIndices
      * @param kingdomTerrains
      * @param kingdomCrowns
      * @return
      */
-    public int applyTo(final Set<Byte> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
+    public int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
         final LinkedHashSet<Byte> scoredIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
 
         int connectedComponentsScore = 0;
+
+        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
 
         for (final byte index : placedIndices)
         {

@@ -1,6 +1,5 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
-import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -10,5 +9,5 @@ import java.util.Set;
  */
 /*package*/ interface ConnectedTerrainScoreAlgorithm
 {
-    int applyTo(final Set<Byte> placedIndices, final byte[] kingdomTerrains, final byte[] kingdomCrowns);
+    int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns);
 }
