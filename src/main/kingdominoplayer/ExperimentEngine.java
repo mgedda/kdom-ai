@@ -155,13 +155,24 @@ public class ExperimentEngine
                         : numPlayoutsPerSecondString.concat(String.format("%.1f", numPlayoutsPerSecond) + ", ");
             }
 
+            String scoresString = "";
+            final int[] scores = iPlayer.getScores();
+            for (int i = 0; i < scores.length; ++i)
+            {
+                final int score = scores[i];
+                scoresString = i == scores.length - 1
+                        ? scoresString.concat(Integer.toString(playerScore))
+                        : scoresString.concat(Integer.toString(score) + ", ");
+            }
+
             return Integer.toString(playerWinValue) + ", "
                     + Integer.toString(playerScore) + ", "
                     + Integer.toString(numPlayers) + ", "
                     + numAvailableMovesString + ", "
                     + numAvailableDraftString + ", "
                     + chosenDraftPositionString + ", "
-                    + numPlayoutsPerSecondString
+                    + numPlayoutsPerSecondString + ", "
+                    + scoresString
                     + ";\n";
         }
 

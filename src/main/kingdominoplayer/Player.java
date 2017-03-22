@@ -27,6 +27,7 @@ public class Player
     private final int[] iNumAvailableDraft = new int[13];     // Number of available dominoes in the current draft each round.
     private final int[] iChosenDraftPositions = new int[13];  // The priority position of the chosen domino in current draft.
     private final double[] iNumPlayoutsPerSecond = new double[13];
+    private final int[] iScores = new int[13];                // The score after each round
 
     private int iMovesMade = 0;
 
@@ -91,6 +92,8 @@ public class Player
 
         GameServer.makeMove(game, this, move);
         iMovesMade++;
+
+        iScores[roundNumber-1] = localGameStateAfterMove.getScore(iName);
     }
 
     protected Move selectMove(final Move[] availableMoves, final LocalGameState localGameState, final int roundNumber)
@@ -120,6 +123,11 @@ public class Player
     public double[] getNumPlayoutsPerSecond()
     {
         return iNumPlayoutsPerSecond;
+    }
+
+    public int[] getScores()
+    {
+        return iScores;
     }
 
     private static class DEBUG

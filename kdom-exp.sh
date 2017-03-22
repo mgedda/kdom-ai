@@ -57,7 +57,7 @@ echo "# Executing: '$SCRIPT_STR'"                                               
 echo "# Git Revision: $REVISION"                                                                >> $OUTPUT_FILE
 echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
 echo ""                                                                                         >> $OUTPUT_FILE
-echo "# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13), playouts_per_second(13)" >> $OUTPUT_FILE
+echo "# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13), playouts_per_second(13), scores(13)" >> $OUTPUT_FILE
 echo "kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY} = ["                                  >> $OUTPUT_FILE
 
 for ((i=1; i <= $NUM_RUNS; i++))
