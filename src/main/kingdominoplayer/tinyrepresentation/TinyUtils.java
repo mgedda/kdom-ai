@@ -25,10 +25,15 @@ public class TinyUtils
         final int ySize = byteArray.length / xSize;
         for (int y = 0; y < ySize; ++y)
         {
+            if (y > 0)
+            {
+                result = result.concat(" ");
+            }
+
             for (int x = 0; x < xSize; ++x)
             {
                 result = result.concat(" ".concat(Byte.toString(byteArray[y * xSize + x])));
-                if (x < xSize - 1)
+                if (! (y == ySize - 1 && x == xSize - 1))
                 {
                     result = result.concat(",");
                 }
