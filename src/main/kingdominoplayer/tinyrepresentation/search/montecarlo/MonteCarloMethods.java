@@ -113,6 +113,46 @@ public class MonteCarloMethods
     }
 
 
+    public static double[] getWinDrawLossArrayFromIndexedScores(final int[] scores)
+    {
+        final int numPlayers = scores.length;
+        final double[] result = new double[numPlayers];
+
+        for (int i = 0; i < numPlayers; ++i)
+        {
+            final int playerScore = scores[i];
+
+            boolean win = true;
+            int draw = 0;
+            for (int j = 0; j < numPlayers; ++j)
+            {
+                if (j == i)
+                {
+                    continue;
+                }
+
+                if (scores[j] > playerScore)
+                {
+                    win = false;
+                    break;
+                }
+
+                if (scores[j] == playerScore)
+                {
+                    draw++;
+                }
+            }
+
+            final double score = win
+                    ? draw > 0 ? 1.0 / (double) (draw + 1) : 1.0
+                    : 0.0;
+
+            result[i] = score;
+        }
+        return result;
+    }
+
+
     private static class DEBUG
     {
         private static final boolean DEBUG = true;

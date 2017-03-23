@@ -2,6 +2,7 @@ package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch;
 
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 import kingdominoplayer.utils.Random;
 
@@ -246,50 +247,10 @@ public class TinyMonteCarloTreeSearchAlgorithm
     private MCTSResult evaluateResult(final TinyGameState gameState)
     {
         final int[] scores = gameState.getScoresIndexed();
-        final double[] result = getResultArrayFromIndexedScores(scores);
+        final double[] result = MonteCarloMethods.getWinDrawLossArrayFromIndexedScores(scores);
 
         return new MCTSResult(result);
     }
-
-    /*protected*/ static double[] getResultArrayFromIndexedScores(final int[] scores)
-    {
-        final int numPlayers = scores.length;
-        final double[] result = new double[numPlayers];
-
-        for (int i = 0; i < numPlayers; ++i)
-        {
-            final int playerScore = scores[i];
-
-            boolean win = true;
-            int draw = 0;
-            for (int j = 0; j < numPlayers; ++j)
-            {
-                if (j == i)
-                {
-                    continue;
-                }
-
-                if (scores[j] > playerScore)
-                {
-                    win = false;
-                    break;
-                }
-
-                if (scores[j] == playerScore)
-                {
-                    draw++;
-                }
-            }
-
-            final double score = win
-                    ? draw > 0 ? 1.0 / (double) (draw + 1) : 1.0
-                    : 0.0;
-
-            result[i] = score;
-        }
-        return result;
-    }
-
 
     private byte[] getPlayoutMove(final String player, final TinyGameState gameState)
     {
