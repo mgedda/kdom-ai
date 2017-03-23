@@ -2,6 +2,7 @@ package kingdominoplayer.tinyrepresentation.search.montecarlo;
 
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.PlayoutScoringFunction;
 import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class MonteCarloMethods
                                  final String playerName,
                                  final TinyStrategy playerStrategy,
                                  final TinyStrategy opponentStrategy,
-                                 final boolean useRelativeBranchScore)
+                                 final PlayoutScoringFunction playoutScoringFunction)
     {
         // Player carries out move to playout.
         //
@@ -79,37 +80,9 @@ public class MonteCarloMethods
         }
 
         //noinspection UnnecessaryLocalVariable
-        final double moveScore = useRelativeBranchScore
-                ? computeRelativeBranchScore(searchState, playerName)
-                : searchState.getScore(playerName);
+        final double moveScore = playoutScoringFunction.applyTo(searchState, playerName);
 
         return moveScore;
-    }
-
-
-    private static double computeRelativeBranchScore(final TinyGameState searchState, final String playerName)
-    {
-        final Map<String, Integer> scores = searchState.getScores();
-
-        final int playerScore = scores.get(playerName);
-        scores.remove(playerName);
-
-        final Collection<Integer> opponentScores = scores.values();
-
-        final ArrayList<Integer> opponentScoresSorted = new ArrayList<>(opponentScores.size());
-        opponentScoresSorted.addAll(opponentScores);
-        opponentScoresSorted.sort((Integer s1, Integer s2) ->
-        {
-            //noinspection CodeBlock2Expr
-            return s1 > s2 ? -1 : s2 > s1 ? 1 : 0;
-        });
-
-        final Integer topOpponentScore = opponentScoresSorted.get(0);
-
-        //noinspection UnnecessaryLocalVariable
-        final double score = playerScore / (double)(topOpponentScore + playerScore);
-
-        return score;
     }
 
 

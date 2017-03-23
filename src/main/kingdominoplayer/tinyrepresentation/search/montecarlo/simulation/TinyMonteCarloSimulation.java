@@ -28,19 +28,19 @@ public class TinyMonteCarloSimulation
     private final String iPlayerName;
     private final TinyStrategy iPlayerStrategy;
     private final TinyStrategy iOpponentStrategy;
-    private final boolean iRelativeBranchScore;
+    private final PlayoutScoringFunction iPlayoutScoringFunction;
 
     private double iNumPlayoutsPerSecond = -1;
 
     public TinyMonteCarloSimulation(final String playerName,
                                     final TinyStrategy playerStrategy,
                                     final TinyStrategy opponentStrategy,
-                                    final boolean relativeBranchScore)
+                                    final PlayoutScoringFunction playoutScoringFunction)
     {
         iPlayerName = playerName;
         iPlayerStrategy = playerStrategy;
         iOpponentStrategy = opponentStrategy;
-        iRelativeBranchScore = relativeBranchScore;
+        iPlayoutScoringFunction = playoutScoringFunction;
     }
 
     /**
@@ -84,7 +84,7 @@ public class TinyMonteCarloSimulation
             //
             final int randomIndex = Random.getInt(numMoves);
             final byte[] move = TinyGameState.getRow(moves, randomIndex, TinyConst.MOVE_ELEMENT_SIZE);
-            final double score = MonteCarloMethods.playOut(move, gameState, iPlayerName, iPlayerStrategy, iOpponentStrategy, iRelativeBranchScore);
+            final double score = MonteCarloMethods.playOut(move, gameState, iPlayerName, iPlayerStrategy, iOpponentStrategy, iPlayoutScoringFunction);
             moveScoresMap.get(move[TinyConst.MOVE_NUMBER_INDEX]).addScore(score);
 
             assert moveScoresMap.size() == numMoves : "Size discrepancy!";
