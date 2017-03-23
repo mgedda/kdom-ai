@@ -8,6 +8,7 @@ import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -42,6 +43,8 @@ public class TinyGameState
     private final String[] iPlayers;
     private final byte iNumPlayers;
     private final byte iDraftDominoCount;  // 3 or 4 depending on the number of players.
+
+    private final HashMap<String, Integer> iPlayerScoresMap = new LinkedHashMap<>(2 * 4);
 
     private String iPlayerTurn;
 
@@ -745,10 +748,16 @@ public class TinyGameState
      */
     public int getScore(final String playerName)
     {
-        final byte[] kingdomTerrains = getPlayerKingdomTerrains(playerName);
-        final byte[] kingdomCrowns = getPlayerKingdomCrowns(playerName);
+        if (! iPlayerScoresMap.containsKey(playerName))
+        {
+            final byte[] kingdomTerrains = getPlayerKingdomTerrains(playerName);
+            final byte[] kingdomCrowns = getPlayerKingdomCrowns(playerName);
+            final int score = TinyScorerAlgorithm.applyTo(kingdomTerrains, kingdomCrowns);
 
-        return TinyScorerAlgorithm.applyTo(kingdomTerrains, kingdomCrowns);
+            iPlayerScoresMap.put(playerName, score);
+        }
+
+        return iPlayerScoresMap.get(playerName);
     }
 
     public Map<String, Integer> getScores()
