@@ -48,6 +48,12 @@ import java.util.ArrayList;
         return iVisits > 0;
     }
 
+    public void expand()
+    {
+        assert !isExpanded() : "Node already expanded!";
+        iVisits++;
+    }
+
     public TinyGameState getGameState()
     {
         return iGameState;

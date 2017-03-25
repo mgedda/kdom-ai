@@ -49,11 +49,11 @@ public class TinyMonteCarloTreeSearchAlgorithm
         DEBUG.println(CLASS_STRING + " " + iPlayerName + " searching...");
 
         final MCTSNode root = new MCTSNode(gameState, null, new byte[0], iPlayerName);
-
-        final long searchStartTime = System.nanoTime();
+        root.expand();
 
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
         final long numPlayOuts = PLAYOUT_FACTOR * numMoves;  // max X playouts per move
+        final long searchStartTime = System.nanoTime();
         while (root.getVisits() <= numPlayOuts
                 && getSeconds(System.nanoTime() - searchStartTime) < MAX_SIMULATION_TIME_SECONDS)
         {
@@ -67,19 +67,40 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
         iNumPlayoutsPerSecond = root.getVisits() / searchDurationSeconds;
 
+        final MCTSNode selectedChild = getChildWithHighestWinsToVisitsRatio(root);
+
+        printSearchResult(root, numMoves, searchDurationString, selectedChild);
+
+        //noinspection UnnecessaryLocalVariable
+        final byte[] selectedMove = selectedChild.getMove();
+
+        return selectedMove;
+    }
+
+    private void printSearchResult(final MCTSNode root,
+                                   final int numMoves,
+                                   final String searchDurationString,
+                                   final MCTSNode selectedNode)
+    {
         DEBUG.println(CLASS_STRING + " Search finished! (moves: " + Integer.toString(numMoves) +
                 ", playouts: " + Long.toString(root.getVisits()) +
                 ", time: " + searchDurationString + "s)" +
                 ", playouts/s: " + String.format("%.3f", iNumPlayoutsPerSecond));
 
-        final MCTSNode highestScoreChild = getHighestScoreChild(root);
-        //noinspection UnnecessaryLocalVariable
-        final byte[] bestMove = highestScoreChild.getMove();
-
-        return bestMove;
+        DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
+        int counter = 0;
+        for (final MCTSNode child : root.getChildren())
+        {
+            final ArrayList<Integer> depthIndices = new ArrayList<>(1);
+            depthIndices.add(counter);
+            final String markString = child == selectedNode ? " (*)" : "";
+            DEBUG.println(CLASS_STRING + getNodeString(child, depthIndices) + markString);
+            counter++;
+        }
+        DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
     }
 
-    private MCTSNode getHighestScoreChild(final MCTSNode node)
+    private MCTSNode getChildWithHighestWinsToVisitsRatio(final MCTSNode node)
     {
         final ArrayList<MCTSNode> maxScoreChildren = new ArrayList<>(10);
         double maxScore = 0;
@@ -124,28 +145,32 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
     private MCTSResult applyMCTS(final MCTSNode node)
     {
-        final MCTSNode bestChild = getHighestUCBChild(node);
+        if (node.getGameState().isGameOver())
+        {
+            return playout(node);
+        }
+
+        final ArrayList<MCTSNode> children = getChildren(node);
+        final MCTSNode bestChild = getHighestUCBChild(children);
 
         final MCTSResult result;
-        if (! bestChild.isExpanded() || bestChild.getGameState().isGameOver())
+        if (! bestChild.isExpanded())
         {
-            result = playout(bestChild);
+            bestChild.expand();
+            result = playout(node);
         }
         else
         {
             result = applyMCTS(bestChild);
+            bestChild.updateResult(result);
         }
-
-        bestChild.updateResult(result);
 
         return result;
     }
 
 
-    public MCTSNode getHighestUCBChild(final MCTSNode node)
+    public MCTSNode getHighestUCBChild(final ArrayList<MCTSNode> children)
     {
-        final ArrayList<MCTSNode> children = getChildren(node);
-
         double maxUCB = 0;
         final ArrayList<MCTSNode> bestChildren = new ArrayList<>(10);
 
@@ -215,12 +240,15 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
     private double getUpperConfidenceBound(final MCTSNode node)
     {
+        final int parentVisits = node.getParent().getVisits();
+
         if (! node.isExpanded())
         {
-            return 0.5;
+            // Make UCB same as if node would have 1 visit.
+            //
+            return Math.sqrt(2.0 * Math.log(parentVisits));
         }
 
-        final int parentVisits = node.getParent().getVisits();
         final double averageScore = (double) node.getWins() / (double) node.getVisits();
 
         return averageScore + Math.sqrt(2.0 * Math.log(parentVisits) / (double) node.getVisits());
@@ -366,32 +394,39 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
     private String getNodeString(final MCTSNode node, final ArrayList<Integer> depthIndices)
     {
-        String nodeString = "{";
+        String nodeString = "";
 
-        for (int i = 0; i < depthIndices.size(); ++i)
+        if (! depthIndices.isEmpty())
         {
-            nodeString = nodeString.concat(Integer.toString(depthIndices.get(i)));
+            nodeString = nodeString.concat("{");
 
-            if (i < depthIndices.size() - 1)
+            for (int i = 0; i < depthIndices.size(); ++i)
             {
-                nodeString = nodeString.concat(", ");
+                nodeString = nodeString.concat(Integer.toString(depthIndices.get(i)));
+
+                if (i < depthIndices.size() - 1)
+                {
+                    nodeString = nodeString.concat(", ");
+                }
             }
+            nodeString = nodeString.concat("}");
         }
-        nodeString = nodeString.concat("}");
 
         final int wins = node.getWins();
         final int visits = node.getVisits();
         nodeString = nodeString.concat(" ").concat(Integer.toString(wins)).concat("/").concat(Integer.toString(visits));
-        nodeString = nodeString.concat(" ").concat(String.format("%.2f", wins/(double)visits));
+        nodeString = visits > 0
+                ? nodeString.concat(", Avg: ").concat(String.format("%.5f", wins/(double)visits))
+                : nodeString.concat(", Avg: 0");
 
         if (node.getParent() != null)
         {
             final double upperConfidenceBound = getUpperConfidenceBound(node);
-            nodeString = nodeString.concat(" ").concat(String.format("%.2f", upperConfidenceBound));
+            nodeString = nodeString.concat(", UCB: ").concat(String.format("%.5f", upperConfidenceBound));
         }
 
         final String playerName = node.getPlayerName();
-        nodeString = nodeString.concat(" [").concat(playerName).concat("]");
+        nodeString = nodeString.concat(" [player: ").concat(playerName).concat("]");
         return nodeString;
     }
 
