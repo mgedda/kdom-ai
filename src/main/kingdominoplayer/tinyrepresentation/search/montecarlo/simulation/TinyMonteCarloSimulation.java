@@ -21,7 +21,7 @@ public class TinyMonteCarloSimulation
 {
     private static final double MAX_SIMULATION_TIME_SECONDS = 10d;   // maximum time for one move
     private static final int SIMULATION_BREADTH = 1000;              // max number of moves to evaluate
-    private static final long PLAYOUT_FACTOR = 1000000;              // number of desired playouts per move
+    private static final long PLAYOUT_FACTOR = (long) 1E15;          // number of desired playouts per move
 
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
