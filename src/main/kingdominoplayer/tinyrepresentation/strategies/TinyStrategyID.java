@@ -24,6 +24,7 @@ public enum TinyStrategyID
 
     MC_FG_TR_R,
     MC_FG_FG_R,
+
     MCTS_TR_TR,
     MCTS_FG_FG;
 
@@ -36,11 +37,13 @@ public enum TinyStrategyID
         FULL_GREEDY.iStrategy = new TinyFullGreedy();
 
         MC_TR_TR_WDL.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandom(), new TinyTrueRandom(), new WinDrawLossFunction());
-        MC_TR_TR_P.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandom(), new TinyTrueRandom(), new PlayerScoreFunction());
-        MC_TR_TR_R.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandom(), new TinyTrueRandom(), new RelativeScoreFunction());
 
+        MC_TR_TR_P.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandom(), new TinyTrueRandom(), new PlayerScoreFunction());
+
+        MC_TR_TR_R.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandom(), new TinyTrueRandom(), new RelativeScoreFunction());
         MC_FG_TR_R.iStrategy = new TinyMonteCarlo(new TinyMaxScoringMoves(), new TinyFullGreedy(), new TinyTrueRandom(), new RelativeScoreFunction());
         MC_FG_FG_R.iStrategy = new TinyMonteCarlo(new TinyMaxScoringMoves(), new TinyFullGreedy(), new TinyFullGreedy(), new RelativeScoreFunction());
+
         MCTS_TR_TR.iStrategy = new TinyMonteCarloTreeSearch(new TinyTrueRandom(), new TinyTrueRandom());
         MCTS_FG_FG.iStrategy = new TinyMonteCarloTreeSearch(new TinyFullGreedy(), new TinyFullGreedy());
     }
