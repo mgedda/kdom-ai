@@ -18,7 +18,10 @@ import java.util.ArrayList;
 public class TinyMonteCarloTreeSearchAlgorithm
 {
     private static final double MAX_SIMULATION_TIME_SECONDS = 10d;   // maximum time for one move
-    private static final long PLAYOUT_FACTOR = 1000000;              // number of desired playouts per move
+    private static final long PLAYOUT_FACTOR = (long) 1E15;          // number of desired playouts per move
+
+    private static final int NODE_VISITS_BEFORE_EXPAND_CHILD = 0;   // number of times a node must have been visited
+                                                                     // before any of its children are expanded.
 
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
@@ -55,7 +58,8 @@ public class TinyMonteCarloTreeSearchAlgorithm
         final long numPlayOuts = PLAYOUT_FACTOR * numMoves;  // max X playouts per move
         final long searchStartTime = System.nanoTime();
         while (root.getVisits() <= numPlayOuts
-                && getSeconds(System.nanoTime() - searchStartTime) < MAX_SIMULATION_TIME_SECONDS)
+                && getSeconds(System.nanoTime() - searchStartTime) < MAX_SIMULATION_TIME_SECONDS
+                )
         {
             final MCTSResult result = applyMCTS(root);
             root.updateResult(result);
@@ -156,7 +160,10 @@ public class TinyMonteCarloTreeSearchAlgorithm
         final MCTSResult result;
         if (! bestChild.isExpanded())
         {
-            bestChild.expand();
+            if (node.getVisits() > NODE_VISITS_BEFORE_EXPAND_CHILD)
+            {
+                bestChild.expand();
+            }
             result = playout(node);
         }
         else
