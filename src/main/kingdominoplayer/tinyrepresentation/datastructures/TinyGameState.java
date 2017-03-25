@@ -252,33 +252,6 @@ public class TinyGameState
             Arrays.fill(currentDraft, TinyConst.INVALID_DOMINO_VALUE);
 
 
-            if (isDrawPileEmpty())
-            {
-                // Remove dominoes without valid placements from previous draft.
-                //
-                for (int i = 0; i < iDraftDominoCount; ++i)
-                {
-                    final int elementStartIndex = i * TinyConst.DRAFT_ELEMENT_SIZE;
-                    if (previousDraft[elementStartIndex] != TinyConst.INVALID_DOMINO_VALUE)
-                    {
-                        final byte[] domino = getDominoFromDraft(previousDraft, i);
-
-                        final byte draftPlayerId = getPlayerIdFromDraft(previousDraft, i);
-                        final String draftPlayer = iPlayers[draftPlayerId];
-
-                        final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(draftPlayer, kingdomTerrains);
-
-                        if (! hasValidPosition(domino, playerKingdomTerrains))
-                        {
-                            clearElementInDraft(previousDraft, i);
-                        }
-                    }
-                }
-
-                reorderDraft(previousDraft);
-            }
-
-
             if (! isDrawPileEmpty())
             {
                 // Draw new current draft from draw pile.
@@ -602,7 +575,9 @@ public class TinyGameState
             final byte[] dominoPositions = getValidPositionsUnique(dominoToPlace, playerKingdomTerrains);
             final int numDominoPositions = dominoPositions.length / TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
 
-            possiblePlacedDominoes = new byte[numDominoPositions * TinyConst.DOMINO_SIZE];
+            possiblePlacedDominoes = new byte[Math.max(numDominoPositions, 1) * TinyConst.DOMINO_SIZE];
+            Arrays.fill(possiblePlacedDominoes, TinyConst.INVALID_DOMINO_VALUE);
+
             for (int i = 0; i < numDominoPositions; ++i)
             {
                 final int dominoPositionElementIndex = i * TinyConst.DOMINOPOSITION_ELEMENT_SIZE;
@@ -668,6 +643,8 @@ public class TinyGameState
         int moveCounter = 0;
         if (possibleChosenDominoes.length == 0)
         {
+            // Last round. Only placed domino to process.
+            //
             final int numPossiblePlacedDominoes = possiblePlacedDominoes.length / TinyConst.DOMINO_SIZE;
 
             availableMoves = new byte[numPossiblePlacedDominoes * TinyConst.MOVE_ELEMENT_SIZE];
@@ -685,6 +662,8 @@ public class TinyGameState
         }
         else if (possiblePlacedDominoes.length == 0)
         {
+            // First round. Only chosen domino to process.
+            //
             final int numPossibleChosenDominoes = possibleChosenDominoes.length / TinyConst.DOMINO_SIZE;
 
             availableMoves = new byte[numPossibleChosenDominoes * TinyConst.MOVE_ELEMENT_SIZE];

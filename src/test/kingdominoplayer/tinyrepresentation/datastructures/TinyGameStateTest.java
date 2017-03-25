@@ -848,6 +848,95 @@ public class TinyGameStateTest
     }
 
 
+    @Test
+    public void testGetAvailableMoves_lastRound_noValidPositions() throws Exception
+    {
+        final byte[] kingdomTerrains = new byte[]{
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 2, 2, 2, 2, 2, 0, 0,
+                0, 0, 2, 2, 2, 2, 2, 0, 0,
+                0, 0, 2, 2, 1, 2, 2, 0, 0,
+                0, 0, 2, 2, 2, 2, 2, 0, 0,
+                0, 0, 2, 2, 2, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 1, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+        };
+
+        final byte[] kingdomCrowns = new byte[]{
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+        };
+
+        final byte[] currentDraft = new byte[]{
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        };
+
+        final byte[] previousDraft = new byte[]{
+                2, 5, 0, 5, 0, -1, -1, -1, -1, 0,
+                3, 5, 0, 5, 0, -1, -1, -1, -1, 1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        };
+
+        final String[] players = new String[]{
+                "PlayerA",
+                "PlayerB",
+        };
+
+
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+
+        final byte[] availableMoves = tinyGameState.getAvailableMoves("PlayerA");
+
+        System.out.println(TinyUtils.to2DArrayString(availableMoves, TinyConst.MOVE_ELEMENT_SIZE));
+
+
+        final byte[] expected = {0,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        };
+
+        Assert.assertEquals(Arrays.equals(availableMoves, expected), true);
+
+
+
+        final byte[] move = new byte[TinyConst.MOVE_ELEMENT_SIZE];
+        System.arraycopy(availableMoves, 0, move, 0, TinyConst.MOVE_ELEMENT_SIZE);
+        final TinyGameState newTinyGameState = tinyGameState.makeMove("PlayerA", move);
+        System.out.println(newTinyGameState);
+    }
+
 
     private TinyGameState getEmptyTinyGameState(final String... players)
     {
