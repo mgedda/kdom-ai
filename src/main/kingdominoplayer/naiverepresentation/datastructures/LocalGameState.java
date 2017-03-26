@@ -79,7 +79,6 @@ public class LocalGameState extends GameState
 
                 assert ! playerNames.isEmpty() : "All players have chosen current draft but previous draft is empty!";
 
-                final String playerWhosTurnItIs;
                 if (playerNames.size() > 1)
                 {
                     final int numNames = playerNames.size();
@@ -87,14 +86,12 @@ public class LocalGameState extends GameState
                     playersLeft.addAll(playerNames);
 
                     final int randomNum = Random.getInt(numNames);
-                    playerWhosTurnItIs = playersLeft.get(randomNum);
+                    iPlayerTurn = playersLeft.get(randomNum);
                 }
                 else
                 {
-                    playerWhosTurnItIs = playerNames.iterator().next();
+                    iPlayerTurn = playerNames.iterator().next();
                 }
-
-                return playerWhosTurnItIs;
             }
 
             iPlayerTurn = getPreviousDraft().get(0).getPlayerName();
@@ -239,29 +236,6 @@ public class LocalGameState extends GameState
             previousDraft.clear();
             previousDraft.addAll(currentDraft);
             currentDraft.clear();
-
-
-            if (isDrawPileEmpty())
-            {
-                // Remove dominoes without valid placements from previous draft.
-                //
-                final ArrayList<DraftElement> invalidPreviousDraftElements = new ArrayList<>(previousDraft.size());
-
-                for (final DraftElement draftElement : previousDraft)
-                {
-                    final String name = draftElement.getPlayerName();
-                    final KingdomInfo kingdomInfo = getKingdomInfo(name, kingdomInfos);
-
-                    final Set<DominoPosition> validPositions = Planner.getValidPositions(draftElement.getDomino(), kingdomInfo.getKingdom());
-
-                    if (validPositions.isEmpty())
-                    {
-                        invalidPreviousDraftElements.add(draftElement);
-                    }
-                }
-
-                previousDraft.removeAll(invalidPreviousDraftElements);
-            }
 
 
             // Draw new current draft from draw pile.
