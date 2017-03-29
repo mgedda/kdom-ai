@@ -164,6 +164,19 @@ public class ExperimentEngine
                         : scoresString.concat(Integer.toString(score) + ", ");
             }
 
+            final double scoreDifference = getPlayerScoreDifferenceToBestOpponent();
+
+
+            String opponentScoresString = "";
+            final int[] opponentScores = getOpponentScoresAsFixedArray();
+            for (int i = 0; i < opponentScores.length; ++i)
+            {
+                opponentScoresString = i == opponentScores.length - 1
+                        ? opponentScoresString.concat(Integer.toString(opponentScores[i]))
+                        : opponentScoresString.concat(Integer.toString(opponentScores[i]) + ", ");
+            }
+
+
             return Integer.toString(playerWinValue) + ", "
                     + Integer.toString(playerScore) + ", "
                     + Integer.toString(numPlayers) + ", "
@@ -171,8 +184,49 @@ public class ExperimentEngine
                     + numAvailableDraftString + ", "
                     + chosenDraftPositionString + ", "
                     + numPlayoutsPerSecondString + ", "
-                    + scoresString
+                    + scoresString + ", "
+                    + String.format("%.0f", scoreDifference) + ", "
+                    + opponentScoresString
                     + ";\n";
+        }
+
+        private int[] getOpponentScoresAsFixedArray()
+        {
+            final int[] opponentScores = {-1, -1, -1};
+            int counter = 0;
+
+            for (int opponentScore : getOpponentScores())
+            {
+                opponentScores[counter] = opponentScore;
+                counter++;
+            }
+            return opponentScores;
+        }
+
+
+        private double getPlayerScoreDifferenceToBestOpponent()
+        {
+            final int playerScore = iGameState.getScore(iPlayer.getName());
+            final Collection<Integer> opponentScores = getOpponentScores();
+
+            final ArrayList<Integer> opponentScoresSorted = new ArrayList<>(opponentScores.size());
+            opponentScoresSorted.addAll(opponentScores);
+            opponentScoresSorted.sort((Integer s1, Integer s2) ->
+            {
+                //noinspection CodeBlock2Expr
+                return s1 > s2 ? -1 : s2 > s1 ? 1 : 0;
+            });
+
+            final Integer topOpponentScore = opponentScoresSorted.get(0);
+
+            return (double)(playerScore - topOpponentScore);
+        }
+
+        private Collection<Integer> getOpponentScores()
+        {
+            final Map<String, Integer> opponentScores = iGameState.getScores();
+            opponentScores.remove(iPlayer.getName());
+            return opponentScores.values();
         }
 
         private void appendToFile(final String filename)
