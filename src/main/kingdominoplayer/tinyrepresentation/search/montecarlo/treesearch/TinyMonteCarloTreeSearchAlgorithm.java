@@ -3,7 +3,7 @@ package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
-import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 import kingdominoplayer.utils.Random;
 
 import java.util.ArrayDeque;

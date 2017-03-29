@@ -1,6 +1,6 @@
 package kingdominoplayer.tinyrepresentation.movefilters;
 
-import kingdominoplayer.tinyrepresentation.strategies.TinyFullGreedyAlgorithm;
+import kingdominoplayer.tinyrepresentation.gamestrategies.TinyFullGreedyAlgorithm;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
 /**

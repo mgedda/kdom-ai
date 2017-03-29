@@ -1,10 +1,8 @@
-package kingdominoplayer.tinyrepresentation.strategies;
+package kingdominoplayer.tinyrepresentation.gamestrategies;
 
-import kingdominoplayer.tinyrepresentation.movefilters.TinyMaxScoringMoves;
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMoveFilter;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.PlayoutScoringFunction;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.TinyMonteCarloSimulation;
-import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
 /**

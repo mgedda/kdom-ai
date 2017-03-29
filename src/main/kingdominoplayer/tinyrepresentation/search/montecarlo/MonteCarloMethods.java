@@ -3,11 +3,10 @@ package kingdominoplayer.tinyrepresentation.search.montecarlo;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.PlayoutScoringFunction;
-import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * Copyright 2017 Tomologic AB<br>

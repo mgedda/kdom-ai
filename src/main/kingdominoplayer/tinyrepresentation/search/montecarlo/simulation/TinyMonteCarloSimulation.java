@@ -3,7 +3,7 @@ package kingdominoplayer.tinyrepresentation.search.montecarlo.simulation;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.TinyMoveAverageScorePair;
-import kingdominoplayer.tinyrepresentation.strategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.utils.Random;
