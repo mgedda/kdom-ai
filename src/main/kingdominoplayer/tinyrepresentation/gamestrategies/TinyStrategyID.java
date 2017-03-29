@@ -5,6 +5,7 @@ import kingdominoplayer.tinyrepresentation.movefilters.TinyMaxScoringMoves;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.PlayerScoreFunction;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.RelativeScoreFunction;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.WinDrawLossFunction;
+import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyEpsilonGreedySelectionStrategy;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyFullGreedySimulationStrategy;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyTrueRandomSimulationStrategy;
 
@@ -25,6 +26,7 @@ public enum TinyStrategyID
     MCE_TR_R,
 
     MCE_FG_R,
+    MCE_EG_R,
 
     MCTS_TR,
     MCTS_FG;
@@ -42,6 +44,7 @@ public enum TinyStrategyID
         MCE_TR_R.iStrategy = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyTrueRandomSimulationStrategy(), new RelativeScoreFunction());
 
         MCE_FG_R.iStrategy = new TinyMonteCarloEvaluation(new TinyMaxScoringMoves(), new TinyFullGreedySimulationStrategy(), new RelativeScoreFunction());
+        MCE_EG_R.iStrategy = new TinyMonteCarloEvaluation(new TinyMaxScoringMoves(), new TinyEpsilonGreedySelectionStrategy(0.2), new RelativeScoreFunction());
 
         MCTS_TR.iStrategy = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy());
         MCTS_FG.iStrategy = new TinyMonteCarloTreeSearch(new TinyFullGreedySimulationStrategy());
