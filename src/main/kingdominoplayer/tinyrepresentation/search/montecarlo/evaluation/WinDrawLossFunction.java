@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation.search.montecarlo.simulation;
+package kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation;
 
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;

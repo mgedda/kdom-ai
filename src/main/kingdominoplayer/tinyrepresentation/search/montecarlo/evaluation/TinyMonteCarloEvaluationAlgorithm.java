@@ -1,9 +1,8 @@
-package kingdominoplayer.tinyrepresentation.search.montecarlo.simulation;
+package kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation;
 
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.TinyMoveAverageScorePair;
-import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
@@ -18,7 +17,7 @@ import java.util.LinkedHashMap;
  * Date: 2017-03-16<br>
  * Time: 13:46<br><br>
  */
-public class TinyMonteCarloSimulation
+public class TinyMonteCarloEvaluationAlgorithm
 {
     private static final double MAX_SIMULATION_TIME_SECONDS = 10d;   // maximum time for one move
     private static final int SIMULATION_BREADTH = 1000;              // max number of moves to evaluate
@@ -34,9 +33,9 @@ public class TinyMonteCarloSimulation
 
     private double iNumPlayoutsPerSecond = -1;
 
-    public TinyMonteCarloSimulation(final String playerName,
-                                    final TinySimulationStrategy simulationStrategy,
-                                    final PlayoutScoringFunction playoutScoringFunction)
+    public TinyMonteCarloEvaluationAlgorithm(final String playerName,
+                                             final TinySimulationStrategy simulationStrategy,
+                                             final PlayoutScoringFunction playoutScoringFunction)
     {
         iPlayerName = playerName;
         iSimulationStrategy = simulationStrategy;

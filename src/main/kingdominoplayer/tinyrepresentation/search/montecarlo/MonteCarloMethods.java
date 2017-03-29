@@ -2,8 +2,7 @@ package kingdominoplayer.tinyrepresentation.search.montecarlo;
 
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.PlayoutScoringFunction;
-import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.PlayoutScoringFunction;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 
 import java.util.ArrayList;

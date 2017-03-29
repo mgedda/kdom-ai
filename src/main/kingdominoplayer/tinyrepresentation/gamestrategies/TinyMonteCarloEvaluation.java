@@ -1,8 +1,8 @@
 package kingdominoplayer.tinyrepresentation.gamestrategies;
 
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMoveFilter;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.PlayoutScoringFunction;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.TinyMonteCarloSimulation;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.PlayoutScoringFunction;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.TinyMonteCarloEvaluationAlgorithm;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 
@@ -12,18 +12,18 @@ import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationSt
  * Date: 2017-03-16<br>
  * Time: 14:13<br><br>
  */
-public class TinyMonteCarlo implements TinyStrategy
+public class TinyMonteCarloEvaluation implements TinyStrategy
 {
 
     private final TinyMoveFilter iMoveFilter;
     private final TinySimulationStrategy iSimulationStrategy;
     private final PlayoutScoringFunction iPlayoutScoringFunction;
 
-    private TinyMonteCarloSimulation iSimulation;
+    private TinyMonteCarloEvaluationAlgorithm iSimulation;
 
-    public TinyMonteCarlo(final TinyMoveFilter moveFilter,
-                          final TinySimulationStrategy simulationStrategy,
-                          final PlayoutScoringFunction playoutScoringFunction)
+    public TinyMonteCarloEvaluation(final TinyMoveFilter moveFilter,
+                                    final TinySimulationStrategy simulationStrategy,
+                                    final PlayoutScoringFunction playoutScoringFunction)
     {
         iMoveFilter = moveFilter;
         iSimulationStrategy = simulationStrategy;
@@ -35,7 +35,7 @@ public class TinyMonteCarlo implements TinyStrategy
     {
         final byte[] moves = iMoveFilter.filterMoves(playerName, availableMoves, gameState);
 
-        iSimulation = new TinyMonteCarloSimulation(playerName, iSimulationStrategy, iPlayoutScoringFunction);
+        iSimulation = new TinyMonteCarloEvaluationAlgorithm(playerName, iSimulationStrategy, iPlayoutScoringFunction);
 
         return iSimulation.evaluate(gameState, moves);
     }

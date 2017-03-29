@@ -2,9 +2,9 @@ package kingdominoplayer.tinyrepresentation.gamestrategies;
 
 import kingdominoplayer.tinyrepresentation.movefilters.TinyAllMoves;
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMaxScoringMoves;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.PlayerScoreFunction;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.RelativeScoreFunction;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.WinDrawLossFunction;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.PlayerScoreFunction;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.RelativeScoreFunction;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.WinDrawLossFunction;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyFullGreedySimulationStrategy;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyTrueRandomSimulationStrategy;
 
@@ -20,11 +20,11 @@ public enum TinyStrategyID
     GREEDY_PLACEMENT_RANDOM_DRAFT,
     FULL_GREEDY,
 
-    MC_TR_WDL,
-    MC_TR_P,
-    MC_TR_R,
+    MCE_TR_WDL,
+    MCE_TR_P,
+    MCE_TR_R,
 
-    MC_FG_R,
+    MCE_FG_R,
 
     MCTS_TR,
     MCTS_FG;
@@ -37,11 +37,11 @@ public enum TinyStrategyID
         GREEDY_PLACEMENT_RANDOM_DRAFT.iStrategy = new TinyGreedyPlacementRandomDraft();
         FULL_GREEDY.iStrategy = new TinyFullGreedy();
 
-        MC_TR_WDL.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandomSimulationStrategy(), new WinDrawLossFunction());
-        MC_TR_P.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandomSimulationStrategy(), new PlayerScoreFunction());
-        MC_TR_R.iStrategy = new TinyMonteCarlo(new TinyAllMoves(), new TinyTrueRandomSimulationStrategy(), new RelativeScoreFunction());
+        MCE_TR_WDL.iStrategy = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyTrueRandomSimulationStrategy(), new WinDrawLossFunction());
+        MCE_TR_P.iStrategy = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyTrueRandomSimulationStrategy(), new PlayerScoreFunction());
+        MCE_TR_R.iStrategy = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyTrueRandomSimulationStrategy(), new RelativeScoreFunction());
 
-        MC_FG_R.iStrategy = new TinyMonteCarlo(new TinyMaxScoringMoves(), new TinyFullGreedySimulationStrategy(), new RelativeScoreFunction());
+        MCE_FG_R.iStrategy = new TinyMonteCarloEvaluation(new TinyMaxScoringMoves(), new TinyFullGreedySimulationStrategy(), new RelativeScoreFunction());
 
         MCTS_TR.iStrategy = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy());
         MCTS_FG.iStrategy = new TinyMonteCarloTreeSearch(new TinyFullGreedySimulationStrategy());
