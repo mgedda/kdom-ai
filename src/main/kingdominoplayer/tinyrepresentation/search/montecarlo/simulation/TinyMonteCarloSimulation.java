@@ -6,6 +6,7 @@ import kingdominoplayer.tinyrepresentation.search.montecarlo.TinyMoveAverageScor
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
+import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 import kingdominoplayer.utils.Random;
 
 import java.util.ArrayList;
@@ -26,20 +27,19 @@ public class TinyMonteCarloSimulation
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
     private final String iPlayerName;
-    private final TinyStrategy iPlayerStrategy;
-    private final TinyStrategy iOpponentStrategy;
+
+    private final TinySimulationStrategy iSimulationStrategy;
+
     private final PlayoutScoringFunction iPlayoutScoringFunction;
 
     private double iNumPlayoutsPerSecond = -1;
 
     public TinyMonteCarloSimulation(final String playerName,
-                                    final TinyStrategy playerStrategy,
-                                    final TinyStrategy opponentStrategy,
+                                    final TinySimulationStrategy simulationStrategy,
                                     final PlayoutScoringFunction playoutScoringFunction)
     {
         iPlayerName = playerName;
-        iPlayerStrategy = playerStrategy;
-        iOpponentStrategy = opponentStrategy;
+        iSimulationStrategy = simulationStrategy;
         iPlayoutScoringFunction = playoutScoringFunction;
     }
 
@@ -84,7 +84,7 @@ public class TinyMonteCarloSimulation
             //
             final int randomIndex = Random.getInt(numMoves);
             final byte[] move = TinyGameState.getRow(moves, randomIndex, TinyConst.MOVE_ELEMENT_SIZE);
-            final double score = MonteCarloMethods.playOut(move, gameState, iPlayerName, iPlayerStrategy, iOpponentStrategy, iPlayoutScoringFunction);
+            final double score = MonteCarloMethods.playOut(move, gameState, iPlayerName, iSimulationStrategy, iPlayoutScoringFunction);
             moveScoresMap.get(move[TinyConst.MOVE_NUMBER_INDEX]).addScore(score);
 
             assert moveScoresMap.size() == numMoves : "Size discrepancy!";

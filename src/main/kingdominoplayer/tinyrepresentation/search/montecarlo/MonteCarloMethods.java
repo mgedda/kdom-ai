@@ -4,6 +4,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.PlayoutScoringFunction;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,8 +57,7 @@ public class MonteCarloMethods
     public static double playOut(final byte[] move,
                                  final TinyGameState gameState,
                                  final String playerName,
-                                 final TinyStrategy playerStrategy,
-                                 final TinyStrategy opponentStrategy,
+                                 final TinySimulationStrategy simulationStrategy,
                                  final PlayoutScoringFunction playoutScoringFunction)
     {
         // Player carries out move to playout.
@@ -70,10 +70,7 @@ public class MonteCarloMethods
         {
             final String playerTurn = searchState.getPlayerTurn();
             final byte[] availableMoves = searchState.getAvailableMoves(playerTurn);
-
-            final byte[] selectedMove = playerTurn.equals(playerName)
-                    ? playerStrategy.selectMove(playerTurn, availableMoves, searchState)
-                    : opponentStrategy.selectMove(playerTurn, availableMoves, searchState);
+            final byte[] selectedMove = simulationStrategy.selectMove(playerTurn, availableMoves, searchState);
 
             searchState = searchState.makeMove(playerTurn, selectedMove);
         }

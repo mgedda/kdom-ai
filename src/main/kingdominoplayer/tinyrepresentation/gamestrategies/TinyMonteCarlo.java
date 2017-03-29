@@ -4,6 +4,7 @@ import kingdominoplayer.tinyrepresentation.movefilters.TinyMoveFilter;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.PlayoutScoringFunction;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.simulation.TinyMonteCarloSimulation;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
+import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -15,20 +16,17 @@ public class TinyMonteCarlo implements TinyStrategy
 {
 
     private final TinyMoveFilter iMoveFilter;
-    private final TinyStrategy iPlayerStrategy;
-    private final TinyStrategy iOpponentStrategy;
+    private final TinySimulationStrategy iSimulationStrategy;
     private final PlayoutScoringFunction iPlayoutScoringFunction;
 
     private TinyMonteCarloSimulation iSimulation;
 
     public TinyMonteCarlo(final TinyMoveFilter moveFilter,
-                          final TinyStrategy playerStrategy,
-                          final TinyStrategy opponentStrategy,
+                          final TinySimulationStrategy simulationStrategy,
                           final PlayoutScoringFunction playoutScoringFunction)
     {
         iMoveFilter = moveFilter;
-        iPlayerStrategy = playerStrategy;
-        iOpponentStrategy = opponentStrategy;
+        iSimulationStrategy = simulationStrategy;
         iPlayoutScoringFunction = playoutScoringFunction;
     }
 
@@ -37,7 +35,7 @@ public class TinyMonteCarlo implements TinyStrategy
     {
         final byte[] moves = iMoveFilter.filterMoves(playerName, availableMoves, gameState);
 
-        iSimulation = new TinyMonteCarloSimulation(playerName, iPlayerStrategy, iOpponentStrategy, iPlayoutScoringFunction);
+        iSimulation = new TinyMonteCarloSimulation(playerName, iSimulationStrategy, iPlayoutScoringFunction);
 
         return iSimulation.evaluate(gameState, moves);
     }

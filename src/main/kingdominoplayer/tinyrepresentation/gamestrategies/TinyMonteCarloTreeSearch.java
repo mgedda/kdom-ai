@@ -2,6 +2,7 @@ package kingdominoplayer.tinyrepresentation.gamestrategies;
 
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.TinyMonteCarloTreeSearchAlgorithm;
+import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -12,21 +13,19 @@ import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.TinyMont
 public class TinyMonteCarloTreeSearch implements TinyStrategy
 {
 
-    private final TinyStrategy iPlayerStrategy;
-    private final TinyStrategy iOpponentStrategy;
+    private final TinySimulationStrategy iSimulationStrategy;
 
     private TinyMonteCarloTreeSearchAlgorithm iSearchAlgorithm;
 
-    public TinyMonteCarloTreeSearch(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy)
+    public TinyMonteCarloTreeSearch(final TinySimulationStrategy simulationStrategy)
     {
-        iPlayerStrategy = playerStrategy;
-        iOpponentStrategy = opponentStrategy;
+        iSimulationStrategy = simulationStrategy;
     }
 
     @Override
     public final byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
     {
-        iSearchAlgorithm = new TinyMonteCarloTreeSearchAlgorithm(playerName, iPlayerStrategy, iOpponentStrategy);
+        iSearchAlgorithm = new TinyMonteCarloTreeSearchAlgorithm(playerName, iSimulationStrategy);
         return iSearchAlgorithm.evaluate(gameState, availableMoves);
     }
 

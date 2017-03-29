@@ -4,6 +4,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 import kingdominoplayer.utils.Random;
 
 import java.util.ArrayDeque;
@@ -26,18 +27,15 @@ public class TinyMonteCarloTreeSearchAlgorithm
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
     private final String iPlayerName;
-    private final TinyStrategy iPlayerStrategy;
-    private final TinyStrategy iOpponentStrategy;
+    private final TinySimulationStrategy iSimulationStrategy;
 
     private double iNumPlayoutsPerSecond = -1;
 
     public TinyMonteCarloTreeSearchAlgorithm(final String playerName,
-                                             final TinyStrategy playerStrategy,
-                                             final TinyStrategy opponentStrategy)
+                                             final TinySimulationStrategy simulationStrategy)
     {
         iPlayerName = playerName;
-        iPlayerStrategy = playerStrategy;
-        iOpponentStrategy = opponentStrategy;
+        iSimulationStrategy = simulationStrategy;
     }
 
 
@@ -292,9 +290,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
         final byte[] availableMoves = gameState.getAvailableMoves(player);
 
         //noinspection UnnecessaryLocalVariable
-        final byte[] move = player.equals(iPlayerName)
-                ? iPlayerStrategy.selectMove(player, availableMoves, gameState)
-                : iOpponentStrategy.selectMove(player, availableMoves, gameState);
+        final byte[] move = iSimulationStrategy.selectMove(player, availableMoves, gameState);
 
         return move;
     }

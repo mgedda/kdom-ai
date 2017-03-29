@@ -10,7 +10,7 @@ import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
  * Date: 2017-03-29<br>
  * Time: 13:48<br><br>
  */
-public class TinyFullGreedySelectionStrategy implements TinySimulationStrategy
+public class TinyFullGreedySimulationStrategy implements TinySimulationStrategy
 {
     private final static TinyStrategy cPlayoutStrategy = new TinyFullGreedy();
 
