@@ -13,7 +13,8 @@ import java.net.URL;
 @SuppressWarnings("WeakerAccess")
 public class CommunicationsHandler
 {
-    private static String SERVER = "http://localhost";
+    private static String SERVER = "http://localhost:8087";
+    //private static String SERVER = "http://localhost";
     //private static String SERVER = "http://kdom.mratin.se";
 
 
