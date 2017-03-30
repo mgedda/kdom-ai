@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.gamestrategies;
 
+import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.movefilters.TinyMoveFilter;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.PlayoutScoringFunction;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.TinyMonteCarloEvaluationAlgorithm;
@@ -18,16 +19,19 @@ public class TinyMonteCarloEvaluation implements TinyStrategy
     private final TinyMoveFilter iMoveFilter;
     private final TinySimulationStrategy iSimulationStrategy;
     private final PlayoutScoringFunction iPlayoutScoringFunction;
+    private final SearchParameters iSearchParameters;
 
     private TinyMonteCarloEvaluationAlgorithm iSimulation;
 
     public TinyMonteCarloEvaluation(final TinyMoveFilter moveFilter,
                                     final TinySimulationStrategy simulationStrategy,
-                                    final PlayoutScoringFunction playoutScoringFunction)
+                                    final PlayoutScoringFunction playoutScoringFunction,
+                                    final SearchParameters searchParameters)
     {
         iMoveFilter = moveFilter;
         iSimulationStrategy = simulationStrategy;
         iPlayoutScoringFunction = playoutScoringFunction;
+        iSearchParameters = searchParameters;
     }
 
     @Override
@@ -35,7 +39,7 @@ public class TinyMonteCarloEvaluation implements TinyStrategy
     {
         final byte[] moves = iMoveFilter.filterMoves(playerName, availableMoves, gameState);
 
-        iSimulation = new TinyMonteCarloEvaluationAlgorithm(playerName, iSimulationStrategy, iPlayoutScoringFunction);
+        iSimulation = new TinyMonteCarloEvaluationAlgorithm(playerName, iSimulationStrategy, iPlayoutScoringFunction, iSearchParameters);
 
         return iSimulation.evaluate(gameState, moves);
     }

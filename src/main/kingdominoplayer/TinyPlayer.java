@@ -3,7 +3,6 @@ package kingdominoplayer;
 import kingdominoplayer.naiverepresentation.datastructures.LocalGameState;
 import kingdominoplayer.naiverepresentation.datastructures.Move;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
-import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategyID;
 import kingdominoplayer.tinyrepresentation.adapters.LocalGameStateToTinyGameStateAlgorithm;
 import kingdominoplayer.tinyrepresentation.adapters.MoveAdapter;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
@@ -18,13 +17,13 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 public class TinyPlayer extends Player
 {
 
-    private final TinyStrategy iStrategy;
+    private final TinyStrategy iGameStrategy;
 
-    public TinyPlayer(final String uuid, final String name, final TinyStrategyID strategyID, final boolean enableDebug)
+    public TinyPlayer(final String uuid, final String name, final TinyStrategy gameStrategy, final boolean enableDebug)
     {
         super(uuid, name, null, enableDebug);
 
-        iStrategy = strategyID.getStrategy();
+        iGameStrategy = gameStrategy;
     }
 
     @Override
@@ -39,9 +38,9 @@ public class TinyPlayer extends Player
         }
 
         final TinyGameState tinyGameState = new LocalGameStateToTinyGameStateAlgorithm().applyTo(localGameState);
-        final byte[] selectedMove = iStrategy.selectMove(getName(), moves, tinyGameState);
+        final byte[] selectedMove = iGameStrategy.selectMove(getName(), moves, tinyGameState);
 
-        getNumPlayoutsPerSecond()[roundNumber - 1] = iStrategy.getNumPlayoutsPerSecond();
+        getNumPlayoutsPerSecond()[roundNumber - 1] = iGameStrategy.getNumPlayoutsPerSecond();
 
         return MoveAdapter.toMove(selectedMove);
     }

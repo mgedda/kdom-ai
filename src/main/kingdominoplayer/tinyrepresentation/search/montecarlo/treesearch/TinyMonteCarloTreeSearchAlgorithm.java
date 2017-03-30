@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch;
 
+import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
@@ -18,9 +19,6 @@ import java.util.ArrayList;
  */
 public class TinyMonteCarloTreeSearchAlgorithm
 {
-    private static final double MAX_SIMULATION_TIME_SECONDS = 10d;   // maximum time for one move
-    private static final long PLAYOUT_FACTOR = (long) 1E15;          // number of desired playouts per move
-
     private static final int NODE_VISITS_BEFORE_EXPAND_CHILD = 0;   // number of times a node must have been visited
                                                                      // before any of its children are expanded.
 
@@ -28,14 +26,17 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
     private final String iPlayerName;
     private final TinySimulationStrategy iSimulationStrategy;
+    private final SearchParameters iSearchParameters;
 
     private double iNumPlayoutsPerSecond = -1;
 
     public TinyMonteCarloTreeSearchAlgorithm(final String playerName,
-                                             final TinySimulationStrategy simulationStrategy)
+                                             final TinySimulationStrategy simulationStrategy,
+                                             final SearchParameters searchParameters)
     {
         iPlayerName = playerName;
         iSimulationStrategy = simulationStrategy;
+        iSearchParameters = searchParameters;
     }
 
 
@@ -53,10 +54,9 @@ public class TinyMonteCarloTreeSearchAlgorithm
         root.expand();
 
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
-        final long numPlayOuts = PLAYOUT_FACTOR * numMoves;  // max X playouts per move
         final long searchStartTime = System.nanoTime();
-        while (root.getVisits() <= numPlayOuts
-                && getSeconds(System.nanoTime() - searchStartTime) < MAX_SIMULATION_TIME_SECONDS
+        while (root.getVisits() <= iSearchParameters.getMaxNumPlayouts()
+                && getSeconds(System.nanoTime() - searchStartTime) < iSearchParameters.getMaxSearchTime()
                 )
         {
             final MCTSResult result = applyMCTS(root);

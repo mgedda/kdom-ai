@@ -1,6 +1,8 @@
 package kingdominoplayer;
 
 import kingdominoplayer.naiverepresentation.datastructures.GameState;
+import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
+import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategyFactory;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategyID;
 
 import java.io.File;
@@ -23,23 +25,29 @@ public class ExperimentEngine
 
     public static void main(final String[] args) throws IOException
     {
-        final String usage = "Usage: java -jar kdom-exp <playerStrategy> <opponentStrategy> <outputFile>";
+        final String usage = "Usage: java -jar kdom-exp <playerStrategy> <opponentStrategy> <outputFile> <max_search_time> <max_playouts>";
 
         String playerStrategy = "";
         String opponentStrategy = "";
         String outputFile = "";
+        double maxSearchTime = 0;
+        long maxNumPlayouts = 0;
 
-        if (args.length == 3)
+        if (args.length == 5)
         {
             playerStrategy = args[0];
             opponentStrategy = args[1];
             outputFile = args[2];
+            maxSearchTime = Double.valueOf(args[3]);
+            maxNumPlayouts = Long.valueOf(args[4]);
         }
         else
         {
             System.err.println(usage);
             System.exit(0);
         }
+
+        final SearchParameters searchParameters = new SearchParameters(maxNumPlayouts, maxSearchTime);
 
         final Game game = GameServer.startGame(4);
 
@@ -55,13 +63,16 @@ public class ExperimentEngine
         final String opponent2UUID = game.addPlayer(opponent2Name);
         final String opponent3UUID = game.addPlayer(opponent3Name);
 
+        final TinyStrategy playerGameStrategy = new TinyStrategyFactory(searchParameters).getGameStrategy(playerStrategyID);
+        final TinyStrategy opponentGameStrategy = new TinyStrategyFactory(searchParameters).getGameStrategy(opponentStrategyID);
+
         final String playerUUID = game.addPlayer(playerName);
-        final TinyPlayer player = new TinyPlayer(playerUUID, playerName, playerStrategyID, false);
+        final TinyPlayer player = new TinyPlayer(playerUUID, playerName, playerGameStrategy, false);
 
         final ArrayList<Player> players = new ArrayList<>(4);
-        players.add(new TinyPlayer(opponent1UUID, opponent1Name, opponentStrategyID, false));
-        players.add(new TinyPlayer(opponent2UUID, opponent2Name, opponentStrategyID, false));
-        players.add(new TinyPlayer(opponent3UUID, opponent3Name, opponentStrategyID, false));
+        players.add(new TinyPlayer(opponent1UUID, opponent1Name, opponentGameStrategy, false));
+        players.add(new TinyPlayer(opponent2UUID, opponent2Name, opponentGameStrategy, false));
+        players.add(new TinyPlayer(opponent3UUID, opponent3Name, opponentGameStrategy, false));
         players.add(player);
 
         final GameState gameState = game.play(players);

@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation;
 
+import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.TinyMoveAverageScorePair;
@@ -19,27 +20,24 @@ import java.util.LinkedHashMap;
  */
 public class TinyMonteCarloEvaluationAlgorithm
 {
-    private static final double MAX_SIMULATION_TIME_SECONDS = 10d;   // maximum time for one move
-    private static final int SIMULATION_BREADTH = 1000;              // max number of moves to evaluate
-    private static final long PLAYOUT_FACTOR = (long) 1E15;          // number of desired playouts per move
-
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
     private final String iPlayerName;
-
     private final TinySimulationStrategy iSimulationStrategy;
-
     private final PlayoutScoringFunction iPlayoutScoringFunction;
+    private final SearchParameters iSearchParameters;
 
-    private double iNumPlayoutsPerSecond = -1;
+    private double iNumPlayoutsPerSecond = -1;      // output
 
     public TinyMonteCarloEvaluationAlgorithm(final String playerName,
                                              final TinySimulationStrategy simulationStrategy,
-                                             final PlayoutScoringFunction playoutScoringFunction)
+                                             final PlayoutScoringFunction playoutScoringFunction,
+                                             final SearchParameters searchParameters)
     {
         iPlayerName = playerName;
         iSimulationStrategy = simulationStrategy;
         iPlayoutScoringFunction = playoutScoringFunction;
+        iSearchParameters = searchParameters;
     }
 
     /**
@@ -50,8 +48,7 @@ public class TinyMonteCarloEvaluationAlgorithm
      */
     public byte[] evaluate(final TinyGameState gameState, final byte[] moves)
     {
-        final byte[] movesToEvaluate = TinyUtils.selectMovesRandomly(moves, SIMULATION_BREADTH);
-        final ArrayList<TinyMoveAverageScorePair> moveScores = getMoveScores(gameState, movesToEvaluate);
+        final ArrayList<TinyMoveAverageScorePair> moveScores = getMoveScores(gameState, moves);
 
         // Select move with best score.
         //
@@ -74,10 +71,9 @@ public class TinyMonteCarloEvaluationAlgorithm
 
         final long searchStartTime = System.nanoTime();
 
-        final long numPlayOuts = PLAYOUT_FACTOR * numMoves;  // max X playouts per move
         long playOutCounter = 1;
-        while (playOutCounter <= numPlayOuts
-                && getSeconds(System.nanoTime() - searchStartTime) < MAX_SIMULATION_TIME_SECONDS)
+        while (playOutCounter <= iSearchParameters.getMaxNumPlayouts()
+                && getSeconds(System.nanoTime() - searchStartTime) < iSearchParameters.getMaxSearchTime())
         {
             // Play out a random move.
             //
