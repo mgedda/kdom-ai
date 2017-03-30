@@ -1,6 +1,6 @@
 package kingdominoplayer.naiverepresentation.datastructures;
 
-import org.junit.Assert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
