@@ -18,7 +18,7 @@ public class TinyFullGreedyAlgorithm extends TinyGreedyAlgorithm
     @Override
     protected ArrayList<TinyKingdomMovePair> getKingdomMovePairsWithChosenDominoPlaced(final ArrayList<TinyKingdomMovePair> kingdomMovePairs)
     {
-        final ArrayList<TinyKingdomMovePair> kingdomMovePairsWithChosenDominoPlaced = new ArrayList<>(100);
+        final ArrayList<TinyKingdomMovePair> kingdomMovePairsWithChosenDominoPlaced = new ArrayList<>(kingdomMovePairs.size());
 
         for (final TinyKingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
