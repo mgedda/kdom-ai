@@ -94,7 +94,7 @@ public class TinyUtils
 
 
     /**
-     * Get indices of all placed tiles (excluding the castle).
+     * Get indices of all placed tiles (excluding the castle). // TODO [gedda] IMPORTANT! : INCLUDING THE CASTLE???
      *
      * @param playerKingdomTerrains
      * @return
@@ -114,6 +114,22 @@ public class TinyUtils
         }
 
         return placedIndices;
+    }
+
+    public static boolean hasPlacedTile(final byte[] playerKingdomTerrains)
+    {
+        final byte noTerrain = TerrainCode.from("NONE");
+        final byte castleTerrain = TerrainCode.from("CASTLE");
+
+        for (byte i = 0; i < playerKingdomTerrains.length; i++)
+        {
+            if (playerKingdomTerrains[i] != noTerrain && playerKingdomTerrains[i] != castleTerrain)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static byte[] place(final byte tile1Value,
