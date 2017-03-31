@@ -1,11 +1,11 @@
 package kingdominoplayer.tinyrepresentation.gamestrategies;
 
+import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyKingdomMovePair;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyMove;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
-import kingdominoplayer.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -156,8 +156,9 @@ public abstract class TinyGreedyAlgorithm
     private ArrayList<TinyKingdomMovePair> excludeDestructiveMoves(final ArrayList<TinyKingdomMovePair> kingdomMovePairs)
     {
         // Remove all kingdoms that break the Middle Kingdom rule.
+        // Remove all kingdoms that leave single-tile holes.
         //
-        ArrayList<TinyKingdomMovePair> validKingdomMovePairs = removeKingdomMovePairsBreakingMiddleKingdomRule(kingdomMovePairs);
+        ArrayList<TinyKingdomMovePair> validKingdomMovePairs = removeDetrimentalMoves(kingdomMovePairs);
 
         if (validKingdomMovePairs.isEmpty())
         {
@@ -165,18 +166,7 @@ public abstract class TinyGreedyAlgorithm
             validKingdomMovePairs = kingdomMovePairs;
         }
 
-
-        // Remove all kingdoms that leave single-tile holes.
-        //
-        ArrayList<TinyKingdomMovePair> kingdomMovePairsWithoutSingleTileHoles = removeKingdomMovePairsWithSingleTileHoles(validKingdomMovePairs);
-
-        if (kingdomMovePairsWithoutSingleTileHoles.isEmpty())
-        {
-            // TODO [gedda] IMPORTANT! : FIX THIS!!!
-            kingdomMovePairsWithoutSingleTileHoles = validKingdomMovePairs;
-        }
-
-        return kingdomMovePairsWithoutSingleTileHoles;
+        return validKingdomMovePairs;
     }
 
 
@@ -223,7 +213,7 @@ public abstract class TinyGreedyAlgorithm
 
     private ArrayList<TinyKingdomMovePair> getKingdomMovePairsWithPlacedDominoPlaced(final ArrayList<TinyKingdomMovePair> kingdomMovePairs)
     {
-        final ArrayList<TinyKingdomMovePair> kingdomsWithPlacedDominoPlaced = new ArrayList<>(100);
+        final ArrayList<TinyKingdomMovePair> kingdomsWithPlacedDominoPlaced = new ArrayList<>(kingdomMovePairs.size());
 
         for (final TinyKingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
@@ -271,93 +261,68 @@ public abstract class TinyGreedyAlgorithm
     }
 
 
-    private ArrayList<TinyKingdomMovePair> removeKingdomMovePairsBreakingMiddleKingdomRule(final ArrayList<TinyKingdomMovePair> kingdomMovePairs)
-    {
-        final ArrayList<TinyKingdomMovePair> kingdomMovePairsFulfillingRule = new ArrayList<>(kingdomMovePairs.size());
-
-        for (final TinyKingdomMovePair kingdomMovePair : kingdomMovePairs)
-        {
-            boolean kingdomFulfilsRule = true;
-            for (final byte placedIndex : kingdomMovePair.getPlacedIndices())
-            {
-                final int tileX = TinyGameState.indexToTileXCoordinate(placedIndex);
-                final int tileY = TinyGameState.indexToTileYCoordinate(placedIndex);
-
-                final boolean isWithinBounds = Math.abs(tileX) < 3 && Math.abs(tileY) < 3;
-
-                if (! isWithinBounds)
-                {
-                    kingdomFulfilsRule = false;
-                    break;
-                }
-            }
-
-            if (kingdomFulfilsRule)
-            {
-                kingdomMovePairsFulfillingRule.add(kingdomMovePair);
-            }
-
-        }
-
-        return kingdomMovePairsFulfillingRule;
-    }
-
-
-    public ArrayList<TinyKingdomMovePair> removeKingdomMovePairsWithSingleTileHoles(final ArrayList<TinyKingdomMovePair> kingdomMovePairs)
+    private ArrayList<TinyKingdomMovePair> removeDetrimentalMoves(final ArrayList<TinyKingdomMovePair> kingdomMovePairs)
     {
         final ArrayList<TinyKingdomMovePair> validPairs = new ArrayList<>(kingdomMovePairs.size());
+
+        final byte noTerrain = TerrainCode.from("NONE");
+        final byte castleTerrain = TerrainCode.from("CASTLE");
 
         for (final TinyKingdomMovePair kingdomMovePair : kingdomMovePairs)
         {
             final byte[] kingdomTerrains = kingdomMovePair.getKingdomTerrains();
-            final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
 
-            final LinkedHashSet<Byte> adjacentPositions = new LinkedHashSet<>(100);
+            boolean fulfilsMiddleKingdomRule = true;
+            boolean hasSingleTileHole = false;
 
-            for (final byte placedIndex : placedIndices)
+            for (byte i = 0; i < kingdomTerrains.length; i++)
             {
-                final ArrayList<Byte> adjacentIndices = TinyUtils.getAdjacentIndices(placedIndex, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
-                adjacentPositions.addAll(adjacentIndices);
+                // Check if tile breaks middle kingdom rule.
+                //
+                if (kingdomTerrains[i] != noTerrain && kingdomTerrains[i] != castleTerrain)
+                {
+                    // There is a placed tile at index i
+                    //
+                    final int tileX = TinyGameState.indexToTileXCoordinate(i);
+                    final int tileY = TinyGameState.indexToTileYCoordinate(i);
+
+                    final boolean isWithinBounds = Math.abs(tileX) < 3 && Math.abs(tileY) < 3;
+
+                    if (! isWithinBounds)
+                    {
+                        // breaks middle kingdom rule
+                        fulfilsMiddleKingdomRule = false;
+                        break;
+                    }
+                }
+
+                // Check if position is a single-tile hole.
+                //
+                if (kingdomTerrains[i] == noTerrain)
+                {
+                    // There is no tile at index i
+                    //
+                    if (isSingleTileHole(i, kingdomTerrains))
+                    {
+                        hasSingleTileHole = true;
+                        break;
+                    }
+                }
             }
-            adjacentPositions.removeAll(placedIndices);
 
 
-            final ArrayList<Byte> singleTileHolePositions = getSingleTileHoles(adjacentPositions, placedIndices);
-
-            if (singleTileHolePositions.isEmpty())
+            if (fulfilsMiddleKingdomRule && !hasSingleTileHole)
             {
                 validPairs.add(kingdomMovePair);
             }
         }
-
-        //DebugPlot.plotWithPositionsMarked(DEBUG_kingdoms, DEBUG_positionsArray, "Single Tile Hole Positions Adjacent To Placed Domino");
-        Util.noop();
 
         return validPairs;
     }
 
 
 
-
-
-    private ArrayList<Byte> getSingleTileHoles(final Collection<Byte> positions,
-                                               final Collection<Byte> placedIndices)
-    {
-        final ArrayList<Byte> singleTileHolePositions = new ArrayList<>(positions.size());
-
-        for (final byte position : positions)
-        {
-            if (isSingleTileHole(position, placedIndices))
-            {
-                singleTileHolePositions.add(position);
-            }
-        }
-
-        return singleTileHolePositions;
-    }
-
-
-    private boolean isSingleTileHole(final byte position, final Collection<Byte> placedIndices)
+    private boolean isSingleTileHole(final byte position, final byte[] kingdomTerrains)
     {
 
         final int tileX = TinyGameState.indexToTileXCoordinate(position);
@@ -386,20 +351,21 @@ public abstract class TinyGreedyAlgorithm
 
         final ArrayList<Byte> adjacentPositions = TinyUtils.getAdjacentIndices(position, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
 
+        final byte noTerrain = TerrainCode.from("NONE");
+        final byte castleTerrain = TerrainCode.from("CASTLE");
+
         final ArrayList<Boolean> adjacentOccupiedStatuses = new ArrayList<>(adjacentPositions.size());
         for (final byte adjacentPosition : adjacentPositions)
         {
             boolean isAdjacentOccupied = false;
 
-            final int castleIndex = TinyGameState.tileCoordinateToLinearIndex(0, 0);
-            final boolean isCastleTile = adjacentPosition == castleIndex;
             // TODO [gedda] IMPORTANT! : change to outside 5x5 kingdom area!!!
             final int adjacentTileX = TinyGameState.indexToTileXCoordinate(adjacentPosition);
             final int adjacentTileY = TinyGameState.indexToTileYCoordinate(adjacentPosition);
             final boolean isOutsideCastleCenteredKingdom = Math.abs(adjacentTileX) > 2 || Math.abs(adjacentTileY) > 2;
-            final boolean isTilePosition = placedIndices.contains(adjacentPosition);
+            final boolean isTilePosition = kingdomTerrains[adjacentPosition] != noTerrain && kingdomTerrains[adjacentPosition] != castleTerrain;
 
-            if (isCastleTile || isOutsideCastleCenteredKingdom || isTilePosition)
+            if (isOutsideCastleCenteredKingdom || isTilePosition)
             {
                 isAdjacentOccupied = true;
             }
