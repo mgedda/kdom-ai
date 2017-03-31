@@ -2,8 +2,8 @@
 
 set -e
 
-NUM_RUNS=2
-PLAYER_STRATEGY="MCE_TR_R"
+NUM_RUNS=1
+PLAYER_STRATEGY="FULL_GREEDY"
 OPPONENT_STRATEGY="FULL_GREEDY"
 
 MAX_SEARCH_TIME=10      # maximum search time per round (seconds) [<=0: deactivated]
@@ -17,7 +17,26 @@ DATE="$DATE_DAY-$DATE_TIME"
 
 REVISION=$(eval "git rev-parse --short HEAD")
 
-TARGET_DIR="kdom_exp-${DATE}-rev-${REVISION}"
+
+SYSTEM=`uname -s`
+
+if [ "$SYSTEM" == "Darwin" ]; then
+    # We are on a Mac
+    SYSTEM=Mac
+    #echo `sysctl -n machdep.cpu.brand_string`
+    CPU_SPEED=`sysctl -n machdep.cpu.brand_string | awk '/GHz/{print $1}' RS=@`
+elif [ "$SYSTEM" == "Linux" ]; then
+    # We are on Linux
+    #echo "Linux"
+    CPU_SPEED=`cat /proc/cpuinfo | awk '/GHz/{print $1}' RS=@ | head -1`
+else
+  echo "Unknown system!"
+  exit 0
+fi
+
+#CPU=${CPU_SPEED/GHz/""}
+
+TARGET_DIR="kdom_exp-${DATE}-rev-${REVISION}-cpu-${CPU_SPEED}"
 
 OUTPUT_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.m"
 LOG_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.log"
@@ -42,8 +61,9 @@ print "| Opponent strategy: $OPPONENT_STRATEGY"
 print "| "
 print "| Max search time: $MAX_SEARCH_TIME (s)"
 print "| Max playouts: $MAX_PLAYOUTS"
-print "| "
 print "| Runs: $NUM_RUNS"
+print "| "
+print "| System: $SYSTEM $CPU_SPEED"
 print "| Output file: $OUTPUT_FILE"
 print "| "
 print "| Executing: '$SCRIPT_STR'"
@@ -60,8 +80,9 @@ echo "# Opponent strategy: $OPPONENT_STRATEGY"                                  
 echo "# "                                                                                       >> $OUTPUT_FILE
 echo "# Max search time: $MAX_SEARCH_TIME (s)"                                                  >> $OUTPUT_FILE
 echo "# Max playouts: $MAX_PLAYOUTS"                                                            >> $OUTPUT_FILE
-echo "# "                                                                                       >> $OUTPUT_FILE
 echo "# Runs: $NUM_RUNS"                                                                        >> $OUTPUT_FILE
+echo "# "                                                                                       >> $OUTPUT_FILE
+echo "# System: $SYSTEM $CPU_SPEED"                                                             >> $OUTPUT_FILE
 echo "# Output file: $OUTPUT_FILE"                                                              >> $OUTPUT_FILE
 echo "# "                                                                                       >> $OUTPUT_FILE
 echo "# Executing: '$SCRIPT_STR'"                                                               >> $OUTPUT_FILE
