@@ -778,11 +778,6 @@ public class TinyGameState
         return playerKingdomTerrains;
     }
 
-    public Set<Byte> getPlacedIndices(final String playerName)
-    {
-        final byte[] playerKingdomTerrains = getPlayerKingdomTerrains(playerName);
-        return TinyUtils.getPlacedIndices(playerKingdomTerrains);
-    }
 
 
     public byte[] getPlayerKingdomCrowns(final String playerName)

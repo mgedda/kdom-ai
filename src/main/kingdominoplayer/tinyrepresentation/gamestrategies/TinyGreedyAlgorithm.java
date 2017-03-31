@@ -25,7 +25,6 @@ public abstract class TinyGreedyAlgorithm
     {
         final byte[] kingdomTerrains = gameState.getPlayerKingdomTerrains(playerName);
         final byte[] kingdomCrowns = gameState.getPlayerKingdomCrowns(playerName);
-        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
 
         // TODO [gedda] IMPORTANT! : Select dominoes that have double match, i.e. which can be placed so both tiles match adjacent terrains.
 
@@ -62,7 +61,7 @@ public abstract class TinyGreedyAlgorithm
 
             // See if we have already placed some dominoes.
             //
-            if (! placedIndices.isEmpty())
+            if (TinyUtils.hasPlacedTile(kingdomTerrains))
             {
                 // We have dominoes placed in our kingdom.
                 //
