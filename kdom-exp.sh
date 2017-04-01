@@ -2,21 +2,13 @@
 
 set -e
 
-NUM_RUNS=1
-PLAYER_STRATEGY="FULL_GREEDY"
-OPPONENT_STRATEGY="FULL_GREEDY"
-
-MAX_SEARCH_TIME=10      # maximum search time per round (seconds) [<=0: deactivated]
-MAX_PLAYOUTS=0          # maximum number of playouts per round    [<=0: deactivated]
-
-MAX_SEARCH_TIME_ESCAPED=${MAX_SEARCH_TIME//[.]/_}
+#
+# Setup
+#
 
 DATE_DAY=`date +%Y%m%d`
 DATE_TIME=`date +%H%M%S`
 DATE="$DATE_DAY-$DATE_TIME"
-
-REVISION=$(eval "git rev-parse --short HEAD")
-
 
 SYSTEM=`uname -s`
 
@@ -36,74 +28,126 @@ fi
 
 #CPU=${CPU_SPEED/GHz/""}
 
+REVISION=$(eval "git rev-parse --short HEAD")
 TARGET_DIR="kdom_exp-${DATE}-rev-${REVISION}-cpu-${CPU_SPEED}"
-
-OUTPUT_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.m"
-LOG_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.log"
-
-SCRIPT_STR="java -jar out/kdom-exp.jar ${PLAYER_STRATEGY} ${OPPONENT_STRATEGY} ${OUTPUT_FILE} ${MAX_SEARCH_TIME} ${MAX_PLAYOUTS}"
-
 mkdir $TARGET_DIR
 
 
+# Print string to log file
+#
+# Args:
+#
+#    $1 - String to print
+#    $2 - Log file
+#
 function print
 {
-    echo $1 | tee -a $LOG_FILE
+    echo $1 | tee -a $2
 }
 
 
-print "======================================================================================="
-print "| Kingdomino AI Experiment"
-print "|--------------------------------------------------------------------------------------"
-print "| "
-print "| Player strategy:   $PLAYER_STRATEGY"
-print "| Opponent strategy: $OPPONENT_STRATEGY"
-print "| "
-print "| Max search time: $MAX_SEARCH_TIME (s)"
-print "| Max playouts: $MAX_PLAYOUTS"
-print "| Runs: $NUM_RUNS"
-print "| "
-print "| System: $SYSTEM $CPU_SPEED"
-print "| Output file: $OUTPUT_FILE"
-print "| "
-print "| Executing: '$SCRIPT_STR'"
-print "| Git Revision: $REVISION"
-print "---------------------------------------------------------------------------------------"
-print ""
+# Play n games
+#
+# Args:
+#
+#    $1 - Number of games
+#    $2 - Player game strategy
+#    $3 - Opponent game strategy
+#    $4 - Maximum time per turn  (only for search strategies) (<=0: deactivated)
+#    $5 - Maximum number of playouts  (only for search strategies) (<=0: deactivated)
+#
+#    $6 - Target directory
+#    $7 - System (Mac/Linux)
+#    $8 - CPU speed
+#    $9 - Git revision
+#
+function playGames
+{
+    NUM_RUNS=$1
+    PLAYER_STRATEGY=$2
+    OPPONENT_STRATEGY=$3
+    MAX_SEARCH_TIME=$4
+    MAX_PLAYOUTS=$5
+    TARGET_DIR=$6
+    SYSTEM=$7
+    CPU_SPEED=$8
+    REVISION=$9
 
-echo "#======================================================================================"  >> $OUTPUT_FILE
-echo "# Kingdomino AI Experiment"                                                               >> $OUTPUT_FILE
-echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
-echo "# "                                                                                       >> $OUTPUT_FILE
-echo "# Player strategy:   $PLAYER_STRATEGY"                                                    >> $OUTPUT_FILE
-echo "# Opponent strategy: $OPPONENT_STRATEGY"                                                  >> $OUTPUT_FILE
-echo "# "                                                                                       >> $OUTPUT_FILE
-echo "# Max search time: $MAX_SEARCH_TIME (s)"                                                  >> $OUTPUT_FILE
-echo "# Max playouts: $MAX_PLAYOUTS"                                                            >> $OUTPUT_FILE
-echo "# Runs: $NUM_RUNS"                                                                        >> $OUTPUT_FILE
-echo "# "                                                                                       >> $OUTPUT_FILE
-echo "# System: $SYSTEM $CPU_SPEED"                                                             >> $OUTPUT_FILE
-echo "# Output file: $OUTPUT_FILE"                                                              >> $OUTPUT_FILE
-echo "# "                                                                                       >> $OUTPUT_FILE
-echo "# Executing: '$SCRIPT_STR'"                                                               >> $OUTPUT_FILE
-echo "# Git Revision: $REVISION"                                                                >> $OUTPUT_FILE
-echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
-echo ""                                                                                         >> $OUTPUT_FILE
-echo "# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13), playouts_per_second(13), scores(13), score_diff, opponent_scores(3)" >> $OUTPUT_FILE
-echo "kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME_ESCAPED}_P${MAX_PLAYOUTS} = ["  >> $OUTPUT_FILE
+    MAX_SEARCH_TIME_ESCAPED=${MAX_SEARCH_TIME//[.]/_}
 
-for ((i=1; i <= $NUM_RUNS; i++))
-do
-    print "---------------------------------------------------------------------------------------"
-    print "| Experiment Run $i/$NUM_RUNS"
-    print "---------------------------------------------------------------------------------------"
-    print ""
+    OUTPUT_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.m"
+    LOG_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.log"
 
-    eval ${SCRIPT_STR} || true | tee -a $LOG_FILE
+    SCRIPT_STR="java -jar out/kdom-exp.jar ${PLAYER_STRATEGY} ${OPPONENT_STRATEGY} ${OUTPUT_FILE} ${MAX_SEARCH_TIME} ${MAX_PLAYOUTS}"
 
-    print ""
-done
+    print "=======================================================================================" $LOG_FILE
+    print "| Kingdomino AI Experiment"                                                              $LOG_FILE
+    print "|--------------------------------------------------------------------------------------" $LOG_FILE
+    print "| "                                                                                      $LOG_FILE
+    print "| Player strategy:   $PLAYER_STRATEGY"                                                   $LOG_FILE
+    print "| Opponent strategy: $OPPONENT_STRATEGY"                                                 $LOG_FILE
+    print "| "                                                                                      $LOG_FILE
+    print "| Max search time: $MAX_SEARCH_TIME (s)"                                                 $LOG_FILE
+    print "| Max playouts: $MAX_PLAYOUTS"                                                           $LOG_FILE
+    print "| Runs: $NUM_RUNS"                                                                       $LOG_FILE
+    print "| "                                                                                      $LOG_FILE
+    print "| System: $SYSTEM $CPU_SPEED"                                                            $LOG_FILE
+    print "| Output file: $OUTPUT_FILE"                                                             $LOG_FILE
+    print "| "                                                                                      $LOG_FILE
+    print "| Executing: '$SCRIPT_STR'"                                                              $LOG_FILE
+    print "| Git Revision: $REVISION"                                                               $LOG_FILE
+    print "---------------------------------------------------------------------------------------" $LOG_FILE
+    print ""                                                                                        $LOG_FILE
 
-print "---------------------------------------------------------------------------------------"
-print "| Experiment done!"
-print "---------------------------------------------------------------------------------------"
+    echo "#======================================================================================"  >> $OUTPUT_FILE
+    echo "# Kingdomino AI Experiment"                                                               >> $OUTPUT_FILE
+    echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
+    echo "# "                                                                                       >> $OUTPUT_FILE
+    echo "# Player strategy:   $PLAYER_STRATEGY"                                                    >> $OUTPUT_FILE
+    echo "# Opponent strategy: $OPPONENT_STRATEGY"                                                  >> $OUTPUT_FILE
+    echo "# "                                                                                       >> $OUTPUT_FILE
+    echo "# Max search time: $MAX_SEARCH_TIME (s)"                                                  >> $OUTPUT_FILE
+    echo "# Max playouts: $MAX_PLAYOUTS"                                                            >> $OUTPUT_FILE
+    echo "# Runs: $NUM_RUNS"                                                                        >> $OUTPUT_FILE
+    echo "# "                                                                                       >> $OUTPUT_FILE
+    echo "# System: $SYSTEM $CPU_SPEED"                                                             >> $OUTPUT_FILE
+    echo "# Output file: $OUTPUT_FILE"                                                              >> $OUTPUT_FILE
+    echo "# "                                                                                       >> $OUTPUT_FILE
+    echo "# Executing: '$SCRIPT_STR'"                                                               >> $OUTPUT_FILE
+    echo "# Git Revision: $REVISION"                                                                >> $OUTPUT_FILE
+    echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
+    echo ""                                                                                         >> $OUTPUT_FILE
+    echo "# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13), playouts_per_second(13), scores(13), score_diff, opponent_scores(3)" >> $OUTPUT_FILE
+    echo "kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME_ESCAPED}_P${MAX_PLAYOUTS} = ["  >> $OUTPUT_FILE
+
+    for ((i=1; i <= $NUM_RUNS; i++))
+    do
+        print "---------------------------------------------------------------------------------------" $LOG_FILE
+        print "| Experiment Run $i/$NUM_RUNS"                                                           $LOG_FILE
+        print "---------------------------------------------------------------------------------------" $LOG_FILE
+        print ""                                                                                        $LOG_FILE
+
+        eval ${SCRIPT_STR} || true | tee -a $LOG_FILE
+
+        print ""                                                                                        $LOG_FILE
+    done
+
+    print "---------------------------------------------------------------------------------------"  $LOG_FILE
+    print "| Experiment done!"                                                                       $LOG_FILE
+    print "---------------------------------------------------------------------------------------"  $LOG_FILE
+}
+
+
+#
+# Experiments
+#
+
+playGames 200 "MCE_FG_R" "FULL_GREEDY" 10 0 $TARGET_DIR $SYSTEM $CPU_SPEED $REVISION
+playGames 200 "MCE_FG_R" "FULL_GREEDY"  8 0 $TARGET_DIR $SYSTEM $CPU_SPEED $REVISION
+playGames 200 "MCE_FG_R" "FULL_GREEDY"  6 0 $TARGET_DIR $SYSTEM $CPU_SPEED $REVISION
+playGames 200 "MCE_FG_R" "FULL_GREEDY"  4 0 $TARGET_DIR $SYSTEM $CPU_SPEED $REVISION
+playGames 200 "MCE_FG_R" "FULL_GREEDY"  2 0 $TARGET_DIR $SYSTEM $CPU_SPEED $REVISION
+playGames 200 "MCE_FG_R" "FULL_GREEDY"  1 0 $TARGET_DIR $SYSTEM $CPU_SPEED $REVISION
+
+
+
