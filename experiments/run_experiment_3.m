@@ -12,20 +12,24 @@ source("kdom_exp-20170326-190517-rev-fd90607/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY
 source("kdom_exp-20170326-005955-rev-fd90607/kdom_exp_MC_TR_TR_WDL_vs_FULL_GREEDY.m");
 source("kdom_exp-20170328-150600-rev-8f1e859/kdom_exp_MC_TR_TR_P_vs_FULL_GREEDY.m");
 source("kdom_exp-20170327-161148-rev-8f1e859/kdom_exp_MC_TR_TR_R_vs_FULL_GREEDY.m");
+source("kdom_exp-20170331-213055-rev-3cc76b2-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T10_P0.m");
 
 strat1_str = "FG";
 strat2_str = "MCE-TR/WDL";
 strat3_str = "MCE-TR/P";
 strat4_str = "MCE-TR/R";
+strat5_str = "MCE-FG/R";
 
 opponent_strat_str = "FG";
 
-num_games = 450;
+#num_games = 450;
+num_games = 300;
 
 strat1 = kdom_exp_FULL_GREEDY_vs_FULL_GREEDY(1:num_games,:);
 strat2 = kdom_exp_MC_TR_TR_WDL_vs_FULL_GREEDY(1:num_games,:);
 strat3 = kdom_exp_MC_TR_TR_P_vs_FULL_GREEDY(1:num_games,:);
 strat4 = kdom_exp_MC_TR_TR_R_vs_FULL_GREEDY(1:num_games,:);
+strat5 = kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T10_P0(1:num_games,:);
 
 
 mkdir(output_dir);
@@ -85,6 +89,7 @@ strats{1} = getStratAsCellArray(strat1, strat1_str, opponent_strat_str);
 strats{2} = getStratAsCellArray(strat2, strat2_str, opponent_strat_str);
 strats{3} = getStratAsCellArray(strat3, strat3_str, opponent_strat_str);
 strats{4} = getStratAsCellArray(strat4, strat4_str, opponent_strat_str);
+strats{5} = getStratAsCellArray(strat5, strat5_str, opponent_strat_str);
 
 #
 # Hypothesis test.
