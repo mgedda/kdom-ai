@@ -120,6 +120,31 @@ replot
 
 
 
+#
+# EXPERIMENT 4 - Score diffs
+#
+
+set title "Average score difference to best opponent (200 games)"
+set xlabel "Max time per turn (s)"
+set ylabel "Score difference" rotate by 90
+set key left
+set xrange [0:11]
+set yrange [-20:15]
+
+set terminal x11
+plot "run_experiment_4.out/SCORE_DIFFS_FG.dat" using 1:2:3 w yerrorbars lt 1 title 'FG', \
+	'' using 1:2 w lines lt 1 title '', \
+	"run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 2 title 'MCE-FG/R', \
+	'' using 1:2 w lines lt 2 title ''
+
+pause -1
+
+set terminal epslatex
+set output outputdir."/experiment4_score_diffs.tex"
+replot
+
+
+
 
 #
 # EXPERIMENT 2 - Playouts
