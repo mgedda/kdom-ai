@@ -154,6 +154,9 @@ set title "Average playouts per second per round (450 games)"
 set xlabel "Round"
 set ylabel "Playouts/s" rotate by 90
 
+unset xrange
+unset yrange
+
 set autoscale y
 set logscale y
 
