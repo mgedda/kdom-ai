@@ -128,9 +128,12 @@ set title "Average score difference to best opponent (200 games)"
 set xlabel "Max time per turn (s)"
 set ylabel "Score difference" rotate by 90
 set key left
-set xrange [0:11]
+set xrange [0.08:12]
 #set yrange [-20:15]
 unset yrange
+
+#set autoscale x
+set logscale x
 
 set terminal x11
 plot "run_experiment_4.out/SCORE_DIFFS_FG.dat" using 1:2:3 w yerrorbars lt 1 title 'FG', \
@@ -159,6 +162,7 @@ set ylabel "Playouts/s" rotate by 90
 
 unset xrange
 unset yrange
+unset logscale x
 
 set autoscale y
 set logscale y
