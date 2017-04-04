@@ -50,7 +50,7 @@ public class TinyStrategyFactory
                 result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyFullGreedySimulationStrategy(), new RelativeScoreFunction(), iSearchParameters);
                 break;
             case MCE_EG_R:
-                result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyEpsilonGreedySelectionStrategy(0.2), new RelativeScoreFunction(), iSearchParameters);
+                result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyEpsilonGreedySelectionStrategy(0.75), new RelativeScoreFunction(), iSearchParameters);
                 break;
             case MCTS_TR:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters);
