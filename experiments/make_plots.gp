@@ -144,7 +144,9 @@ set style line 2 lc rgb 'red' lt 2 lw 1.0
 set arrow 1 from 0.08,-10.165 to 12,-10.165 nohead ls 1
 set arrow 2 from 0.08,-5.681 to 12,-5.681 nohead ls 2
 set arrow 3 from 0.08,-14.649 to 12,-14.649 nohead ls 2
-set label 'FG' at 9,-12 center textcolor 'red'
+set label 'FG' at 6,-18 center
+
+set arrow 4 from 6,-16.3 to 6.5,-11 filled
 
 set terminal x11
 plot "run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title 'MCE-FG/R', \
@@ -165,6 +167,7 @@ unset object 1
 unset arrow 1
 unset arrow 2
 unset arrow 3
+unset arrow 4
 unset label
 
 
