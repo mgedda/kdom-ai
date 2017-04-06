@@ -135,12 +135,23 @@ unset yrange
 #set autoscale x
 set logscale x
 
+# Set FG region
+#set style rectangle back fc lt -1 fillstyle solid 0.15 noborder
+#set object 1 rect from 0.08,-5.681 to 12,-14.649
+#set object 1 back lw 1.0 fc 'red' fillstyle default
+set style line 1 lc rgb 'red' lt 1 lw 1.0
+set style line 2 lc rgb 'red' lt 2 lw 1.0
+set arrow 1 from 0.08,-10.165 to 12,-10.165 nohead ls 1
+set arrow 2 from 0.08,-5.681 to 12,-5.681 nohead ls 2
+set arrow 3 from 0.08,-14.649 to 12,-14.649 nohead ls 2
+set label 'FG' at 9,-12 center textcolor 'red'
+
 set terminal x11
-plot "run_experiment_4.out/SCORE_DIFFS_FG.dat" using 1:2:3 w yerrorbars lt 1 title 'FG', \
+plot "run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title 'MCE-FG/R', \
 	'' using 1:2 w lines lt 1 title '', \
-	"run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 2 title 'MCE-FG/R', \
+	"run_experiment_4.out/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title 'MCE-TR/R', \
 	'' using 1:2 w lines lt 2 title '', \
-	"run_experiment_4.out/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 3 title 'MCE-TR/R', \
+	"run_experiment_4.out/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title 'MCE-$\epsilon$G/R', \
 	'' using 1:2 w lines lt 3 title ''
 
 pause -1
@@ -150,6 +161,11 @@ set output outputdir."/experiment4_score_diffs.tex"
 replot
 
 
+unset object 1
+unset arrow 1
+unset arrow 2
+unset arrow 3
+unset label
 
 
 #
@@ -171,7 +187,9 @@ set terminal x11
 plot "run_experiment_4.out/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title 'MCE-TR/R', \
 	'' using 1:2 w lines lt 1 title '', \
 	"run_experiment_4.out/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title 'MCE-FG/R', \
-	'' using 1:2 w lines lt 2 title ''
+	'' using 1:2 w lines lt 2 title '', \
+	"run_experiment_4.out/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title 'MCE-$\epsilon$G/R', \
+	'' using 1:2 w lines lt 3 title ''
 
 pause -1
 
