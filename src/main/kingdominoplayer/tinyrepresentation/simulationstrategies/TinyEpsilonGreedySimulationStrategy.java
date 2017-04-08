@@ -12,14 +12,14 @@ import kingdominoplayer.utils.Random;
  * Date: 2017-03-29<br>
  * Time: 13:51<br><br>
  */
-public class TinyEpsilonGreedySelectionStrategy implements TinySimulationStrategy
+public class TinyEpsilonGreedySimulationStrategy implements TinySimulationStrategy
 {
     private final static TinyStrategy cGreedyStrategy = new TinyFullGreedy();
     private final static TinyStrategy cRandomStrategy = new TinyTrueRandom();
 
     private final double iEpsilon;
 
-    public TinyEpsilonGreedySelectionStrategy(final double epsilon)
+    public TinyEpsilonGreedySimulationStrategy(final double epsilon)
     {
         assert epsilon >= 0.0 && epsilon <= 1.0 : "pre: illegal argument!";
         iEpsilon = epsilon;
