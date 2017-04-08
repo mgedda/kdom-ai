@@ -2,12 +2,12 @@ package kingdominoplayer.tinyrepresentation.gamestrategies;
 
 import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.movefilters.TinyAllMoves;
-import kingdominoplayer.tinyrepresentation.movefilters.TinyMaxScoringMoves;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.PlayerScoreFunction;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.RelativeScoreFunction;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.evaluation.WinDrawLossFunction;
-import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyEpsilonGreedySelectionStrategy;
+import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyEpsilonGreedySimulationStrategy;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyFullGreedySimulationStrategy;
+import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyPlayerGreedySimulationStrategy;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyTrueRandomSimulationStrategy;
 
 /**
@@ -50,7 +50,10 @@ public class TinyStrategyFactory
                 result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyFullGreedySimulationStrategy(), new RelativeScoreFunction(), iSearchParameters);
                 break;
             case MCE_EG_R:
-                result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyEpsilonGreedySelectionStrategy(0.75), new RelativeScoreFunction(), iSearchParameters);
+                result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyEpsilonGreedySimulationStrategy(0.75), new RelativeScoreFunction(), iSearchParameters);
+                break;
+            case MCE_PG_R:
+                result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyPlayerGreedySimulationStrategy(), new RelativeScoreFunction(), iSearchParameters);
                 break;
             case MCTS_TR:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters);

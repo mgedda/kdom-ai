@@ -19,6 +19,7 @@ public enum TinyStrategyID
 
     MCE_FG_R,
     MCE_EG_R,
+    MCE_PG_R,
 
     MCTS_TR,
     MCTS_FG
