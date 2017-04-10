@@ -26,12 +26,12 @@ public class TinyEpsilonGreedySimulationStrategy implements TinySimulationStrate
     }
 
     @Override
-    public byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
+    public byte[] selectMove(final String playerName, final String playerTurn, final byte[] availableMoves, final TinyGameState gameState)
     {
         final double randomValue = Random.getInt(101) / 100.0;
 
         return randomValue > iEpsilon
-                ? cGreedyStrategy.selectMove(playerName, availableMoves, gameState)
-                : cRandomStrategy.selectMove(playerName, availableMoves, gameState);
+                ? cGreedyStrategy.selectMove(playerTurn, availableMoves, gameState)
+                : cRandomStrategy.selectMove(playerTurn, availableMoves, gameState);
     }
 }

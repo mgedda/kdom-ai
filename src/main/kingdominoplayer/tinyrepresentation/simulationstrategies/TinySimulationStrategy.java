@@ -10,5 +10,5 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
  */
 public interface TinySimulationStrategy
 {
-    byte[] selectMove(String playerName, byte[] availableMoves, TinyGameState gameState);
+    byte[] selectMove(String playerName, String playerTurn, byte[] availableMoves, TinyGameState gameState);
 }

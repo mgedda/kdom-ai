@@ -69,7 +69,7 @@ public class MonteCarloMethods
         {
             final String playerTurn = searchState.getPlayerTurn();
             final byte[] availableMoves = searchState.getAvailableMoves(playerTurn);
-            final byte[] selectedMove = simulationStrategy.selectMove(playerTurn, availableMoves, searchState);
+            final byte[] selectedMove = simulationStrategy.selectMove(playerName, playerTurn, availableMoves, searchState);
 
             searchState = searchState.makeMove(playerTurn, selectedMove);
         }
