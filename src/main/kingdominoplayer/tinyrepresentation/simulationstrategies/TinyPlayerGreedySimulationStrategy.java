@@ -15,18 +15,12 @@ public class TinyPlayerGreedySimulationStrategy implements TinySimulationStrateg
     private final static TinyStrategy cRandomStrategy = new TinyTrueRandom();
 
     @Override
-    public byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
+    public byte[] selectMove(final String playerName, final String playerTurn, final byte[] availableMoves, final TinyGameState gameState)
     {
-        final byte[] move;
-
-        if (gameState.getPlayerTurn().equals(playerName))
-        {
-            move = cGreedyStrategy.selectMove(playerName, availableMoves, gameState);
-        }
-        else
-        {
-            move = cRandomStrategy.selectMove(playerName, availableMoves, gameState);
-        }
+        //noinspection UnnecessaryLocalVariable
+        final byte[] move = playerTurn.equals(playerName)
+                ? cGreedyStrategy.selectMove(playerTurn, availableMoves, gameState)
+                : cRandomStrategy.selectMove(playerTurn, availableMoves, gameState);
 
         return move;
     }

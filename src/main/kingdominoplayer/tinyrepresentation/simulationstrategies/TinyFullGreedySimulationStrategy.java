@@ -15,8 +15,8 @@ public class TinyFullGreedySimulationStrategy implements TinySimulationStrategy
     private final static TinyStrategy cPlayoutStrategy = new TinyFullGreedy();
 
     @Override
-    public byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
+    public byte[] selectMove(final String playerName, final String playerTurn, final byte[] availableMoves, final TinyGameState gameState)
     {
-        return cPlayoutStrategy.selectMove(playerName, availableMoves, gameState);
+        return cPlayoutStrategy.selectMove(playerTurn, availableMoves, gameState);
     }
 }

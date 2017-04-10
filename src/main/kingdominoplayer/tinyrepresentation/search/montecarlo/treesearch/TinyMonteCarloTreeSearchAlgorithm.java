@@ -290,7 +290,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
         final byte[] availableMoves = gameState.getAvailableMoves(player);
 
         //noinspection UnnecessaryLocalVariable
-        final byte[] move = iSimulationStrategy.selectMove(player, availableMoves, gameState);
+        final byte[] move = iSimulationStrategy.selectMove(iPlayerName, player, availableMoves, gameState);
 
         return move;
     }
