@@ -25,7 +25,7 @@ set grid mytics lc rgb "#bbbbbb" lw 1 lt 0
 # EXPERIMENT 1 - Branching factors
 #
 
-set title "Branching factor per round (1500 games)"
+set title "Branching factor per round"
 set xlabel "Round"
 set ylabel "Branching factor" rotate by 90
 set key left
@@ -37,7 +37,9 @@ plot "run_experiment_1.out/BRANCHING_FACTORS_TR.dat" using 1:2:3 w yerrorbars lt
 
 pause -1
 
-set terminal epslatex
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment1_branching_factors.tex"
 replot
 
@@ -46,25 +48,26 @@ replot
 # EXPERIMENT 1 - Scores
 #
 
-set title "Average scores per round (1500 games)"
+set title "Average scores per round"
 set xlabel "Round"
 set ylabel "Score" rotate by 90
 set key left
 set yrange [0:]
 
 set terminal x11
-plot "run_experiment_1.out/SCORES_TR.dat" using 1:2:3 w yerrorbars lt 1 title 'TR', \
+plot "run_experiment_1.out/SCORES_TR.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{TR}', \
      '' using 1:2 w lines lt 1 title '', \
-     "run_experiment_1.out/SCORES_GPRD.dat" using 1:2:3 w yerrorbars lt 2 title 'GPRD', \
+     "run_experiment_1.out/SCORES_GPRD.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{GPRD}', \
      '' using 1:2 w lines lt 2 title '', \
-     "run_experiment_1.out/SCORES_FG.dat" using 1:2:3 w yerrorbars lt 3 title 'FG', \
+     "run_experiment_1.out/SCORES_FG.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{FG}', \
      '' using 1:2 w lines lt 3 title ''
 
 pause -1
 
-set terminal epslatex
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment1_scores.tex"
-#set output 'experiment1_scores.tex'
 replot
 
 
@@ -73,23 +76,24 @@ replot
 # EXPERIMENT 2 - Scores
 #
 
-set title "Average scores per round (450 games)"
+set title "Average scores per round"
 set xlabel "Round"
 set ylabel "Score" rotate by 90
 set key left
 set yrange [0:]
 
 set terminal x11
-plot "run_experiment_2.out/SCORES_FG.dat" using 1:2:3 w yerrorbars lt 1 title 'FG', \
+plot "run_experiment_2.out/SCORES_FG.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{FG}', \
 	'' using 1:2 w lines lt 1 title '', \
-	"run_experiment_2.out/SCORES_MCE-TR_WDL.dat" using 1:2:3 w yerrorbars lt 2 title 'MCE-TR/WDL', \
+	"run_experiment_2.out/SCORES_MCE-TR_WDL.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/WDL}', \
 	'' using 1:2 w lines lt 2 title ''
 
 pause -1
 
-set terminal epslatex
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment2_scores.tex"
-#set output 'experiment2_scores.tex'
 replot
 
 
@@ -105,16 +109,18 @@ set key left
 set yrange [0:]
 
 set terminal x11
-plot "run_experiment_2.out/SCORES_MCE-TR_WDL.dat" using 1:2:3 w yerrorbars lt 1 title 'MCE-TR/WDL', \
+plot "run_experiment_2.out/SCORES_MCE-TR_WDL.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-TR/WDL}', \
 	'' using 1:2 w lines lt 1 title '', \
-	"run_experiment_3.out/SCORES_MCE-TR_P.dat" using 1:2:3 w yerrorbars lt 2 title 'MCE-TR/P', \
+	"run_experiment_3.out/SCORES_MCE-TR_P.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/P}', \
 	'' using 1:2 w lines lt 2 title '', \
-	"run_experiment_3.out/SCORES_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 3 title 'MCE-TR/R', \
+	"run_experiment_3.out/SCORES_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-TR/R}', \
 	'' using 1:2 w lines lt 3 title ''
 
 pause -1
 
-set terminal epslatex
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment3_scores.tex"
 replot
 
@@ -124,9 +130,9 @@ replot
 # EXPERIMENT 4 - Score diffs
 #
 
-set title "Average score difference to best opponent (200 games)"
-set xlabel "Max time per turn (s)"
-set ylabel "Score difference" rotate by 90
+set title "Score difference to best opponent"
+set xlabel "Time per turn (s)"
+set ylabel "Score diff" rotate by 90
 set key left
 set xrange [0.08:12]
 #set yrange [-20:15]
@@ -144,21 +150,25 @@ set style line 2 lc rgb 'red' lt 2 lw 1.0
 set arrow 1 from 0.08,-10.165 to 12,-10.165 nohead ls 1
 set arrow 2 from 0.08,-5.681 to 12,-5.681 nohead ls 2
 set arrow 3 from 0.08,-14.649 to 12,-14.649 nohead ls 2
-set label 'FG' at 6,-18 center
+set label '\scriptsize{FG}' at 6,-18 center
 
 set arrow 4 from 6,-16.3 to 6.5,-11 filled
 
 set terminal x11
-plot "run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title 'MCE-FG/R', \
+plot "run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 	'' using 1:2 w lines lt 1 title '', \
-	"run_experiment_4.out/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title 'MCE-TR/R', \
+	"run_experiment_4.out/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
 	'' using 1:2 w lines lt 2 title '', \
-	"run_experiment_4.out/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title 'MCE-$\epsilon$G/R', \
-	'' using 1:2 w lines lt 3 title ''
+	"run_experiment_4.out/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
+	'' using 1:2 w lines lt 3 title '', \
+	"run_experiment_4.out/SCORE_DIFFS_MCE-PG_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
+	'' using 1:2 w lines lt 4 title ''
 
 pause -1
 
-set terminal epslatex
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment4_score_diffs.tex"
 replot
 
@@ -175,28 +185,34 @@ unset label
 # EXPERIMENT 4 - Playouts
 #
 
-set title "Average playouts per second per round (200 games)"
+set title "Playouts/$s$ per round"
 set xlabel "Round"
-set ylabel "Playouts/s" rotate by 90
+set ylabel "Playout frequency ($s^{-1}$)" rotate by 90
+set format y "$10^%T$"
 
 unset xrange
 unset yrange
 unset logscale x
 
-set autoscale y
+#set autoscale y
+set yrange [10:200000]
 set logscale y
 
 set terminal x11
-plot "run_experiment_4.out/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title 'MCE-TR/R', \
+plot "run_experiment_4.out/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 	'' using 1:2 w lines lt 1 title '', \
-	"run_experiment_4.out/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title 'MCE-FG/R', \
+	"run_experiment_4.out/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
 	'' using 1:2 w lines lt 2 title '', \
-	"run_experiment_4.out/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title 'MCE-$\epsilon$G/R', \
-	'' using 1:2 w lines lt 3 title ''
+	"run_experiment_4.out/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
+	'' using 1:2 w lines lt 3 title '', \
+	"run_experiment_4.out/PLAYOUTS_MCE-PG_R (10s).dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
+	'' using 1:2 w lines lt 4 title ''
 
 pause -1
 
-set terminal epslatex
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment4_playouts.tex"
 replot
 
