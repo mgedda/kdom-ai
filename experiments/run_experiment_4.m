@@ -198,6 +198,51 @@ strats_4{9} = getStratCellArrayVersion4(strat4_t8, strat4_t8_str, opponent_strat
 strats_4{10} = getStratCellArrayVersion4(strat4_t10, strat4_t10_str, opponent_strat_str);
 
 
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.1_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.2_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.3_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.5_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T1_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T2_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T4_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T6_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T8_P0.m");
+source("kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T10_P0.m");
+
+strat5_t0_1_str = "MCE-PG/R (0.1s)";
+strat5_t0_2_str = "MCE-PG/R (0.2s)";
+strat5_t0_3_str = "MCE-PG/R (0.3s)";
+strat5_t0_5_str = "MCE-PG/R (0.5s)";
+strat5_t1_str = "MCE-PG/R (1s)";
+strat5_t2_str = "MCE-PG/R (2s)";
+strat5_t4_str = "MCE-PG/R (4s)";
+strat5_t6_str = "MCE-PG/R (6s)";
+strat5_t8_str = "MCE-PG/R (8s)";
+strat5_t10_str = "MCE-PG/R (10s)";
+
+strat5_t0_1 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0_1_P0(1:num_games,:);
+strat5_t0_2 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0_2_P0(1:num_games,:);
+strat5_t0_3 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0_3_P0(1:num_games,:);
+strat5_t0_5 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0_5_P0(1:num_games,:);
+strat5_t1 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T1_P0(1:num_games,:);
+strat5_t2 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T2_P0(1:num_games,:);
+strat5_t4 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T4_P0(1:num_games,:);
+strat5_t6 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T6_P0(1:num_games,:);
+strat5_t8 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T8_P0(1:num_games,:);
+strat5_t10 = kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T10_P0(1:num_games,:);
+
+strats_5{1} = getStratCellArrayVersion4(strat5_t0_1, strat5_t0_1_str, opponent_strat_str);
+strats_5{2} = getStratCellArrayVersion4(strat5_t0_2, strat5_t0_2_str, opponent_strat_str);
+strats_5{3} = getStratCellArrayVersion4(strat5_t0_3, strat5_t0_3_str, opponent_strat_str);
+strats_5{4} = getStratCellArrayVersion4(strat5_t0_5, strat5_t0_5_str, opponent_strat_str);
+strats_5{5} = getStratCellArrayVersion4(strat5_t1, strat5_t1_str, opponent_strat_str);
+strats_5{6} = getStratCellArrayVersion4(strat5_t2, strat5_t2_str, opponent_strat_str);
+strats_5{7} = getStratCellArrayVersion4(strat5_t4, strat5_t4_str, opponent_strat_str);
+strats_5{8} = getStratCellArrayVersion4(strat5_t6, strat5_t6_str, opponent_strat_str);
+strats_5{9} = getStratCellArrayVersion4(strat5_t8, strat5_t8_str, opponent_strat_str);
+strats_5{10} = getStratCellArrayVersion4(strat5_t10, strat5_t10_str, opponent_strat_str);
+
+
 function score_diff_cell = getScoreDiffsCellArray(strats, strat_str)
   avg_score_diff = [];
   lower_err = [];
@@ -268,6 +313,7 @@ score_diffs{3} = getScoreDiffsCellArray(strats_1, "MCE-FG/R");
 score_diffs{1} = getScoreDiffsCellArray(strats_2, "FG");
 score_diffs{2} = getScoreDiffsCellArray(strats_3, "MCE-TR/R");
 score_diffs{4} = getScoreDiffsCellArray(strats_4, "MCE-EG/R");
+score_diffs{5} = getScoreDiffsCellArray(strats_5, "MCE-PG/R");
 
 plotScoreDiffs(score_diffs, num_games);
 writeScoreDiffsToDatFile(score_diffs, output_dir);
@@ -279,6 +325,7 @@ writeScoreDiffsToDatFile(score_diffs, output_dir);
 playout_strats{1} = strats_1{10};
 playout_strats{2} = strats_3{10};
 playout_strats{3} = strats_4{10};
+playout_strats{4} = strats_5{10};
 
 plotPlayoutsPerSecondOverlap(playout_strats);
 writePlayoutsToDatFile(playout_strats, output_dir, output_file_prefix);
