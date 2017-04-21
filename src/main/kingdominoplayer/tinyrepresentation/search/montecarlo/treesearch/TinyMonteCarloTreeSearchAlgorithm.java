@@ -4,7 +4,6 @@ import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
-import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 import kingdominoplayer.utils.Random;
 
@@ -19,8 +18,11 @@ import java.util.ArrayList;
  */
 public class TinyMonteCarloTreeSearchAlgorithm
 {
-    private static final int NODE_VISITS_BEFORE_EXPAND_CHILD = 0;   // number of times a node must have been visited
-                                                                     // before any of its children are expanded.
+    /**
+     * Number of times a node must have been visited
+     * before any of its children are expanded.
+     */
+    private static final int MIN_VISITS_BEFORE_EXPAND_CHILD = 50;
 
     private final String CLASS_STRING = "[" + getClass().getSimpleName() + "]";
 
@@ -41,7 +43,6 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
 
     /**
-     *
      * @param gameState
      * @param moves
      * @return the max scoring move
@@ -51,7 +52,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
         DEBUG.println(CLASS_STRING + " " + iPlayerName + " searching...");
 
         final MCTSNode root = new MCTSNode(gameState, null, new byte[0], iPlayerName);
-        root.expand();
+        //root.expand();
 
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
         final long searchStartTime = System.nanoTime();
@@ -59,8 +60,9 @@ public class TinyMonteCarloTreeSearchAlgorithm
                 && getSeconds(System.nanoTime() - searchStartTime) < iSearchParameters.getMaxSearchTime()
                 )
         {
-            final MCTSResult result = applyMCTS(root);
-            root.updateResult(result);
+            final MCTSNode node = treePolicy(root);
+            final MCTSResult result = defaultPolicy(node);
+            backupResult(node, result);
         }
 
         final long searchEndTime = System.nanoTime();
@@ -109,7 +111,7 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
         for (final MCTSNode child : node.getChildren())
         {
-            if (! child.isExpanded())
+            if (!child.isExpanded())
             {
                 continue;
             }
@@ -145,37 +147,34 @@ public class TinyMonteCarloTreeSearchAlgorithm
     }
 
 
-    private MCTSResult applyMCTS(final MCTSNode node)
+    private MCTSNode treePolicy(MCTSNode node)
     {
-        if (node.getGameState().isGameOver())
+        while (!isTerminal(node))
         {
-            return playout(node);
-        }
-
-        final ArrayList<MCTSNode> children = getChildren(node);
-        final MCTSNode bestChild = getHighestUCBChild(children);
-
-        final MCTSResult result;
-        if (! bestChild.isExpanded())
-        {
-            if (node.getVisits() > NODE_VISITS_BEFORE_EXPAND_CHILD)
+            if (!isFullyExpanded(node))
             {
-                bestChild.expand();
+                return expand(node);
             }
-            result = playout(node);
-        }
-        else
-        {
-            result = applyMCTS(bestChild);
-            bestChild.updateResult(result);
+            else
+            {
+                final MCTSNode bestChild = bestChild(node);
+
+                if (node.getVisits() < MIN_VISITS_BEFORE_EXPAND_CHILD)
+                {
+                    return bestChild;
+                }
+
+                node = bestChild;
+            }
         }
 
-        return result;
+        return node;
     }
 
-
-    public MCTSNode getHighestUCBChild(final ArrayList<MCTSNode> children)
+    private MCTSNode bestChild(final MCTSNode node)
     {
+        final ArrayList<MCTSNode> children = getChildren(node);
+
         double maxUCB = 0;
         final ArrayList<MCTSNode> bestChildren = new ArrayList<>(10);
 
@@ -209,6 +208,67 @@ public class TinyMonteCarloTreeSearchAlgorithm
             return bestChildren.get(0);
         }
     }
+
+    private boolean isTerminal(final MCTSNode node)
+    {
+        return node.getGameState().isGameOver();
+    }
+
+    private boolean isFullyExpanded(final MCTSNode node)
+    {
+        final ArrayList<MCTSNode> children = getChildren(node);
+        for (final MCTSNode child : children)
+        {
+            if (!child.isExpanded())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private MCTSNode expand(final MCTSNode node)
+    {
+        final ArrayList<MCTSNode> children = getChildren(node);
+
+        final ArrayList<MCTSNode> unvisited = new ArrayList<>(children.size());
+        for (final MCTSNode child : children)
+        {
+            if (!child.isExpanded())
+            {
+                unvisited.add(child);
+            }
+        }
+
+        if (unvisited.size() > 1)
+        {
+            final int numUnvisited = unvisited.size();
+            int randomIndex = Random.getInt(numUnvisited);
+
+            return unvisited.get(randomIndex);
+        }
+        else
+        {
+            return unvisited.get(0);
+        }
+    }
+
+    private MCTSResult defaultPolicy(final MCTSNode node)
+    {
+        return playout(node);
+    }
+
+
+    private void backupResult(MCTSNode node, final MCTSResult result)
+    {
+        while (node != null)
+        {
+            node.updateResult(result);
+            node = node.getParent();
+        }
+    }
+
 
 
     private ArrayList<MCTSNode> getChildren(final MCTSNode node)
@@ -249,9 +309,9 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
         if (! node.isExpanded())
         {
-            // Make UCB same as if node would have 1 visit.
+            // Guarantee selection of all nodes before expanding further down the tree.
             //
-            return Math.sqrt(2.0 * Math.log(parentVisits));
+            return Double.MAX_VALUE;
         }
 
         final double averageScore = (double) node.getWins() / (double) node.getVisits();
@@ -350,10 +410,15 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
     private void printTreeBFS(final MCTSNode root)
     {
-        printTreeBFS(root, -1);
+        printTreeBFS(root, -1, false);
     }
 
-    private void printTreeBFS(final MCTSNode root, final long numNodes)
+    private void printTreeBFS(final MCTSNode root, final boolean hideUnvisited)
+    {
+        printTreeBFS(root, -1, hideUnvisited);
+    }
+
+    private void printTreeBFS(final MCTSNode root, final long numNodes, final boolean hideUnvisited)
     {
         final ArrayDeque<NodeDepthIndicesPair> nodeQueue = new ArrayDeque<>(1000);
 
@@ -362,14 +427,20 @@ public class TinyMonteCarloTreeSearchAlgorithm
         long counter = 0;
         final long maxCount = numNodes == -1 ? Long.MAX_VALUE : numNodes;
 
-        while (! nodeQueue.isEmpty() && counter++ < maxCount)
+        while (! nodeQueue.isEmpty() && counter < maxCount)
         {
             final NodeDepthIndicesPair current = nodeQueue.pop();
+            final MCTSNode node = current.iNode;
 
-            final String nodeString = getNodeString(current.iNode, current.iDepthIndices);
+            if (hideUnvisited && ! node.isExpanded())
+            {
+                continue;
+            }
+
+            final String nodeString = getNodeString(node, current.iDepthIndices);
             System.out.println(nodeString);
 
-            final ArrayList<MCTSNode> children = current.iNode.getChildren();
+            final ArrayList<MCTSNode> children = node.getChildren();
             for (int i = 0; i < children.size(); ++i)
             {
                 final ArrayList<Integer> depthIndices = new ArrayList<>();
@@ -378,6 +449,8 @@ public class TinyMonteCarloTreeSearchAlgorithm
 
                 nodeQueue.add(new NodeDepthIndicesPair(children.get(i), depthIndices));
             }
+
+            counter++;
         }
     }
 

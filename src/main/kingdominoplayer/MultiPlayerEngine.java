@@ -18,7 +18,7 @@ public class MultiPlayerEngine
     public static void main(final String[] args) throws IOException
     {
         final Game game = GameServer.startGame(4);
-        final SearchParameters searchParameters = new SearchParameters(0, 10);
+        final SearchParameters searchParameters = new SearchParameters(0, 60);
 
         final String player1Name = "SirPranceALot1";
         final String player2Name = "SirPranceALot2";
@@ -34,7 +34,7 @@ public class MultiPlayerEngine
         players.add(new Player(player1UUID, player1Name, StrategyID.FULL_GREEDY, false));
         players.add(new Player(player2UUID, player2Name, StrategyID.FULL_GREEDY, false));
         players.add(new Player(player3UUID, player3Name, StrategyID.FULL_GREEDY, false));
-        players.add(new TinyPlayer(player4UUID, player4Name, new TinyStrategyFactory(searchParameters).getGameStrategy(TinyStrategyID.FULL_GREEDY), false));
+        players.add(new TinyPlayer(player4UUID, player4Name, new TinyStrategyFactory(searchParameters).getGameStrategy(TinyStrategyID.MCTS_TR), false));
 
         game.play(players);
 
