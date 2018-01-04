@@ -6,7 +6,7 @@ package kingdominoplayer;
 public class SearchParameters
 {
     private final long iMaxNumPlayouts;
-    private final double iMaxSearchTime;
+    private final double iMaxSearchTime;  // (s)
 
     public SearchParameters(long maxNumPlayouts, double maxSearchTime)
     {
