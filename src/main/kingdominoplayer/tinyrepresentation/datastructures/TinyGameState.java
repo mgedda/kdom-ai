@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.datastructures;
 
+import com.sun.istack.internal.Nullable;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyScorerAlgorithm;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyValidPositionsAlgorithm;
@@ -54,7 +55,7 @@ public class TinyGameState
                          final byte[] previousDraft,
                          final String[] players,
                          final byte[] drawPile,
-                         final boolean isSearching)
+                         @Nullable final String playerTurn)
     {
         iNumPlayers = (byte) players.length;
         iDraftDominoCount = iNumPlayers == 3 ? (byte) 3 : (byte) 4;
@@ -72,6 +73,7 @@ public class TinyGameState
         iPreviousDraft = previousDraft;
         iPlayers = players;
         iDrawPile = drawPile;
+        iPlayerTurn = playerTurn;
     }
 
 
@@ -306,7 +308,7 @@ public class TinyGameState
         }
 
         @SuppressWarnings("UnnecessaryLocalVariable")
-        final TinyGameState result = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, iPlayers, drawPile, true);
+        final TinyGameState result = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, iPlayers, drawPile, null);
 
         // TODO [gedda] IMPORTANT! : Sanity check result like in LocalGameState
         //sanityCheck(result);
@@ -977,5 +979,32 @@ public class TinyGameState
         result = 31 * result + Arrays.hashCode(iPlayers);
         result = 31 * result + (int) iDraftDominoCount;
         return result;
+    }
+
+
+    public String getPlayerWithHighestScore()
+    {
+        final Map<String, Integer> scores = getScores();
+
+        ArrayList<String> winners = new ArrayList<>(4);
+        int highestScore = 0;
+
+        for (String player : scores.keySet())
+        {
+            final Integer score = scores.get(player);
+            if (score == highestScore)
+            {
+                winners.add(player);
+            }
+
+            if (score > highestScore)
+            {
+                winners.clear();
+                winners.add(player);
+                highestScore = score;
+            }
+        }
+
+        return winners.size() > 1 ? "" : winners.get(0);
     }
 }

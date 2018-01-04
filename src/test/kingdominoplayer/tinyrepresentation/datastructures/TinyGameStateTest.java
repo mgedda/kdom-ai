@@ -74,7 +74,7 @@ public class TinyGameStateTest
                 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         tinyGameState.reorderDraft(previousDraft);
         //System.out.println(tinyGameState.toString());
@@ -104,7 +104,7 @@ public class TinyGameStateTest
                 4, 0, 0, 0, 0, 0, 0, 0, 0, 4,
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         tinyGameState.sortDraft(previousDraft);
         //System.out.println(tinyGameState.toString());
@@ -128,7 +128,7 @@ public class TinyGameStateTest
         };
 
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         Assert.assertEquals(tinyGameState.getPlayerIdFromDraft(previousDraft, 0), 11);
         Assert.assertEquals(tinyGameState.getPlayerIdFromDraft(previousDraft, 1), 12);
@@ -158,7 +158,7 @@ public class TinyGameStateTest
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         tinyGameState.clearElementInDraft(previousDraft, 1);
         System.out.println(tinyGameState.toString());
@@ -184,7 +184,7 @@ public class TinyGameStateTest
 
         final byte[] expected = new byte[]{20, 21, 22, 23, 24, 25, 26, 27, 28};
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         final byte[] domino = tinyGameState.getDominoFromDraft(previousDraft, 2);
 
@@ -207,7 +207,7 @@ public class TinyGameStateTest
                 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         final boolean currentDraftSelectionComplete = tinyGameState.isCurrentDraftSelectionComplete(currentDraft);
 
@@ -229,7 +229,7 @@ public class TinyGameStateTest
                 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         final boolean currentDraftSelectionComplete = tinyGameState.isCurrentDraftSelectionComplete(currentDraft);
 
@@ -252,7 +252,7 @@ public class TinyGameStateTest
                 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         final boolean draftEmpty = tinyGameState.isDraftEmpty(currentDraft);
 
@@ -274,7 +274,7 @@ public class TinyGameStateTest
                 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         final boolean draftEmpty = tinyGameState.isDraftEmpty(currentDraft);
 
@@ -350,7 +350,7 @@ public class TinyGameStateTest
         };
 
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
 
         final byte[] move = new byte[]{
@@ -502,7 +502,7 @@ public class TinyGameStateTest
                 29, 4, 0, 5, 0, -1, -1, -1, -1,
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, drawPile, true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, drawPile, null);
 
         final byte[] move = new byte[]{
                 1,                                // move number
@@ -651,7 +651,7 @@ public class TinyGameStateTest
         final byte[] drawPile = new byte[]{
         };
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, drawPile, true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, drawPile, null);
 
         final byte[] move = new byte[]{
                 1,                                // move number
@@ -832,7 +832,7 @@ public class TinyGameStateTest
         };
 
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         final byte[] availableMoves = tinyGameState.getAvailableMoves("PlayerA");
 
@@ -915,7 +915,7 @@ public class TinyGameStateTest
         };
 
 
-        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        final TinyGameState tinyGameState = new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
 
         final byte[] availableMoves = tinyGameState.getAvailableMoves("PlayerA");
 
@@ -950,7 +950,7 @@ public class TinyGameStateTest
         final byte[] previousDraft = new byte[draftSize * TinyConst.DRAFT_ELEMENT_SIZE];
         final byte[] currentDraft = new byte[draftSize * TinyConst.DRAFT_ELEMENT_SIZE];
 
-        return new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], true);
+        return new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, new byte[0], null);
     }
 
 
@@ -964,9 +964,7 @@ public class TinyGameStateTest
     private LocalGameState toLocalGameState(final GameState gameState)
     {
         return new LocalGameState(
-                gameState.getKingdomInfos(),
-                gameState.getPreviousDraft(),
-                gameState.getCurrentDraft(),
+                gameState,
                 new LinkedHashSet<>(0),
                 true);
     }
