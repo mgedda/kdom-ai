@@ -16,11 +16,10 @@ public class PlayerEngine
 {
     private static final int TIMEOUT_MINUTES = 30;
 
+    private static final String USAGE = "Usage: java -jar spawnplayer [-d] <playerName> <strategy> <gameUUID>";
 
     public static void main(final String[] args) throws IOException
     {
-        final String usage = "Usage: java -jar spawnplayer [-d] <playerName> <strategy> <gameUUID>";
-
         String playerName = "";
         String gameUUID = "";
         String strategy = "";
@@ -36,7 +35,7 @@ public class PlayerEngine
         {
             if (! args[0].equals("-d"))
             {
-                System.err.println(usage);
+                System.err.println(USAGE);
                 System.exit(0);
             }
 
@@ -47,7 +46,7 @@ public class PlayerEngine
         }
         else
         {
-            System.err.println(usage);
+            System.err.println(USAGE);
             System.exit(0);
         }
 
