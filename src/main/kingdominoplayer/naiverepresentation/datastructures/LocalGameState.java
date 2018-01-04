@@ -29,27 +29,34 @@ public class LocalGameState extends GameState
      */
     private final boolean iIsSearching;
 
-    private String iPlayerTurn;
 
+    public LocalGameState(final GameState gameState,
+                          final Set<Domino> drawPile,
+                          final boolean isSearching)
+    {
+        super(gameState.getKingdomInfos(), gameState.getPreviousDraft(), gameState.getCurrentDraft(), gameState.iCurrentPlayer);
+
+        iDrawPile = drawPile;
+        iIsSearching = isSearching;
+    }
 
     public LocalGameState(final ArrayList<KingdomInfo> kingdomInfos,
                           final ArrayList<DraftElement> previousDraft,
                           final ArrayList<DraftElement> currentDraft,
+                          final String currentPlayer,
                           final Set<Domino> drawPile,
                           final boolean isSearching)
     {
-        super(kingdomInfos, previousDraft, currentDraft);
+        super(kingdomInfos, previousDraft, currentDraft, currentPlayer);
 
         iDrawPile = drawPile;
         iIsSearching = isSearching;
-
-        iPlayerTurn = null;
     }
 
 
     public LocalGameState withSearchEnabled()
     {
-        return new LocalGameState(iKingdomInfos, iPreviousDraft, iCurrentDraft, iDrawPile, true);
+        return new LocalGameState(iKingdomInfos, iPreviousDraft, iCurrentDraft, iCurrentPlayer, iDrawPile, true);
     }
 
 
@@ -60,7 +67,7 @@ public class LocalGameState extends GameState
             assert false : "The game is over, so it is no ones turn!";
         }
 
-        if (iPlayerTurn == null)
+        if (iCurrentPlayer == null)
         {
             if (getPreviousDraft().isEmpty())
             {
@@ -86,18 +93,18 @@ public class LocalGameState extends GameState
                     playersLeft.addAll(playerNames);
 
                     final int randomNum = Random.getInt(numNames);
-                    iPlayerTurn = playersLeft.get(randomNum);
+                    iCurrentPlayer = playersLeft.get(randomNum);
                 }
                 else
                 {
-                    iPlayerTurn = playerNames.iterator().next();
+                    iCurrentPlayer = playerNames.iterator().next();
                 }
             }
 
-            iPlayerTurn = getPreviousDraft().get(0).getPlayerName();
+            iCurrentPlayer = getPreviousDraft().get(0).getPlayerName();
         }
 
-        return iPlayerTurn;
+        return iCurrentPlayer;
     }
 
 
@@ -261,11 +268,11 @@ public class LocalGameState extends GameState
                 }
             }
 
-            result = new LocalGameState(kingdomInfos, previousDraft, currentDraft, drawPile, iIsSearching);
+            result = new LocalGameState(kingdomInfos, previousDraft, currentDraft, null, drawPile, iIsSearching);
         }
         else
         {
-            result = new LocalGameState(kingdomInfos, previousDraft, currentDraft, iDrawPile, iIsSearching);
+            result = new LocalGameState(kingdomInfos, previousDraft, currentDraft, null, iDrawPile, iIsSearching);
         }
 
 
@@ -375,7 +382,7 @@ public class LocalGameState extends GameState
 
         final ArrayList<DraftElement> previousDraft = iCurrentDraft;
 
-        return new LocalGameState(iKingdomInfos, previousDraft, currentDraft, drawPile, iIsSearching);
+        return new LocalGameState(iKingdomInfos, previousDraft, currentDraft, null, drawPile, iIsSearching);
     }
 
 
@@ -451,5 +458,10 @@ public class LocalGameState extends GameState
     public void DEBUG_plot(final String title)
     {
         DebugPlot.plotGameState(this, title);
+    }
+
+    public String getPlayerTurnOrNull()
+    {
+        return iCurrentPlayer;
     }
 }

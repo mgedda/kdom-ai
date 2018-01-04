@@ -160,10 +160,15 @@ public class ServerResponseParser
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCurrentPlayer(final String gameState)
     {
-        final JSONObject currentPlayerJSON = new JSONObject(gameState).getJSONObject("currentPlayer");
-        final String name = currentPlayerJSON.getString("name");
+        final JSONObject jsonObject = new JSONObject(gameState);
+        if (jsonObject.has("currentPlayer"))
+        {
+            final JSONObject currentPlayerJSON = jsonObject.getJSONObject("currentPlayer");
+            final String name = currentPlayerJSON.getString("name");
+            return name;
+        }
 
-        return name;
+        return null;
     }
 
     public static PlacedTile[] getPlayerPlacedTiles(final String gameState, final String playerName)
@@ -287,6 +292,7 @@ public class ServerResponseParser
     public static GameState getGameStateObject(final String gameState)
     {
         final String[] playerNames = ServerResponseParser.getPlayerNames(gameState);
+        final String currentPlayer = ServerResponseParser.getCurrentPlayer(gameState);
 
         final ArrayList<KingdomInfo> kingdomInfos = new ArrayList<>(playerNames.length);
         for (final String playerName : playerNames)
@@ -298,6 +304,6 @@ public class ServerResponseParser
         final ArrayList<DraftElement> previousDraft = ArrayUtils.toArrayList(ServerResponseParser.getPreviousDraft(gameState));
         final ArrayList<DraftElement> currentDraft = ArrayUtils.toArrayList(ServerResponseParser.getCurrentDraft(gameState));
 
-        return new GameState(kingdomInfos, previousDraft, currentDraft);
+        return new GameState(kingdomInfos, previousDraft, currentDraft, currentPlayer);
     }
 }

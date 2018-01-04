@@ -27,14 +27,21 @@ public class GameState
      */
     protected final ArrayList<DraftElement> iCurrentDraft;
 
+    /**
+     * Current player.
+     */
+    protected String iCurrentPlayer;
+
 
     public GameState(final ArrayList<KingdomInfo> kingdomInfos,
                      final ArrayList<DraftElement> previousDraft,
-                     final ArrayList<DraftElement> currentDraft)
+                     final ArrayList<DraftElement> currentDraft,
+                     final String currentPlayer)
     {
         iKingdomInfos = kingdomInfos;
         iPreviousDraft = previousDraft;
         iCurrentDraft = currentDraft;
+        iCurrentPlayer = currentPlayer;
     }
 
     public ArrayList<KingdomInfo> getKingdomInfos()

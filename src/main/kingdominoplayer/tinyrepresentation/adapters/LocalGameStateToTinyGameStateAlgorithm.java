@@ -104,7 +104,7 @@ public class LocalGameStateToTinyGameStateAlgorithm
         }
 
 
-        return new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, drawPile, true);
+        return new TinyGameState(kingdomTerrains, kingdomCrowns, currentDraft, previousDraft, players, drawPile, localGameState.getPlayerTurnOrNull());
     }
 
 

@@ -29,10 +29,9 @@ public class GameStateHandler
         final Set<Domino> drawPile = GameContents.getDominoes();
         drawPile.removeAll(drawnDominoes);
 
+        //noinspection UnnecessaryLocalVariable
         final LocalGameState localGameState = new LocalGameState(
-                serverGameState.getKingdomInfos(),
-                serverGameState.getPreviousDraft(),
-                serverGameState.getCurrentDraft(),
+                serverGameState,
                 drawPile,
                 false);
 
