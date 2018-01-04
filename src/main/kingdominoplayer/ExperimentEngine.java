@@ -21,7 +21,7 @@ public class ExperimentEngine
 {
     public static void main(final String[] args) throws IOException
     {
-        final Parameters parameters = Parameters.from(args);
+        final ExperimentParameters parameters = ExperimentParameters.from(args);
 
         final Game game = GameServer.startGame(4);
 
@@ -47,8 +47,11 @@ public class ExperimentEngine
 
         game.printResult();
 
-        final ExperimentResult experimentResult = new ExperimentResult(gameState, player);
-        experimentResult.appendToFile(parameters.getOutputFile());
+        if (parameters.hasOutputFile())
+        {
+            final ExperimentResult experimentResult = new ExperimentResult(gameState, player);
+            experimentResult.appendToFile(parameters.getOutputFile());
+        }
     }
 
 

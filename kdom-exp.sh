@@ -78,7 +78,7 @@ function playGames
     OUTPUT_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.m"
     LOG_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.log"
 
-    SCRIPT_STR="java -jar out/kdom-exp.jar ${PLAYER_STRATEGY} ${OPPONENT_STRATEGY} ${OUTPUT_FILE} ${MAX_SEARCH_TIME} ${MAX_PLAYOUTS}"
+    SCRIPT_STR="java -jar out/kdom-exp.jar ${PLAYER_STRATEGY} ${OPPONENT_STRATEGY} ${MAX_SEARCH_TIME} ${MAX_PLAYOUTS} ${OUTPUT_FILE}"
 
     print "=======================================================================================" $LOG_FILE
     print "| Kingdomino AI Experiment"                                                              $LOG_FILE
