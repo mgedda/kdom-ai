@@ -1,9 +1,6 @@
 package kingdominoplayer;
 
 import kingdominoplayer.naiverepresentation.datastructures.GameState;
-import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
-import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategyFactory;
-import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategyID;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,32 +19,9 @@ import java.util.Map;
  */
 public class ExperimentEngine
 {
-
     public static void main(final String[] args) throws IOException
     {
-        final String usage = "Usage: java -jar kdom-exp <playerStrategy> <opponentStrategy> <outputFile> <max_search_time> <max_playouts>";
-
-        String playerStrategy = "";
-        String opponentStrategy = "";
-        String outputFile = "";
-        double maxSearchTime = 0;
-        long maxNumPlayouts = 0;
-
-        if (args.length == 5)
-        {
-            playerStrategy = args[0];
-            opponentStrategy = args[1];
-            outputFile = args[2];
-            maxSearchTime = Double.valueOf(args[3]);
-            maxNumPlayouts = Long.valueOf(args[4]);
-        }
-        else
-        {
-            System.err.println(usage);
-            System.exit(0);
-        }
-
-        final SearchParameters searchParameters = new SearchParameters(maxNumPlayouts, maxSearchTime);
+        final Parameters parameters = Parameters.from(args);
 
         final Game game = GameServer.startGame(4);
 
@@ -56,23 +30,17 @@ public class ExperimentEngine
         final String opponent3Name = "Opponent3";
         final String playerName = "Player";
 
-        final TinyStrategyID opponentStrategyID = TinyStrategyID.valueOf(opponentStrategy);
-        final TinyStrategyID playerStrategyID = TinyStrategyID.valueOf(playerStrategy);
-
         final String opponent1UUID = game.addPlayer(opponent1Name);
         final String opponent2UUID = game.addPlayer(opponent2Name);
         final String opponent3UUID = game.addPlayer(opponent3Name);
 
-        final TinyStrategy playerGameStrategy = new TinyStrategyFactory(searchParameters).getGameStrategy(playerStrategyID);
-        final TinyStrategy opponentGameStrategy = new TinyStrategyFactory(searchParameters).getGameStrategy(opponentStrategyID);
-
         final String playerUUID = game.addPlayer(playerName);
-        final TinyPlayer player = new TinyPlayer(playerUUID, playerName, playerGameStrategy, false);
+        final TinyPlayer player = new TinyPlayer(playerUUID, playerName, parameters.getPlayerStrategy(), false);
 
         final ArrayList<Player> players = new ArrayList<>(4);
-        players.add(new TinyPlayer(opponent1UUID, opponent1Name, opponentGameStrategy, false));
-        players.add(new TinyPlayer(opponent2UUID, opponent2Name, opponentGameStrategy, false));
-        players.add(new TinyPlayer(opponent3UUID, opponent3Name, opponentGameStrategy, false));
+        players.add(new TinyPlayer(opponent1UUID, opponent1Name, parameters.getOpponentStrategy(), false));
+        players.add(new TinyPlayer(opponent2UUID, opponent2Name, parameters.getOpponentStrategy(), false));
+        players.add(new TinyPlayer(opponent3UUID, opponent3Name, parameters.getOpponentStrategy(), false));
         players.add(player);
 
         final GameState gameState = game.play(players);
@@ -80,7 +48,7 @@ public class ExperimentEngine
         game.printResult();
 
         final ExperimentResult experimentResult = new ExperimentResult(gameState, player);
-        experimentResult.appendToFile(outputFile);
+        experimentResult.appendToFile(parameters.getOutputFile());
     }
 
 
