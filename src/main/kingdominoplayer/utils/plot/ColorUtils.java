@@ -8,7 +8,7 @@ import java.awt.*;
  * Date: 2017-02-13<br>
  * Time: 20:14<br><br>
  */
-/*package*/ class ColorUtils
+public class ColorUtils
 {
     @SuppressWarnings("WeakerAccess")
     public static Color toAWTColor(int ARGBValue)

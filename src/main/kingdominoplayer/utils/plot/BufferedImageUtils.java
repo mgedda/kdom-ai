@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Time: 19:13<br><br>
  */
 @SuppressWarnings("WeakerAccess")
-/*package*/ class BufferedImageUtils
+public class BufferedImageUtils
 {
     /**
      * Add a text string to the image.

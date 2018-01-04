@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * Time: 19:08<br><br>
  */
 @SuppressWarnings("WeakerAccess")
-/*package*/ class BufferedImageViewer
+public class BufferedImageViewer
 {
     public static void displayImage(final BufferedImage image, final String title)
     {
