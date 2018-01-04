@@ -11,39 +11,47 @@ import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategyFactory;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategyID;
 
-public class Parameters
-{
-    private static final String USAGE = "Usage: java -jar kdom-exp <playerStrategy> <opponentStrategy> <outputFile> <max_search_time> <max_playouts>";
+import java.util.ArrayList;
+import java.util.Collection;
 
-    public static Parameters from(final String[] args)
+public class ExperimentParameters
+{
+    private static final String USAGE = "Usage: java -jar kdom-exp <playerStrategy> <opponentStrategy> <max_search_time> <max_playouts> [outputFile]";
+
+    public static ExperimentParameters from(final String[] args)
     {
-        if (args.length != 5)
+        if (args.length < 4 || args.length > 5)
         {
             System.err.println(USAGE);
             System.exit(0);
         }
 
-        final double maxSearchTime = Double.valueOf(args[3]);
-        final long maxNumPlayouts = Long.valueOf(args[4]);
+        final double maxSearchTime = Double.valueOf(args[2]);
+        final long maxNumPlayouts = Long.valueOf(args[3]);
         final SearchParameters searchParameters = new SearchParameters(maxNumPlayouts, maxSearchTime);
 
         final TinyStrategy playerStrategy = new TinyStrategyFactory(searchParameters).getGameStrategy(TinyStrategyID.valueOf(args[0]));
         final TinyStrategy opponentStrategy = new TinyStrategyFactory(searchParameters).getGameStrategy(TinyStrategyID.valueOf(args[1]));
 
-        final String outputFile = args[2];
+        final ArrayList<String> outputFileOption = new ArrayList<>();
+        if (args.length == 5)
+        {
+            final String outputFile = args[4];
+            outputFileOption.add(outputFile);
+        }
 
-        return new Parameters(playerStrategy, opponentStrategy, outputFile);
+        return new ExperimentParameters(playerStrategy, opponentStrategy, outputFileOption);
     }
 
     private final TinyStrategy iPlayerStrategy;
     private final TinyStrategy iOpponentStrategy;
-    private final String iOutputFile;
+    private final Collection<String> iOutputFileOption;
 
-    private Parameters(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy, final String outputFile)
+    private ExperimentParameters(final TinyStrategy playerStrategy, final TinyStrategy opponentStrategy, final Collection<String> outputFileOption)
     {
         iPlayerStrategy = playerStrategy;
         iOpponentStrategy = opponentStrategy;
-        iOutputFile = outputFile;
+        iOutputFileOption = outputFileOption;
     }
 
     public TinyStrategy getPlayerStrategy()
@@ -58,7 +66,13 @@ public class Parameters
 
     public String getOutputFile()
     {
-        return iOutputFile;
+        assert hasOutputFile();
+        return iOutputFileOption.iterator().next();
+    }
+
+    public boolean hasOutputFile()
+    {
+        return iOutputFileOption.iterator().hasNext();
     }
 }
 
