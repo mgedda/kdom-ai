@@ -59,7 +59,8 @@ public class Game
                     break;
                 }
 
-                if (GameServer.getCurrentPlayer(this).equals(player.getName()))
+                final String currentPlayer = GameServer.getCurrentPlayer(this);
+                if (currentPlayer.equals(player.getName()))
                 {
                     // Update dominoes drawn.
                     //
