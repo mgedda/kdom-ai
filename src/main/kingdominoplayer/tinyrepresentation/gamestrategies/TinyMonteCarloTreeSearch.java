@@ -2,8 +2,7 @@ package kingdominoplayer.tinyrepresentation.gamestrategies;
 
 import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.TinyMonteCarloTreeSearchAlgorithm;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.UCTSearch;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts.UCTSearch;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 
 /**

@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch;
+package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.mcts;
 
 import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;

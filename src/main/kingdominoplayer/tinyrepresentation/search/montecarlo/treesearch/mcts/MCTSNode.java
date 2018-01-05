@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch;
+package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.mcts;
 
 import com.sun.istack.internal.Nullable;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
