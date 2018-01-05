@@ -109,7 +109,7 @@ public class UCTSearch
             final ArrayList<Integer> depthIndices = new ArrayList<>(1);
             depthIndices.add(counter);
             final String markString = child == selectedNode ? " (*)" : "";
-            DEBUG.println(CLASS_STRING + UCTSTreeUtils.getNodeString(child, depthIndices, EXPLORE_FACTOR) + markString);
+            DEBUG.println(CLASS_STRING + child.toStringNestedBrackets(depthIndices, EXPLORE_FACTOR) + markString);
             counter++;
         }
         DEBUG.println(CLASS_STRING + "------------------------------------------------------------");

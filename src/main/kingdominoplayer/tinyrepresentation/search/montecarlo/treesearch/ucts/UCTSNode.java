@@ -70,4 +70,42 @@ import java.util.ArrayList;
         return reward.get(playerID);
     }
 
+
+
+    public String toStringNestedBrackets(final ArrayList<Integer> depthIndices, final double exploreFactor)
+    {
+        String nodeString = "";
+
+        if (! depthIndices.isEmpty())
+        {
+            nodeString = nodeString.concat("{");
+
+            for (int i = 0; i < depthIndices.size(); ++i)
+            {
+                nodeString = nodeString.concat(Integer.toString(depthIndices.get(i)));
+
+                if (i < depthIndices.size() - 1)
+                {
+                    nodeString = nodeString.concat(", ");
+                }
+            }
+            nodeString = nodeString.concat("}");
+        }
+
+        nodeString = nodeString.concat(" ").concat(Integer.toString(wins)).concat("/").concat(Integer.toString(visits));
+        nodeString = visits > 0
+                ? nodeString.concat(", Avg: ").concat(String.format("%.5f", wins/(double)visits))
+                : nodeString.concat(", Avg: 0");
+
+        if (parent != null)
+        {
+            final double upperConfidenceBound = UCTSTreeUtils.getUCB(this, exploreFactor);
+            nodeString = nodeString.concat(", UCB: ").concat(String.format("%.5f", upperConfidenceBound));
+        }
+
+        final String parentName = parent == null ? "-" : parent.playerName;
+        nodeString = nodeString.concat(" [parent: ").concat(parentName).concat(", player: ").concat(playerName).concat("]");
+        return nodeString;
+    }
+
 }
