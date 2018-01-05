@@ -14,6 +14,8 @@ import java.util.ArrayList;
  */
 public class PlayerEngine
 {
+    private static final String SERVER = "http://kdom.mratin.se";
+
     private static final int TIMEOUT_MINUTES = 30;
 
     private static final String USAGE = "Usage: java -jar spawnplayer [-d] <playerName> <strategy> <gameUUID>";
@@ -52,7 +54,7 @@ public class PlayerEngine
 
         final StrategyID strategyID = StrategyID.valueOf(strategy);
 
-        final Game game = new Game(gameUUID);
+        final Game game = new Game(gameUUID, SERVER);
         final String playerUUID = game.addPlayer(playerName);
         final Player player = new Player(playerUUID, playerName, strategyID, enableDebug);
 
