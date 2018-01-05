@@ -37,13 +37,13 @@ import java.util.ArrayList;
         {
             final ArrayList<Integer> depthIndices = new ArrayList<>();
             depthIndices.add(counter++);
-            System.out.println(getNodeString(child, depthIndices, exploreFactor));
+            System.out.println(child.toStringNestedBrackets(depthIndices, exploreFactor));
         }
     }
 
     private void printTree(final UCTSNode node, final ArrayList<Integer> depthIndices, final double exploreFactor)
     {
-        String nodeString = getNodeString(node, depthIndices, exploreFactor);
+        String nodeString = node.toStringNestedBrackets(depthIndices, exploreFactor);
 
         System.out.println(nodeString);
 
@@ -78,7 +78,7 @@ import java.util.ArrayList;
             final NodeDepthIndicesPair current = nodeQueue.pop();
             final UCTSNode node = current.iNode;
 
-            final String nodeString = getNodeString(node, current.iDepthIndices, exploreFactor);
+            final String nodeString = node.toStringNestedBrackets(current.iDepthIndices, exploreFactor);
             System.out.println(nodeString);
 
             final ArrayList<UCTSNode> children = node.children;
@@ -106,46 +106,6 @@ import java.util.ArrayList;
             iNode = node;
             iDepthIndices = depthIndices;
         }
-    }
-
-
-    public static String getNodeString(final UCTSNode node, final ArrayList<Integer> depthIndices, final double exploreFactor)
-    {
-        String nodeString = "";
-
-        if (! depthIndices.isEmpty())
-        {
-            nodeString = nodeString.concat("{");
-
-            for (int i = 0; i < depthIndices.size(); ++i)
-            {
-                nodeString = nodeString.concat(Integer.toString(depthIndices.get(i)));
-
-                if (i < depthIndices.size() - 1)
-                {
-                    nodeString = nodeString.concat(", ");
-                }
-            }
-            nodeString = nodeString.concat("}");
-        }
-
-        final int wins = node.wins;
-        final int visits = node.visits;
-        nodeString = nodeString.concat(" ").concat(Integer.toString(wins)).concat("/").concat(Integer.toString(visits));
-        nodeString = visits > 0
-                ? nodeString.concat(", Avg: ").concat(String.format("%.5f", wins/(double)visits))
-                : nodeString.concat(", Avg: 0");
-
-        if (node.parent != null)
-        {
-            final double upperConfidenceBound = getUCB(node, exploreFactor);
-            nodeString = nodeString.concat(", UCB: ").concat(String.format("%.5f", upperConfidenceBound));
-        }
-
-        final String playerName = node.playerName;
-        final String parentName = node.parent == null ? "-" : node.parent.playerName;
-        nodeString = nodeString.concat(" [parent: ").concat(parentName).concat(", player: ").concat(playerName).concat("]");
-        return nodeString;
     }
 
 }
