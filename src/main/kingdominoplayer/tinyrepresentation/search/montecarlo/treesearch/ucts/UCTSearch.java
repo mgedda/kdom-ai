@@ -1,4 +1,4 @@
-package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch;
+package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts;
 
 /*
  * Copyright 2017 Tomologic AB<br>
