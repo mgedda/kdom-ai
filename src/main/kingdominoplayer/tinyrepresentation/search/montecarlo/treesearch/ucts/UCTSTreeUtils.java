@@ -23,14 +23,14 @@ import java.util.ArrayList;
     }
 
 
-    private void printTree(final UCTSNode root, final double exploreFactor)
+    public static void printTree(final UCTSNode root, final double exploreFactor)
     {
         System.out.println("Monte-Carlo Search Tree:");
         printTree(root, new ArrayList<>(), exploreFactor);
     }
 
 
-    private void printChildren(final UCTSNode node, final double exploreFactor)
+    public static void printChildren(final UCTSNode node, final double exploreFactor)
     {
         int counter = 0;
         for (final UCTSNode child : node.children)
@@ -41,7 +41,7 @@ import java.util.ArrayList;
         }
     }
 
-    private void printTree(final UCTSNode node, final ArrayList<Integer> depthIndices, final double exploreFactor)
+    private static void printTree(final UCTSNode node, final ArrayList<Integer> depthIndices, final double exploreFactor)
     {
         String nodeString = node.toStringNestedBrackets(depthIndices, exploreFactor);
 
@@ -59,12 +59,12 @@ import java.util.ArrayList;
         }
     }
 
-    private void printTreeBFS(final UCTSNode root, final double exploreFactor)
+    public static void printTreeBFS(final UCTSNode root, final double exploreFactor)
     {
         printTreeBFS(root, -1, exploreFactor);
     }
 
-    private void printTreeBFS(final UCTSNode root, final long numNodes, final double exploreFactor)
+    public static void printTreeBFS(final UCTSNode root, final long numNodes, final double exploreFactor)
     {
         final ArrayDeque<NodeDepthIndicesPair> nodeQueue = new ArrayDeque<>(1000);
 
@@ -96,7 +96,7 @@ import java.util.ArrayList;
     }
 
 
-    private class NodeDepthIndicesPair
+    private static class NodeDepthIndicesPair
     {
         UCTSNode iNode;
         ArrayList<Integer> iDepthIndices;
