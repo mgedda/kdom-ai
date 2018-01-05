@@ -70,7 +70,7 @@ public class UCTSearch
 
             if (root.visits == 20)
             {
-                FlameGraphPlotter.plot(root);
+                //FlameGraphPlotter.plot(root);
                 Util.noop();
             }
         }
@@ -84,7 +84,7 @@ public class UCTSearch
         final UCTSNode selectedChild = bestChild(root, 0.0);
 
         printSearchResult(root, numMoves, searchDurationString, selectedChild);
-        FlameGraphPlotter.plot(root);
+        //FlameGraphPlotter.plot(root);
 
         //noinspection UnnecessaryLocalVariable
         final byte[] selectedMove = selectedChild.move;
