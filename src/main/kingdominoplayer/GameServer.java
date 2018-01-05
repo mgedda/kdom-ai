@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class GameServer
 {
-    public static Game startGame(final int numPlayers)
+    public static Game startGame(final int numPlayers, final String server)
     {
         if (numPlayers < 2 && numPlayers > 4)
         {
@@ -25,10 +25,10 @@ public class GameServer
             System.exit(0);
         }
 
-        final String response = CommunicationsHandler.startNewGame(numPlayers);
+        final String response = CommunicationsHandler.startNewGame(numPlayers, server);
         final String uuid = ServerResponseParser.getUUID(response);
 
-        final Game game = new Game(uuid);
+        final Game game = new Game(uuid, server);
 
         System.out.println("Game started! UUID: " + game.getUUID());
 

@@ -22,15 +22,22 @@ public class Game
     private static final int TIMEOUT_MINUTES = 30;
 
     private final String iUUID;
+    private final String iServer;
 
-    public Game(final String uuid)
+    public Game(final String uuid, final String server)
     {
         iUUID = uuid;
+        iServer = server;
     }
 
     public String getUUID()
     {
         return iUUID;
+    }
+
+    public String getServer()
+    {
+        return iServer;
     }
 
     @Override

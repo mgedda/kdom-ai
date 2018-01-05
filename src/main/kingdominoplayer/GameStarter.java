@@ -23,7 +23,7 @@ public class GameStarter
 
         final int numPlayers = new Integer(args[0]);
 
-        final Game game = GameServer.startGame(numPlayers);
+        final Game game = GameServer.startGame(numPlayers, "http://localhost/");
 
         GameServer.waitForPlayersToJoin(game, TIMEOUT_MINUTES);
         GameServer.waitForPlayersToFinish(game, TIMEOUT_MINUTES);
