@@ -21,8 +21,8 @@ import kingdominoplayer.utils.plot.ColorUtils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
+
 
 public class UCTSearch
 {
@@ -115,7 +115,7 @@ public class UCTSearch
             final ArrayList<Integer> depthIndices = new ArrayList<>(1);
             depthIndices.add(counter);
             final String markString = child == selectedNode ? " (*)" : "";
-            DEBUG.println(CLASS_STRING + getNodeString(child, depthIndices) + markString);
+            DEBUG.println(CLASS_STRING + UCTSTreeUtils.getNodeString(child, depthIndices, EXPLORE_FACTOR) + markString);
             counter++;
         }
         DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
@@ -153,7 +153,7 @@ public class UCTSearch
 
         for (final UCTSNode child : node.children)
         {
-            final double upperConfidenceBound = getUCB(child, exploreFactor);
+            final double upperConfidenceBound = UCTSTreeUtils.getUCB(child, exploreFactor);
 
             if (upperConfidenceBound == maxUCB)
             {
@@ -221,15 +221,6 @@ public class UCTSearch
         }
     }
 
-    private double getUCB(final UCTSNode node, final double exploreFactor)
-    {
-        final int parentVisits = node.parent.visits;
-
-        final double exploit = (double) node.wins / (double) node.visits;
-        final double explore = Math.sqrt(Math.log(2 * parentVisits) / (double) node.visits);
-
-        return exploit + exploreFactor * explore;
-    }
 
 
     private String playout(final UCTSNode node)
@@ -283,132 +274,6 @@ public class UCTSearch
 
 
 
-
-
-    private void printTree(final UCTSNode root)
-    {
-        System.out.println("Monte-Carlo Search Tree:");
-        printTree(root, new ArrayList<>());
-    }
-
-
-    private void printChildren(final UCTSNode node)
-    {
-        int counter = 0;
-        for (final UCTSNode child : node.children)
-        {
-            final ArrayList<Integer> depthIndices = new ArrayList<>();
-            depthIndices.add(counter++);
-            System.out.println(getNodeString(child, depthIndices));
-        }
-    }
-
-    private void printTree(final UCTSNode node, final ArrayList<Integer> depthIndices)
-    {
-        String nodeString = getNodeString(node, depthIndices);
-
-        System.out.println(nodeString);
-
-
-        final ArrayList<UCTSNode> children = node.children;
-        for (int i = 0; i < children.size(); ++i)
-        {
-            final ArrayList<Integer> indices = new ArrayList<>(depthIndices.size() + 1);
-            indices.addAll(depthIndices);
-            indices.add(i);
-
-            printTree(children.get(i), indices);
-        }
-    }
-
-    private void printTreeBFS(final UCTSNode root)
-    {
-        printTreeBFS(root, -1);
-    }
-
-    private void printTreeBFS(final UCTSNode root, final long numNodes)
-    {
-        final ArrayDeque<NodeDepthIndicesPair> nodeQueue = new ArrayDeque<>(1000);
-
-        nodeQueue.add(new NodeDepthIndicesPair(root, new ArrayList<>()));
-
-        long counter = 0;
-        final long maxCount = numNodes == -1 ? Long.MAX_VALUE : numNodes;
-
-        while (! nodeQueue.isEmpty() && counter < maxCount)
-        {
-            final NodeDepthIndicesPair current = nodeQueue.pop();
-            final UCTSNode node = current.iNode;
-
-            final String nodeString = getNodeString(node, current.iDepthIndices);
-            System.out.println(nodeString);
-
-            final ArrayList<UCTSNode> children = node.children;
-            for (int i = 0; i < children.size(); ++i)
-            {
-                final ArrayList<Integer> depthIndices = new ArrayList<>();
-                depthIndices.addAll(current.iDepthIndices);
-                depthIndices.add(i);
-
-                nodeQueue.add(new NodeDepthIndicesPair(children.get(i), depthIndices));
-            }
-
-            counter++;
-        }
-    }
-
-
-    private class NodeDepthIndicesPair
-    {
-        UCTSNode iNode;
-        ArrayList<Integer> iDepthIndices;
-
-        public NodeDepthIndicesPair(final UCTSNode node, final ArrayList<Integer> depthIndices)
-        {
-            iNode = node;
-            iDepthIndices = depthIndices;
-        }
-    }
-
-
-    private String getNodeString(final UCTSNode node, final ArrayList<Integer> depthIndices)
-    {
-        String nodeString = "";
-
-        if (! depthIndices.isEmpty())
-        {
-            nodeString = nodeString.concat("{");
-
-            for (int i = 0; i < depthIndices.size(); ++i)
-            {
-                nodeString = nodeString.concat(Integer.toString(depthIndices.get(i)));
-
-                if (i < depthIndices.size() - 1)
-                {
-                    nodeString = nodeString.concat(", ");
-                }
-            }
-            nodeString = nodeString.concat("}");
-        }
-
-        final int wins = node.wins;
-        final int visits = node.visits;
-        nodeString = nodeString.concat(" ").concat(Integer.toString(wins)).concat("/").concat(Integer.toString(visits));
-        nodeString = visits > 0
-                ? nodeString.concat(", Avg: ").concat(String.format("%.5f", wins/(double)visits))
-                : nodeString.concat(", Avg: 0");
-
-        if (node.parent != null)
-        {
-            final double upperConfidenceBound = getUCB(node, EXPLORE_FACTOR);
-            nodeString = nodeString.concat(", UCB: ").concat(String.format("%.5f", upperConfidenceBound));
-        }
-
-        final String playerName = node.playerName;
-        final String parentName = node.parent == null ? "-" : node.parent.playerName;
-        nodeString = nodeString.concat(" [parent: ").concat(parentName).concat(", player: ").concat(playerName).concat("]");
-        return nodeString;
-    }
 
 
     private static class DEBUG
