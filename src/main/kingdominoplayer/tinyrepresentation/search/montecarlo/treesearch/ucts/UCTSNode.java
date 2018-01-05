@@ -13,7 +13,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
 import java.util.ArrayList;
 
-public class UCTSNode
+/*package*/ class UCTSNode
 {
     int visits;
     UCTSReward reward;                 // accumulated wins/draws/losses for each player [id1 id2 id3 id4]

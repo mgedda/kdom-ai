@@ -10,7 +10,7 @@ package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts;
 /**
  * Accumulated wins/draws/losses for each player [id1 id2 id3 id4]
  */
-public class UCTSReward
+/*package*/ class UCTSReward
 {
     final double[] values;
 
