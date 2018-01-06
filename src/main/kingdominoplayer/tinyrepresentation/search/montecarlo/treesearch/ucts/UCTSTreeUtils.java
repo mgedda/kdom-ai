@@ -14,10 +14,10 @@ import java.util.ArrayList;
 {
     public static double getUCB(final UCTSNode node, final double exploreFactor)
     {
-        final int parentVisits = node.parent.visits;
+        final int parentVisits = node.getParent().getVisits();
 
-        final double exploit = (double) node.wins / (double) node.visits;
-        final double explore = Math.sqrt(Math.log(2 * parentVisits) / (double) node.visits);
+        final double exploit = (double) node.getWins() / (double) node.getVisits();
+        final double explore = Math.sqrt(Math.log(2 * parentVisits) / (double) node.getVisits());
 
         return exploit + exploreFactor * explore;
     }
@@ -33,7 +33,7 @@ import java.util.ArrayList;
     public static void printChildren(final UCTSNode node, final double exploreFactor)
     {
         int counter = 0;
-        for (final UCTSNode child : node.children)
+        for (final UCTSNode child : node.getChildren())
         {
             final ArrayList<Integer> depthIndices = new ArrayList<>();
             depthIndices.add(counter++);
@@ -48,7 +48,7 @@ import java.util.ArrayList;
         System.out.println(nodeString);
 
 
-        final ArrayList<UCTSNode> children = node.children;
+        final ArrayList<UCTSNode> children = node.getChildren();
         for (int i = 0; i < children.size(); ++i)
         {
             final ArrayList<Integer> indices = new ArrayList<>(depthIndices.size() + 1);
@@ -81,7 +81,7 @@ import java.util.ArrayList;
             final String nodeString = node.toStringNestedBrackets(current.iDepthIndices, exploreFactor);
             System.out.println(nodeString);
 
-            final ArrayList<UCTSNode> children = node.children;
+            final ArrayList<UCTSNode> children = node.getChildren();
             for (int i = 0; i < children.size(); ++i)
             {
                 final ArrayList<Integer> depthIndices = new ArrayList<>();

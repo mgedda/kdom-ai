@@ -60,7 +60,7 @@ public class UCTSearch
 
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
         final long searchStartTime = System.nanoTime();
-        while (root.visits <= iSearchParameters.getMaxNumPlayouts()
+        while (root.getVisits() <= iSearchParameters.getMaxNumPlayouts()
                 && getSeconds(System.nanoTime() - searchStartTime) < iSearchParameters.getMaxSearchTime()
                 )
         {
@@ -68,7 +68,7 @@ public class UCTSearch
             final String winner = defaultPolicy(node);
             backupResult(node, winner);
 
-            if (root.visits == 20)
+            if (root.getVisits() == 20)
             {
                 //FlameGraphPlotter.plot(root);
                 Util.noop();
@@ -79,7 +79,7 @@ public class UCTSearch
         final double searchDurationSeconds = (searchEndTime - searchStartTime) / 1e9d;
         final String searchDurationString = String.format("%.3f", searchDurationSeconds);
 
-        iNumPlayoutsPerSecond = (root.visits - 1) / searchDurationSeconds;
+        iNumPlayoutsPerSecond = (root.getVisits() - 1) / searchDurationSeconds;
 
         final UCTSNode selectedChild = bestChild(root, 0.0);
 
@@ -87,7 +87,7 @@ public class UCTSearch
         //FlameGraphPlotter.plot(root);
 
         //noinspection UnnecessaryLocalVariable
-        final byte[] selectedMove = selectedChild.move;
+        final byte[] selectedMove = selectedChild.getMove();
 
         return selectedMove;
     }
@@ -98,13 +98,13 @@ public class UCTSearch
                                    final UCTSNode selectedNode)
     {
         DEBUG.println(CLASS_STRING + " Search finished! (moves: " + Integer.toString(numMoves) +
-                ", playouts: " + Long.toString(root.visits - 1) +
+                ", playouts: " + Long.toString(root.getVisits() - 1) +
                 ", time: " + searchDurationString + "s)" +
                 ", playouts/s: " + String.format("%.3f", iNumPlayoutsPerSecond));
 
         DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
         int counter = 0;
-        for (final UCTSNode child : root.children)
+        for (final UCTSNode child : root.getChildren())
         {
             final ArrayList<Integer> depthIndices = new ArrayList<>(1);
             depthIndices.add(counter);
@@ -120,7 +120,7 @@ public class UCTSearch
     {
         while (! node.isTerminal())
         {
-            if (node.visits <= MIN_VISITS_BEFORE_EXPAND_CHILD && node.parent != null)
+            if (node.getVisits() <= MIN_VISITS_BEFORE_EXPAND_CHILD && node.getParent() != null)
             {
                 return node;
             }
@@ -145,7 +145,7 @@ public class UCTSearch
         double maxUCB = 0;
         final ArrayList<UCTSNode> bestChildren = new ArrayList<>(10);
 
-        for (final UCTSNode child : node.children)
+        for (final UCTSNode child : node.getChildren())
         {
             final double upperConfidenceBound = UCTSTreeUtils.getUCB(child, exploreFactor);
 
@@ -180,15 +180,15 @@ public class UCTSearch
     {
         assert !node.isFullyExpanded() : "Node is already fully expanded";
 
-        final byte[] availableMoves = node.gameState.getAvailableMoves(node.playerName);
-        final int moveIndex = node.children.size();
+        final byte[] availableMoves = node.getGameState().getAvailableMoves(node.getPlayerTurn());
+        final int moveIndex = node.getChildren().size();
 
         final byte[] move = new byte[TinyConst.MOVE_ELEMENT_SIZE];
         System.arraycopy(availableMoves, moveIndex * TinyConst.MOVE_ELEMENT_SIZE, move, 0, TinyConst.MOVE_ELEMENT_SIZE);
 
-        final TinyGameState gameState = node.gameState.makeMove(node.playerName, move);
+        final TinyGameState gameState = node.getGameState().makeMove(node.getPlayerTurn(), move);
         final UCTSNode child = new UCTSNode(gameState, node, move);
-        node.children.add(child);
+        node.addChild(child);
 
         return child;
     }
@@ -205,13 +205,13 @@ public class UCTSearch
         {
             //node.reward = node.reward.add(reward);
 
-            if (node.parent != null && node.parent.playerName.equals(winner))
+            if (node.getParent() != null && node.getParent().getPlayerTurn().equals(winner))
             {
-                node.wins++;
+                node.increaseWins();
             }
-            node.visits++;
+            node.increaseVisits();
 
-            node = node.parent;
+            node = node.getParent();
         }
     }
 
@@ -219,7 +219,7 @@ public class UCTSearch
 
     private String playout(final UCTSNode node)
     {
-        TinyGameState gameState = node.gameState;
+        TinyGameState gameState = node.getGameState();
 
         while (! gameState.isGameOver())
         {

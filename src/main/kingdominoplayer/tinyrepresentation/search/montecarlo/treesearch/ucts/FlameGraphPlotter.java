@@ -80,7 +80,7 @@ import java.util.ArrayList;
 
         final int rootWidth = (xSize - 2 * borderSize);
 
-        final int rootVisits = root.visits;
+        final int rootVisits = root.getVisits();
         final double visitWidth = rootWidth / (double) rootVisits;
 
         final int x0 = borderSize;
@@ -149,14 +149,14 @@ import java.util.ArrayList;
                                                       final int boxHeight,
                                                       final int borderSize)
     {
-        final int rectWidth = (int) (node.visits * visitWidth);
+        final int rectWidth = (int) (node.getVisits() * visitWidth);
         final int x1 = x + borderSize;
         final int x2 = x + rectWidth + borderSize;
         final int y1 = y - boxHeight;
         final int y2 = y;
         final int rectColor = cColors[cRectCounter % cColors.length];
 
-        final String labelString = "depth=" + treeDepth + ", i=" + childIndex + ", visits=" + node.visits;
+        final String labelString = "depth=" + treeDepth + ", i=" + childIndex + ", visits=" + node.getVisits();
         final Label label = new Label(labelString, x1, y1, 0xFF000000, 12);
 
         final Rectangle nodeRect = new Rectangle(x1, x2, y1, y2, rectColor, label);
@@ -167,10 +167,10 @@ import java.util.ArrayList;
 
         int accVisits = 0;
         int childCounter = 0;
-        for (UCTSNode child : node.children)
+        for (UCTSNode child : node.getChildren())
         {
             rectangles.addAll(getRectangles(child, childCounter++, treeDepth + 1, (int) (accVisits * visitWidth), y - boxHeight, visitWidth, boxHeight, borderSize));
-            accVisits += child.visits;
+            accVisits += child.getVisits();
         }
 
         return rectangles;
@@ -179,13 +179,13 @@ import java.util.ArrayList;
 
     private static int getMaxDepth(final UCTSNode node, final int depth)
     {
-        if (node.children.isEmpty())
+        if (node.getChildren().isEmpty())
         {
             return depth;
         }
 
         int maxDepth = depth;
-        for (UCTSNode child : node.children)
+        for (UCTSNode child : node.getChildren())
         {
             maxDepth = Math.max(maxDepth, getMaxDepth(child, depth + 1));
         }
