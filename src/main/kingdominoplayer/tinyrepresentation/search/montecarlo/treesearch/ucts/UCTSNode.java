@@ -15,60 +15,116 @@ import java.util.ArrayList;
 
 /*package*/ class UCTSNode
 {
-    int visits;
-    UCTSReward reward;                 // accumulated wins/draws/losses for each player [id1 id2 id3 id4]
-    int wins;
-    final TinyGameState gameState;
-    final byte[] move;             // Action leading from parent to this node
-    final String playerName;       // Player who's turn it is
-    final UCTSNode parent;
-    ArrayList<UCTSNode> children;
+    //private UCTSReward reward;                 // accumulated iWins/draws/losses for each player [id1 id2 id3 id4]
 
-    UCTSNode(final TinyGameState gameState,
-         @Nullable final UCTSNode parent,
-         final byte[] move)
+    private int iWins;
+    private int iVisits;
+
+    private final byte[] iMove;             // Action leading from iParent to this node
+    private final TinyGameState iGameState;
+
+    private final String iPlayerName;       // Player who's turn it is TODO: Replace with iGameState.getPlayerTurn()!
+
+    private final UCTSNode iParent;
+    private ArrayList<UCTSNode> iChildren;
+
+
+    UCTSNode(final TinyGameState gameState, @Nullable final UCTSNode parent, final byte[] move)
     {
         this(gameState, parent, move, gameState.getPlayerTurn());
     }
 
-    UCTSNode(final TinyGameState gameState,
-         @Nullable final UCTSNode parent,
-         final byte[] move,
-         final String playerName)
+    UCTSNode(final TinyGameState gameState, @Nullable final UCTSNode parent, final byte[] move, final String playerName)
     {
-        final String playerTurn = gameState.getPlayerTurn();
-        assert playerTurn.equals(playerName) : "Player turn mismatch";
-        visits = 1;
-        wins = 0;
-        reward = new UCTSReward(new double[gameState.getNumPlayers()]);
-        this.gameState = gameState;
-        this.move = move;
-        this.playerName = playerName;
-        this.parent = parent;
-        children = new ArrayList<>(0);
+        assert playerName.equals(gameState.getPlayerTurn()) : "Player turn mismatch";
+
+        iWins = 0;
+        iVisits = 1;
+
+        //reward = new UCTSReward(new double[iGameState.getNumPlayers()]);
+
+        iMove = move;
+        iGameState = gameState;
+
+        iPlayerName = playerName;
+
+        iParent = parent;
+        iChildren = new ArrayList<>(0);
     }
 
-    boolean isFullyExpanded()
+    public int getWins()
     {
-        final byte[] availableMoves = gameState.getAvailableMoves(playerName);
+        return iWins;
+    }
+
+    public int getVisits()
+    {
+        return iVisits;
+    }
+
+    public byte[] getMove()
+    {
+        return iMove;
+    }
+
+    public UCTSNode getParent()
+    {
+        return iParent;
+    }
+
+    public ArrayList<UCTSNode> getChildren()
+    {
+        return iChildren;
+    }
+
+    public void addChild(final UCTSNode child)
+    {
+        iChildren.add(child);
+    }
+
+    public TinyGameState getGameState()
+    {
+        return iGameState;
+    }
+
+    public String getPlayerTurn()
+    {
+        return iPlayerName;
+    }
+
+    public void increaseVisits()
+    {
+        iVisits++;
+    }
+
+    public void increaseWins()
+    {
+        iWins++;
+    }
+
+    public boolean isFullyExpanded()
+    {
+        final byte[] availableMoves = iGameState.getAvailableMoves(iPlayerName);
         final int numAvailableMoves = availableMoves.length / TinyConst.MOVE_ELEMENT_SIZE;
-        assert children.size() <= numAvailableMoves : "Too many children";
-        return children.size() == numAvailableMoves;
+        assert iChildren.size() <= numAvailableMoves : "Too many children";
+        return iChildren.size() == numAvailableMoves;
     }
 
-    boolean isTerminal()
+    public boolean isTerminal()
     {
-        return gameState.isGameOver();
+        return iGameState.isGameOver();
     }
 
-    double getReward()
+    /*
+    public double getReward()
     {
-        final String playerTurn = parent == null
-                ? gameState.getPlayerTurn()           // we are at the root node
-                : parent.gameState.getPlayerTurn();
-        final byte playerID = TinyGameState.getPlayerID(playerTurn, gameState.getPlayers());
+        final String playerTurn = iParent == null
+                ? iGameState.getPlayerTurn()           // we are at the root node
+                : iParent.iGameState.getPlayerTurn();
+        final byte playerID = TinyGameState.getPlayerID(playerTurn, iGameState.getPlayers());
         return reward.get(playerID);
     }
+    */
 
 
 
@@ -92,20 +148,19 @@ import java.util.ArrayList;
             nodeString = nodeString.concat("}");
         }
 
-        nodeString = nodeString.concat(" ").concat(Integer.toString(wins)).concat("/").concat(Integer.toString(visits));
-        nodeString = visits > 0
-                ? nodeString.concat(", Avg: ").concat(String.format("%.5f", wins/(double)visits))
+        nodeString = nodeString.concat(" ").concat(Integer.toString(iWins)).concat("/").concat(Integer.toString(iVisits));
+        nodeString = iVisits > 0
+                ? nodeString.concat(", Avg: ").concat(String.format("%.5f", iWins /(double) iVisits))
                 : nodeString.concat(", Avg: 0");
 
-        if (parent != null)
+        if (iParent != null)
         {
             final double upperConfidenceBound = UCTSTreeUtils.getUCB(this, exploreFactor);
             nodeString = nodeString.concat(", UCB: ").concat(String.format("%.5f", upperConfidenceBound));
         }
 
-        final String parentName = parent == null ? "-" : parent.playerName;
-        nodeString = nodeString.concat(" [parent: ").concat(parentName).concat(", player: ").concat(playerName).concat("]");
+        final String parentName = iParent == null ? "-" : iParent.iPlayerName;
+        nodeString = nodeString.concat(" [iParent: ").concat(parentName).concat(", player: ").concat(iPlayerName).concat("]");
         return nodeString;
     }
-
 }
