@@ -20,10 +20,8 @@ import java.util.ArrayList;
     private int iWins;
     private int iVisits;
 
-    private final byte[] iMove;             // Action leading from iParent to this node
+    private final byte[] iMove;                  // Action leading from iParent to this node
     private final TinyGameState iGameState;
-
-    private final String iPlayerName;       // Player who's turn it is TODO: Replace with iGameState.getPlayerTurn()!
 
     private final UCTSNode iParent;
     private ArrayList<UCTSNode> iChildren;
@@ -31,13 +29,6 @@ import java.util.ArrayList;
 
     UCTSNode(final TinyGameState gameState, @Nullable final UCTSNode parent, final byte[] move)
     {
-        this(gameState, parent, move, gameState.getPlayerTurn());
-    }
-
-    UCTSNode(final TinyGameState gameState, @Nullable final UCTSNode parent, final byte[] move, final String playerName)
-    {
-        assert playerName.equals(gameState.getPlayerTurn()) : "Player turn mismatch";
-
         iWins = 0;
         iVisits = 1;
 
@@ -45,8 +36,6 @@ import java.util.ArrayList;
 
         iMove = move;
         iGameState = gameState;
-
-        iPlayerName = playerName;
 
         iParent = parent;
         iChildren = new ArrayList<>(0);
@@ -89,7 +78,7 @@ import java.util.ArrayList;
 
     public String getPlayerTurn()
     {
-        return iPlayerName;
+        return iGameState.getPlayerTurn();
     }
 
     public void increaseVisits()
@@ -104,7 +93,7 @@ import java.util.ArrayList;
 
     public boolean isFullyExpanded()
     {
-        final byte[] availableMoves = iGameState.getAvailableMoves(iPlayerName);
+        final byte[] availableMoves = iGameState.getAvailableMoves(getPlayerTurn());
         final int numAvailableMoves = availableMoves.length / TinyConst.MOVE_ELEMENT_SIZE;
         assert iChildren.size() <= numAvailableMoves : "Too many children";
         return iChildren.size() == numAvailableMoves;
@@ -159,8 +148,8 @@ import java.util.ArrayList;
             nodeString = nodeString.concat(", UCB: ").concat(String.format("%.5f", upperConfidenceBound));
         }
 
-        final String parentName = iParent == null ? "-" : iParent.iPlayerName;
-        nodeString = nodeString.concat(" [iParent: ").concat(parentName).concat(", player: ").concat(iPlayerName).concat("]");
+        final String parentName = iParent == null ? "-" : iParent.getPlayerTurn();
+        nodeString = nodeString.concat(" [iParent: ").concat(parentName).concat(", player: ").concat(getPlayerTurn()).concat("]");
         return nodeString;
     }
 }
