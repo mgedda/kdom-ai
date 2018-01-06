@@ -56,7 +56,8 @@ public class UCTSearch
     {
         DEBUG.println(CLASS_STRING + " " + iPlayerName + " searching...");
 
-        final UCTSNode root = new UCTSNode(gameState, null, new byte[0], iPlayerName);
+        assert gameState.getPlayerTurn().equals(iPlayerName) : "Player mismatch";
+        final UCTSNode root = new UCTSNode(gameState, null, new byte[0]);
 
         final int numMoves = moves.length / TinyConst.MOVE_ELEMENT_SIZE;
         final long searchStartTime = System.nanoTime();
@@ -120,7 +121,8 @@ public class UCTSearch
     {
         while (! node.isTerminal())
         {
-            if (node.getVisits() <= MIN_VISITS_BEFORE_EXPAND_CHILD && node.getParent() != null)
+            final boolean isRoot = node.getParent() == null;
+            if (node.getVisits() <= MIN_VISITS_BEFORE_EXPAND_CHILD && !isRoot)
             {
                 return node;
             }
