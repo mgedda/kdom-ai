@@ -10,7 +10,7 @@ public class Random
 {
     private static final TRandomXorshift128Plus cInstance = new TRandomXorshift128Plus(System.nanoTime());
 
-    public static int getInt(final int maxValExcluded)
+    public static synchronized int getInt(final int maxValExcluded)
     {
         return cInstance.nextInt(maxValExcluded);
     }
