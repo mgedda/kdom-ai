@@ -19,8 +19,9 @@ public class TinyTrueRandom implements TinyStrategy
         final byte[] availableMoves = gameState.getAvailableMoves(playerName);
         final int numMoves = availableMoves.length / TinyConst.MOVE_ELEMENT_SIZE;
         final int randomIndex = Random.getInt(numMoves);
-        final byte[] move = new byte[TinyConst.MOVE_ELEMENT_SIZE];
-        System.arraycopy(availableMoves, randomIndex * TinyConst.MOVE_ELEMENT_SIZE, move, 0, TinyConst.MOVE_ELEMENT_SIZE);
+
+        @SuppressWarnings("UnnecessaryLocalVariable")
+        final byte[] move = TinyGameState.getRow(availableMoves, randomIndex, TinyConst.MOVE_ELEMENT_SIZE);
 
         return move;
     }
