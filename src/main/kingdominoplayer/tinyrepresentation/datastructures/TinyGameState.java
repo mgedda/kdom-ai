@@ -2,8 +2,6 @@ package kingdominoplayer.tinyrepresentation.datastructures;
 
 import com.sun.istack.internal.Nullable;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyScorerAlgorithm;
-import kingdominoplayer.tinyrepresentation.TinyUtils;
-import kingdominoplayer.tinyrepresentation.algorithms.TinyValidPositionsAlgorithm;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyValidPositionsEfficientAlgorithm;
 import kingdominoplayer.utils.Random;
 
@@ -48,6 +46,7 @@ public class TinyGameState
     private final HashMap<String, Integer> iPlayerScoresMap = new LinkedHashMap<>(2 * 4);
 
     private String iPlayerTurn;
+    private byte[] iAvailableMoves;
 
     public TinyGameState(final byte[] kingdomTerrains,
                          final byte[] kingdomCrowns,
@@ -74,6 +73,8 @@ public class TinyGameState
         iPlayers = players;
         iDrawPile = drawPile;
         iPlayerTurn = playerTurn;
+
+        iAvailableMoves = null;
     }
 
 
@@ -561,6 +562,11 @@ public class TinyGameState
      */
     public byte[] getAvailableMoves(final String playerName)
     {
+        if (iAvailableMoves != null)
+        {
+            return iAvailableMoves;
+        }
+
         final byte[] possiblePlacedDominoes;
         if (! isDraftEmpty(iPreviousDraft))
         {
@@ -705,7 +711,9 @@ public class TinyGameState
 
         assert moveCounter < 256 : "More moves than byte representation allows!";
 
-        return availableMoves;
+        iAvailableMoves = availableMoves;
+
+        return iAvailableMoves;
     }
 
 
