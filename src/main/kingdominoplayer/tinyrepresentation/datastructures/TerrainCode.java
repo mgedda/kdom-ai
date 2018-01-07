@@ -8,26 +8,20 @@ package kingdominoplayer.tinyrepresentation.datastructures;
  */
 public enum TerrainCode
 {
-    NONE,
-    CASTLE,
-    WATER,
-    FOREST,
-    FIELD,
-    MINE,
-    PASTURE,
-    CLAY;
+    NONE("NONE"),
+    CASTLE("CASTLE"),
+    WATER("WATER"),
+    FOREST("FOREST"),
+    FIELD("FIELD"),
+    MINE("MINE"),
+    PASTURE("PASTURE"),
+    CLAY("CLAY");
 
-    private String name;
+    private final String name;
 
-    static {
-        NONE.name = "NONE";
-        CASTLE.name = "CASTLE";
-        WATER.name = "WATER";
-        FOREST.name = "FOREST";
-        FIELD.name = "FIELD";
-        MINE.name = "MINE";
-        PASTURE.name = "PASTURE";
-        CLAY.name = "CLAY";
+    TerrainCode(final String name)
+    {
+        this.name = name;
     }
 
     public static byte from(final String terrain)
