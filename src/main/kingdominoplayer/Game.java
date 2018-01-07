@@ -54,7 +54,7 @@ public class Game
         final int timeoutMilliSeconds = TIMEOUT_MINUTES * 60 * 1000;   // min * s/min * ms/s
         final int timeoutMaxCount = (int)((double)timeoutMilliSeconds / (double)sleepMilliSeconds);
 
-        Set<Domino> drawnDominoes = GameServer.getDraftDominoes(this);
+        final Set<Domino> drawnDominoes = GameServer.getDraftDominoes(this);
 
         int timeoutCounter = 0;
         while (! GameServer.isGameOver(this) && timeoutCounter++ < timeoutMaxCount)
