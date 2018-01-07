@@ -12,6 +12,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /*package*/ class UCTSNode
 {
@@ -139,7 +140,7 @@ import java.util.ArrayList;
 
         nodeString = nodeString.concat(" ").concat(Integer.toString(iWins)).concat("/").concat(Integer.toString(iVisits));
         nodeString = iVisits > 0
-                ? nodeString.concat(", Avg: ").concat(String.format("%.5f", iWins /(double) iVisits))
+                ? nodeString.concat(", Avg: ").concat(String.format("%.3f", iWins /(double) iVisits))
                 : nodeString.concat(", Avg: 0");
 
         if (iParent != null)
@@ -148,8 +149,17 @@ import java.util.ArrayList;
             nodeString = nodeString.concat(", UCB: ").concat(String.format("%.5f", upperConfidenceBound));
         }
 
-        final String parentName = iParent == null ? "-" : iParent.getPlayerTurn();
-        nodeString = nodeString.concat(" [iParent: ").concat(parentName).concat(", player: ").concat(getPlayerTurn()).concat("]");
+        //final String parentName = iParent == null ? "-" : iParent.getPlayerTurn();
+        //nodeString = nodeString.concat(" [iParent: ").concat(parentName).concat(", player: ").concat(getPlayerTurn()).concat("]");
+
+        final Map<String, Integer> scoresMap = iGameState.getScores();
+        nodeString = nodeString.concat(" [");
+        for (final String name : scoresMap.keySet())
+        {
+            nodeString = nodeString.concat(" " + name + ":" + scoresMap.get(name));
+        }
+        nodeString = nodeString.concat(" ]");
+
         return nodeString;
     }
 }
