@@ -88,12 +88,12 @@ public class TinyGameState
         return iKingdomCrowns;
     }
 
-    /*package*/ byte[] getCurrentDraft()
+    public byte[] getCurrentDraft()
     {
         return iCurrentDraft;
     }
 
-    /*package*/ byte[] getPreviousDraft()
+    public byte[] getPreviousDraft()
     {
         return iPreviousDraft;
     }

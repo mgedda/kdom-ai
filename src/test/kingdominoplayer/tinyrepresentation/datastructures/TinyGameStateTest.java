@@ -954,14 +954,14 @@ public class TinyGameStateTest
     }
 
 
-    private TinyGameState getTinyGameState(final String jsonGameState)
+    public static TinyGameState getTinyGameState(final String jsonGameState)
     {
         final GameState gameState = ServerResponseParser.getGameStateObject(jsonGameState);
         final LocalGameState localGameState = toLocalGameState(gameState);
         return new LocalGameStateToTinyGameStateAlgorithm().applyTo(localGameState);
     }
 
-    private LocalGameState toLocalGameState(final GameState gameState)
+    private static LocalGameState toLocalGameState(final GameState gameState)
     {
         return new LocalGameState(
                 gameState,
@@ -970,7 +970,7 @@ public class TinyGameStateTest
     }
 
 
-    private String getSampleJSONGameState()
+    public static String getSampleJSONGameState()
     {
         return "{\n" +
                 "  \"uuid\":\"f4b86cce-d21d-472d-878a-f762cdc4dee7\",\n" +
