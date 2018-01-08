@@ -19,8 +19,8 @@ public class TinyPlayerGreedySimulationStrategy implements TinySimulationStrateg
     {
         //noinspection UnnecessaryLocalVariable
         final byte[] move = playerTurn.equals(playerName)
-                ? cGreedyStrategy.selectMove(playerTurn, availableMoves, gameState)
-                : cRandomStrategy.selectMove(playerTurn, availableMoves, gameState);
+                ? cGreedyStrategy.selectMove(playerTurn, gameState)
+                : cRandomStrategy.selectMove(playerTurn, gameState);
 
         return move;
     }

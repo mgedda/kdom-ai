@@ -31,7 +31,7 @@ public class TinyEpsilonGreedySimulationStrategy implements TinySimulationStrate
         final double randomValue = Random.getInt(101) / 100.0;
 
         return randomValue > iEpsilon
-                ? cGreedyStrategy.selectMove(playerTurn, availableMoves, gameState)
-                : cRandomStrategy.selectMove(playerTurn, availableMoves, gameState);
+                ? cGreedyStrategy.selectMove(playerTurn, gameState)
+                : cRandomStrategy.selectMove(playerTurn, gameState);
     }
 }

@@ -38,6 +38,10 @@ public class MoveAdapter
             result[TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_CROWNS_INDEX] = (byte) chosenDomino.getTile1().getCrowns();
             result[TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_TERRAIN_INDEX] = TerrainCode.from(chosenDomino.getTile2().getTerrain());
             result[TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_CROWNS_INDEX] = (byte) chosenDomino.getTile2().getCrowns();
+            result[TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_X_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+            result[TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_1_Y_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+            result[TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_X_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
+            result[TinyConst.MOVE_CHOSEN_DOMINO_INDEX + TinyConst.DOMINO_TILE_2_Y_INDEX] = TinyConst.INVALID_PLACEMENT_VALUE;
         }
 
         if (placedDomino != null)
