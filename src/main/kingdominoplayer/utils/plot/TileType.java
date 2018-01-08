@@ -56,4 +56,9 @@ import kingdominoplayer.naiverepresentation.datastructures.Tile;
     {
         return valueOf(tile.getTerrain().toUpperCase());
     }
+
+    public static TileType from(final int i)
+    {
+        return TileType.values()[i];
+    }
 }
