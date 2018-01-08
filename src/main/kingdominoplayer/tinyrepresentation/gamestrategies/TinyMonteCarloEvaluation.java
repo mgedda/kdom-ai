@@ -35,8 +35,9 @@ public class TinyMonteCarloEvaluation implements TinyStrategy
     }
 
     @Override
-    public final byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
+    public final byte[] selectMove(final String playerName, final TinyGameState gameState)
     {
+        final byte[] availableMoves = gameState.getAvailableMoves(playerName);
         final byte[] moves = iMoveFilter.filterMoves(playerName, availableMoves, gameState);
 
         iSimulation = new TinyMonteCarloEvaluationAlgorithm(playerName, iSimulationStrategy, iPlayoutScoringFunction, iSearchParameters);

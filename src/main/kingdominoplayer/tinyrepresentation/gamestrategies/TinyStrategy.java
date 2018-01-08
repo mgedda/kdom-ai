@@ -10,7 +10,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
  */
 public interface TinyStrategy
 {
-    byte[] selectMove(String playerName, byte[] availableMoves, TinyGameState gameState);
+    byte[] selectMove(String playerName, TinyGameState gameState);
 
     default double getNumPlayoutsPerSecond()
     {

@@ -13,8 +13,9 @@ import kingdominoplayer.utils.Random;
 public class TinyGreedyPlacementRandomDraft implements TinyStrategy
 {
     @Override
-    public byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
+    public byte[] selectMove(final String playerName, final TinyGameState gameState)
     {
+        final byte[] availableMoves = gameState.getAvailableMoves(playerName);
         final byte[] maxScoringMoves = new TinyGreedyPlacementRandomDraftAlgorithm().getMaxScoringMoves(playerName, availableMoves, gameState);
 
         // Select random move among highest scoring moves.

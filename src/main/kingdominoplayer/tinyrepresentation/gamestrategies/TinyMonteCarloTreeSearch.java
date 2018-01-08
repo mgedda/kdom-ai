@@ -27,10 +27,11 @@ public class TinyMonteCarloTreeSearch implements TinyStrategy
     }
 
     @Override
-    public final byte[] selectMove(final String playerName, final byte[] availableMoves, final TinyGameState gameState)
+    public final byte[] selectMove(final String playerName, final TinyGameState gameState)
     {
         //iSearchAlgorithm = new TinyMonteCarloTreeSearchAlgorithm(playerName, iSimulationStrategy, iSearchParameters);
         iSearchAlgorithm = new UCTSearch(playerName, iSimulationStrategy, iSearchParameters);
+        final byte[] availableMoves = gameState.getAvailableMoves(playerName);
         return iSearchAlgorithm.evaluate(gameState, availableMoves);
     }
 
