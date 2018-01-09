@@ -7,7 +7,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.utils.Random;
-import kingdominoplayer.utils.collections.ByteCompactSet;
+import kingdominoplayer.utils.collections.ByteCompactLinkedSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,7 +105,7 @@ public class TinyUtils
      */
     public static ByteSet getPlacedIndices(final byte[] playerKingdomTerrains)
     {
-        final ByteCompactSet placedIndices = new ByteCompactSet();  // 2x upper bound
+        final ByteCompactLinkedSet placedIndices = new ByteCompactLinkedSet();  // 2x upper bound
 
         final byte noTerrain = TerrainCode.from("NONE");
 

@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.utils.Util;
-import kingdominoplayer.utils.collections.ByteCompactSet;
+import kingdominoplayer.utils.collections.ByteCompactLinkedSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -159,7 +159,7 @@ public class TwoPassConnectedTerrainScoreAlgorithm implements ConnectedTerrainSc
 
     private ByteSet getValues(final byte[] array)
     {
-        final ByteCompactSet values = new ByteCompactSet();
+        final ByteCompactLinkedSet values = new ByteCompactLinkedSet();
 
         for (int i = 0; i < array.length; ++i)
         {
