@@ -88,6 +88,20 @@ public class TimingTest
      */
     private void timeStrategies(final TinyStrategyID[] strategyIDS)
     {
+        runTimingTests(strategyIDS, 1, 100);
+    }
+
+    /**
+     * Runs a set of strategies several times, and reports the time it takes for each strategy. Strategies are run on an
+     * empty initial state, with the player as the first player, and tested 5 times taking the minimum as the best
+     * possible time.
+     *
+     * @param strategyIDS Strategies to run
+     * @param defaultIterationsCount Number of iterations a normal strategy should run for
+     * @param playouts The number of playouts to use as limit
+     */
+    private void runTimingTests(final TinyStrategyID[] strategyIDS, final int defaultIterationsCount, final int playouts)
+    {
         final Object2IntMap<TinyStrategyID> speicalIterations = new Object2IntOpenHashMap<>(TinyStrategyID.values().length);
         speicalIterations.putIfAbsent(TRUE_RANDOM, 1000);
         speicalIterations.putIfAbsent(GREEDY_PLACEMENT_RANDOM_DRAFT, 1000);
@@ -100,14 +114,14 @@ public class TimingTest
         final LocalGameState gameState = createGameState(playerName);
         final Move[] availableMoves = gameState.getAvailableMoves(playerName).toArray(new Move[0]);
 
-        final SearchParameters searchParameters = new SearchParameters(100, 0);
+        final SearchParameters searchParameters = new SearchParameters(playouts, 0);
         final TinyStrategyFactory tinyStrategyFactory = new TinyStrategyFactory(searchParameters);
         int dummy = 0;
         for (int round = 0; round < 5; ++round)
         {
             for (TinyStrategyID id : strategyIDS)
             {
-                final int iterations = speicalIterations.getOrDefault(id, 1);
+                final int iterations = speicalIterations.getOrDefault(id, defaultIterationsCount);
                 final TinyStrategy strategy = tinyStrategyFactory.getGameStrategy(id);
                 final TinyPlayer player = new TinyPlayer(playerUUID, playerName, strategy, false);
                 final long timeBefore = System.nanoTime();
