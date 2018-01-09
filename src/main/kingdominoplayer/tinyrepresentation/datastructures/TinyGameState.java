@@ -1,6 +1,8 @@
 package kingdominoplayer.tinyrepresentation.datastructures;
 
 import com.sun.istack.internal.Nullable;
+import it.unimi.dsi.fastutil.bytes.ByteArrayList;
+import it.unimi.dsi.fastutil.bytes.ByteList;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyScorerAlgorithm;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyValidPositionsEfficientAlgorithm;
 import kingdominoplayer.utils.Random;
@@ -325,7 +327,7 @@ public class TinyGameState
 
     /*package*/ void sortDraft(final byte[] draft)
     {
-        final ArrayList<Byte> ids = new ArrayList<>(4);
+        final ByteArrayList ids = new ByteArrayList(4);
 
         for (int i = 0; i < iDraftDominoCount; ++i)
         {
@@ -474,7 +476,7 @@ public class TinyGameState
             if (isDraftEmpty(iPreviousDraft))
             {
                 assert ! isDraftEmpty(iCurrentDraft) : "Both previous and current draft are empty!";
-                final ArrayList<Byte> playerIDs = getPlayerIDs();
+                final ByteList playerIDs = getPlayerIDs();
 
                 if (playerIDs.size() == 2)
                 {
@@ -519,9 +521,9 @@ public class TinyGameState
     }
 
 
-    private ArrayList<Byte> getPlayerIDs()
+    private ByteList getPlayerIDs()
     {
-        final ArrayList<Byte> ids = new ArrayList<>();
+        final ByteArrayList ids = new ByteArrayList();
         for (int i = 0; i < iNumPlayers; ++i)
         {
             ids.add((byte)i);

@@ -1,5 +1,9 @@
 package kingdominoplayer.tinyrepresentation;
 
+import it.unimi.dsi.fastutil.bytes.ByteArrayList;
+import it.unimi.dsi.fastutil.bytes.ByteLinkedOpenHashSet;
+import it.unimi.dsi.fastutil.bytes.ByteList;
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
@@ -61,9 +65,9 @@ public class TinyUtils
      * @param ySize size of one column in the two dimensional array
      * @return
      */
-    public static ArrayList<Byte> getAdjacentIndices(final byte i, final int xSize, final int ySize)
+    public static ByteList getAdjacentIndices(final byte i, final int xSize, final int ySize)
     {
-        final ArrayList<Byte> adjacentIndices = new ArrayList<>(4);
+        final ByteArrayList adjacentIndices = new ByteArrayList(4);
 
 
         final int x = TinyGameState.indexToArrayXCoordinate(i);
@@ -99,9 +103,9 @@ public class TinyUtils
      * @param playerKingdomTerrains
      * @return
      */
-    public static LinkedHashSet<Byte> getPlacedIndices(final byte[] playerKingdomTerrains)
+    public static ByteSet getPlacedIndices(final byte[] playerKingdomTerrains)
     {
-        final LinkedHashSet<Byte> placedIndices = new LinkedHashSet<>(2 * 5 * 5);  // 2x upper bound
+        final ByteLinkedOpenHashSet placedIndices = new ByteLinkedOpenHashSet(2 * 5 * 5);  // 2x upper bound
 
         final byte noTerrain = TerrainCode.from("NONE");
 
