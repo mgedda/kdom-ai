@@ -2,6 +2,7 @@ package kingdominoplayer.utils.collections;
 
 import it.unimi.dsi.fastutil.bytes.ByteArrayList;
 import it.unimi.dsi.fastutil.bytes.ByteList;
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,7 +12,7 @@ import org.testng.annotations.Test;
  * Date: 2018-01-08<br/>
  * Time: 15:10<br/>
  */
-public class ByteCompactSetTest
+public class ByteCompactSetsTest
 {
     /**
      * The test values include all boundary values, as well as a middle value for each part.
@@ -25,8 +26,41 @@ public class ByteCompactSetTest
     @Test
     public void testEmptySet()
     {
-        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-        final ByteCompactSet set = new ByteCompactSet();
+        testEmptySet(new ByteCompactSet());
+    }
+
+    @Test
+    public void testAddValues()
+    {
+        testAddValues(new ByteCompactSet());
+    }
+
+    @Test
+    public void testAddRemoveValues()
+    {
+        testAddRemoveValues(new ByteCompactSet());
+    }
+
+    @Test
+    public void testEmptyLinkedSet()
+    {
+        testEmptySet(new ByteCompactLinkedSet());
+    }
+
+    @Test
+    public void testAddValuesLinked()
+    {
+        testAddValues(new ByteCompactLinkedSet());
+    }
+
+    @Test
+    public void testAddRemoveValuesLinked()
+    {
+        testAddRemoveValues(new ByteCompactLinkedSet());
+    }
+
+    private void testEmptySet(final ByteSet set)
+    {
         Assert.assertTrue(set.isEmpty());
 
         //noinspection ConstantConditions
@@ -35,23 +69,19 @@ public class ByteCompactSetTest
         Assert.assertFalse(set.iterator().hasNext());
     }
 
-    @Test
-    public void testAddValues()
+    private void testAddValues(final ByteSet set)
     {
         final ByteList valuesList = new ByteArrayList(TEST_VALUES);
 
-        final ByteCompactSet set = new ByteCompactSet();
         set.addAll(valuesList);
 
         Assert.assertEquals(valuesList, set);
     }
 
-    @Test
-    public void testAddRemoveValues()
+    private void testAddRemoveValues(final ByteSet set)
     {
         final ByteList valuesList = new ByteArrayList(TEST_VALUES);
 
-        final ByteCompactSet set = new ByteCompactSet();
         set.addAll(valuesList);
         for (int i = TEST_VALUES.length - 1; i >= 0; i--)
         {
