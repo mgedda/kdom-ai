@@ -1,12 +1,12 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
-import it.unimi.dsi.fastutil.bytes.ByteLinkedOpenHashSet;
 import it.unimi.dsi.fastutil.bytes.ByteList;
 import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
+import kingdominoplayer.utils.collections.ByteCompactSet;
 
 import java.util.LinkedHashSet;
 
@@ -155,7 +155,7 @@ public class TinyValidPositionsAlgorithm
 
     private ByteSet removePositionsOutside5x5Grid(final ByteSet possibleTilePositions, final int minCol, final int maxCol, final int minRow, final int maxRow)
     {
-        final ByteLinkedOpenHashSet result = new ByteLinkedOpenHashSet(2 * possibleTilePositions.size());
+        final ByteCompactSet result = new ByteCompactSet();
 
         for (final byte position : possibleTilePositions)
         {
@@ -181,7 +181,7 @@ public class TinyValidPositionsAlgorithm
 
     private ByteSet removePositions(final ByteSet positions, final ByteSet positionsToRemove)
     {
-        final ByteLinkedOpenHashSet result = new ByteLinkedOpenHashSet(2 * positions.size()); // 2x upper limit
+        final ByteCompactSet result = new ByteCompactSet(); // 2x upper limit
 
         for (final byte position : positions)
         {
@@ -197,7 +197,7 @@ public class TinyValidPositionsAlgorithm
 
     private ByteSet getAllAdjacentTilePositions(final byte terrain, final ByteSet placedIndices, final byte[] kingdomTerrains)
     {
-        final ByteLinkedOpenHashSet allAdjacentTilePositions = new ByteLinkedOpenHashSet(2 * 5 * 5 * 12); // 2x upper limit
+        final ByteCompactSet allAdjacentTilePositions = new ByteCompactSet(); // 2x upper limit
 
         for (final byte placedIndex : placedIndices)
         {

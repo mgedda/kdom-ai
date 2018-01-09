@@ -1,11 +1,11 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
 
-import it.unimi.dsi.fastutil.bytes.ByteLinkedOpenHashSet;
 import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.utils.Util;
+import kingdominoplayer.utils.collections.ByteCompactSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -159,7 +159,7 @@ public class TwoPassConnectedTerrainScoreAlgorithm implements ConnectedTerrainSc
 
     private ByteSet getValues(final byte[] array)
     {
-        final ByteLinkedOpenHashSet values = new ByteLinkedOpenHashSet(2 * 256);
+        final ByteCompactSet values = new ByteCompactSet();
 
         for (int i = 0; i < array.length; ++i)
         {
