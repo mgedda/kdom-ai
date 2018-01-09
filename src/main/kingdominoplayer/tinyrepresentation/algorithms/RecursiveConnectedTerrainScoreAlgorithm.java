@@ -1,11 +1,11 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
-import it.unimi.dsi.fastutil.bytes.ByteLinkedOpenHashSet;
 import it.unimi.dsi.fastutil.bytes.ByteList;
 import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
+import kingdominoplayer.utils.collections.ByteCompactSet;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -30,7 +30,7 @@ import java.util.Set;
      */
     public int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        final ByteLinkedOpenHashSet scoredIndices = new ByteLinkedOpenHashSet(2 * kingdomTerrains.length);
+        final ByteCompactSet scoredIndices = new ByteCompactSet();
 
         int connectedComponentsScore = 0;
 
@@ -43,8 +43,8 @@ import java.util.Set;
                 continue;
             }
 
-            final ByteSet visitedIndices = new ByteLinkedOpenHashSet(2 * kingdomTerrains.length);
-            final ByteSet connectedTerrainIndices = new ByteLinkedOpenHashSet(2 * kingdomTerrains.length);
+            final ByteSet visitedIndices = new ByteCompactSet();
+            final ByteSet connectedTerrainIndices = new ByteCompactSet();
 
             visitedIndices.addAll(scoredIndices);
             visitedIndices.add(index);

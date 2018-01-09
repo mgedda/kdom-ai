@@ -1,13 +1,13 @@
 package kingdominoplayer.tinyrepresentation;
 
 import it.unimi.dsi.fastutil.bytes.ByteArrayList;
-import it.unimi.dsi.fastutil.bytes.ByteLinkedOpenHashSet;
 import it.unimi.dsi.fastutil.bytes.ByteList;
 import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.utils.Random;
+import kingdominoplayer.utils.collections.ByteCompactSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,7 +105,7 @@ public class TinyUtils
      */
     public static ByteSet getPlacedIndices(final byte[] playerKingdomTerrains)
     {
-        final ByteLinkedOpenHashSet placedIndices = new ByteLinkedOpenHashSet(2 * 5 * 5);  // 2x upper bound
+        final ByteCompactSet placedIndices = new ByteCompactSet();  // 2x upper bound
 
         final byte noTerrain = TerrainCode.from("NONE");
 
