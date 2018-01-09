@@ -1,13 +1,14 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
+import it.unimi.dsi.fastutil.bytes.ByteLinkedOpenHashSet;
+import it.unimi.dsi.fastutil.bytes.ByteList;
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -66,13 +67,13 @@ public class TinyValidPositionsAlgorithm
 
         LinkedHashSet<TinyDominoPosition> validDominoPositions = new LinkedHashSet<>(2 * 36 * 3);  // 2x approximated upper limit
 
-        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
+        final ByteSet placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
 
         for (final byte terrain : terrains)
         {
             // Find all unique positions adjacent to tiles with current terrain (or the castle).
             //
-            LinkedHashSet<Byte> possibleTilePositions = getAllAdjacentTilePositions(terrain, placedIndices, kingdomTerrains);
+            ByteSet possibleTilePositions = getAllAdjacentTilePositions(terrain, placedIndices, kingdomTerrains);
 
 
             // Remove all occupied positions.
@@ -107,7 +108,7 @@ public class TinyValidPositionsAlgorithm
             //
             for (final byte position : possibleTilePositions)
             {
-                final ArrayList<Byte> adjacentPositions = TinyUtils.getAdjacentIndices(position, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
+                final ByteList adjacentPositions = TinyUtils.getAdjacentIndices(position, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
 
                 for (final byte adjacentPosition : adjacentPositions)
                 {
@@ -152,9 +153,9 @@ public class TinyValidPositionsAlgorithm
         return result;
     }
 
-    private LinkedHashSet<Byte> removePositionsOutside5x5Grid(final LinkedHashSet<Byte> possibleTilePositions, final int minCol, final int maxCol, final int minRow, final int maxRow)
+    private ByteSet removePositionsOutside5x5Grid(final ByteSet possibleTilePositions, final int minCol, final int maxCol, final int minRow, final int maxRow)
     {
-        final LinkedHashSet<Byte> result = new LinkedHashSet<>(2 * possibleTilePositions.size());
+        final ByteLinkedOpenHashSet result = new ByteLinkedOpenHashSet(2 * possibleTilePositions.size());
 
         for (final byte position : possibleTilePositions)
         {
@@ -178,9 +179,9 @@ public class TinyValidPositionsAlgorithm
     }
 
 
-    private LinkedHashSet<Byte> removePositions(final LinkedHashSet<Byte> positions, final Set<Byte> positionsToRemove)
+    private ByteSet removePositions(final ByteSet positions, final ByteSet positionsToRemove)
     {
-        final LinkedHashSet<Byte> result = new LinkedHashSet<>(2 * positions.size()); // 2x upper limit
+        final ByteLinkedOpenHashSet result = new ByteLinkedOpenHashSet(2 * positions.size()); // 2x upper limit
 
         for (final byte position : positions)
         {
@@ -194,15 +195,15 @@ public class TinyValidPositionsAlgorithm
     }
 
 
-    private LinkedHashSet<Byte> getAllAdjacentTilePositions(final byte terrain, final Set<Byte> placedIndices, final byte[] kingdomTerrains)
+    private ByteSet getAllAdjacentTilePositions(final byte terrain, final ByteSet placedIndices, final byte[] kingdomTerrains)
     {
-        LinkedHashSet<Byte> allAdjacentTilePositions = new LinkedHashSet<>(2 * 5 * 5 * 12); // 2x upper limit
+        final ByteLinkedOpenHashSet allAdjacentTilePositions = new ByteLinkedOpenHashSet(2 * 5 * 5 * 12); // 2x upper limit
 
         for (final byte placedIndex : placedIndices)
         {
             if (kingdomTerrains[placedIndex] == terrain || kingdomTerrains[placedIndex] == TerrainCode.from("CASTLE"))
             {
-                final ArrayList<Byte> adjacentIndices = TinyUtils.getAdjacentIndices(placedIndex, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
+                final ByteList adjacentIndices = TinyUtils.getAdjacentIndices(placedIndex, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
                 allAdjacentTilePositions.addAll(adjacentIndices);
             }
         }

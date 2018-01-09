@@ -1,5 +1,8 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
+import it.unimi.dsi.fastutil.bytes.ByteLinkedOpenHashSet;
+import it.unimi.dsi.fastutil.bytes.ByteList;
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
@@ -27,11 +30,11 @@ import java.util.Set;
      */
     public int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        final LinkedHashSet<Byte> scoredIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
+        final ByteLinkedOpenHashSet scoredIndices = new ByteLinkedOpenHashSet(2 * kingdomTerrains.length);
 
         int connectedComponentsScore = 0;
 
-        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
+        final ByteSet placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
 
         for (final byte index : placedIndices)
         {
@@ -40,8 +43,8 @@ import java.util.Set;
                 continue;
             }
 
-            final Set<Byte> visitedIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
-            final Set<Byte> connectedTerrainIndices = new LinkedHashSet<>(2 * kingdomTerrains.length);
+            final ByteSet visitedIndices = new ByteLinkedOpenHashSet(2 * kingdomTerrains.length);
+            final ByteSet connectedTerrainIndices = new ByteLinkedOpenHashSet(2 * kingdomTerrains.length);
 
             visitedIndices.addAll(scoredIndices);
             visitedIndices.add(index);
@@ -79,8 +82,8 @@ import java.util.Set;
      */
     private void getConnectedTerrainTilesRecursively(final byte currentTerrain,
                                                      final byte index,
-                                                     /* UPDATED */ final Set<Byte> connectedTerrainIndices,
-                                                     /* UPDATED */ final Set<Byte> visitedIndices,
+                                                     /* UPDATED */ final ByteSet connectedTerrainIndices,
+                                                     /* UPDATED */ final ByteSet visitedIndices,
                                                      final byte[] kingdomTerrains)
     {
         final byte terrain = kingdomTerrains[index];
@@ -95,7 +98,7 @@ import java.util.Set;
         {
             connectedTerrainIndices.add(index);
 
-            final ArrayList<Byte> adjacentIndices = TinyUtils.getAdjacentIndices(index, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
+            final ByteList adjacentIndices = TinyUtils.getAdjacentIndices(index, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
 
             for (final byte adjacentIndex : adjacentIndices)
             {
@@ -117,7 +120,7 @@ import java.util.Set;
      * @param kingdomCrowns
      * @return
      */
-    private int computeConnectedTerrainScore(final Set<Byte> indices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
+    private int computeConnectedTerrainScore(final ByteSet indices, final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
         if (indices.isEmpty())
         {

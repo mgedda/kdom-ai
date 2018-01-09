@@ -1,7 +1,8 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
 
-import kingdominoplayer.tinyrepresentation.TinyUtils;
+import it.unimi.dsi.fastutil.bytes.ByteLinkedOpenHashSet;
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.utils.Util;
@@ -9,8 +10,6 @@ import kingdominoplayer.utils.Util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * Copyright 2017 Tomologic AB<br>
@@ -23,7 +22,7 @@ public class TwoPassConnectedTerrainScoreAlgorithm implements ConnectedTerrainSc
     @Override
     public int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
     {
-        final Set<Byte> terrainValues = getValues(kingdomTerrains);
+        final ByteSet terrainValues = getValues(kingdomTerrains);
 
         final ArrayList<TilesCrownsPair> allPairs = new ArrayList<>(24);
         for (final byte terrainValue : terrainValues)
@@ -45,7 +44,7 @@ public class TwoPassConnectedTerrainScoreAlgorithm implements ConnectedTerrainSc
     {
         final byte[] connectedComponents = getConnectedComponents(terrainValue, kingdomTerrains);
 
-        final Set<Byte> values = getValues(connectedComponents);
+        final ByteSet values = getValues(connectedComponents);
 
         final LinkedHashMap<Byte, TilesCrownsPair> valueToTilesCrownsPair = new LinkedHashMap<>(2 * values.size());
 
@@ -158,9 +157,9 @@ public class TwoPassConnectedTerrainScoreAlgorithm implements ConnectedTerrainSc
     }
 
 
-    private Set<Byte> getValues(final byte[] array)
+    private ByteSet getValues(final byte[] array)
     {
-        final LinkedHashSet<Byte> values = new LinkedHashSet<>(2 * 256);
+        final ByteLinkedOpenHashSet values = new ByteLinkedOpenHashSet(2 * 256);
 
         for (int i = 0; i < array.length; ++i)
         {
