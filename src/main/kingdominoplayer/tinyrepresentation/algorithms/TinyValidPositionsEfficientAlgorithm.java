@@ -1,5 +1,8 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
+import it.unimi.dsi.fastutil.bytes.ByteArrayList;
+import it.unimi.dsi.fastutil.bytes.ByteList;
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
@@ -59,21 +62,21 @@ public class TinyValidPositionsEfficientAlgorithm
 
         LinkedHashSet<TinyDominoPosition> validDominoPositions = new LinkedHashSet<>(2 * 36 * 3);  // 2x approximated upper limit
 
-        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
+        final ByteSet placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
         final BoundingBox box = getBoundingBox(placedIndices);
 
         for (final byte terrain : terrains)
         {
             // Get empty tile positions adjacent to already placed tiles.
             //
-            final ArrayList<Byte> emptyPositionsAdjacentToPlacedTiles =
+            final ByteList emptyPositionsAdjacentToPlacedTiles =
                     getEmptyPositionsAdjacentToPlacedTiles(kingdomTerrains, placedIndices, box, terrain);
 
             // Find valid domino positions from tile positions.
             //
             for (final byte position : emptyPositionsAdjacentToPlacedTiles)
             {
-                final ArrayList<Byte> adjacentPositions = TinyUtils.getAdjacentIndices(position, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
+                final ByteList adjacentPositions = TinyUtils.getAdjacentIndices(position, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
 
                 for (final byte adjacentPosition : adjacentPositions)
                 {
@@ -126,18 +129,18 @@ public class TinyValidPositionsEfficientAlgorithm
         return result;
     }
 
-    private ArrayList<Byte> getEmptyPositionsAdjacentToPlacedTiles(final byte[] kingdomTerrains,
-                                                                   final Set<Byte> placedIndices,
-                                                                   final BoundingBox box,
-                                                                   final byte terrain)
+    private ByteList getEmptyPositionsAdjacentToPlacedTiles(final byte[] kingdomTerrains,
+                                                            final ByteSet placedIndices,
+                                                            final BoundingBox box,
+                                                            final byte terrain)
     {
-        final ArrayList<Byte> result = new ArrayList<>(7 * 7);
+        final ByteArrayList result = new ByteArrayList(7 * 7);
 
         for (final byte placedIndex : placedIndices)
         {
             if (kingdomTerrains[placedIndex] == terrain || kingdomTerrains[placedIndex] == TerrainCode.from("CASTLE"))
             {
-                final ArrayList<Byte> adjacentIndices = TinyUtils.getAdjacentIndices(placedIndex, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
+                final ByteList adjacentIndices = TinyUtils.getAdjacentIndices(placedIndex, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
 
                 for (final byte adjacentIndex : adjacentIndices)
                 {
@@ -156,7 +159,7 @@ public class TinyValidPositionsEfficientAlgorithm
         return result;
     }
 
-    private BoundingBox getBoundingBox(final Set<Byte> placedIndices)
+    private BoundingBox getBoundingBox(final ByteSet placedIndices)
     {
         final BoundingBox box = new BoundingBox((byte) 100, (byte) -100, (byte) 100, (byte) -100);
         for (final byte placedIndex : placedIndices)

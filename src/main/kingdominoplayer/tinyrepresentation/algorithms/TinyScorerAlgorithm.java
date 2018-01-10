@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.algorithms;
 
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
@@ -21,7 +22,7 @@ public class TinyScorerAlgorithm
     {
         int connectedComponentsScore = getConnectedTerrainsScore(kingdomTerrains, kingdomCrowns);
 
-        final Set<Byte> placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
+        final ByteSet placedIndices = TinyUtils.getPlacedIndices(kingdomTerrains);
         int middleKingdomScore = getMiddleKingdomScore(placedIndices);
         int harmonyScore = getHarmonyScore(placedIndices);
 
@@ -44,7 +45,7 @@ public class TinyScorerAlgorithm
      * @param placedIndices
      * @return
      */
-    private static int getHarmonyScore(final Set<Byte> placedIndices)
+    private static int getHarmonyScore(final ByteSet placedIndices)
     {
         return placedIndices.size() == 24 ? 5 : 0;
     }
@@ -55,7 +56,7 @@ public class TinyScorerAlgorithm
      *
      * @return
      */
-    private static int getMiddleKingdomScore(final Set<Byte> placedIndices)
+    private static int getMiddleKingdomScore(final ByteSet placedIndices)
     {
         for (final int placedIndex : placedIndices)
         {
