@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.gamestrategies;
 
+import it.unimi.dsi.fastutil.bytes.ByteList;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
@@ -8,7 +9,6 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyMove;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -349,7 +349,7 @@ public abstract class TinyGreedyAlgorithm
             return false;
         }
 
-        final ArrayList<Byte> adjacentPositions = TinyUtils.getAdjacentIndices(position, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
+        final ByteList adjacentPositions = TinyUtils.getAdjacentIndices(position, TinyConst.KINGDOM_X_SIZE, TinyConst.KINGDOM_Y_SIZE);
 
         final byte noTerrain = TerrainCode.from("NONE");
         final byte castleTerrain = TerrainCode.from("CASTLE");

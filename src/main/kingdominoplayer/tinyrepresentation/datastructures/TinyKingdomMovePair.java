@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.datastructures;
 
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyScorerAlgorithm;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 
@@ -52,7 +53,7 @@ public class TinyKingdomMovePair
         return iScore;
     }
 
-    public Set<Byte> getPlacedIndices()
+    public ByteSet getPlacedIndices()
     {
         return TinyUtils.getPlacedIndices(iKingdomTerrains);
     }
