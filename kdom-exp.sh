@@ -75,10 +75,11 @@ function playGames
 
     MAX_SEARCH_TIME_ESCAPED=${MAX_SEARCH_TIME//[.]/_}
 
-    OUTPUT_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.m"
+    OUTPUT_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.dat"
+    OUTPUT_FILE_TMP="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.tmp"
     LOG_FILE="${TARGET_DIR}/kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME}_P${MAX_PLAYOUTS}.log"
 
-    SCRIPT_STR="java -jar out/kdom-exp.jar ${PLAYER_STRATEGY} ${OPPONENT_STRATEGY} ${MAX_SEARCH_TIME} ${MAX_PLAYOUTS} ${OUTPUT_FILE}"
+    SCRIPT_STR="java -jar out/kdom-exp.jar ${PLAYER_STRATEGY} ${OPPONENT_STRATEGY} ${MAX_SEARCH_TIME} ${MAX_PLAYOUTS} ${OUTPUT_FILE_TMP}"
 
     print "=======================================================================================" $LOG_FILE
     print "| Kingdomino AI Experiment"                                                              $LOG_FILE
@@ -116,9 +117,8 @@ function playGames
     echo "# Executing: '$SCRIPT_STR'"                                                               >> $OUTPUT_FILE
     echo "# Git Revision: $REVISION"                                                                >> $OUTPUT_FILE
     echo "#--------------------------------------------------------------------------------------"  >> $OUTPUT_FILE
-    echo ""                                                                                         >> $OUTPUT_FILE
+    echo "#"                                                                                         >> $OUTPUT_FILE
     echo "# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13), playouts_per_second(13), scores(13), score_diff, opponent_scores(3)" >> $OUTPUT_FILE
-    echo "kdom_exp_${PLAYER_STRATEGY}_vs_${OPPONENT_STRATEGY}_T${MAX_SEARCH_TIME_ESCAPED}_P${MAX_PLAYOUTS} = ["  >> $OUTPUT_FILE
 
     for ((i=1; i <= $NUM_RUNS; i++))
     do
@@ -131,6 +131,11 @@ function playGames
 
         print ""                                                                                        $LOG_FILE
     done
+
+    # Format temporary output file into neat columns
+    #cat ${OUTPUT_FILE_TMP} | column -t -s" " >> $OUTPUT_FILE
+    cat ${OUTPUT_FILE_TMP} >> $OUTPUT_FILE
+    rm ${OUTPUT_FILE_TMP}
 
     print "---------------------------------------------------------------------------------------"  $LOG_FILE
     print "| Experiment done!"                                                                       $LOG_FILE

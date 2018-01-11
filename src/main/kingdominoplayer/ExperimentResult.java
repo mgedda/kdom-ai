@@ -55,6 +55,8 @@ public class ExperimentResult
     @Override
     public String toString()
     {
+        final String separator = " ";
+
         final int playerWinValue = getPlayerWinValue(iPlayer.getName(), iGameState);
         final int playerScore = iGameState.getScore(iPlayer.getName());
         final int numPlayers = iGameState.getNumPlayers();
@@ -66,7 +68,7 @@ public class ExperimentResult
             final int numAvailableMoves = numAvailableMovesArray[i];
             numAvailableMovesString = i == numAvailableMovesArray.length - 1
                     ? numAvailableMovesString.concat(Integer.toString(numAvailableMoves))
-                    : numAvailableMovesString.concat(Integer.toString(numAvailableMoves) + ", ");
+                    : numAvailableMovesString.concat(Integer.toString(numAvailableMoves) + separator);
         }
 
         String numAvailableDraftString = "";
@@ -76,7 +78,7 @@ public class ExperimentResult
             final int numAvailableDraft = numAvailableDraftArray[i];
             numAvailableDraftString = i == numAvailableDraftArray.length - 1
                     ? numAvailableDraftString.concat(Integer.toString(numAvailableDraft))
-                    : numAvailableDraftString.concat(Integer.toString(numAvailableDraft) + ", ");
+                    : numAvailableDraftString.concat(Integer.toString(numAvailableDraft) + separator);
         }
 
         String chosenDraftPositionString = "";
@@ -86,7 +88,7 @@ public class ExperimentResult
             final int chosenDraftPosition = chosenDraftPositions[i];
             chosenDraftPositionString = i == chosenDraftPositions.length - 1
                     ? chosenDraftPositionString.concat(Integer.toString(chosenDraftPosition))
-                    : chosenDraftPositionString.concat(Integer.toString(chosenDraftPosition) + ", ");
+                    : chosenDraftPositionString.concat(Integer.toString(chosenDraftPosition) + separator);
         }
 
         String numPlayoutsPerSecondString = "";
@@ -96,7 +98,7 @@ public class ExperimentResult
             final double numPlayoutsPerSecond = numPlayoutsPerSecondArray[i];
             numPlayoutsPerSecondString = i == numPlayoutsPerSecondArray.length - 1
                     ? numPlayoutsPerSecondString.concat(String.format("%.1f", numPlayoutsPerSecond))
-                    : numPlayoutsPerSecondString.concat(String.format("%.1f", numPlayoutsPerSecond) + ", ");
+                    : numPlayoutsPerSecondString.concat(String.format("%.1f", numPlayoutsPerSecond) + separator);
         }
 
         String scoresString = "";
@@ -106,7 +108,7 @@ public class ExperimentResult
             final int score = scores[i];
             scoresString = i == scores.length - 1
                     ? scoresString.concat(Integer.toString(playerScore))
-                    : scoresString.concat(Integer.toString(score) + ", ");
+                    : scoresString.concat(Integer.toString(score) + separator);
         }
 
         final double scoreDifference = getPlayerScoreDifferenceToBestOpponent();
@@ -118,21 +120,21 @@ public class ExperimentResult
         {
             opponentScoresString = i == opponentScores.length - 1
                     ? opponentScoresString.concat(Integer.toString(opponentScores[i]))
-                    : opponentScoresString.concat(Integer.toString(opponentScores[i]) + ", ");
+                    : opponentScoresString.concat(Integer.toString(opponentScores[i]) + separator);
         }
 
 
-        return Integer.toString(playerWinValue) + ", "
-                + Integer.toString(playerScore) + ", "
-                + Integer.toString(numPlayers) + ", "
-                + numAvailableMovesString + ", "
-                + numAvailableDraftString + ", "
-                + chosenDraftPositionString + ", "
-                + numPlayoutsPerSecondString + ", "
-                + scoresString + ", "
-                + String.format("%.0f", scoreDifference) + ", "
+        return Integer.toString(playerWinValue) + separator
+                + Integer.toString(playerScore) + separator
+                + Integer.toString(numPlayers) + separator
+                + numAvailableMovesString + separator
+                + numAvailableDraftString + separator
+                + chosenDraftPositionString + separator
+                + numPlayoutsPerSecondString + separator
+                + scoresString + separator
+                + String.format("%.0f", scoreDifference) + separator
                 + opponentScoresString
-                + ";\n";
+                + "\n";
     }
 
     private int[] getOpponentScoresAsFixedArray()
@@ -184,7 +186,7 @@ public class ExperimentResult
             {
                 //noinspection ResultOfMethodCallIgnored
                 outputFile.createNewFile();
-                Files.write(Paths.get(filename), "# win, score, num_players, num_available_moves(13), num_available_draft(13), chosen_draft_position(13)\n".getBytes(), StandardOpenOption.APPEND);
+                //Files.write(Paths.get(filename), "# win, score, num_players, num_available_moves(13), num_available_draft(13), chosen_draft_position(13)\n".getBytes(), StandardOpenOption.APPEND);
             }
 
             final String resultString = toString();
