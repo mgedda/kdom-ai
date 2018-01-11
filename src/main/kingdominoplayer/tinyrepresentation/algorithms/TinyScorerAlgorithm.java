@@ -2,20 +2,9 @@ package kingdominoplayer.tinyrepresentation.algorithms;
 
 import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
-import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
-import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
-/**
- * Copyright 2017 Tomologic AB<br>
- * User: gedda<br>
- * Date: 2017-03-14<br>
- * Time: 15:16<br><br>
- */
 public class TinyScorerAlgorithm
 {
     public static int applyTo(final byte[] kingdomTerrains, final byte[] kingdomCrowns)
@@ -47,7 +36,7 @@ public class TinyScorerAlgorithm
      */
     private static int getHarmonyScore(final ByteSet placedIndices)
     {
-        return placedIndices.size() == 24 ? 5 : 0;
+        return placedIndices.size() == 25 ? 5 : 0;
     }
 
 
