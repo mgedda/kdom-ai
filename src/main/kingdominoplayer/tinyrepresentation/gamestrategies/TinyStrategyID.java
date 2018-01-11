@@ -26,6 +26,9 @@ public enum TinyStrategyID
     UCT_TR_C03,
     UCT_TR_C04,
     UCT_TR_C05,
+    UCT_TR_C10,
+    UCT_TR_C15,
+    UCT_TR_C20,
 
     UCT_FG_C02
 }
