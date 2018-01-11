@@ -12,6 +12,7 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.MonteCarloMethods;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
+import kingdominoplayer.utils.Random;
 import kingdominoplayer.utils.Util;
 
 import java.util.ArrayList;
@@ -166,16 +167,27 @@ public class UCTSearch
 
         if (bestChildren.size() > 1)
         {
-            UCTSNode selectChild = bestChildren.get(0);
-            for (UCTSNode child : bestChildren)
+            final ArrayList<UCTSNode> childrenWithHighestPlayerScore = new ArrayList<>();
+            int maxScore = 0;
+
+            for (final UCTSNode bestChild : bestChildren)
             {
-                if (child.getGameState().getScore(iPlayerName) > selectChild.getGameState().getScore(iPlayerName))
+                final int score = bestChild.getGameState().getScore(iPlayerName);
+                if (score > maxScore)
                 {
-                    selectChild = child;
+                    maxScore = score;
+                    childrenWithHighestPlayerScore.clear();
+                    childrenWithHighestPlayerScore.add(bestChild);
+                }
+                else if (score == maxScore)
+                {
+                    childrenWithHighestPlayerScore.add(bestChild);
                 }
             }
 
-            return selectChild;
+            final int randomIndex = Random.getInt(childrenWithHighestPlayerScore.size());
+
+            return childrenWithHighestPlayerScore.get(randomIndex);
         }
         else
         {
