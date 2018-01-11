@@ -1,17 +1,8 @@
 package kingdominoplayer.tinyrepresentation.datastructures;
 
-import it.unimi.dsi.fastutil.bytes.ByteSet;
 import kingdominoplayer.tinyrepresentation.algorithms.TinyScorerAlgorithm;
 import kingdominoplayer.tinyrepresentation.TinyUtils;
 
-import java.util.Set;
-
-/**
- * Copyright 2017 Tomologic AB<br>
- * User: gedda<br>
- * Date: 2017-03-18<br>
- * Time: 22:25<br><br>
- */
 public class TinyKingdomMovePair
 {
     private final byte[] iKingdomTerrains;
@@ -51,11 +42,6 @@ public class TinyKingdomMovePair
         }
 
         return iScore;
-    }
-
-    public ByteSet getPlacedIndices()
-    {
-        return TinyUtils.getPlacedIndices(iKingdomTerrains);
     }
 
     public TinyKingdomMovePair withChosenDominoPlaced(final byte tile1X, final byte tile1Y, final byte tile2X, final byte tile2Y)
