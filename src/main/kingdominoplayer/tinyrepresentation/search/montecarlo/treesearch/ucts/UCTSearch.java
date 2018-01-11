@@ -19,10 +19,6 @@ import java.util.ArrayList;
 
 public class UCTSearch
 {
-    private static final double EXPLORE_FACTOR = 1.0 / Math.sqrt(2.0);
-    //private static final double EXPLORE_FACTOR = 2.0;
-
-
     /**
      * Number of times a node must have been visited
      * before any of its children are expanded.
@@ -34,16 +30,19 @@ public class UCTSearch
     private final String iPlayerName;
     private final TinySimulationStrategy iSimulationStrategy;
     private final SearchParameters iSearchParameters;
+    private final double iExploreFactor;
 
     private double iNumPlayoutsPerSecond = -1;
 
     public UCTSearch(final String playerName,
                      final TinySimulationStrategy simulationStrategy,
-                     final SearchParameters searchParameters)
+                     final SearchParameters searchParameters,
+                     final double exploreFactor)
     {
         iPlayerName = playerName;
         iSimulationStrategy = simulationStrategy;
         iSearchParameters = searchParameters;
+        iExploreFactor = exploreFactor;
     }
 
 
@@ -110,7 +109,7 @@ public class UCTSearch
             final ArrayList<Integer> depthIndices = new ArrayList<>(1);
             depthIndices.add(counter);
             final String markString = child == selectedNode ? " (*)" : "";
-            DEBUG.println(CLASS_STRING + child.toStringNestedBrackets(depthIndices, EXPLORE_FACTOR) + markString);
+            DEBUG.println(CLASS_STRING + child.toStringNestedBrackets(depthIndices, iExploreFactor) + markString);
             counter++;
         }
         DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
@@ -134,7 +133,7 @@ public class UCTSearch
             else
             {
                 //noinspection UnnecessaryLocalVariable
-                final UCTSNode bestChild = bestChild(node, EXPLORE_FACTOR);
+                final UCTSNode bestChild = bestChild(node, iExploreFactor);
                 node = bestChild;
             }
         }
