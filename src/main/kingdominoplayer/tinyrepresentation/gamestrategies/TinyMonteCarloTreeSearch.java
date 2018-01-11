@@ -17,7 +17,6 @@ public class TinyMonteCarloTreeSearch implements TinyStrategy
     private final TinySimulationStrategy iSimulationStrategy;
     private final SearchParameters iSearchParameters;
 
-    //private TinyMonteCarloTreeSearchAlgorithm iSearchAlgorithm;
     private UCTSearch iSearchAlgorithm;
 
     public TinyMonteCarloTreeSearch(final TinySimulationStrategy simulationStrategy, final SearchParameters searchParameters)
@@ -29,7 +28,6 @@ public class TinyMonteCarloTreeSearch implements TinyStrategy
     @Override
     public final byte[] selectMove(final String playerName, final TinyGameState gameState)
     {
-        //iSearchAlgorithm = new TinyMonteCarloTreeSearchAlgorithm(playerName, iSimulationStrategy, iSearchParameters);
         iSearchAlgorithm = new UCTSearch(playerName, iSimulationStrategy, iSearchParameters);
         final byte[] availableMoves = gameState.getAvailableMoves(playerName);
         return iSearchAlgorithm.evaluate(gameState, availableMoves);
