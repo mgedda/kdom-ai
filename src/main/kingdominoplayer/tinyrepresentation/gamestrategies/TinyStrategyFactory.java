@@ -10,7 +10,7 @@ import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyFullGreedySi
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyPlayerGreedySimulationStrategy;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinyTrueRandomSimulationStrategy;
 
-/**
+/*
  * Created by gedda on 3/30/17.
  */
 public class TinyStrategyFactory
@@ -55,11 +55,23 @@ public class TinyStrategyFactory
             case MCE_PG_R:
                 result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyPlayerGreedySimulationStrategy(), new RelativeScoreFunction(), iSearchParameters);
                 break;
-            case MCTS_TR:
-                result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters);
+            case UCT_TR_C01:
+                result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.1);
                 break;
-            case MCTS_FG:
-                result = new TinyMonteCarloTreeSearch(new TinyFullGreedySimulationStrategy(), iSearchParameters);
+            case UCT_TR_C02:
+                result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.2);
+                break;
+            case UCT_TR_C03:
+                result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.3);
+                break;
+            case UCT_TR_C04:
+                result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.4);
+                break;
+            case UCT_TR_C05:
+                result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5);
+                break;
+            case UCT_FG_C02:
+                result = new TinyMonteCarloTreeSearch(new TinyFullGreedySimulationStrategy(), iSearchParameters, 0.2);
                 break;
             default:
                 assert false : "Unknown game strategy!";

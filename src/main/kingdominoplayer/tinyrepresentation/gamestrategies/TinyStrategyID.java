@@ -21,6 +21,11 @@ public enum TinyStrategyID
     MCE_EG_R,
     MCE_PG_R,
 
-    MCTS_TR,
-    MCTS_FG
+    UCT_TR_C01,
+    UCT_TR_C02,
+    UCT_TR_C03,
+    UCT_TR_C04,
+    UCT_TR_C05,
+
+    UCT_FG_C02
 }
