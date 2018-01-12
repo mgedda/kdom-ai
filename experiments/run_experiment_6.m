@@ -38,21 +38,36 @@ mkdir(output_dir);
 opponent_strat_str = "FG";
 
 num_games = 20;
-time_limits = [0.5 2.0];    # time limits used
+time_limits = [0.5 2.0];        # time limits
+c_values = [0.1 0.2 0.3 0.4];   # UCB constant values
 
-strat1_t0_5 = dlmread('kdom_exp-20180112-115628-rev-9542014-cpu-2.70GHz/kdom_exp_UCT_TR_C01_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
-strat1_t2_0 = dlmread('kdom_exp-20180112-115628-rev-9542014-cpu-2.70GHz/kdom_exp_UCT_TR_C01_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+strat1_t0_5 = dlmread('kdom_exp-20180112-210350-rev-1b74839-cpu-2.70GHz/kdom_exp_UCT_TR_C0_1_W0_0_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+strat1_t2_0 = dlmread('kdom_exp-20180112-210350-rev-1b74839-cpu-2.70GHz/kdom_exp_UCT_TR_C0_1_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
 strat1_t0_5_str = "C=0.1 (0.5s)";
 strat1_t2_0_str = "C=0.1 (2s)";
 strats_1{1} = getStratCellArrayVersion4(strat1_t0_5, strat1_t0_5_str, opponent_strat_str);
 strats_1{2} = getStratCellArrayVersion4(strat1_t2_0, strat1_t2_0_str, opponent_strat_str);
 
-strat2_t0_5 = dlmread('kdom_exp-20180112-115628-rev-9542014-cpu-2.70GHz/kdom_exp_UCT_TR_C02_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
-strat2_t2_0 = dlmread('kdom_exp-20180112-115628-rev-9542014-cpu-2.70GHz/kdom_exp_UCT_TR_C02_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+strat2_t0_5 = dlmread('kdom_exp-20180112-210350-rev-1b74839-cpu-2.70GHz/kdom_exp_UCT_TR_C0_2_W0_0_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+strat2_t2_0 = dlmread('kdom_exp-20180112-210350-rev-1b74839-cpu-2.70GHz/kdom_exp_UCT_TR_C0_2_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
 strat2_t0_5_str = "C=0.2 (0.5s)";
 strat2_t2_0_str = "C=0.2 (2s)";
 strats_2{1} = getStratCellArrayVersion4(strat2_t0_5, strat2_t0_5_str, opponent_strat_str);
 strats_2{2} = getStratCellArrayVersion4(strat2_t2_0, strat2_t2_0_str, opponent_strat_str);
+
+strat3_t0_5 = dlmread('kdom_exp-20180112-210350-rev-1b74839-cpu-2.70GHz/kdom_exp_UCT_TR_C0_3_W0_0_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+strat3_t2_0 = dlmread('kdom_exp-20180112-210350-rev-1b74839-cpu-2.70GHz/kdom_exp_UCT_TR_C0_3_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+strat3_t0_5_str = "C=0.3 (0.5s)";
+strat3_t2_0_str = "C=0.3 (2s)";
+strats_3{1} = getStratCellArrayVersion4(strat3_t0_5, strat3_t0_5_str, opponent_strat_str);
+strats_3{2} = getStratCellArrayVersion4(strat3_t2_0, strat3_t2_0_str, opponent_strat_str);
+
+strat4_t0_5 = dlmread('kdom_exp-20180112-210350-rev-1b74839-cpu-2.70GHz/kdom_exp_UCT_TR_C0_4_W0_0_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+strat4_t2_0 = dlmread('kdom_exp-20180112-210350-rev-1b74839-cpu-2.70GHz/kdom_exp_UCT_TR_C0_4_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+strat4_t0_5_str = "C=0.4 (0.5s)";
+strat4_t2_0_str = "C=0.4 (2s)";
+strats_4{1} = getStratCellArrayVersion4(strat4_t0_5, strat4_t0_5_str, opponent_strat_str);
+strats_4{2} = getStratCellArrayVersion4(strat4_t2_0, strat4_t2_0_str, opponent_strat_str);
 
 
 #----------------------------------
@@ -124,13 +139,37 @@ function writeScoreDiffsToDatFile(score_diffs, output_dir, x)
 endfunction
 
 
+function writeScoreDiffsToDatFileInverted(score_diffs, time_values, x_values, output_dir)
+  for i = 1:size(time_values,2)  # loop over files
+    data = [];
+    for j = 1:size(score_diffs,2)
+      avg_score_diff = score_diffs{j}{2}(i);
+      lower_err = score_diffs{j}{3}(i);
+      upper_err = score_diffs{j}{4}(i);
+      err = lower_err + upper_err;
+
+      data = [data; x_values(j) avg_score_diff err];
+    endfor
+
+    t = time_values(i);
+    filename = [output_dir "/SCORE_DIFFS_TIME_" num2str(t) "s.dat"];
+
+    dlmwrite(filename, data, "delimiter", " ")
+  endfor
+endfunction
+
+
 #----------------------------------
 # Process experiment data.
 #
 
 score_diffs{1} = getScoreDiffsCellArray(strats_1, "C0.1");
 score_diffs{2} = getScoreDiffsCellArray(strats_2, "C0.2");
+score_diffs{3} = getScoreDiffsCellArray(strats_3, "C0.3");
+score_diffs{4} = getScoreDiffsCellArray(strats_4, "C0.4");
 
 plotScoreDiffs(score_diffs, num_games, time_limits);
 writeScoreDiffsToDatFile(score_diffs, output_dir, time_limits);
+
+writeScoreDiffsToDatFileInverted(score_diffs, time_limits, c_values, output_dir);
 
