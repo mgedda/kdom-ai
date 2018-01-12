@@ -31,7 +31,7 @@ import java.util.Map;
     UCTSNode(final TinyGameState gameState, @Nullable final UCTSNode parent, final byte[] move)
     {
         iWins = 0;
-        iVisits = 1;
+        iVisits = 0;
 
         //reward = new UCTSReward(new double[iGameState.getNumPlayers()]);
 
