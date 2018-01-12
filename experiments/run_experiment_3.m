@@ -1,3 +1,22 @@
+#=============================================================================
+# Experiment 3 - Comparing scoring functions
+#-----------------------------------------------------------------------------
+# Compares AI players using the evaluators
+#
+#    MCE-TR/WDL - Monte-Carlo Evaluation with random playout policy (TR)
+#                 and Win-Draw-Loss scoring function (WDL)
+#    MCE-TR/P   - Monte-Carlo Evaluation with random playout policy (TR)
+#                 and Player Greedy scoring function (P)
+#    MCE-TR/R   - Monte-Carlo Evaluation with random playout policy (TR)
+#                 and Relative scoring function (R)
+#
+# This m-file processes result files from games between Monte-Carlo
+# Evaluation players using different scoring functions.
+#
+# The processed information is printed to .dat files with space-separated
+# values suitable for plotting with gnuplot.
+#
+
 clear all;
 close all;
 

@@ -45,7 +45,7 @@ replot
 
 
 #
-# EXPERIMENT 1 - Scores
+# EXPERIMENT 1 - Scores (static evaluators)
 #
 
 set title "Average scores per round"
@@ -73,7 +73,7 @@ replot
 
 
 #
-# EXPERIMENT 2 - Scores
+# EXPERIMENT 2 - Scores (static vs statistical evaluators)
 #
 
 set title "Average scores per round"
@@ -99,7 +99,7 @@ replot
 
 
 #
-# EXPERIMENT 3 - Scores
+# EXPERIMENT 3 - Scores (scoring functions)
 #
 
 set title "Average scores per round (450 games)"
@@ -127,7 +127,7 @@ replot
 
 
 #
-# EXPERIMENT 4 - Score diffs
+# EXPERIMENT 4 - Score diffs (playout policies)
 #
 
 set title "Score difference to best opponent"
@@ -182,7 +182,7 @@ unset label
 
 
 #
-# EXPERIMENT 4 - Playouts
+# EXPERIMENT 4 - Playout frequency
 #
 
 set title "Playouts/$s$ per round"
