@@ -118,7 +118,7 @@ import java.util.Map;
 
 
 
-    public String toStringNestedBrackets(final ArrayList<Integer> depthIndices, final double exploreFactor)
+    public String toStringNestedBrackets(final ArrayList<Integer> depthIndices, final double exploreFactor, final double biasWeight)
     {
         String nodeString = "";
 
@@ -145,7 +145,7 @@ import java.util.Map;
 
         if (iParent != null)
         {
-            final double upperConfidenceBound = UCTSTreeUtils.getUCB(this, exploreFactor);
+            final double upperConfidenceBound = UCTSTreeUtils.getUCB(this, exploreFactor, biasWeight);
             nodeString = nodeString.concat(", UCB: ").concat(String.format("%.5f", upperConfidenceBound));
         }
 
