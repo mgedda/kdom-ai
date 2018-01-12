@@ -216,3 +216,35 @@ set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment4_playouts.tex"
 replot
 
+
+#
+# EXPERIMENT 6 - Score diffs (UCB constant)
+#
+
+set title "Score difference to best opponent"
+set xlabel "Time per turn (s)"
+set ylabel "Score diff" rotate by 90
+set key left
+set xrange [0.08:12]
+unset yrange
+
+set logscale x
+set nologscale y
+
+set format xy '$%g$'
+
+
+set terminal x11
+plot "run_experiment_6.out/SCORE_DIFFS_C0.1.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{$C=0.1$}', \
+	'' using 1:2 w lines lt 1 title '', \
+	"run_experiment_6.out/SCORE_DIFFS_C0.2.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$C=0.2}', \
+	'' using 1:2 w lines lt 2 title ''
+
+pause -1
+
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
+set output outputdir."/experiment6_score_diffs.tex"
+replot
+
