@@ -17,7 +17,7 @@ import java.util.ArrayList;
         final int parentVisits = node.getParent().getVisits();
 
         final double exploit = (double) node.getWins() / (double) node.getVisits();
-        final double explore = Math.sqrt(Math.log(2 * parentVisits) / (double) node.getVisits());
+        final double explore = Math.sqrt(Math.log(parentVisits) / (double) node.getVisits());
 
         return exploit + exploreFactor * explore;
     }
