@@ -1,3 +1,19 @@
+#=============================================================================
+# Experiment 1 - Branching factor and impact of basic domain knowledge
+#-----------------------------------------------------------------------------
+# Compares AI players using the static evaluators
+#
+#    TR   - True random moves
+#    GPRD - Greedy placement random draft
+#    FG   - Full greedy
+#
+# This m-file processes result files from games where each AI player played
+# against three TR opponents.
+#
+# The processed information is printed to .dat files with space-separated
+# values suitable for plotting with gnuplot.
+#
+
 clear all;
 close all;
 

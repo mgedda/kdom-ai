@@ -1,3 +1,20 @@
+#=============================================================================
+# Experiment 2 - Static vs statistical evaluator
+#-----------------------------------------------------------------------------
+# Compares AI players using the evaluators
+#
+#    FG         - Full greedy
+#    MCE-TR/WDL - Monte-Carlo Evaluation with random playout policy (TR)
+#                 and Win-Draw-Loss scoring function (WDL)
+#
+# This m-file processes result files from games between players using
+# Monte-Carlo Evaluation (statistical evaluator) and Full Greedy (static
+# evaluator).
+#
+# The processed information is printed to .dat files with space-separated
+# values suitable for plotting with gnuplot.
+#
+
 clear all;
 close all;
 
@@ -253,15 +270,15 @@ function writePlayerScoresToDatFile(strats, output_dir, output_file_prefix)
     player_scores = strats{i}{11};
     player_mean_scores = mean(player_scores);
 
-    # standard error over mean                                                                                                                              
+    # standard error over mean
     num_games = size(strats{i}{11}, 1);
     sem = std(player_scores) / sqrt(num_games);
 
-    # 95% confidence intervals                                                                                                                              
+    # 95% confidence intervals
     lower_err = 1.96 * sem;
     upper_err = 1.96 * sem;
 
-    #errorbar(x, player_mean_scores, lower_err, upper_err, styles{mod(i, num_styles+1)});                                                                   
+    #errorbar(x, player_mean_scores, lower_err, upper_err, styles{mod(i, num_styles+1)});
 
     strat_str = strrep(strats{i}{1}, "/", "_");
     filename = [output_dir "/" output_file_prefix "SCORES_" strat_str ".dat"];
