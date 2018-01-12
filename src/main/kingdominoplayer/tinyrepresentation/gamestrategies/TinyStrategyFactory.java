@@ -55,31 +55,31 @@ public class TinyStrategyFactory
             case MCE_PG_R:
                 result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyPlayerGreedySimulationStrategy(), new RelativeScoreFunction(), iSearchParameters);
                 break;
-            case UCT_TR_C01_W0_0:
+            case UCT_TR_C0_1_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.1, 0.0);
                 break;
-            case UCT_TR_C02_W0_0:
+            case UCT_TR_C0_2_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.2, 0.0);
                 break;
-            case UCT_TR_C03_W0_0:
+            case UCT_TR_C0_3_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.3, 0.0);
                 break;
-            case UCT_TR_C04_W0_0:
+            case UCT_TR_C0_4_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.4, 0.0);
                 break;
-            case UCT_TR_C05_W0_0:
+            case UCT_TR_C0_5_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.0);
                 break;
-            case UCT_TR_C10_W0_0:
+            case UCT_TR_C1_0_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 1.0, 0.0);
                 break;
-            case UCT_TR_C15_W0_0:
+            case UCT_TR_C1_5_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 1.5, 0.0);
                 break;
-            case UCT_TR_C20_W0_0:
+            case UCT_TR_C2_0_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 2.0, 0.0);
                 break;
-            case UCT_FG_C02_W0_0:
+            case UCT_FG_C0_2_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyFullGreedySimulationStrategy(), iSearchParameters, 0.2, 0.0);
                 break;
             default:
