@@ -1,3 +1,22 @@
+#=============================================================================
+# Experiment 4 - Comparing different playout policies (scores and playouts/s)
+#-----------------------------------------------------------------------------
+# Compares Monte-Carlo Evaluation players using the playout policies
+#
+#    FG - Full Greedy playout policy
+#    TR - True Random playout policy
+#    eG - epsilon-Greedy playout policy
+#    PG - Player Greedy playout policy
+#
+# This m-file processes result files from games between Monte-Carlo
+# Evaluation players using different playout policies for different
+# time limits. It also stores the average playouts/s for each round
+# for each player.
+#
+# The processed information is printed to .dat files with space-separated
+# values suitable for plotting with gnuplot.
+#
+
 clear all;
 close all;
 

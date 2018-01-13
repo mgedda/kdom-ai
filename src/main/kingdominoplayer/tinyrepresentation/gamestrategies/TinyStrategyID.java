@@ -21,14 +21,25 @@ public enum TinyStrategyID
     MCE_EG_R,
     MCE_PG_R,
 
-    UCT_TR_C01,
-    UCT_TR_C02,
-    UCT_TR_C03,
-    UCT_TR_C04,
-    UCT_TR_C05,
-    UCT_TR_C10,
-    UCT_TR_C15,
-    UCT_TR_C20,
+    // for examining UCB constant
+    UCT_TR_C0_1_W0_0,
+    UCT_TR_C0_2_W0_0,
+    UCT_TR_C0_3_W0_0,
+    UCT_TR_C0_4_W0_0,
+    UCT_TR_C0_5_W0_0,
+    UCT_TR_C1_0_W0_0,
+    UCT_TR_C1_5_W0_0,
+    UCT_TR_C2_0_W0_0,
 
-    UCT_FG_C02
+    // for examining bias weight
+    UCT_TR_C0_5_W0_1,
+    UCT_TR_C0_5_W0_2,
+    UCT_TR_C0_5_W0_3,
+    UCT_TR_C0_5_W0_4,
+    UCT_TR_C0_5_W0_5,
+    UCT_TR_C0_5_W1_0,
+    UCT_TR_C0_5_W1_5,
+    UCT_TR_C0_5_W2_0,
+
+    UCT_FG_C0_2_W0_0
 }

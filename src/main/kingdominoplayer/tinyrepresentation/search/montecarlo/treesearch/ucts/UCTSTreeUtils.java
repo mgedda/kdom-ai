@@ -12,38 +12,49 @@ import java.util.ArrayList;
 
 /*package*/ class UCTSTreeUtils
 {
-    public static double getUCB(final UCTSNode node, final double exploreFactor)
+    public static double getUCB(final UCTSNode node, final double exploreFactor, double biasWeight)
     {
-        final int parentVisits = node.getParent().getVisits();
+        final UCTSNode parent = node.getParent();
 
         final double exploit = (double) node.getWins() / (double) node.getVisits();
-        final double explore = Math.sqrt(Math.log(2 * parentVisits) / (double) node.getVisits());
+        final double explore = Math.sqrt(Math.log(parent.getVisits()) / (double) node.getVisits());
 
-        return exploit + exploreFactor * explore;
+        // Win-persistent progressive bias
+        double bias = 0.0;
+        if (biasWeight > 0)
+        {
+            final String player = parent.getPlayerTurn();
+            final int scoreBeforeMove = parent.getGameState().getScore(player);
+            final int scoreAfterMove = node.getGameState().getScore(player);
+            final double heuristic = scoreAfterMove - scoreBeforeMove;
+            bias = biasWeight * heuristic / (node.getVisits() * (1.0 - exploit) + 1);
+        }
+
+        return exploit + exploreFactor * explore + bias;
     }
 
 
-    public static void printTree(final UCTSNode root, final double exploreFactor)
+    public static void printTree(final UCTSNode root, final double exploreFactor, final double biasWeight)
     {
         System.out.println("Monte-Carlo Search Tree:");
-        printTree(root, new ArrayList<>(), exploreFactor);
+        printTree(root, new ArrayList<>(), exploreFactor, biasWeight);
     }
 
 
-    public static void printChildren(final UCTSNode node, final double exploreFactor)
+    public static void printChildren(final UCTSNode node, final double exploreFactor, final double biasWeight)
     {
         int counter = 0;
         for (final UCTSNode child : node.getChildren())
         {
             final ArrayList<Integer> depthIndices = new ArrayList<>();
             depthIndices.add(counter++);
-            System.out.println(child.toStringNestedBrackets(depthIndices, exploreFactor));
+            System.out.println(child.toStringNestedBrackets(depthIndices, exploreFactor, biasWeight));
         }
     }
 
-    private static void printTree(final UCTSNode node, final ArrayList<Integer> depthIndices, final double exploreFactor)
+    private static void printTree(final UCTSNode node, final ArrayList<Integer> depthIndices, final double exploreFactor, final double biasWeight)
     {
-        String nodeString = node.toStringNestedBrackets(depthIndices, exploreFactor);
+        String nodeString = node.toStringNestedBrackets(depthIndices, exploreFactor, biasWeight);
 
         System.out.println(nodeString);
 
@@ -55,16 +66,16 @@ import java.util.ArrayList;
             indices.addAll(depthIndices);
             indices.add(i);
 
-            printTree(children.get(i), indices, exploreFactor);
+            printTree(children.get(i), indices, exploreFactor, biasWeight);
         }
     }
 
-    public static void printTreeBFS(final UCTSNode root, final double exploreFactor)
+    public static void printTreeBFS(final UCTSNode root, final double exploreFactor, final double biasWeight)
     {
-        printTreeBFS(root, -1, exploreFactor);
+        printTreeBFS(root, -1, exploreFactor, biasWeight);
     }
 
-    public static void printTreeBFS(final UCTSNode root, final long numNodes, final double exploreFactor)
+    public static void printTreeBFS(final UCTSNode root, final long numNodes, final double exploreFactor, final double biasWeight)
     {
         final ArrayDeque<NodeDepthIndicesPair> nodeQueue = new ArrayDeque<>(1000);
 
@@ -78,7 +89,7 @@ import java.util.ArrayList;
             final NodeDepthIndicesPair current = nodeQueue.pop();
             final UCTSNode node = current.iNode;
 
-            final String nodeString = node.toStringNestedBrackets(current.iDepthIndices, exploreFactor);
+            final String nodeString = node.toStringNestedBrackets(current.iDepthIndices, exploreFactor, biasWeight);
             System.out.println(nodeString);
 
             final ArrayList<UCTSNode> children = node.getChildren();
