@@ -45,7 +45,7 @@ replot
 
 
 #
-# EXPERIMENT 1 - Scores
+# EXPERIMENT 1 - Scores (static evaluators)
 #
 
 set title "Average scores per round"
@@ -73,7 +73,7 @@ replot
 
 
 #
-# EXPERIMENT 2 - Scores
+# EXPERIMENT 2 - Scores (static vs statistical evaluators)
 #
 
 set title "Average scores per round"
@@ -99,7 +99,7 @@ replot
 
 
 #
-# EXPERIMENT 3 - Scores
+# EXPERIMENT 3 - Scores (scoring functions)
 #
 
 set title "Average scores per round (450 games)"
@@ -127,7 +127,7 @@ replot
 
 
 #
-# EXPERIMENT 4 - Score diffs
+# EXPERIMENT 4 - Score diffs (playout policies)
 #
 
 set title "Score difference to best opponent"
@@ -182,7 +182,7 @@ unset label
 
 
 #
-# EXPERIMENT 4 - Playouts
+# EXPERIMENT 4 - Playout frequency
 #
 
 set title "Playouts/$s$ per round"
@@ -214,5 +214,70 @@ unset title
 set key vertical Left spacing 0.7 width -4
 set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment4_playouts.tex"
+replot
+
+
+#
+# EXPERIMENT 6 - Score diffs (UCB constant)
+#
+
+set title "Score difference to best opponent"
+set xlabel "Time per turn (s)"
+set ylabel "Score diff" rotate by 90
+set key left
+set xrange [0.08:12]
+unset yrange
+
+set logscale x
+set nologscale y
+
+set format xy '$%g$'
+
+
+set terminal x11
+plot "run_experiment_6.out/SCORE_DIFFS_C0.1.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{$C=0.1$}', \
+	'' using 1:2 w lines lt 1 title '', \
+	"run_experiment_6.out/SCORE_DIFFS_C0.2.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$C=0.2}', \
+	'' using 1:2 w lines lt 2 title ''
+
+pause -1
+
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
+set output outputdir."/experiment6_score_diffs.tex"
+replot
+
+#
+# EXPERIMENT 6 - Score diffs (UCB constant vs Score diffs)
+#
+
+set title "Score difference to best opponent"
+set xlabel "C"
+set ylabel "Score diff" rotate by 90
+set key left
+set xrange [0:2.2]
+unset yrange
+
+set nologscale x
+set nologscale y
+
+set format xy '$%g$'
+
+
+set terminal x11
+plot "run_experiment_6.out/SCORE_DIFFS_TIME_0.5s.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{$t=0.5s$}', \
+	'' using 1:2 w lines lt 1 title '', \
+	"run_experiment_6.out/SCORE_DIFFS_TIME_2s.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$t=2.0s$}', \
+	'' using 1:2 w lines lt 2 title '', \
+	"run_experiment_6.out/SCORE_DIFFS_TIME_5s.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$t=5.0s$}', \
+	'' using 1:2 w lines lt 3 title ''
+
+pause -1
+
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
+set output outputdir."/experiment6_score_diffs.tex"
 replot
 
