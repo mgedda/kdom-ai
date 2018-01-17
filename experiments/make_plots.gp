@@ -135,8 +135,8 @@ set xlabel "Time per turn (s)"
 set ylabel "Score diff" rotate by 90
 set key left
 set xrange [0.08:12]
-#set yrange [-20:15]
-unset yrange
+set yrange [-30:15]
+#unset yrange
 
 #set autoscale x
 set logscale x
@@ -158,11 +158,15 @@ set terminal x11
 plot "run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 	'' using 1:2 w lines lt 1 title '', \
 	"run_experiment_4.out/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
-	'' using 1:2 w lines lt 2 title '', \
-	"run_experiment_4.out/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
-	'' using 1:2 w lines lt 3 title '', \
-	"run_experiment_4.out/SCORE_DIFFS_MCE-PG_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
-	'' using 1:2 w lines lt 4 title ''
+	'' using 1:2 w lines lt 2 title ''
+#plot "run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
+#	'' using 1:2 w lines lt 1 title '', \
+#	"run_experiment_4.out/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
+#	'' using 1:2 w lines lt 2 title '', \
+#	"run_experiment_4.out/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
+#	'' using 1:2 w lines lt 3 title '', \
+#	"run_experiment_4.out/SCORE_DIFFS_MCE-PG_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
+#	'' using 1:2 w lines lt 4 title ''
 
 pause -1
 
@@ -199,22 +203,22 @@ set yrange [10:200000]
 set logscale y
 
 set terminal x11
-plot "run_experiment_4.out/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
-	'' using 1:2 w lines lt 1 title '', \
-	"run_experiment_4.out/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
-	'' using 1:2 w lines lt 2 title '', \
-	"run_experiment_4.out/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
-	'' using 1:2 w lines lt 3 title '', \
-	"run_experiment_4.out/PLAYOUTS_MCE-PG_R (10s).dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
-	'' using 1:2 w lines lt 4 title ''
+#plot "run_experiment_4.out/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
+#	'' using 1:2 w lines lt 1 title '', \
+#	"run_experiment_4.out/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
+#	'' using 1:2 w lines lt 2 title '', \
+#	"run_experiment_4.out/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
+#	'' using 1:2 w lines lt 3 title '', \
+#	"run_experiment_4.out/PLAYOUTS_MCE-PG_R (10s).dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
+#	'' using 1:2 w lines lt 4 title ''
 
-pause -1
+#pause -1
 
 unset title
 set key vertical Left spacing 0.7 width -4
 set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment4_playouts.tex"
-replot
+#replot
 
 
 #
