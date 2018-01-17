@@ -238,7 +238,13 @@ set terminal x11
 plot "run_experiment_6.out/SCORE_DIFFS_C0.1.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{$C=0.1$}', \
 	'' using 1:2 w lines lt 1 title '', \
 	"run_experiment_6.out/SCORE_DIFFS_C0.2.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$C=0.2}', \
-	'' using 1:2 w lines lt 2 title ''
+	'' using 1:2 w lines lt 2 title '', \
+	"run_experiment_6.out/SCORE_DIFFS_C0.3.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{$C=0.3}', \
+	'' using 1:2 w lines lt 3 title '', \
+	"run_experiment_6.out/SCORE_DIFFS_C0.4.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{$C=0.4}', \
+	'' using 1:2 w lines lt 4 title '', \
+	"run_experiment_6.out/SCORE_DIFFS_C0.5.dat" using 1:2:3 w yerrorbars lt 5 title '\scriptsize{$C=0.5}', \
+	'' using 1:2 w lines lt 5 title ''
 
 pause -1
 
@@ -256,7 +262,7 @@ set title "Score difference to best opponent"
 set xlabel "C"
 set ylabel "Score diff" rotate by 90
 set key left
-set xrange [0:2.2]
+set xrange [0:0.6]
 unset yrange
 
 set nologscale x
@@ -266,12 +272,8 @@ set format xy '$%g$'
 
 
 set terminal x11
-plot "run_experiment_6.out/SCORE_DIFFS_TIME_0.5s.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{$t=0.5s$}', \
-	'' using 1:2 w lines lt 1 title '', \
-	"run_experiment_6.out/SCORE_DIFFS_TIME_2s.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$t=2.0s$}', \
-	'' using 1:2 w lines lt 2 title '', \
-	"run_experiment_6.out/SCORE_DIFFS_TIME_5s.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$t=5.0s$}', \
-	'' using 1:2 w lines lt 3 title ''
+plot "run_experiment_6.out/SCORE_DIFFS_TIME_2s.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$t=2.0s$}', \
+	'' using 1:2 w lines lt 2 title ''
 
 pause -1
 
@@ -279,5 +281,35 @@ unset title
 set key vertical Left spacing 0.7 width -4
 set terminal epslatex size 3.5in,2.625in
 set output outputdir."/experiment6_score_diffs.tex"
+replot
+
+#
+# EXPERIMENT 6 - Win percentages (UCB constant vs win percentage)
+#
+
+set title "Win percentages"
+set xlabel "C"
+set ylabel "Win percentage" rotate by 90
+set key left
+set xrange [0:0.6]
+unset yrange
+
+set nologscale x
+set nologscale y
+
+set format x '$%g$'
+set format y '$%.0f%%$'
+
+
+set terminal x11
+plot "run_experiment_6.out/WIN_PERCENTAGES_TIME_2s.dat" using 1:2 lt 2 title '\scriptsize{$t=2.0s$}', \
+	'' using 1:2 w lines lt 2 title ''
+
+pause -1
+
+unset title
+set key vertical Left spacing 0.7 width -4
+set terminal epslatex size 3.5in,2.625in
+set output outputdir."/experiment6_win_percentages.tex"
 replot
 
