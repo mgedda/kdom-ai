@@ -189,7 +189,7 @@ score_diffs{3} = getScoreDiffsCellArray(strats_3, "C0.3");
 score_diffs{4} = getScoreDiffsCellArray(strats_4, "C0.4");
 score_diffs{5} = getScoreDiffsCellArray(strats_5, "C0.5");
 
-#plotScoreDiffs(score_diffs, num_games, time_limits);
+plotScoreDiffs(score_diffs, num_games, time_limits);
 writeScoreDiffsToDatFile(score_diffs, output_dir, time_limits);
 writeScoreDiffsToDatFileInverted(score_diffs, time_limits, c_values, output_dir);
 
