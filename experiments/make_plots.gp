@@ -262,8 +262,8 @@ set title "Score difference to best opponent"
 set xlabel "C"
 set ylabel "Score diff" rotate by 90
 set key left
-set xrange [0:0.6]
-unset yrange
+set xrange [0.05:0.65]
+set yrange [-30:15]
 
 set nologscale x
 set nologscale y
@@ -291,7 +291,7 @@ set title "Win percentages"
 set xlabel "C"
 set ylabel "Win percentage" rotate by 90
 set key left
-set xrange [0:0.6]
+set xrange [0.05:0.65]
 unset yrange
 
 set nologscale x
