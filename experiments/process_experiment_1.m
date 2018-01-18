@@ -20,22 +20,26 @@ function process_experiment_1(target_path, output_dir)
     mkdir(output_path);
     output_file_prefix = "";
 
-    source("kdom_exp-20170322-235332-rev-7a53876/kdom_exp_TRUE_RANDOM_vs_TRUE_RANDOM.m");
-    source("kdom_exp-20170322-235357-rev-7a53876/kdom_exp_GREEDY_PLACEMENT_RANDOM_DRAFT_vs_TRUE_RANDOM.m");
-    source("kdom_exp-20170322-235414-rev-7a53876/kdom_exp_FULL_GREEDY_vs_TRUE_RANDOM.m");
+    opponent_strat_str = "TR";
+    num_games = 1500;
 
+    #
+    # Read experiment result files
+    #
+
+    source("runs/kdom_exp-20170322-235332-rev-7a53876/kdom_exp_TRUE_RANDOM_vs_TRUE_RANDOM.m");
+    source("runs/kdom_exp-20170322-235357-rev-7a53876/kdom_exp_GREEDY_PLACEMENT_RANDOM_DRAFT_vs_TRUE_RANDOM.m");
+    source("runs/kdom_exp-20170322-235414-rev-7a53876/kdom_exp_FULL_GREEDY_vs_TRUE_RANDOM.m");
     strat1_str = "TR";
     strat2_str = "GPRD";
     strat3_str = "FG";
-
-    opponent_strat_str = "TR";
-
-    num_games = 1500;
-
     strat1 = kdom_exp_TRUE_RANDOM_vs_TRUE_RANDOM(1:num_games,:);
     strat2 = kdom_exp_GREEDY_PLACEMENT_RANDOM_DRAFT_vs_TRUE_RANDOM(1:num_games,:);
     strat3 = kdom_exp_FULL_GREEDY_vs_TRUE_RANDOM(1:num_games,:);
 
+    #
+    # Functions
+    #
 
     function scores = getScores(strat_result)
       scores = strat_result(:,2);

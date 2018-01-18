@@ -37,11 +37,11 @@ function process_experiment_6(target_path, output_dir)
     # Read experiment result file
     #
 
-    strat1_t2_0 = dlmread('kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_1_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    strat2_t2_0 = dlmread('kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_2_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    strat3_t2_0 = dlmread('kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_3_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    strat4_t2_0 = dlmread('kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_4_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    strat5_t2_0 = dlmread('kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_5_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    strat1_t2_0 = dlmread('runs/kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_1_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    strat2_t2_0 = dlmread('runs/kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_2_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    strat3_t2_0 = dlmread('runs/kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_3_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    strat4_t2_0 = dlmread('runs/kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_4_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    strat5_t2_0 = dlmread('runs/kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_5_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
 
     strat1_t2_0_str = "C=0.1 (2s)";
     strat2_t2_0_str = "C=0.2 (2s)";
