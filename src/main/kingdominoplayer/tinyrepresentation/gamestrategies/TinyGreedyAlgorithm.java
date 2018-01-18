@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.gamestrategies;
 
+import it.unimi.dsi.fastutil.booleans.BooleanArrayList;
 import it.unimi.dsi.fastutil.bytes.ByteList;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
@@ -354,7 +355,7 @@ public abstract class TinyGreedyAlgorithm
         final byte noTerrain = TerrainCode.from("NONE");
         final byte castleTerrain = TerrainCode.from("CASTLE");
 
-        final ArrayList<Boolean> adjacentOccupiedStatuses = new ArrayList<>(adjacentPositions.size());
+        final BooleanArrayList adjacentOccupiedStatuses = new BooleanArrayList(adjacentPositions.size());
         for (final byte adjacentPosition : adjacentPositions)
         {
             boolean isAdjacentOccupied = false;
