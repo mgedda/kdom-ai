@@ -30,7 +30,7 @@ function process_experiment_4(target_path, output_dir)
 
     opponent_strat_str = "FG";
     num_games = 200;
-    time_limits = [0.1 0.2 0.3 0.5 1 2 4 6 8];
+    time_limits = [0.1 0.2 0.3 0.5 1 2 4 6 8 10];
 
     #
     # Read experiment result files
@@ -45,7 +45,7 @@ function process_experiment_4(target_path, output_dir)
     strat1_t4   = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
     strat1_t6   = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
     strat1_t8   = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
-    #strat1_t10  = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
+    strat1_t10  = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
 
     strat2_t0_1 = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
     strat2_t0_2 = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
@@ -56,7 +56,7 @@ function process_experiment_4(target_path, output_dir)
     strat2_t4   = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
     strat2_t6   = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
     strat2_t8   = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
-    #strat2_t10  = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
+    strat2_t10  = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
 
     #strat3_t0_1 = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
     #strat3_t0_2 = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
@@ -165,7 +165,7 @@ function process_experiment_4(target_path, output_dir)
     strats_1{7}  = getStratCellArrayVersion4(strat1_t4,   strat1_t4_str,   opponent_strat_str);
     strats_1{8}  = getStratCellArrayVersion4(strat1_t6,   strat1_t6_str,   opponent_strat_str);
     strats_1{9}  = getStratCellArrayVersion4(strat1_t8,   strat1_t8_str,   opponent_strat_str);
-    #strats_1{10} = getStratCellArrayVersion4(strat1_t10,  strat1_t10_str,  opponent_strat_str);
+    strats_1{10} = getStratCellArrayVersion4(strat1_t10,  strat1_t10_str,  opponent_strat_str);
 
     strats_2{1}  = getStratCellArrayVersion4(strat2_t0_1, strat2_t0_1_str, opponent_strat_str);
     strats_2{2}  = getStratCellArrayVersion4(strat2_t0_2, strat2_t0_2_str, opponent_strat_str);
@@ -176,7 +176,7 @@ function process_experiment_4(target_path, output_dir)
     strats_2{7}  = getStratCellArrayVersion4(strat2_t4,   strat2_t4_str,   opponent_strat_str);
     strats_2{8}  = getStratCellArrayVersion4(strat2_t6,   strat2_t6_str,   opponent_strat_str);
     strats_2{9}  = getStratCellArrayVersion4(strat2_t8,   strat2_t8_str,   opponent_strat_str);
-    #strats_2{10} = getStratCellArrayVersion4(strat2_t10,  strat2_t10_str,  opponent_strat_str);
+    strats_2{10} = getStratCellArrayVersion4(strat2_t10,  strat2_t10_str,  opponent_strat_str);
 
     #strats_3{1}  = getStratCellArrayVersion4(strat3_t0_1, strat3_t0_1_str, opponent_strat_str);
     #strats_3{2}  = getStratCellArrayVersion4(strat3_t0_2, strat3_t0_2_str, opponent_strat_str);
@@ -225,15 +225,14 @@ function process_experiment_4(target_path, output_dir)
     plotScoreDiffs(score_diffs, num_games, time_limits);
     writeScoreDiffsToDatFile(score_diffs, output_path, time_limits);
 
-    return;
 
     # Playouts per second
     #
 
     playout_strats{1} = strats_1{10};
-    playout_strats{2} = strats_3{10};
-    playout_strats{3} = strats_4{10};
-    playout_strats{4} = strats_5{10};
+    playout_strats{2} = strats_2{10};
+    #playout_strats{3} = strats_3{10};
+    #playout_strats{4} = strats_4{10};
 
     plotPlayoutsPerSecondOverlap(playout_strats);
     writePlayoutsToDatFile(playout_strats, output_path, output_file_prefix);
