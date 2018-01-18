@@ -355,29 +355,19 @@ public abstract class TinyGreedyAlgorithm
         final byte noTerrain = TerrainCode.from("NONE");
         final byte castleTerrain = TerrainCode.from("CASTLE");
 
-        final BooleanArrayList adjacentOccupiedStatuses = new BooleanArrayList(adjacentPositions.size());
+        boolean isSingleTileHole = true;
         for (final byte adjacentPosition : adjacentPositions)
         {
-            boolean isAdjacentOccupied = false;
-
             // TODO [gedda] IMPORTANT! : change to outside 5x5 kingdom area!!!
             final int adjacentTileX = TinyGameState.indexToTileXCoordinate(adjacentPosition);
             final int adjacentTileY = TinyGameState.indexToTileYCoordinate(adjacentPosition);
             final boolean isOutsideCastleCenteredKingdom = Math.abs(adjacentTileX) > 2 || Math.abs(adjacentTileY) > 2;
             final boolean isTilePosition = kingdomTerrains[adjacentPosition] != noTerrain && kingdomTerrains[adjacentPosition] != castleTerrain;
 
-            if (isOutsideCastleCenteredKingdom || isTilePosition)
+            if (!isOutsideCastleCenteredKingdom && !isTilePosition)
             {
-                isAdjacentOccupied = true;
+                isSingleTileHole = false;
             }
-
-            adjacentOccupiedStatuses.add(isAdjacentOccupied);
-        }
-
-        boolean isSingleTileHole = true;
-        for (final boolean isAdjacentOccupied : adjacentOccupiedStatuses)
-        {
-            isSingleTileHole &= isAdjacentOccupied;
         }
 
         return isSingleTileHole;
