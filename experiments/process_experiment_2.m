@@ -28,8 +28,8 @@ function process_experiment_2(target_path, output_dir)
     # Read experiment result files
     #
 
-    source("kdom_exp-20170326-005955-rev-fd90607/kdom_exp_MC_TR_TR_WDL_vs_FULL_GREEDY.m");
-    source("kdom_exp-20170326-190517-rev-fd90607/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY.m");
+    source("runs/kdom_exp-20170326-005955-rev-fd90607/kdom_exp_MC_TR_TR_WDL_vs_FULL_GREEDY.m");
+    source("runs/kdom_exp-20170326-190517-rev-fd90607/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY.m");
     strat1_str = "MCE-TR/WDL";
     strat2_str = "FG";
     strat1 = kdom_exp_MC_TR_TR_WDL_vs_FULL_GREEDY(1:num_games,:);

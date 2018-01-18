@@ -36,60 +36,60 @@ function process_experiment_4(target_path, output_dir)
     # Read experiment result files
     #
 
-    strat1_t0_1 = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
-    strat1_t0_2 = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
-    strat1_t0_3 = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
-    strat1_t0_5 = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
-    strat1_t1   = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
-    strat1_t2   = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    strat1_t4   = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
-    strat1_t6   = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
-    strat1_t8   = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
-    #strat1_t10  = dlmread('kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
+    strat1_t0_1 = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
+    strat1_t0_2 = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
+    strat1_t0_3 = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
+    strat1_t0_5 = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+    strat1_t1   = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
+    strat1_t2   = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    strat1_t4   = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    strat1_t6   = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
+    strat1_t8   = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
+    #strat1_t10  = dlmread('runs/kdom_exp-20180115-173259-rev-8a5e2af-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
 
-    strat2_t0_1 = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
-    strat2_t0_2 = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
-    strat2_t0_3 = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
-    strat2_t0_5 = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
-    strat2_t1   = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
-    strat2_t2   = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    strat2_t4   = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
-    strat2_t6   = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
-    strat2_t8   = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
-    #strat2_t10  = dlmread('kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
+    strat2_t0_1 = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
+    strat2_t0_2 = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
+    strat2_t0_3 = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
+    strat2_t0_5 = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+    strat2_t1   = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
+    strat2_t2   = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    strat2_t4   = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    strat2_t6   = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
+    strat2_t8   = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
+    #strat2_t10  = dlmread('runs/kdom_exp-20180116-224417-rev-7c8001c-cpu-3.20GHz/kdom_exp_MCE_FG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
 
-    #strat3_t0_1 = dlmread('kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
-    #strat3_t0_2 = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
-    #strat3_t0_3 = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
-    #strat3_t0_5 = dlmread('kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
-    #strat3_t1   = dlmread('kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
-    #strat3_t2   = dlmread('kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    #strat3_t4   = dlmread('kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
-    #strat3_t6   = dlmread('kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
-    #strat3_t8   = dlmread('kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
-    #strat3_t10  = dlmread('kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
+    #strat3_t0_1 = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
+    #strat3_t0_2 = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
+    #strat3_t0_3 = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
+    #strat3_t0_5 = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+    #strat3_t1   = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
+    #strat3_t2   = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    #strat3_t4   = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    #strat3_t6   = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
+    #strat3_t8   = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
+    #strat3_t10  = dlmread('runs/kdom_exp-20170403-000741-rev-44154d3-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
 
-    #strat4_t0_1 = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
-    #strat4_t0_2 = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
-    #strat4_t0_3 = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
-    #strat4_t0_5 = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
-    #strat4_t1   = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
-    #strat4_t2   = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    #strat4_t4   = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
-    #strat4_t6   = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
-    #strat4_t8   = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
-    #strat4_t10  = dlmread('kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
+    #strat4_t0_1 = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
+    #strat4_t0_2 = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
+    #strat4_t0_3 = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
+    #strat4_t0_5 = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+    #strat4_t1   = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
+    #strat4_t2   = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    #strat4_t4   = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    #strat4_t6   = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
+    #strat4_t8   = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
+    #strat4_t10  = dlmread('runs/kdom_exp-20170404-215341-rev-66b041f-cpu-3.20GHz/kdom_exp_MCE_EG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
 
-    #strat5_t0_1 = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
-    #strat5_t0_2 = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
-    #strat5_t0_3 = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
-    #strat5_t0_5 = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
-    #strat5_t1   = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
-    #strat5_t2   = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
-    #strat5_t4   = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
-    #strat5_t6   = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
-    #strat5_t8   = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
-    #strat5_t10  = dlmread('kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
+    #strat5_t0_1 = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.1_P0.dat', ' ', 19, 0);
+    #strat5_t0_2 = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.2_P0.dat', ' ', 19, 0);
+    #strat5_t0_3 = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.3_P0.dat', ' ', 19, 0);
+    #strat5_t0_5 = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T0.5_P0.dat', ' ', 19, 0);
+    #strat5_t1   = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T1_P0.dat', ' ', 19, 0);
+    #strat5_t2   = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
+    #strat5_t4   = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    #strat5_t6   = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T6_P0.dat', ' ', 19, 0);
+    #strat5_t8   = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
+    #strat5_t10  = dlmread('runs/kdom_exp-20170410-131854-rev-13d6a7c-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
 
 
     #
