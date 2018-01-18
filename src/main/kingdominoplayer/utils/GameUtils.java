@@ -1,5 +1,6 @@
 package kingdominoplayer.utils;
 
+import it.unimi.dsi.fastutil.booleans.BooleanArrayList;
 import kingdominoplayer.ServerResponseParser;
 import kingdominoplayer.Player;
 import kingdominoplayer.naiverepresentation.datastructures.Domino;
@@ -354,7 +355,7 @@ public class GameUtils
 
         final ArrayList<Position> adjacentPositions = getAdjacentPositions(position);
 
-        final ArrayList<Boolean> adjacentOccupiedStatuses = new ArrayList<>(adjacentPositions.size());
+        final BooleanArrayList  adjacentOccupiedStatuses = new BooleanArrayList(adjacentPositions.size());
         for (final Position adjacentPosition : adjacentPositions)
         {
             boolean isAdjacentOccupied = false;
