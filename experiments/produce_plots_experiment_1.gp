@@ -12,7 +12,7 @@ if (!exists("target_path")) target_path='.'
 if (!exists("data_files_dir")) data_files_dir='data_files_experiment_1'
 
 input_dir = target_path."/".data_files_dir
-output_dir = target_path."/figures"
+output_dir = "figures"
 system "mkdir -p ".output_dir
 
 set for [i=1:9] linetype i dashtype i

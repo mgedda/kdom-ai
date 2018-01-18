@@ -12,7 +12,7 @@ if (!exists("target_path")) target_path='.'
 if (!exists("data_files_dir")) data_files_dir='data_files_experiment_4'
 
 input_dir = target_path."/".data_files_dir
-output_dir = target_path."/figures"
+output_dir = "figures"
 system "mkdir -p ".output_dir
 
 set for [i=1:9] linetype i dashtype i
@@ -57,13 +57,13 @@ plot input_dir."/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '
 	'' using 1:2 w lines lt 1 title '', \
 	input_dir."/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
 	'' using 1:2 w lines lt 2 title ''
-#plot "run_experiment_4.out/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
+#plot input_dir."/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 #	'' using 1:2 w lines lt 1 title '', \
-#	"run_experiment_4.out/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
+#	input_dir."/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
 #	'' using 1:2 w lines lt 2 title '', \
-#	"run_experiment_4.out/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
+#	"input_dir."/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
 #	'' using 1:2 w lines lt 3 title '', \
-#	"run_experiment_4.out/SCORE_DIFFS_MCE-PG_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
+#	input_dir."/SCORE_DIFFS_MCE-PG_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
 #	'' using 1:2 w lines lt 4 title ''
 
 pause -1
@@ -101,21 +101,25 @@ set yrange [10:200000]
 set logscale y
 
 set terminal x11
-#plot "run_experiment_4.out/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
+plot input_dir."/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
+	'' using 1:2 w lines lt 1 title '', \
+	input_dir."/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
+	'' using 1:2 w lines lt 2 title ''
+#plot input_dir."/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 #	'' using 1:2 w lines lt 1 title '', \
-#	"run_experiment_4.out/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
+#	input_dir."/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
 #	'' using 1:2 w lines lt 2 title '', \
-#	"run_experiment_4.out/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
+#	input_dir."/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
 #	'' using 1:2 w lines lt 3 title '', \
-#	"run_experiment_4.out/PLAYOUTS_MCE-PG_R (10s).dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
+#	input_dir."/PLAYOUTS_MCE-PG_R (10s).dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
 #	'' using 1:2 w lines lt 4 title ''
 
-#pause -1
+pause -1
 
 unset title
 set key vertical Left spacing 0.7 width -4
 set terminal epslatex size 3.5in,2.625in
 set output output_dir."/experiment4_playouts.tex"
-#replot
+replot
 
 
