@@ -51,7 +51,9 @@ plot input_dir."/SCORE_DIFFS_C0.1.dat" using 1:2:3 w yerrorbars lt 1 title '\scr
 	input_dir."/SCORE_DIFFS_C0.4.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{$C=0.4}', \
 	'' using 1:2 w lines lt 4 title '', \
 	input_dir."/SCORE_DIFFS_C0.5.dat" using 1:2:3 w yerrorbars lt 5 title '\scriptsize{$C=0.5}', \
-	'' using 1:2 w lines lt 5 title ''
+	'' using 1:2 w lines lt 5 title '', \
+	input_dir."/SCORE_DIFFS_C0.6.dat" using 1:2:3 w yerrorbars lt 5 title '\scriptsize{$C=0.6}', \
+	'' using 1:2 w lines lt 6 title ''
 
 pause -1
 
@@ -79,7 +81,9 @@ set format xy '$%g$'
 
 
 set terminal x11
-plot input_dir."/SCORE_DIFFS_TIME_2s.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$t=2.0s$}', \
+plot input_dir."/SCORE_DIFFS_TIME_1s.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{$t=1.0s$}', \
+	'' using 1:2 w lines lt 1 title '', \
+	input_dir."/SCORE_DIFFS_TIME_2s.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$t=2.0s$}', \
 	'' using 1:2 w lines lt 2 title ''
 
 pause -1
@@ -109,7 +113,9 @@ set format y '$%.0f%%$'
 
 
 set terminal x11
-plot input_dir."/WIN_PERCENTAGES_TIME_2s.dat" using 1:2 lt 2 title '\scriptsize{$t=2.0s$}', \
+plot input_dir."/WIN_PERCENTAGES_TIME_1s.dat" using 1:2 lt 1 title '\scriptsize{$t=1.0s$}', \
+	'' using 1:2 w lines lt 1 title '', \
+    input_dir."/WIN_PERCENTAGES_TIME_2s.dat" using 1:2 lt 2 title '\scriptsize{$t=2.0s$}', \
 	'' using 1:2 w lines lt 2 title ''
 
 pause -1
