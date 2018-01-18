@@ -27,6 +27,7 @@ public enum TinyStrategyID
     UCT_TR_C0_3_W0_0,
     UCT_TR_C0_4_W0_0,
     UCT_TR_C0_5_W0_0,
+    UCT_TR_C0_6_W0_0,
     UCT_TR_C1_0_W0_0,
     UCT_TR_C1_5_W0_0,
     UCT_TR_C2_0_W0_0,

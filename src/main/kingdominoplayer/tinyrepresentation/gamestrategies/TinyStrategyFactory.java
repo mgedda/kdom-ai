@@ -73,6 +73,9 @@ public class TinyStrategyFactory
             case UCT_TR_C0_5_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.0);
                 break;
+            case UCT_TR_C0_6_W0_0:
+                result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.6, 0.0);
+                break;
             case UCT_TR_C1_0_W0_0:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 1.0, 0.0);
                 break;
