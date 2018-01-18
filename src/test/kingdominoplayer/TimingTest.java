@@ -143,10 +143,15 @@ public class TimingTest
         {
             width = Math.max(width, strategyID.name().length());
         }
+        double totalStrategyTime = 0;
         for (TinyStrategyID strategyID : strategyIDS)
         {
-            System.out.printf("Best time for %" + width + "s is %.8f%n", strategyID.name(), timings.getOrDefault(strategyID, Double.NaN) / 1E9);
+            final double strategyRunTime = timings.getOrDefault(strategyID, Double.NaN) / 1E9;
+            System.out.printf("Best time for %" + width + "s is %.8f%n", strategyID.name(), strategyRunTime);
+            totalStrategyTime += strategyRunTime;
         }
+        
+        System.out.printf("\nTotal run time for all strategies is %.8f%n", totalStrategyTime);
     }
 
     /**
