@@ -80,6 +80,21 @@ public class ByteMapTest
         testAddThenContains(new ByteFullArrayLinkedMap<>(), TEST_KEYS);
         testAddThenContains(new ByteFullArrayLinkedMap<>(), POSITIVE_TEST_KEYS);
         testAddThenContains(new ByteFullArrayLinkedMap<>(), SMALL_POSITIVE_TEST_KEYS);
+
+        testAddThenContains(new PositiveByteArrayLinkedMap<>(), POSITIVE_TEST_KEYS);
+        testAddThenContains(new PositiveByteArrayLinkedMap<>(), SMALL_POSITIVE_TEST_KEYS);
+
+        final byte positiveCount = (byte) POSITIVE_TEST_KEYS.length;
+        final byte largestPositive = POSITIVE_TEST_KEYS[positiveCount-1];
+        final byte smallPositiveCount = (byte) SMALL_POSITIVE_TEST_KEYS.length;
+        final byte largestSmallPositive = SMALL_POSITIVE_TEST_KEYS[smallPositiveCount-1];
+
+        testAddThenContains(new PositiveByteArrayLinkedMap<>(largestPositive, positiveCount), POSITIVE_TEST_KEYS);
+        testAddThenContains(new PositiveByteArrayLinkedMap<>(largestSmallPositive, smallPositiveCount), SMALL_POSITIVE_TEST_KEYS);
+
+        testAddThenContains(new PositiveByteArrayLinkedMap<>(largestPositive, (byte)(positiveCount / 3)), POSITIVE_TEST_KEYS);
+        testAddThenContains(new PositiveByteArrayLinkedMap<>(largestSmallPositive, (byte)(smallPositiveCount / 3)), SMALL_POSITIVE_TEST_KEYS);
+
     }
 
     private void testAddThenContains(final Byte2ObjectMap<DataValue> map, final byte[] keys)
@@ -104,6 +119,20 @@ public class ByteMapTest
         testAddThenRemove(new ByteFullArrayLinkedMap<>(), TEST_KEYS);
         testAddThenRemove(new ByteFullArrayLinkedMap<>(), POSITIVE_TEST_KEYS);
         testAddThenRemove(new ByteFullArrayLinkedMap<>(), SMALL_POSITIVE_TEST_KEYS);
+
+        testAddThenRemove(new PositiveByteArrayLinkedMap<>(), POSITIVE_TEST_KEYS);
+        testAddThenRemove(new PositiveByteArrayLinkedMap<>(), SMALL_POSITIVE_TEST_KEYS);
+
+        final byte positiveCount = (byte) POSITIVE_TEST_KEYS.length;
+        final byte largestPositive = POSITIVE_TEST_KEYS[positiveCount-1];
+        final byte smallPositiveCount = (byte) SMALL_POSITIVE_TEST_KEYS.length;
+        final byte largestSmallPositive = SMALL_POSITIVE_TEST_KEYS[smallPositiveCount-1];
+
+        testAddThenRemove(new PositiveByteArrayLinkedMap<>(largestPositive, positiveCount), POSITIVE_TEST_KEYS);
+        testAddThenRemove(new PositiveByteArrayLinkedMap<>(largestSmallPositive, smallPositiveCount), SMALL_POSITIVE_TEST_KEYS);
+
+        testAddThenRemove(new PositiveByteArrayLinkedMap<>(largestPositive, (byte)(positiveCount / 3)), POSITIVE_TEST_KEYS);
+        testAddThenRemove(new PositiveByteArrayLinkedMap<>(largestSmallPositive, (byte)(smallPositiveCount / 3)), SMALL_POSITIVE_TEST_KEYS);
     }
 
     private void testAddThenRemove(final Byte2ObjectMap<DataValue> map, final byte[] keys)
