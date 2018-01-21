@@ -23,10 +23,10 @@ function process_experiment_4(target_path, output_dir)
     mkdir(output_path);
     output_file_prefix = "";
 
-    addpath("m_files");            # add project m files to path
-
-    strat_cell_array_version_4;    # load functions needed by this script
-    experiment_functions;
+    addpath("m_files");   # add project m files to path
+    util_functions;       # load functions needed by this script
+    io_functions;
+    plot_functions;
 
     opponent_strat_str = "FG";
     num_games = 200;
@@ -228,7 +228,6 @@ function process_experiment_4(target_path, output_dir)
 
     # Playouts per second
     #
-
     playout_strats{1} = strats_1{10};
     playout_strats{2} = strats_2{10};
     #playout_strats{3} = strats_3{10};
@@ -237,6 +236,7 @@ function process_experiment_4(target_path, output_dir)
     plotPlayoutsPerSecondOverlap(playout_strats);
     writePlayoutsToDatFile(playout_strats, output_path, output_file_prefix);
 
+
     return;
 
 
@@ -244,19 +244,23 @@ function process_experiment_4(target_path, output_dir)
     #
     pval = t_test_2(strats{3}{5}, strats{2}{5}, ">")
 
+
     # Win/Loss/Draw pie charts.
     #
     plotWinDrawLossPieCharts(strats);
+
 
     # Score histograms.
     #
     #plotScoreHistograms(strats);
     plotScoreHistogramsOverlap(strats);
 
+
     # Player scores
     #
     plotPlayerScoresOverlap(strats);
     writePlayerScoresToDatFile(strats, output_path, output_file_prefix);
+
 
     return;
 
@@ -270,77 +274,9 @@ function process_experiment_4(target_path, output_dir)
     #
     plotAvailableDraftDominoes(strats);
 
+
     # Chosen domino position.
     #
     plotChosenDominoPositions(strats);
-
-
-    #
-    # Functions
-    #
-
-    function score_diff_cell = getScoreDiffsCellArray(strats, strat_str)
-      avg_score_diff = [];
-      lower_err = [];
-      upper_err = [];
-
-      for i = 1:size(strats,2)
-        diffs = strats{i}{12};
-        avg_score_diff = [avg_score_diff  mean(diffs)];
-        num_games = size(diffs, 1);
-        # standard error over mean
-        sem = std(diffs) / sqrt(num_games);
-        # 95% confidence intervals
-        lower_err = [lower_err 1.96 * sem];
-        upper_err = [upper_err 1.96 * sem];
-      endfor
-
-      score_diff_cell = {strat_str, avg_score_diff, lower_err, upper_err};
-    endfunction
-
-    function plotScoreDiffs(score_diffs, num_games, x)
-      figure();
-
-      styles = {'r', 'g', 'b', 'k', 'm', 'c', 'y'};
-      num_styles = length(styles);
-
-      annotations = [];
-
-      for i = 1:size(score_diffs,2)
-        strat_str = score_diffs{i}{1};
-        avg_score_diff = score_diffs{i}{2};
-        lower_err = score_diffs{i}{3};
-        upper_err = score_diffs{i}{4};
-
-        errorbar(x, avg_score_diff, lower_err, upper_err, styles{mod(i, num_styles+1)});
-        hold on;
-
-        annotations = [annotations; strat_str];
-      endfor
-
-      title_str = sprintf("Score diff to best opponent (%d games)", num_games);
-      title(title_str);
-
-      legend(annotations);
-
-      xlabel("Seconds per turn");
-      ylabel("Score difference");
-    endfunction
-
-    function writeScoreDiffsToDatFile(score_diffs, output_path, x)
-      for i = 1:size(score_diffs,2)
-        strat_str = strrep(score_diffs{i}{1}, "/", "_");
-        avg_score_diffs = score_diffs{i}{2};
-        lower_err = score_diffs{i}{3};
-        upper_err = score_diffs{i}{4};
-
-        filename = [output_path "/SCORE_DIFFS_" strat_str ".dat"];
-
-        err = lower_err + upper_err;
-
-        data = [x; avg_score_diffs; err]';
-        dlmwrite(filename, data, "delimiter", " ");
-      endfor
-    endfunction
 
 endfunction

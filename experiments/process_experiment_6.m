@@ -23,14 +23,14 @@ function process_experiment_6(target_path, output_dir)
     mkdir(output_path);
     output_file_prefix = "";
 
-    addpath("m_files");            # add project m files to path
-
-    strat_cell_array_version_4;    # load functions needed by this script
-    experiment_functions;
+    addpath("m_files");     # add project m files to path
+    util_functions;         # load functions needed by this script
+    io_functions;
+    plot_functions;
 
     opponent_strat_str = "FG";
     num_games = 200;
-    time_limits = [1.0 2.0];        # time limits
+    time_limits = [1.0 2.0];                # time limits
     c_values = [0.1 0.2 0.3 0.4 0.5 0.6];   # UCB constant values
 
     #
@@ -80,127 +80,8 @@ function process_experiment_6(target_path, output_dir)
     strats_6{2} = getStratCellArrayVersion4(strat6_t2_0, strat6_t2_0_str, opponent_strat_str);
 
 
-    #----------------------------------
-    # Functions.
     #
-
-    function score_diff_cell = getScoreDiffsCellArray(strats, strat_str)
-      avg_score_diff = [];
-      lower_err = [];
-      upper_err = [];
-
-      for i = 1:size(strats,2)
-        diffs = strats{i}{12};
-        avg_score_diff = [avg_score_diff  mean(diffs)];
-        num_games = size(diffs, 1);
-        # standard error over mean
-        sem = std(diffs) / sqrt(num_games);
-        # 95% confidence intervals
-        lower_err = [lower_err 1.96 * sem];
-        upper_err = [upper_err 1.96 * sem];
-      endfor
-
-      score_diff_cell = {strat_str, avg_score_diff, lower_err, upper_err};
-    endfunction
-
-    function win_percentages_cell = getWinPercentagesCellArray(strats, strat_str)
-      percentages = [];
-
-      for i = 1:size(strats,2)
-        wins = strats{i}{6}(1);
-        draws = strats{i}{6}(2);
-        losses = strats{i}{6}(3);
-
-        win_percentage = (wins/(wins + draws + losses))*100;
-        percentages = [percentages  win_percentage];
-      endfor
-
-      win_percentages_cell = {strat_str, percentages};
-    endfunction
-
-    function plotScoreDiffs(score_diffs, num_games, x)
-      figure();
-
-      styles = {'r', 'g', 'b', 'k', 'm', 'c', 'y'};
-      num_styles = length(styles);
-
-      annotations = [];
-
-      for i = 1:size(score_diffs,2)
-        strat_str = score_diffs{i}{1};
-        avg_score_diff = score_diffs{i}{2};
-        lower_err = score_diffs{i}{3};
-        upper_err = score_diffs{i}{4};
-
-        errorbar(x, avg_score_diff, lower_err, upper_err, styles{mod(i, num_styles+1)});
-        hold on;
-
-        annotations = [annotations; strat_str];
-      endfor
-
-      title_str = sprintf("Score diff to best opponent (%d games)", num_games);
-      title(title_str);
-
-      legend(annotations);
-
-      xlabel("Seconds per turn");
-      ylabel("Score difference");
-    endfunction
-
-    function writeScoreDiffsToDatFile(score_diffs, output_path, x)
-      for i = 1:size(score_diffs,2)
-        strat_str = strrep(score_diffs{i}{1}, "/", "_");
-        avg_score_diffs = score_diffs{i}{2};
-        lower_err = score_diffs{i}{3};
-        upper_err = score_diffs{i}{4};
-
-        filename = [output_path "/SCORE_DIFFS_" strat_str ".dat"];
-
-        err = lower_err + upper_err;
-
-        data = [x; avg_score_diffs; err]';
-        dlmwrite(filename, data, "delimiter", " ");
-      endfor
-    endfunction
-
-
-    function writeScoreDiffsToDatFileInverted(score_diffs, time_values, x_values, output_path)
-      for i = 1:size(time_values,2)  # loop over files
-        data = [];
-        for j = 1:size(score_diffs,2)
-          avg_score_diff = score_diffs{j}{2}(i);
-          lower_err = score_diffs{j}{3}(i);
-          upper_err = score_diffs{j}{4}(i);
-          err = lower_err + upper_err;
-
-          data = [data; x_values(j) avg_score_diff err];
-        endfor
-
-        t = time_values(i);
-        filename = [output_path "/SCORE_DIFFS_TIME_" num2str(t) "s.dat"];
-
-        dlmwrite(filename, data, "delimiter", " ")
-      endfor
-    endfunction
-
-    function writeWinPercentagesToDatFileInverted(win_percentages, time_values, x_values, output_path)
-      for i = 1:size(time_values,2)  # loop over files
-        data = [];
-        for j = 1:size(win_percentages,2)
-          win_percentage = win_percentages{j}{2}(i);
-          data = [data; x_values(j) win_percentage];
-        endfor
-
-        t = time_values(i);
-        filename = [output_path "/WIN_PERCENTAGES_TIME_" num2str(t) "s.dat"];
-
-        dlmwrite(filename, data, "delimiter", " ")
-      endfor
-    endfunction
-
-
-    #----------------------------------
-    # Process experiment data.
+    # Process data.
     #
 
     score_diffs{1} = getScoreDiffsCellArray(strats_1, "C0.1");
