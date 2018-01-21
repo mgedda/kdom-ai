@@ -4,21 +4,25 @@
 1;
 
 
-# Result vector is the output of each game in the experiments.
+# The result matrix (called a 'strat') is a Nx72 matrix with result
+# data from N played games.
+#
+# Each row represents the result data of one (1) game. The following
+# table shows the description of each index in a row.
 #
 #   Index    Description
 #   -----    -----------
 #     1      Win (1), draw (0), or loss (-1)
-#     2      Player score
+#     2      Player final score
 #     3      Number of players
 #    4-16    Available moves each round
 #    17-29   Available dominoes in current draft each round
-#    30-42   The chosen domino position in current draft each round
-#    43-55   Playouts per second each round (search strategies only)
-#    56-68   Player scores each round
-#     69     Difference in score between player and best opponent
-#    70-72   Scores for opponent 1-3 (default: -1)
-#  
+#    30-42   Position of chosen domino in current draft each round
+#    43-55   Playouts/s each round (search strategies only)
+#    56-68   Player score each round
+#     69     Difference in final score between player and best opponent
+#    70-72   Final score for opponent 1-3 (default: -1)
+#
 
 function scores = getScores(strat_result)
   scores = strat_result(:,2);
