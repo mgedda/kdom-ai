@@ -1,5 +1,6 @@
 package kingdominoplayer.tinyrepresentation.gamestrategies;
 
+import it.unimi.dsi.fastutil.booleans.BooleanArrayList;
 import it.unimi.dsi.fastutil.bytes.ByteList;
 import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
@@ -354,29 +355,21 @@ public abstract class TinyGreedyAlgorithm
         final byte noTerrain = TerrainCode.from("NONE");
         final byte castleTerrain = TerrainCode.from("CASTLE");
 
-        final ArrayList<Boolean> adjacentOccupiedStatuses = new ArrayList<>(adjacentPositions.size());
-        for (final byte adjacentPosition : adjacentPositions)
+        boolean isSingleTileHole = true;
+        for (int i = 0; isSingleTileHole && i < adjacentPositions.size(); i++)
         {
-            boolean isAdjacentOccupied = false;
-
+            final byte adjacentPosition = adjacentPositions.get(i);
             // TODO [gedda] IMPORTANT! : change to outside 5x5 kingdom area!!!
             final int adjacentTileX = TinyGameState.indexToTileXCoordinate(adjacentPosition);
             final int adjacentTileY = TinyGameState.indexToTileYCoordinate(adjacentPosition);
             final boolean isOutsideCastleCenteredKingdom = Math.abs(adjacentTileX) > 2 || Math.abs(adjacentTileY) > 2;
             final boolean isTilePosition = kingdomTerrains[adjacentPosition] != noTerrain && kingdomTerrains[adjacentPosition] != castleTerrain;
 
-            if (isOutsideCastleCenteredKingdom || isTilePosition)
+            final boolean isAdjacentPositionFreeInsideHarmonyBounds = !isOutsideCastleCenteredKingdom && !isTilePosition;
+            if (isAdjacentPositionFreeInsideHarmonyBounds)
             {
-                isAdjacentOccupied = true;
+                isSingleTileHole = false;
             }
-
-            adjacentOccupiedStatuses.add(isAdjacentOccupied);
-        }
-
-        boolean isSingleTileHole = true;
-        for (final boolean isAdjacentOccupied : adjacentOccupiedStatuses)
-        {
-            isSingleTileHole &= isAdjacentOccupied;
         }
 
         return isSingleTileHole;
