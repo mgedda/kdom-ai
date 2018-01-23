@@ -1,18 +1,20 @@
 package kingdominoplayer.tinyrepresentation.gamestrategies;
 
+/*
+ * Copyright 2018 Tomologic AB<br>
+ * User: gedda<br>
+ * Date: 2018-01-23<br>
+ * Time: 20:41<br><br>
+ */
+
 import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts.UCB;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts.UCBWinPersistentProgressiveBias;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts.UCTSearch;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 
-/**
- * Copyright 2017 Tomologic AB<br>
- * User: gedda<br>
- * Date: 2017-03-21<br>
- * Time: 14:31<br><br>
- */
-public class TinyMonteCarloTreeSearch implements TinyStrategy
+public class TinyMonteCarloTreeSearchWPB implements TinyStrategy
 {
 
     private final TinySimulationStrategy iSimulationStrategy;
@@ -21,13 +23,14 @@ public class TinyMonteCarloTreeSearch implements TinyStrategy
     private final UCB iUCB;
     private UCTSearch iSearchAlgorithm;
 
-    public TinyMonteCarloTreeSearch(final TinySimulationStrategy simulationStrategy,
-                                    final SearchParameters searchParameters,
-                                    final double exploreFactor)
+    public TinyMonteCarloTreeSearchWPB(final TinySimulationStrategy simulationStrategy,
+                                       final SearchParameters searchParameters,
+                                       final double exploreFactor,
+                                       final double biasWeight)
     {
         iSimulationStrategy = simulationStrategy;
         iSearchParameters = searchParameters;
-        iUCB = new UCB(exploreFactor);
+        iUCB = new UCBWinPersistentProgressiveBias(exploreFactor, biasWeight);
     }
 
     @Override
@@ -44,4 +47,5 @@ public class TinyMonteCarloTreeSearch implements TinyStrategy
         assert iSearchAlgorithm != null : "Search algorithm not initialized yet!";
         return iSearchAlgorithm.getNumPlayoutsPerSecond();
     }
+
 }
