@@ -31,22 +31,19 @@ public class UCTSearch
     private final String iPlayerName;
     private final TinySimulationStrategy iSimulationStrategy;
     private final SearchParameters iSearchParameters;
-    private final double iExploreFactor;
-    private final double iBiasWeight;
+    private final UCB iUCB;
 
     private double iNumPlayoutsPerSecond = -1;
 
     public UCTSearch(final String playerName,
                      final TinySimulationStrategy simulationStrategy,
                      final SearchParameters searchParameters,
-                     final double exploreFactor,
-                     final double biasWeight)
+                     final UCB ucb)
     {
         iPlayerName = playerName;
         iSimulationStrategy = simulationStrategy;
         iSearchParameters = searchParameters;
-        iExploreFactor = exploreFactor;
-        iBiasWeight = biasWeight;
+        iUCB = ucb;
     }
 
 
@@ -85,7 +82,7 @@ public class UCTSearch
 
         iNumPlayoutsPerSecond = (root.getVisits() - 1) / searchDurationSeconds;
 
-        final UCTSNode selectedChild = bestChild(root, 0.0, 0.0);
+        final UCTSNode selectedChild = bestChild(root, new UCB(0.0));
 
         printSearchResult(root, numMoves, searchDurationString, selectedChild);
         //FlameGraphPlotter.plot(root);
@@ -113,7 +110,7 @@ public class UCTSearch
             final ArrayList<Integer> depthIndices = new ArrayList<>(1);
             depthIndices.add(counter);
             final String markString = child == selectedNode ? " (*)" : "";
-            DEBUG.println(CLASS_STRING + child.toStringNestedBrackets(depthIndices, iExploreFactor, iBiasWeight) + markString);
+            DEBUG.println(CLASS_STRING + child.toStringNestedBrackets(depthIndices, iUCB) + markString);
             counter++;
         }
         DEBUG.println(CLASS_STRING + "------------------------------------------------------------");
@@ -137,7 +134,7 @@ public class UCTSearch
             else
             {
                 //noinspection UnnecessaryLocalVariable
-                final UCTSNode bestChild = bestChild(node, iExploreFactor, iBiasWeight);
+                final UCTSNode bestChild = bestChild(node, iUCB);
                 node = bestChild;
             }
         }
@@ -145,14 +142,14 @@ public class UCTSearch
         return node;
     }
 
-    private UCTSNode bestChild(final UCTSNode node, final double exploreFactor, final double biasWeight)
+    private UCTSNode bestChild(final UCTSNode node, final UCB ucb)
     {
         double maxUCB = 0;
         final ArrayList<UCTSNode> bestChildren = new ArrayList<>(10);
 
         for (final UCTSNode child : node.getChildren())
         {
-            final double upperConfidenceBound = UCTSTreeUtils.getUCB(child, exploreFactor, biasWeight);
+            final double upperConfidenceBound = ucb.getUCB(child);
 
             if (upperConfidenceBound == maxUCB)
             {
