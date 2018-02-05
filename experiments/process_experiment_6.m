@@ -30,7 +30,7 @@ function process_experiment_6(target_path, output_dir)
 
     opponent_strat_str = "FG";
     num_games = 200;
-    time_limits = [1.0 2.0];                # time limits
+    time_limits = [1.0 2.0 4.0];            # time limits
     c_values = [0.1 0.2 0.3 0.4 0.5 0.6];   # UCB constant values
 
     #
@@ -51,6 +51,13 @@ function process_experiment_6(target_path, output_dir)
     strat5_t2_0 = dlmread('runs/kdom_exp-20180113-151620-rev-08e3392-cpu-3.20GHz/kdom_exp_UCT_TR_C0_5_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
     strat6_t2_0 = dlmread('runs/kdom_exp-20180118-072314-rev-9b54a81-cpu-3.20GHz/kdom_exp_UCT_TR_C0_6_W0_0_vs_FULL_GREEDY_T2_P0.dat', ' ', 19, 0);
 
+    strat1_t4_0 = dlmread('runs/kdom_exp-20180118-072314-rev-9b54a81-cpu-3.20GHz/kdom_exp_UCT_TR_C0_1_W0_0_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    strat2_t4_0 = dlmread('runs/kdom_exp-20180118-072314-rev-9b54a81-cpu-3.20GHz/kdom_exp_UCT_TR_C0_2_W0_0_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    strat3_t4_0 = dlmread('runs/kdom_exp-20180118-072314-rev-9b54a81-cpu-3.20GHz/kdom_exp_UCT_TR_C0_3_W0_0_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    strat4_t4_0 = dlmread('runs/kdom_exp-20180118-072314-rev-9b54a81-cpu-3.20GHz/kdom_exp_UCT_TR_C0_4_W0_0_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    strat5_t4_0 = dlmread('runs/kdom_exp-20180118-072314-rev-9b54a81-cpu-3.20GHz/kdom_exp_UCT_TR_C0_5_W0_0_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+    strat6_t4_0 = dlmread('runs/kdom_exp-20180118-072314-rev-9b54a81-cpu-3.20GHz/kdom_exp_UCT_TR_C0_6_W0_0_vs_FULL_GREEDY_T4_P0.dat', ' ', 19, 0);
+
     strat1_t1_0_str = "C=0.1 (1s)";
     strat2_t1_0_str = "C=0.2 (1s)";
     strat3_t1_0_str = "C=0.3 (1s)";
@@ -65,6 +72,13 @@ function process_experiment_6(target_path, output_dir)
     strat5_t2_0_str = "C=0.5 (2s)";
     strat6_t2_0_str = "C=0.6 (2s)";
 
+    strat1_t4_0_str = "C=0.1 (4s)";
+    strat2_t4_0_str = "C=0.2 (4s)";
+    strat3_t4_0_str = "C=0.3 (4s)";
+    strat4_t4_0_str = "C=0.4 (4s)";
+    strat5_t4_0_str = "C=0.5 (4s)";
+    strat6_t4_0_str = "C=0.6 (4s)";
+
     strats_1{1} = getStratCellArrayVersion4(strat1_t1_0, strat1_t1_0_str, opponent_strat_str);
     strats_2{1} = getStratCellArrayVersion4(strat2_t1_0, strat2_t1_0_str, opponent_strat_str);
     strats_3{1} = getStratCellArrayVersion4(strat3_t1_0, strat3_t1_0_str, opponent_strat_str);
@@ -78,6 +92,13 @@ function process_experiment_6(target_path, output_dir)
     strats_4{2} = getStratCellArrayVersion4(strat4_t2_0, strat4_t2_0_str, opponent_strat_str);
     strats_5{2} = getStratCellArrayVersion4(strat5_t2_0, strat5_t2_0_str, opponent_strat_str);
     strats_6{2} = getStratCellArrayVersion4(strat6_t2_0, strat6_t2_0_str, opponent_strat_str);
+
+    strats_1{3} = getStratCellArrayVersion4(strat1_t4_0, strat1_t4_0_str, opponent_strat_str);
+    strats_2{3} = getStratCellArrayVersion4(strat2_t4_0, strat2_t4_0_str, opponent_strat_str);
+    strats_3{3} = getStratCellArrayVersion4(strat3_t4_0, strat3_t4_0_str, opponent_strat_str);
+    strats_4{3} = getStratCellArrayVersion4(strat4_t4_0, strat4_t4_0_str, opponent_strat_str);
+    strats_5{3} = getStratCellArrayVersion4(strat5_t4_0, strat5_t4_0_str, opponent_strat_str);
+    strats_6{3} = getStratCellArrayVersion4(strat6_t4_0, strat6_t4_0_str, opponent_strat_str);
 
 
     #

@@ -84,7 +84,9 @@ set terminal x11
 plot input_dir."/SCORE_DIFFS_TIME_1s.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{$t=1.0s$}', \
 	'' using 1:2 w lines lt 1 title '', \
 	input_dir."/SCORE_DIFFS_TIME_2s.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{$t=2.0s$}', \
-	'' using 1:2 w lines lt 2 title ''
+	'' using 1:2 w lines lt 2 title '', \
+	input_dir."/SCORE_DIFFS_TIME_4s.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{$t=4.0s$}', \
+	'' using 1:2 w lines lt 3 title ''
 
 pause -1
 
@@ -116,7 +118,9 @@ set terminal x11
 plot input_dir."/WIN_PERCENTAGES_TIME_1s.dat" using 1:2 lt 1 title '\scriptsize{$t=1.0s$}', \
 	'' using 1:2 w lines lt 1 title '', \
     input_dir."/WIN_PERCENTAGES_TIME_2s.dat" using 1:2 lt 2 title '\scriptsize{$t=2.0s$}', \
-	'' using 1:2 w lines lt 2 title ''
+	'' using 1:2 w lines lt 2 title '', \
+    input_dir."/WIN_PERCENTAGES_TIME_4s.dat" using 1:2 lt 3 title '\scriptsize{$t=4.0s$}', \
+	'' using 1:2 w lines lt 3 title ''
 
 pause -1
 
