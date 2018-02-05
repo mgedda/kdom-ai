@@ -56,7 +56,12 @@ set terminal x11
 plot input_dir."/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 	'' using 1:2 w lines lt 1 title '', \
 	input_dir."/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
-	'' using 1:2 w lines lt 2 title ''
+	'' using 1:2 w lines lt 2 title '', \
+	input_dir."/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
+	'' using 1:2 w lines lt 3 title '', \
+	input_dir."/SCORE_DIFFS_MCE-PG_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
+	'' using 1:2 w lines lt 4 title ''
+
 #plot input_dir."/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 #	'' using 1:2 w lines lt 1 title '', \
 #	input_dir."/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
@@ -104,7 +109,12 @@ set terminal x11
 plot input_dir."/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 	'' using 1:2 w lines lt 1 title '', \
 	input_dir."/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
-	'' using 1:2 w lines lt 2 title ''
+	'' using 1:2 w lines lt 2 title '', \
+	input_dir."/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
+	'' using 1:2 w lines lt 3 title '', \
+	input_dir."/PLAYOUTS_MCE-PG_R (10s).dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
+	'' using 1:2 w lines lt 4 title ''
+
 #plot input_dir."/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
 #	'' using 1:2 w lines lt 1 title '', \
 #	input_dir."/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
