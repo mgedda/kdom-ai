@@ -27,26 +27,38 @@ function process_experiment_2(target_path, output_dir)
     plot_functions;
 
     opponent_strat_str = "FG";
-    num_games = 450;
+    num_games = 500;
 
     #
     # Read experiment result files
     #
 
-    source("runs/kdom_exp-20170326-005955-rev-fd90607/kdom_exp_MC_TR_TR_WDL_vs_FULL_GREEDY.m");
-    source("runs/kdom_exp-20170326-190517-rev-fd90607/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY.m");
+    strat1 = dlmread('runs/kdom_exp-20180205-150829-rev-85a55d8-cpu-3.20GHz/kdom_exp_MCE_TR_WDL_vs_FULL_GREEDY_G500_T5_P0.dat', ' ', 19, 0);
+    strat2 = dlmread('runs/kdom_exp-20180207-220404-rev-69725d0-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G500_T5_P0.dat', ' ', 19, 0);
+
+    #
+    # Set run names
+    #
+
     strat1_str = "MCE-TR/WDL";
     strat2_str = "FG";
-    strat1 = kdom_exp_MC_TR_TR_WDL_vs_FULL_GREEDY(1:num_games,:);
-    strat2 = kdom_exp_FULL_GREEDY_vs_FULL_GREEDY(1:num_games,:);
+
+    #
+    # Create cell arrays
+    #
+
+    strats{1} = getStratCellArrayVersion4(strat1, strat1_str, opponent_strat_str);
+    strats{2} = getStratCellArrayVersion4(strat2, strat2_str, opponent_strat_str);
 
 
     #
     # Process data
     #
 
-    strats{1} = getStratCellArrayVersion3(strat1, strat1_str, opponent_strat_str);
-    strats{2} = getStratCellArrayVersion3(strat2, strat2_str, opponent_strat_str);
+
+    # Write Win/Loss/Draw info to file
+    #
+    writeWinDrawLossToFile(strats, output_path, output_file_prefix);
 
 
     # Hypothesis test.

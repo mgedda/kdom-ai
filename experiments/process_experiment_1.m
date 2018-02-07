@@ -57,54 +57,9 @@ function process_experiment_1(target_path, output_dir)
     # Process data
     #
 
-    #
+
     # Write Win/Loss/Draw info to file
     #
-    function p = toPercent(fraction)
-      p = round(fraction * 1000) / 10;
-    endfunction
-
-    function writeWinDrawLossToFile(strats, output_path, output_file_prefix)
-
-      # Construct the filename
-      filename = [output_path "/" output_file_prefix "WIN_DRAW_LOSS.dat"]
-
-      fid = fopen (filename, "w");
-      fdisp (fid, "# Wins  Win(%)  Draws  Draw(%)  Losses Loss(%)");
-      fclose (fid);
-
-      for i = 1:size(strats,2)
-
-        # Win/Loss/Draw vector (1x3 matrix)
-        wdl = strats{i}{6};
-
-        strat_str = strats{i}{1};
-        opponent_str = strats{i}{2};
-        num_games = size(strats{i}{4}, 1);
-
-        # Compose data in file.
-        # The data will be on the form
-        #
-        #    # Wins  Win(%)  Draws  Draw(%)  Losses Loss(%)
-        #    # TR
-        #    254     25.4    82     8.2      734    73.4
-        #    # GPRD
-        #    465     46.5    21     2.1      512    51.2
-        #    # FG
-        #    923     92.3    2      0.2      75     7.5
-        #
-        fid = fopen (filename, "a");
-        fdisp (fid, ["# " strat_str]);
-        fclose (fid);
-
-        data = [wdl(1) toPercent(wdl(1)/num_games) wdl(2) toPercent(wdl(2)/num_games) wdl(3) toPercent(wdl(3)/num_games)];
-
-        # Write data to file
-        dlmwrite(filename, data, "-append", "delimiter", " ");
-
-      endfor
-    endfunction
-
     writeWinDrawLossToFile(strats, output_path, output_file_prefix);
 
 

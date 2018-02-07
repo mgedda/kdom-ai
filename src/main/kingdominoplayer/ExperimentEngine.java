@@ -17,7 +17,7 @@ public class ExperimentEngine
     {
         final ExperimentParameters parameters = ExperimentParameters.from(args);
 
-        final String server = "http://localhost:8080";
+        final String server = "http://localhost";
 
         final Game game = GameServer.startGame(4, server);
 
