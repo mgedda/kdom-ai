@@ -26,29 +26,86 @@ function process_experiment_1(target_path, output_dir)
     plot_functions;
 
     opponent_strat_str = "TR";
-    num_games = 1500;
+    num_games = 1000;
 
     #
     # Read experiment result files
     #
 
-    source("runs/kdom_exp-20170322-235332-rev-7a53876/kdom_exp_TRUE_RANDOM_vs_TRUE_RANDOM.m");
-    source("runs/kdom_exp-20170322-235357-rev-7a53876/kdom_exp_GREEDY_PLACEMENT_RANDOM_DRAFT_vs_TRUE_RANDOM.m");
-    source("runs/kdom_exp-20170322-235414-rev-7a53876/kdom_exp_FULL_GREEDY_vs_TRUE_RANDOM.m");
+    strat1 = dlmread('runs/kdom_exp-20180205-150829-rev-85a55d8-cpu-3.20GHz/kdom_exp_TRUE_RANDOM_vs_TRUE_RANDOM_G1000_T0.1_P0.dat', ' ', 19, 0);
+    strat2 = dlmread('runs/kdom_exp-20180205-150829-rev-85a55d8-cpu-3.20GHz/kdom_exp_GREEDY_PLACEMENT_RANDOM_DRAFT_vs_TRUE_RANDOM_G1000_T0.1_P0.dat', ' ', 19, 0);
+    strat3 = dlmread('runs/kdom_exp-20180205-150829-rev-85a55d8-cpu-3.20GHz/kdom_exp_FULL_GREEDY_vs_TRUE_RANDOM_G1000_T0.1_P0.dat', ' ', 19, 0);
+
+    #
+    # Set run names
+    #
+
     strat1_str = "TR";
     strat2_str = "GPRD";
     strat3_str = "FG";
-    strat1 = kdom_exp_TRUE_RANDOM_vs_TRUE_RANDOM(1:num_games,:);
-    strat2 = kdom_exp_GREEDY_PLACEMENT_RANDOM_DRAFT_vs_TRUE_RANDOM(1:num_games,:);
-    strat3 = kdom_exp_FULL_GREEDY_vs_TRUE_RANDOM(1:num_games,:);
+
+    #
+    # Create cell arrays
+    #
+
+    strats{1}  = getStratCellArrayVersion4(strat1, strat1_str, opponent_strat_str);
+    strats{2}  = getStratCellArrayVersion4(strat2, strat2_str, opponent_strat_str);
+    strats{3}  = getStratCellArrayVersion4(strat3, strat3_str, opponent_strat_str);
+
 
     #
     # Process data
     #
 
-    strats{1} = getStratCellArrayVersion3(strat1, strat1_str, opponent_strat_str);
-    strats{2} = getStratCellArrayVersion3(strat2, strat2_str, opponent_strat_str);
-    strats{3} = getStratCellArrayVersion3(strat3, strat3_str, opponent_strat_str);
+    #
+    # Write Win/Loss/Draw info to file
+    #
+    function p = toPercent(fraction)
+      p = round(fraction * 1000) / 10;
+    endfunction
+
+    function writeWinDrawLossToFile(strats, output_path, output_file_prefix)
+
+      # Construct the filename
+      filename = [output_path "/" output_file_prefix "WIN_DRAW_LOSS.dat"]
+
+      fid = fopen (filename, "w");
+      fdisp (fid, "# Wins  Win(%)  Draws  Draw(%)  Losses Loss(%)");
+      fclose (fid);
+
+      for i = 1:size(strats,2)
+
+        # Win/Loss/Draw vector (1x3 matrix)
+        wdl = strats{i}{6};
+
+        strat_str = strats{i}{1};
+        opponent_str = strats{i}{2};
+        num_games = size(strats{i}{4}, 1);
+
+        # Compose data in file.
+        # The data will be on the form
+        #
+        #    # Wins  Win(%)  Draws  Draw(%)  Losses Loss(%)
+        #    # TR
+        #    254     25.4    82     8.2      734    73.4
+        #    # GPRD
+        #    465     46.5    21     2.1      512    51.2
+        #    # FG
+        #    923     92.3    2      0.2      75     7.5
+        #
+        fid = fopen (filename, "a");
+        fdisp (fid, ["# " strat_str]);
+        fclose (fid);
+
+        data = [wdl(1) toPercent(wdl(1)/num_games) wdl(2) toPercent(wdl(2)/num_games) wdl(3) toPercent(wdl(3)/num_games)];
+
+        # Write data to file
+        dlmwrite(filename, data, "-append", "delimiter", " ");
+
+      endfor
+    endfunction
+
+    writeWinDrawLossToFile(strats, output_path, output_file_prefix);
 
 
     # Win/Loss/Draw pie charts.
