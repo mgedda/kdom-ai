@@ -72,6 +72,7 @@ function playGames
     SYSTEM=$7
     CPU_SPEED=$8
     REVISION=$9
+    START_TIME=`date +%Y%m%d-%H%M%S`
 
     MAX_SEARCH_TIME_ESCAPED=${MAX_SEARCH_TIME//[.]/_}
 
@@ -97,6 +98,8 @@ function playGames
     print "| "                                                                                      $LOG_FILE
     print "| Executing: '$SCRIPT_STR'"                                                              $LOG_FILE
     print "| Git Revision: $REVISION"                                                               $LOG_FILE
+    print "| "                                                                                      $LOG_FILE
+    print "| Start time: $START_TIME"                                                               $LOG_FILE
     print "---------------------------------------------------------------------------------------" $LOG_FILE
     print ""                                                                                        $LOG_FILE
 
@@ -123,7 +126,7 @@ function playGames
     for ((i=1; i <= $NUM_RUNS; i++))
     do
         print "---------------------------------------------------------------------------------------" $LOG_FILE
-        print "| Experiment Run $i/$NUM_RUNS"                                                           $LOG_FILE
+        print "| Experiment Run $i/$NUM_RUNS [`date +%Y%m%d-%H%M%S`]"                                   $LOG_FILE
         print "---------------------------------------------------------------------------------------" $LOG_FILE
         print ""                                                                                        $LOG_FILE
 
@@ -138,7 +141,7 @@ function playGames
     rm ${OUTPUT_FILE_TMP}
 
     print "---------------------------------------------------------------------------------------"  $LOG_FILE
-    print "| Experiment done!"                                                                       $LOG_FILE
+    print "| Experiment done! [`date +%Y%m%d-%H%M%S`]"                                               $LOG_FILE
     print "---------------------------------------------------------------------------------------"  $LOG_FILE
 }
 
