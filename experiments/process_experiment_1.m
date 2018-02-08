@@ -65,24 +65,24 @@ function process_experiment_1(target_path, output_dir)
 
     # Win/Loss/Draw pie charts.
     #
-    plotWinDrawLossPieCharts(strats);
+    #plotWinDrawLossPieCharts(strats);
 
 
     # Score histograms.
     #
     #plotScoreHistograms(strats);
-    plotScoreHistogramsOverlap(strats);
+    #plotScoreHistogramsOverlap(strats);
 
 
     # Player scores
     #
-    plotPlayerScoresOverlap(strats);
+    #plotPlayerScoresOverlap(strats);
     writePlayerScoresToDatFile(strats, output_path, output_file_prefix);
 
 
     # Branching factors
     #
-    plotBranchingFactors(strats);
+    #plotBranchingFactors(strats);
     writeBranchingFactorsToDatFile(strats, output_path, output_file_prefix);
 
 
@@ -91,12 +91,12 @@ function process_experiment_1(target_path, output_dir)
 
     # Number of dominoes to chose from in chosen draft.
     #
-    plotAvailableDraftDominoes(strats);
+    #plotAvailableDraftDominoes(strats);
 
 
     # Chosen domino position.
     #
-    plotChosenDominoPositions(strats);
+    #plotChosenDominoPositions(strats);
 
 
     # Hypothesis test.

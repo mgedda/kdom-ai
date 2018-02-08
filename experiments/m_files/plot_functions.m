@@ -64,7 +64,7 @@ function plotScoreDiffs(score_diffs, num_games, x)
 
   legend(annotations);
 
-  xlabel("Seconds per turn");
+  xlabel("Seconds per turn / value");
   ylabel("Score difference");
 endfunction
 

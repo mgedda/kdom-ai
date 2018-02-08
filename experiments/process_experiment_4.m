@@ -188,7 +188,7 @@ function process_experiment_4(target_path, output_dir)
     score_diffs{3} = getScoreDiffsCellArray(strats_3, "MCE-EG/R");
     score_diffs{4} = getScoreDiffsCellArray(strats_4, "MCE-PG/R");
 
-    plotScoreDiffs(score_diffs, num_games, time_limits);
+    #plotScoreDiffs(score_diffs, num_games, time_limits);
     writeScoreDiffsToDatFile(score_diffs, output_path, time_limits);
 
 
@@ -199,7 +199,7 @@ function process_experiment_4(target_path, output_dir)
     playout_strats{3} = strats_3{10};
     playout_strats{4} = strats_4{10};
 
-    plotPlayoutsPerSecondOverlap(playout_strats);
+    #plotPlayoutsPerSecondOverlap(playout_strats);
     writePlayoutsToDatFile(playout_strats, output_path, output_file_prefix);
 
 
@@ -213,18 +213,18 @@ function process_experiment_4(target_path, output_dir)
 
     # Win/Loss/Draw pie charts.
     #
-    plotWinDrawLossPieCharts(strats);
+    #plotWinDrawLossPieCharts(strats);
 
 
     # Score histograms.
     #
     #plotScoreHistograms(strats);
-    plotScoreHistogramsOverlap(strats);
+    #plotScoreHistogramsOverlap(strats);
 
 
     # Player scores
     #
-    plotPlayerScoresOverlap(strats);
+    #plotPlayerScoresOverlap(strats);
     writePlayerScoresToDatFile(strats, output_path, output_file_prefix);
 
 
@@ -233,16 +233,16 @@ function process_experiment_4(target_path, output_dir)
 
     # Branching factors
     #
-    plotBranchingFactors(strats);
+    #plotBranchingFactors(strats);
 
 
     # Number of dominoes to chose from in chosen draft.
     #
-    plotAvailableDraftDominoes(strats);
+    #plotAvailableDraftDominoes(strats);
 
 
     # Chosen domino position.
     #
-    plotChosenDominoPositions(strats);
+    #plotChosenDominoPositions(strats);
 
 endfunction
