@@ -22,6 +22,7 @@ public enum TinyStrategyID
     MCE_PG_R,
 
     // Regular Monte-Carlo Tree Search (UTC)
+    UCT_TR_C0_0,
     UCT_TR_C0_1,
     UCT_TR_C0_2,
     UCT_TR_C0_3,
@@ -32,6 +33,7 @@ public enum TinyStrategyID
     UCT_TR_C1_5,
     UCT_TR_C2_0,
 
+    UCT_FG_C0_0,
     UCT_FG_C0_1,
     UCT_FG_C0_2,
     UCT_FG_C0_3,

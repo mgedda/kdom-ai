@@ -58,6 +58,9 @@ public class TinyStrategyFactory
                 result = new TinyMonteCarloEvaluation(new TinyAllMoves(), new TinyPlayerGreedySimulationStrategy(), new RelativeScoreFunction(), iSearchParameters);
                 break;
 
+            case UCT_TR_C0_0:
+                result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.0);
+                break;
             case UCT_TR_C0_1:
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.1);
                 break;
@@ -86,6 +89,9 @@ public class TinyStrategyFactory
                 result = new TinyMonteCarloTreeSearch(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 2.0);
                 break;
 
+            case UCT_FG_C0_0:
+                result = new TinyMonteCarloTreeSearch(new TinyFullGreedySimulationStrategy(), iSearchParameters, 0.0);
+                break;
             case UCT_FG_C0_1:
                 result = new TinyMonteCarloTreeSearch(new TinyFullGreedySimulationStrategy(), iSearchParameters, 0.1);
                 break;
