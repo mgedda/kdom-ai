@@ -41,7 +41,11 @@ set terminal x11
 plot input_dir."/SCORES_FG.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{FG}', \
 	'' using 1:2 w lines lt 1 title '', \
 	input_dir."/SCORES_MCE-TR_WDL.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/WDL}', \
-	'' using 1:2 w lines lt 2 title ''
+	'' using 1:2 w lines lt 2 title '', \
+	input_dir."/SCORES_MCE-TR_P.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-TR/P}', \
+	'' using 1:2 w lines lt 3 title '', \
+	input_dir."/SCORES_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-TR/R}', \
+	'' using 1:2 w lines lt 4 title ''
 
 pause -1
 

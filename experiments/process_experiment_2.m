@@ -33,15 +33,19 @@ function process_experiment_2(target_path, output_dir)
     # Read experiment result files
     #
 
-    strat1 = dlmread('runs/kdom_exp-20180205-150829-rev-85a55d8-cpu-3.20GHz/kdom_exp_MCE_TR_WDL_vs_FULL_GREEDY_G500_T5_P0.dat', ' ', 19, 0);
-    strat2 = dlmread('runs/kdom_exp-20180207-220404-rev-69725d0-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G500_T5_P0.dat', ' ', 19, 0);
+    strat1 = dlmread('runs/kdom_exp-20180207-220404-rev-69725d0-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G500_T5_P0.dat', ' ', 19, 0);
+    strat2 = dlmread('runs/kdom_exp-20180205-150829-rev-85a55d8-cpu-3.20GHz/kdom_exp_MCE_TR_WDL_vs_FULL_GREEDY_G500_T5_P0.dat', ' ', 19, 0);
+    strat3 = dlmread('runs/kdom_exp-20180205-150829-rev-85a55d8-cpu-3.20GHz/kdom_exp_MCE_TR_P_vs_FULL_GREEDY_G500_T5_P0.dat', ' ', 19, 0);
+    strat4 = dlmread('runs/kdom_exp-20180205-150829-rev-85a55d8-cpu-3.20GHz/kdom_exp_MCE_TR_R_vs_FULL_GREEDY_G500_T5_P0.dat', ' ', 19, 0);
 
     #
     # Set run names
     #
 
-    strat1_str = "MCE-TR/WDL";
-    strat2_str = "FG";
+    strat1_str = "FG";
+    strat2_str = "MCE-TR/WDL";
+    strat3_str = "MCE-TR/P";
+    strat4_str = "MCE-TR/R";
 
     #
     # Create cell arrays
@@ -49,6 +53,8 @@ function process_experiment_2(target_path, output_dir)
 
     strats{1} = getStratCellArrayVersion4(strat1, strat1_str, opponent_strat_str);
     strats{2} = getStratCellArrayVersion4(strat2, strat2_str, opponent_strat_str);
+    strats{3} = getStratCellArrayVersion4(strat3, strat3_str, opponent_strat_str);
+    strats{4} = getStratCellArrayVersion4(strat4, strat4_str, opponent_strat_str);
 
 
     #
@@ -63,7 +69,7 @@ function process_experiment_2(target_path, output_dir)
 
     # Hypothesis test.
     #
-    pval = t_test_2(strats{1}{5}, strats{2}{5}, ">")
+    pval = t_test_2(strats{2}{5}, strats{1}{5}, ">")
 
 
     # Win/Loss/Draw pie charts.
@@ -91,7 +97,7 @@ function process_experiment_2(target_path, output_dir)
     # Playouts per second
     #
     #plotPlayoutsPerSecondOverlap(strats);
-    writePlayoutsToDatFile(strats(1), output_path, output_file_prefix);
+    writePlayoutsToDatFile(strats(2), output_path, output_file_prefix);
 
 
     return;
