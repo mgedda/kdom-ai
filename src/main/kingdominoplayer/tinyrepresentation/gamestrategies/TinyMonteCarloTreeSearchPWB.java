@@ -10,11 +10,11 @@ package kingdominoplayer.tinyrepresentation.gamestrategies;
 import kingdominoplayer.SearchParameters;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts.UCB;
-import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts.UCBWinPersistentProgressiveBias;
+import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts.UCBProgressiveWinBias;
 import kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts.UCTSearch;
 import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationStrategy;
 
-public class TinyMonteCarloTreeSearchWPB implements TinyStrategy
+public class TinyMonteCarloTreeSearchPWB implements TinyStrategy
 {
 
     private final TinySimulationStrategy iSimulationStrategy;
@@ -23,14 +23,14 @@ public class TinyMonteCarloTreeSearchWPB implements TinyStrategy
     private final UCB iUCB;
     private UCTSearch iSearchAlgorithm;
 
-    public TinyMonteCarloTreeSearchWPB(final TinySimulationStrategy simulationStrategy,
+    public TinyMonteCarloTreeSearchPWB(final TinySimulationStrategy simulationStrategy,
                                        final SearchParameters searchParameters,
                                        final double exploreFactor,
                                        final double biasWeight)
     {
         iSimulationStrategy = simulationStrategy;
         iSearchParameters = searchParameters;
-        iUCB = new UCBWinPersistentProgressiveBias(exploreFactor, biasWeight);
+        iUCB = new UCBProgressiveWinBias(exploreFactor, biasWeight);
     }
 
     @Override

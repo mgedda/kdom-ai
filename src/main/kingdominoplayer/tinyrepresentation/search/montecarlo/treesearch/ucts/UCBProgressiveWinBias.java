@@ -7,12 +7,12 @@ package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts;
  * Time: 20:48<br><br>
  */
 
-public class UCBWinPersistentProgressiveBias extends UCB
+public class UCBProgressiveWinBias extends UCB
 {
 
     private final double iBiasWeight;
 
-    public UCBWinPersistentProgressiveBias(final double exploringFactor, final double biasWeight)
+    public UCBProgressiveWinBias(final double exploringFactor, final double biasWeight)
     {
         super(exploringFactor);
         iBiasWeight = biasWeight;

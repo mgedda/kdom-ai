@@ -44,16 +44,15 @@ public enum TinyStrategyID
     UCT_FG_C1_5,
     UCT_FG_C2_0,
 
-    // Monte-Carlo Tree Search with Win-Persistent Progressive Bias (UTC_WPB)
-    UCT_WPB_TR_C0_5_W0_1,
-    UCT_WPB_TR_C0_5_W0_2,
-    UCT_WPB_TR_C0_5_W0_3,
-    UCT_WPB_TR_C0_5_W0_4,
-    UCT_WPB_TR_C0_5_W0_5,
-    UCT_WPB_TR_C0_5_W1_0,
-    UCT_WPB_TR_C0_5_W1_5,
-    UCT_WPB_TR_C0_5_W2_0,
+    // Monte-Carlo Tree Search with Progressive Win Bias
+    UCTW_TR_C0_5_W0_0,
+    UCTW_TR_C0_5_W0_1,
+    UCTW_TR_C0_5_W0_5,
+    UCTW_TR_C0_5_W1_0,
+    UCTW_TR_C0_5_W5_0,
+    UCTW_TR_C0_5_W10_0,
+    UCTW_TR_C0_5_W50_0,
 
-    // Monte-Carlo Tree Search with Progressive Bias (UTC_PB)
-    UCT_PB_TR_C0_5_W0_4
+    // Monte-Carlo Tree Search with Progressive Bias
+    UCTB_TR_C0_5_W0_4
 }
