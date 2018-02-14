@@ -18,7 +18,7 @@ function writeBranchingFactorsToDatFile(strats, output_path, output_file_prefix)
 #
 #   Example:
 #
-#     # Round  Mean Branching Factors   Confidence interval
+#     # Round  Mean Branching Factors   Half confidence interval
 #     1        2.1232                   0.9271
 #     2        89.5273                  12.2012
 #     3        77.1231                  9.1378
@@ -52,12 +52,12 @@ function writeBranchingFactorsToDatFile(strats, output_path, output_file_prefix)
     # Construct filename
     filename = [output_path "/" output_file_prefix "BRANCHING_FACTORS_" strat_str ".dat"];
 
-    err = lower_err + upper_err;
+    err = (lower_err + upper_err) / 2.0;
 
     # Compose data in file.
     # The data will be on the form
     #
-    #    # Round  Mean Branching Factors   Confidence interval
+    #    # Round  Mean Branching Factors   Half confidence interval
     #    1        2.1232                   0.9271
     #    2        89.5273                  12.2012
     #    3        77.1231                  9.1378
@@ -92,7 +92,7 @@ function writePlayerScoresToDatFile(strats, output_dir, output_file_prefix)
 #
 #   Example:
 #
-#     # Round  Player Mean Score   Confidence interval
+#     # Round  Player Mean Score   Half confidence interval
 #     1        10                  0.0
 #     2        10.5273             0.2012
 #     3        13.1231             1.1220
@@ -128,12 +128,12 @@ function writePlayerScoresToDatFile(strats, output_dir, output_file_prefix)
     # Construct the filename
     filename = [output_dir "/" output_file_prefix "SCORES_" strat_str ".dat"];
 
-    err = lower_err + upper_err;
+    err = (lower_err + upper_err) / 2.0;
 
     # Compose data in file.
     # The data will be on the form
     #
-    #    # Round  Mean Score   Confidence interval
+    #    # Round  Mean Score   Half confidence interval
     #    1        10           0.0
     #    2        10.5273      0.2012
     #    3        13.1231      1.1220
@@ -178,7 +178,7 @@ function writeScoreDiffsToDatFile(score_diffs, output_path, x)
 #
 #   Example:
 #
-#     # X      Score diff average   Confidence interval
+#     # X      Score diff average   Half confidence interval
 #     <x(1)>   -12.3252             6.1924
 #     <x(2)>   -8.4285              7.2012
 #     <x(3)>   -1.1231              9.1220
@@ -202,7 +202,7 @@ function writeScoreDiffsToDatFile(score_diffs, output_path, x)
     # Construct filename
     filename = [output_path "/SCORE_DIFFS_" strat_str ".dat"];
 
-    err = lower_err + upper_err;
+    err = (lower_err + upper_err) / 2.0;
 
     data = [x; avg_score_diffs; err]';
     dlmwrite(filename, data, "delimiter", " ");
@@ -247,7 +247,7 @@ function writeScoreDiffsToDatFileInverted(score_diffs, time_values, x_values, ou
 #
 #   Example:
 #
-#     # X      Score diff average   Confidence interval
+#     # X      Score diff average   Half confidence interval
 #     <x(1)>   -12.3252             6.1924
 #     <x(2)>   -8.4285              7.2012
 #     <x(3)>   -1.1231              9.1220
@@ -270,7 +270,7 @@ function writeScoreDiffsToDatFileInverted(score_diffs, time_values, x_values, ou
       # Error bounds
       lower_err = score_diffs{j}{3}(i);
       upper_err = score_diffs{j}{4}(i);
-      err = lower_err + upper_err;
+      err = (lower_err + upper_err) / 2.0;
 
       # Add row to data container
       data = [data; x_values(j) avg_score_diff err];
@@ -319,11 +319,11 @@ function writeWinPercentagesToDatFileInverted(win_percentages, time_values, x_va
 #
 #   Example:
 #
-#     # X      Win percentage   Confidence interval
-#     <x(1)>   58.3252          6.1924
-#     <x(2)>   52.4285          7.2012
-#     <x(3)>   61.1231          9.1220
-#     <x(4)>   60.3414          8.9927
+#     # X      Win percentage
+#     <x(1)>   58.3252
+#     <x(2)>   52.4285
+#     <x(3)>   61.1231
+#     <x(4)>   60.3414
 #     ...
 
   # Loop over all time values
