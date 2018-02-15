@@ -144,7 +144,7 @@ public class UCTSearch
 
     private UCTSNode bestChild(final UCTSNode node, final UCB ucb)
     {
-        double maxUCB = 0;
+        double maxUCB = -Double.MAX_VALUE;
         final ArrayList<UCTSNode> bestChildren = new ArrayList<>(10);
 
         for (final UCTSNode child : node.getChildren())
