@@ -42,11 +42,11 @@ set format xy '$%g$'
 
 
 set terminal x11
-plot input_dir."/SCORE_DIFFS_UCT_W-TR_T0_2.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{UCT_W-TR ($0.2$s)}', \
+plot input_dir."/SCORE_DIFFS_UCT_W-TR_T0_2.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{UCT\sub{W}-TR ($0.2$s)}', \
 	'' using 1:2 w lines lt 1 title '', \
-    input_dir."/SCORE_DIFFS_UCT_W-TR_T0_5.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{UCT_W-TR ($0.5$s)}', \
+    input_dir."/SCORE_DIFFS_UCT_W-TR_T0_5.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{UCT\sub{W}-TR ($0.5$s)}', \
 	'' using 1:2 w lines lt 2 title '', \
-    input_dir."/SCORE_DIFFS_UCT_W-TR_T2_0.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{UCT_W-TR ($2.0$s)}', \
+    input_dir."/SCORE_DIFFS_UCT_W-TR_T2_0.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{UCT\sub{W}-TR ($2.0$s)}', \
 	'' using 1:2 w lines lt 3 title ''
 pause -1
 
