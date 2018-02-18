@@ -46,8 +46,8 @@ set logscale x
 set style line 1 lc rgb 'red' lt 1 lw 1.0
 set style line 2 lc rgb 'red' lt 2 lw 1.0
 set arrow 1 from 0.08,-10.165 to 12,-10.165 nohead ls 1
-set arrow 2 from 0.08,-5.681 to 12,-5.681 nohead ls 2
-set arrow 3 from 0.08,-14.649 to 12,-14.649 nohead ls 2
+set arrow 2 from 0.08,-7.92 to 12,-7.92 nohead ls 2
+set arrow 3 from 0.08,-12.41 to 12,-12.41 nohead ls 2
 set label '\scriptsize{FG}' at 6,-18 center
 
 set arrow 4 from 6,-16.3 to 6.5,-11 filled
