@@ -126,8 +126,29 @@ public class TinyStrategyFactory
             case UCTW_TR_C0_5_W0_1:
                 result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.1);
                 break;
+            case UCTW_TR_C0_5_W0_2:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.2);
+                break;
+            case UCTW_TR_C0_5_W0_3:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.3);
+                break;
+            case UCTW_TR_C0_5_W0_4:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.4);
+                break;
             case UCTW_TR_C0_5_W0_5:
                 result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.5);
+                break;
+            case UCTW_TR_C0_5_W0_6:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.6);
+                break;
+            case UCTW_TR_C0_5_W0_7:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.7);
+                break;
+            case UCTW_TR_C0_5_W0_8:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.8);
+                break;
+            case UCTW_TR_C0_5_W0_9:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.9);
                 break;
             case UCTW_TR_C0_5_W1_0:
                 result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 1.0);
@@ -148,8 +169,29 @@ public class TinyStrategyFactory
             case UCTW_FG_C1_0_W0_1:
                 result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.1);
                 break;
+            case UCTW_FG_C1_0_W0_2:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.2);
+                break;
+            case UCTW_FG_C1_0_W0_3:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.3);
+                break;
+            case UCTW_FG_C1_0_W0_4:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.4);
+                break;
             case UCTW_FG_C1_0_W0_5:
                 result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.5);
+                break;
+            case UCTW_FG_C1_0_W0_6:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.6);
+                break;
+            case UCTW_FG_C1_0_W0_7:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.7);
+                break;
+            case UCTW_FG_C1_0_W0_8:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.8);
+                break;
+            case UCTW_FG_C1_0_W0_9:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 0.9);
                 break;
             case UCTW_FG_C1_0_W1_0:
                 result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 1.0, 1.0);
