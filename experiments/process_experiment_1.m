@@ -86,6 +86,43 @@ function process_experiment_1(target_path, output_dir)
     writeBranchingFactorsToDatFile(strats, output_path, output_file_prefix);
 
 
+    ###############################################################################################
+    # Branching factor with draw
+    #
+    c = [194580, 135751, 91390, 58905, 35960, 20475, 10626, 4845, 1820, 495, 70, 1, 1];
+    # Rounds
+    x = 1:1:13;
+
+    # Player branching factors for TRUE_RANDOM (Nx13 matrix)
+    branching_factors = strats{1}{7};
+    # Mean branching factors each round (1x13 matrix)
+    mean_branching_factors = mean(branching_factors);
+
+    branching_factors_with_draw = c .* mean_branching_factors;
+
+    # Replace "/" with "_" in strat string so we can use it in a filename.
+    strat_str = strrep(strats{1}{1}, "/", "_");
+
+    # Construct filename
+    filename = [output_path "/" output_file_prefix "BRANCHING_FACTORS_WITH_DRAW_" strat_str ".dat"];
+
+    # Compose data in file.
+    # The data will be on the form
+    #
+    #    # Round  Branching Factors
+    #    1        19201391
+    #    2        139324092
+    #    3        12399193
+    #    4        4881822
+    #    ...
+    #
+    data = [x; branching_factors_with_draw;]';
+
+    # Write data to file
+    dlmwrite(filename, data, "delimiter", " ");
+    ###############################################################################################
+
+
     return;
 
 
