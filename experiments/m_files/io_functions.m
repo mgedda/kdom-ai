@@ -460,7 +460,7 @@ function writeWinDrawLossToFile(strats, output_path, output_file_prefix)
 #
 
   # Construct the filename
-  filename = [output_path "/" output_file_prefix "WIN_DRAW_LOSS.dat"]
+  filename = [output_path "/" output_file_prefix "WIN_DRAW_LOSS.dat"];
 
   fid = fopen (filename, "w");
   fdisp (fid, "# Wins  Win(%)  Draws  Draw(%)  Losses Loss(%)");
