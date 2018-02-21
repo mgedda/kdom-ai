@@ -31,7 +31,7 @@ function process_experiment_7(target_path, output_dir)
     opponent_strat_str = "FG";
     num_games = 200;
     time_limits = [0.2 0.5 2.0];            # time limits
-    w_values = [0.0 0.1 0.5 1.0 5.0 10.0 50.0];
+    w_values = [0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0];
 
     #
     # Read experiment result file
@@ -41,61 +41,85 @@ function process_experiment_7(target_path, output_dir)
     #
     strat1_w0_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
     strat1_w0_1 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_1_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat1_w0_2 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_2_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat1_w0_3 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_3_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat1_w0_4 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_4_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
     strat1_w0_5 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_5_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat1_w0_6 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_6_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat1_w0_7 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_7_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat1_w0_8 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_8_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat1_w0_9 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_9_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
     strat1_w1_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W1_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
-    strat1_w5_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W5_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
-    strat1_w10_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W10_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
-    strat1_w50_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W50_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
 
     # UCT_W-TR (0.5s)
     #
     strat2_w0_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
     strat2_w0_1 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_1_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat2_w0_2 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_2_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat2_w0_3 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_3_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat2_w0_4 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_4_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
     strat2_w0_5 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_5_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat2_w0_6 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_6_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat2_w0_7 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_7_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat2_w0_8 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_8_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat2_w0_9 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_9_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
     strat2_w1_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W1_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
-    strat2_w5_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W5_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
-    strat2_w10_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W10_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
-    strat2_w50_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W50_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
 
     # UCT_W-TR (2.0s)
     #
     strat3_w0_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
     strat3_w0_1 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_1_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat3_w0_2 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_2_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat3_w0_3 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_3_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat3_w0_4 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_4_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
     strat3_w0_5 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_5_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat3_w0_6 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_6_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat3_w0_7 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_7_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat3_w0_8 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_8_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat3_w0_9 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W0_9_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
     strat3_w1_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W1_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
-    strat3_w5_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W5_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
-    strat3_w10_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W10_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
-    strat3_w50_0 = dlmread('runs/kdom_exp-20180217-103756-rev-96c8a72-cpu-3.20GHz/kdom_exp_UCTW_TR_C0_5_W50_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
 
     # UCT_W-FG (0.2s)
     #
     strat4_w0_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
     strat4_w0_1 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_1_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat4_w0_2 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_2_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat4_w0_3 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_3_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat4_w0_4 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_4_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
     strat4_w0_5 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_5_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat4_w0_6 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_6_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat4_w0_7 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_7_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat4_w0_8 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_8_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
+    strat4_w0_9 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_9_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
     strat4_w1_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W1_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
-    strat4_w5_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W5_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
-    strat4_w10_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W10_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
-    strat4_w50_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W50_0_vs_FULL_GREEDY_G200_T0.2_P0.dat', ' ', 19, 0);
 
     # UCT_W-FG (0.5s)
     #
     strat5_w0_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
     strat5_w0_1 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_1_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat5_w0_2 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_2_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat5_w0_3 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_3_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat5_w0_4 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_4_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
     strat5_w0_5 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_5_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat5_w0_6 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_6_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat5_w0_7 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_7_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat5_w0_8 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_8_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
+    strat5_w0_9 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_9_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
     strat5_w1_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W1_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
-    strat5_w5_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W5_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
-    strat5_w10_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W10_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
-    strat5_w50_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W50_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
 
     # UCT_W-FG (2.0s)
     #
     strat6_w0_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
     strat6_w0_1 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_1_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat6_w0_2 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_2_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat6_w0_3 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_3_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat6_w0_4 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_4_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
     strat6_w0_5 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_5_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat6_w0_6 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_6_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat6_w0_7 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_7_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat6_w0_8 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_8_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat6_w0_9 = dlmread('runs/kdom_exp-20180219-231635-rev-50993b6-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W0_9_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
     strat6_w1_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W1_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
-    strat6_w5_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W5_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
-    strat6_w10_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W10_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
-    strat6_w50_0 = dlmread('runs/kdom_exp-20180218-225300-rev-cd84729-cpu-3.20GHz/kdom_exp_UCTW_FG_C1_0_W50_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
 
 
     #
@@ -104,51 +128,75 @@ function process_experiment_7(target_path, output_dir)
 
     strat1_w0_0_str = "UCT_W-TR W=0.0 (0.2s)";
     strat1_w0_1_str = "UCT_W-TR W=0.1 (0.2s)";
+    strat1_w0_2_str = "UCT_W-TR W=0.2 (0.2s)";
+    strat1_w0_3_str = "UCT_W-TR W=0.3 (0.2s)";
+    strat1_w0_4_str = "UCT_W-TR W=0.4 (0.2s)";
     strat1_w0_5_str = "UCT_W-TR W=0.5 (0.2s)";
+    strat1_w0_6_str = "UCT_W-TR W=0.6 (0.2s)";
+    strat1_w0_7_str = "UCT_W-TR W=0.7 (0.2s)";
+    strat1_w0_8_str = "UCT_W-TR W=0.8 (0.2s)";
+    strat1_w0_9_str = "UCT_W-TR W=0.9 (0.2s)";
     strat1_w1_0_str = "UCT_W-TR W=1.0 (0.2s)";
-    strat1_w5_0_str = "UCT_W-TR W=5.0 (0.2s)";
-    strat1_w10_0_str = "UCT_W-TR W=10.0 (0.2s)";
-    strat1_w50_0_str = "UCT_W-TR W=50.0 (0.2s)";
 
     strat2_w0_0_str = "UCT_W-TR W=0.0 (0.5s)";
     strat2_w0_1_str = "UCT_W-TR W=0.1 (0.5s)";
+    strat2_w0_2_str = "UCT_W-TR W=0.2 (0.5s)";
+    strat2_w0_3_str = "UCT_W-TR W=0.3 (0.5s)";
+    strat2_w0_4_str = "UCT_W-TR W=0.4 (0.5s)";
     strat2_w0_5_str = "UCT_W-TR W=0.5 (0.5s)";
+    strat2_w0_6_str = "UCT_W-TR W=0.6 (0.5s)";
+    strat2_w0_7_str = "UCT_W-TR W=0.7 (0.5s)";
+    strat2_w0_8_str = "UCT_W-TR W=0.8 (0.5s)";
+    strat2_w0_9_str = "UCT_W-TR W=0.9 (0.5s)";
     strat2_w1_0_str = "UCT_W-TR W=1.0 (0.5s)";
-    strat2_w5_0_str = "UCT_W-TR W=5.0 (0.5s)";
-    strat2_w10_0_str = "UCT_W-TR W=10.0 (0.5s)";
-    strat2_w50_0_str = "UCT_W-TR W=50.0 (0.5s)";
 
     strat3_w0_0_str = "UCT_W-TR W=0.0 (2.0s)";
     strat3_w0_1_str = "UCT_W-TR W=0.1 (2.0s)";
+    strat3_w0_2_str = "UCT_W-TR W=0.2 (2.0s)";
+    strat3_w0_3_str = "UCT_W-TR W=0.3 (2.0s)";
+    strat3_w0_4_str = "UCT_W-TR W=0.4 (2.0s)";
     strat3_w0_5_str = "UCT_W-TR W=0.5 (2.0s)";
+    strat3_w0_6_str = "UCT_W-TR W=0.6 (2.0s)";
+    strat3_w0_7_str = "UCT_W-TR W=0.7 (2.0s)";
+    strat3_w0_8_str = "UCT_W-TR W=0.8 (2.0s)";
+    strat3_w0_9_str = "UCT_W-TR W=0.9 (2.0s)";
     strat3_w1_0_str = "UCT_W-TR W=1.0 (2.0s)";
-    strat3_w5_0_str = "UCT_W-TR W=5.0 (2.0s)";
-    strat3_w10_0_str = "UCT_W-TR W=10.0 (2.0s)";
-    strat3_w50_0_str = "UCT_W-TR W=50.0 (2.0s)";
 
     strat4_w0_0_str = "UCT_W-FG W=0.0 (0.2s)";
     strat4_w0_1_str = "UCT_W-FG W=0.1 (0.2s)";
+    strat4_w0_2_str = "UCT_W-FG W=0.2 (0.2s)";
+    strat4_w0_3_str = "UCT_W-FG W=0.3 (0.2s)";
+    strat4_w0_4_str = "UCT_W-FG W=0.4 (0.2s)";
     strat4_w0_5_str = "UCT_W-FG W=0.5 (0.2s)";
+    strat4_w0_6_str = "UCT_W-FG W=0.6 (0.2s)";
+    strat4_w0_7_str = "UCT_W-FG W=0.7 (0.2s)";
+    strat4_w0_8_str = "UCT_W-FG W=0.8 (0.2s)";
+    strat4_w0_9_str = "UCT_W-FG W=0.9 (0.2s)";
     strat4_w1_0_str = "UCT_W-FG W=1.0 (0.2s)";
-    strat4_w5_0_str = "UCT_W-FG W=5.0 (0.2s)";
-    strat4_w10_0_str = "UCT_W-FG W=10.0 (0.2s)";
-    strat4_w50_0_str = "UCT_W-FG W=50.0 (0.2s)";
 
     strat5_w0_0_str = "UCT_W-FG W=0.0 (0.5s)";
     strat5_w0_1_str = "UCT_W-FG W=0.1 (0.5s)";
+    strat5_w0_2_str = "UCT_W-FG W=0.2 (0.5s)";
+    strat5_w0_3_str = "UCT_W-FG W=0.3 (0.5s)";
+    strat5_w0_4_str = "UCT_W-FG W=0.4 (0.5s)";
     strat5_w0_5_str = "UCT_W-FG W=0.5 (0.5s)";
+    strat5_w0_6_str = "UCT_W-FG W=0.6 (0.5s)";
+    strat5_w0_7_str = "UCT_W-FG W=0.7 (0.5s)";
+    strat5_w0_8_str = "UCT_W-FG W=0.8 (0.5s)";
+    strat5_w0_9_str = "UCT_W-FG W=0.9 (0.5s)";
     strat5_w1_0_str = "UCT_W-FG W=1.0 (0.5s)";
-    strat5_w5_0_str = "UCT_W-FG W=5.0 (0.5s)";
-    strat5_w10_0_str = "UCT_W-FG W=10.0 (0.5s)";
-    strat5_w50_0_str = "UCT_W-FG W=50.0 (0.5s)";
 
     strat6_w0_0_str = "UCT_W-FG W=0.0 (2.0s)";
     strat6_w0_1_str = "UCT_W-FG W=0.1 (2.0s)";
+    strat6_w0_2_str = "UCT_W-FG W=0.2 (2.0s)";
+    strat6_w0_3_str = "UCT_W-FG W=0.3 (2.0s)";
+    strat6_w0_4_str = "UCT_W-FG W=0.4 (2.0s)";
     strat6_w0_5_str = "UCT_W-FG W=0.5 (2.0s)";
+    strat6_w0_6_str = "UCT_W-FG W=0.6 (2.0s)";
+    strat6_w0_7_str = "UCT_W-FG W=0.7 (2.0s)";
+    strat6_w0_8_str = "UCT_W-FG W=0.8 (2.0s)";
+    strat6_w0_9_str = "UCT_W-FG W=0.9 (2.0s)";
     strat6_w1_0_str = "UCT_W-FG W=1.0 (2.0s)";
-    strat6_w5_0_str = "UCT_W-FG W=5.0 (2.0s)";
-    strat6_w10_0_str = "UCT_W-FG W=10.0 (2.0s)";
-    strat6_w50_0_str = "UCT_W-FG W=50.0 (2.0s)";
 
 
     #
@@ -157,51 +205,76 @@ function process_experiment_7(target_path, output_dir)
 
     strats_1{1} = getStratCellArrayVersion4(strat1_w0_0, strat1_w0_0_str, opponent_strat_str);
     strats_1{2} = getStratCellArrayVersion4(strat1_w0_1, strat1_w0_1_str, opponent_strat_str);
-    strats_1{3} = getStratCellArrayVersion4(strat1_w0_5, strat1_w0_5_str, opponent_strat_str);
-    strats_1{4} = getStratCellArrayVersion4(strat1_w1_0, strat1_w1_0_str, opponent_strat_str);
-    strats_1{5} = getStratCellArrayVersion4(strat1_w5_0, strat1_w5_0_str, opponent_strat_str);
-    strats_1{6} = getStratCellArrayVersion4(strat1_w10_0, strat1_w10_0_str, opponent_strat_str);
-    strats_1{7} = getStratCellArrayVersion4(strat1_w50_0, strat1_w50_0_str, opponent_strat_str);
+    strats_1{3} = getStratCellArrayVersion4(strat1_w0_2, strat1_w0_2_str, opponent_strat_str);
+    strats_1{4} = getStratCellArrayVersion4(strat1_w0_3, strat1_w0_3_str, opponent_strat_str);
+    strats_1{5} = getStratCellArrayVersion4(strat1_w0_4, strat1_w0_4_str, opponent_strat_str);
+    strats_1{6} = getStratCellArrayVersion4(strat1_w0_5, strat1_w0_5_str, opponent_strat_str);
+    strats_1{7} = getStratCellArrayVersion4(strat1_w0_6, strat1_w0_6_str, opponent_strat_str);
+    strats_1{8} = getStratCellArrayVersion4(strat1_w0_7, strat1_w0_7_str, opponent_strat_str);
+    strats_1{9} = getStratCellArrayVersion4(strat1_w0_8, strat1_w0_8_str, opponent_strat_str);
+    strats_1{10} = getStratCellArrayVersion4(strat1_w0_9, strat1_w0_9_str, opponent_strat_str);
+    strats_1{11} = getStratCellArrayVersion4(strat1_w1_0, strat1_w1_0_str, opponent_strat_str);
 
     strats_2{1} = getStratCellArrayVersion4(strat2_w0_0, strat2_w0_0_str, opponent_strat_str);
     strats_2{2} = getStratCellArrayVersion4(strat2_w0_1, strat2_w0_1_str, opponent_strat_str);
-    strats_2{3} = getStratCellArrayVersion4(strat2_w0_5, strat2_w0_5_str, opponent_strat_str);
-    strats_2{4} = getStratCellArrayVersion4(strat2_w1_0, strat2_w1_0_str, opponent_strat_str);
-    strats_2{5} = getStratCellArrayVersion4(strat2_w5_0, strat2_w5_0_str, opponent_strat_str);
-    strats_2{6} = getStratCellArrayVersion4(strat2_w10_0, strat2_w10_0_str, opponent_strat_str);
-    strats_2{7} = getStratCellArrayVersion4(strat2_w50_0, strat2_w50_0_str, opponent_strat_str);
+    strats_2{3} = getStratCellArrayVersion4(strat2_w0_2, strat2_w0_2_str, opponent_strat_str);
+    strats_2{4} = getStratCellArrayVersion4(strat2_w0_3, strat2_w0_3_str, opponent_strat_str);
+    strats_2{5} = getStratCellArrayVersion4(strat2_w0_4, strat2_w0_4_str, opponent_strat_str);
+    strats_2{6} = getStratCellArrayVersion4(strat2_w0_5, strat2_w0_5_str, opponent_strat_str);
+    strats_2{7} = getStratCellArrayVersion4(strat2_w0_6, strat2_w0_6_str, opponent_strat_str);
+    strats_2{8} = getStratCellArrayVersion4(strat2_w0_7, strat2_w0_7_str, opponent_strat_str);
+    strats_2{9} = getStratCellArrayVersion4(strat2_w0_8, strat2_w0_8_str, opponent_strat_str);
+    strats_2{10} = getStratCellArrayVersion4(strat2_w0_9, strat2_w0_9_str, opponent_strat_str);
+    strats_2{11} = getStratCellArrayVersion4(strat2_w1_0, strat2_w1_0_str, opponent_strat_str);
 
     strats_3{1} = getStratCellArrayVersion4(strat3_w0_0, strat3_w0_0_str, opponent_strat_str);
     strats_3{2} = getStratCellArrayVersion4(strat3_w0_1, strat3_w0_1_str, opponent_strat_str);
-    strats_3{3} = getStratCellArrayVersion4(strat3_w0_5, strat3_w0_5_str, opponent_strat_str);
-    strats_3{4} = getStratCellArrayVersion4(strat3_w1_0, strat3_w1_0_str, opponent_strat_str);
-    strats_3{5} = getStratCellArrayVersion4(strat3_w5_0, strat3_w5_0_str, opponent_strat_str);
-    strats_3{6} = getStratCellArrayVersion4(strat3_w10_0, strat3_w10_0_str, opponent_strat_str);
-    strats_3{7} = getStratCellArrayVersion4(strat3_w50_0, strat3_w50_0_str, opponent_strat_str);
+    strats_3{3} = getStratCellArrayVersion4(strat3_w0_2, strat3_w0_2_str, opponent_strat_str);
+    strats_3{4} = getStratCellArrayVersion4(strat3_w0_3, strat3_w0_3_str, opponent_strat_str);
+    strats_3{5} = getStratCellArrayVersion4(strat3_w0_4, strat3_w0_4_str, opponent_strat_str);
+    strats_3{6} = getStratCellArrayVersion4(strat3_w0_5, strat3_w0_5_str, opponent_strat_str);
+    strats_3{7} = getStratCellArrayVersion4(strat3_w0_6, strat3_w0_6_str, opponent_strat_str);
+    strats_3{8} = getStratCellArrayVersion4(strat3_w0_7, strat3_w0_7_str, opponent_strat_str);
+    strats_3{9} = getStratCellArrayVersion4(strat3_w0_8, strat3_w0_8_str, opponent_strat_str);
+    strats_3{10} = getStratCellArrayVersion4(strat3_w0_9, strat3_w0_9_str, opponent_strat_str);
+    strats_3{11} = getStratCellArrayVersion4(strat3_w1_0, strat3_w1_0_str, opponent_strat_str);
 
     strats_4{1} = getStratCellArrayVersion4(strat4_w0_0, strat4_w0_0_str, opponent_strat_str);
     strats_4{2} = getStratCellArrayVersion4(strat4_w0_1, strat4_w0_1_str, opponent_strat_str);
-    strats_4{3} = getStratCellArrayVersion4(strat4_w0_5, strat4_w0_5_str, opponent_strat_str);
-    strats_4{4} = getStratCellArrayVersion4(strat4_w1_0, strat4_w1_0_str, opponent_strat_str);
-    strats_4{5} = getStratCellArrayVersion4(strat4_w5_0, strat4_w5_0_str, opponent_strat_str);
-    strats_4{6} = getStratCellArrayVersion4(strat4_w10_0, strat4_w10_0_str, opponent_strat_str);
-    strats_4{7} = getStratCellArrayVersion4(strat4_w50_0, strat4_w50_0_str, opponent_strat_str);
+    strats_4{3} = getStratCellArrayVersion4(strat4_w0_2, strat4_w0_2_str, opponent_strat_str);
+    strats_4{4} = getStratCellArrayVersion4(strat4_w0_3, strat4_w0_3_str, opponent_strat_str);
+    strats_4{5} = getStratCellArrayVersion4(strat4_w0_4, strat4_w0_4_str, opponent_strat_str);
+    strats_4{6} = getStratCellArrayVersion4(strat4_w0_5, strat4_w0_5_str, opponent_strat_str);
+    strats_4{7} = getStratCellArrayVersion4(strat4_w0_6, strat4_w0_6_str, opponent_strat_str);
+    strats_4{8} = getStratCellArrayVersion4(strat4_w0_7, strat4_w0_7_str, opponent_strat_str);
+    strats_4{9} = getStratCellArrayVersion4(strat4_w0_8, strat4_w0_8_str, opponent_strat_str);
+    strats_4{10} = getStratCellArrayVersion4(strat4_w0_9, strat4_w0_9_str, opponent_strat_str);
+    strats_4{11} = getStratCellArrayVersion4(strat4_w1_0, strat4_w1_0_str, opponent_strat_str);
 
     strats_5{1} = getStratCellArrayVersion4(strat5_w0_0, strat5_w0_0_str, opponent_strat_str);
     strats_5{2} = getStratCellArrayVersion4(strat5_w0_1, strat5_w0_1_str, opponent_strat_str);
-    strats_5{3} = getStratCellArrayVersion4(strat5_w0_5, strat5_w0_5_str, opponent_strat_str);
-    strats_5{4} = getStratCellArrayVersion4(strat5_w1_0, strat5_w1_0_str, opponent_strat_str);
-    strats_5{5} = getStratCellArrayVersion4(strat5_w5_0, strat5_w5_0_str, opponent_strat_str);
-    strats_5{6} = getStratCellArrayVersion4(strat5_w10_0, strat5_w10_0_str, opponent_strat_str);
-    strats_5{7} = getStratCellArrayVersion4(strat5_w50_0, strat5_w50_0_str, opponent_strat_str);
+    strats_5{3} = getStratCellArrayVersion4(strat5_w0_2, strat5_w0_2_str, opponent_strat_str);
+    strats_5{4} = getStratCellArrayVersion4(strat5_w0_3, strat5_w0_3_str, opponent_strat_str);
+    strats_5{5} = getStratCellArrayVersion4(strat5_w0_4, strat5_w0_4_str, opponent_strat_str);
+    strats_5{6} = getStratCellArrayVersion4(strat5_w0_5, strat5_w0_5_str, opponent_strat_str);
+    strats_5{7} = getStratCellArrayVersion4(strat5_w0_6, strat5_w0_6_str, opponent_strat_str);
+    strats_5{8} = getStratCellArrayVersion4(strat5_w0_7, strat5_w0_7_str, opponent_strat_str);
+    strats_5{9} = getStratCellArrayVersion4(strat5_w0_8, strat5_w0_8_str, opponent_strat_str);
+    strats_5{10} = getStratCellArrayVersion4(strat5_w0_9, strat5_w0_9_str, opponent_strat_str);
+    strats_5{11} = getStratCellArrayVersion4(strat5_w1_0, strat5_w1_0_str, opponent_strat_str);
 
     strats_6{1} = getStratCellArrayVersion4(strat6_w0_0, strat6_w0_0_str, opponent_strat_str);
     strats_6{2} = getStratCellArrayVersion4(strat6_w0_1, strat6_w0_1_str, opponent_strat_str);
-    strats_6{3} = getStratCellArrayVersion4(strat6_w0_5, strat6_w0_5_str, opponent_strat_str);
-    strats_6{4} = getStratCellArrayVersion4(strat6_w1_0, strat6_w1_0_str, opponent_strat_str);
-    strats_6{5} = getStratCellArrayVersion4(strat6_w5_0, strat6_w5_0_str, opponent_strat_str);
-    strats_6{6} = getStratCellArrayVersion4(strat6_w10_0, strat6_w10_0_str, opponent_strat_str);
-    strats_6{7} = getStratCellArrayVersion4(strat6_w50_0, strat6_w50_0_str, opponent_strat_str);
+    strats_6{3} = getStratCellArrayVersion4(strat6_w0_2, strat6_w0_2_str, opponent_strat_str);
+    strats_6{4} = getStratCellArrayVersion4(strat6_w0_3, strat6_w0_3_str, opponent_strat_str);
+    strats_6{5} = getStratCellArrayVersion4(strat6_w0_4, strat6_w0_4_str, opponent_strat_str);
+    strats_6{6} = getStratCellArrayVersion4(strat6_w0_5, strat6_w0_5_str, opponent_strat_str);
+    strats_6{7} = getStratCellArrayVersion4(strat6_w0_6, strat6_w0_6_str, opponent_strat_str);
+    strats_6{8} = getStratCellArrayVersion4(strat6_w0_7, strat6_w0_7_str, opponent_strat_str);
+    strats_6{9} = getStratCellArrayVersion4(strat6_w0_8, strat6_w0_8_str, opponent_strat_str);
+    strats_6{10} = getStratCellArrayVersion4(strat6_w0_9, strat6_w0_9_str, opponent_strat_str);
+    strats_6{11} = getStratCellArrayVersion4(strat6_w1_0, strat6_w1_0_str, opponent_strat_str);
+
 
 
 
