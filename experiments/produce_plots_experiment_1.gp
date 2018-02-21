@@ -40,6 +40,8 @@ set x2range [0:14]
 set yrange [0:80]
 set y2range [1:100000000]
 
+set rmargin 7.0
+
 set logscale y2
 set y2tics
 
@@ -64,6 +66,8 @@ unset logscale y2
 #
 # EXPERIMENT 1 - Scores (static evaluators)
 #
+
+unset rmargin
 
 set title "Average scores per round"
 set xlabel "Round"
