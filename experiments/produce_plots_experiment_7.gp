@@ -50,18 +50,6 @@ plot input_dir."/SCORE_DIFFS_UCT_W-TR_T0_5.dat" using 1:2:3 w yerrorbars lt 1 ti
 	'' using 1:2 w lines lt 3 title '', \
     input_dir."/SCORE_DIFFS_UCT_W-FG_T2_0.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{UCT\sub{W}-FG ($2.0$s)}', \
 	'' using 1:2 w lines lt 4 title ''
-#plot input_dir."/SCORE_DIFFS_UCT_W-TR_T0_2.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{UCT\sub{W}-TR ($0.2$s)}', \
-#	'' using 1:2 w lines lt 1 title '', \
-#    input_dir."/SCORE_DIFFS_UCT_W-TR_T0_5.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{UCT\sub{W}-TR ($0.5$s)}', \
-#	'' using 1:2 w lines lt 2 title '', \
-#    input_dir."/SCORE_DIFFS_UCT_W-TR_T2_0.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{UCT\sub{W}-TR ($2.0$s)}', \
-#	'' using 1:2 w lines lt 3 title '', \
-#    input_dir."/SCORE_DIFFS_UCT_W-FG_T0_2.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{UCT\sub{W}-FG ($0.2$s)}', \
-#	'' using 1:2 w lines lt 4 title '', \
-#    input_dir."/SCORE_DIFFS_UCT_W-FG_T0_5.dat" using 1:2:3 w yerrorbars lt 5 title '\scriptsize{UCT\sub{W}-FG ($0.5$s)}', \
-#	'' using 1:2 w lines lt 5 title '', \
-#    input_dir."/SCORE_DIFFS_UCT_W-FG_T2_0.dat" using 1:2:3 w yerrorbars lt 6 title '\scriptsize{UCT\sub{W}-FG ($2.0$s)}', \
-#	'' using 1:2 w lines lt 6 title ''
 
 pause -1
 
