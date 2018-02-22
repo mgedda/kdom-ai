@@ -33,7 +33,7 @@ set xlabel "C"
 set ylabel "Score diff" rotate by 90
 set key left
 set xrange [-0.1:2.1]
-set yrange [-50:20]
+set yrange [-40:20]
 
 set nologscale x
 set nologscale y
@@ -49,7 +49,9 @@ plot input_dir."/SCORE_DIFFS_UCT-TR_T0_2.dat" using 1:2:3 w yerrorbars lt 1 titl
     input_dir."/SCORE_DIFFS_UCT-FG_T0_2.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{UCT-FG ($0.2$s)}', \
 	'' using 1:2 w lines lt 3 title '', \
     input_dir."/SCORE_DIFFS_UCT-FG_T0_5.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{UCT-FG ($0.5$s)}', \
-	'' using 1:2 w lines lt 4 title ''
+	'' using 1:2 w lines lt 4 title '', \
+    input_dir."/SCORE_DIFFS_UCT-FG_T2_0.dat" using 1:2:3 w yerrorbars lt 5 title '\scriptsize{UCT-FG ($2.0$s)}', \
+	'' using 1:2 w lines lt 5 title ''
 #plot input_dir."/SCORE_DIFFS_UCT-TR_T0_1.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{UCT-TR ($0.1$s)}', \
 #	'' using 1:2 w lines lt 1 title '', \
 #    input_dir."/SCORE_DIFFS_UCT-TR_T0_2.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{UCT-TR ($0.2$s)}', \

@@ -33,7 +33,7 @@ set xlabel "W"
 set ylabel "Score diff" rotate by 90
 set key left
 set xrange [-0.1:1.1]
-set yrange [-50:20]
+set yrange [-40:20]
 
 #set logscale x
 #set nologscale y

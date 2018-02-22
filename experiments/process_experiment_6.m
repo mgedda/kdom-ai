@@ -121,6 +121,19 @@ function process_experiment_6(target_path, output_dir)
     strat6_c1_5 = dlmread('runs/kdom_exp-20180209-001517-rev-1c739ce-cpu-3.20GHz/kdom_exp_UCT_FG_C1_5_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
     strat6_c2_0 = dlmread('runs/kdom_exp-20180209-001517-rev-1c739ce-cpu-3.20GHz/kdom_exp_UCT_FG_C2_0_vs_FULL_GREEDY_G200_T0.5_P0.dat', ' ', 19, 0);
 
+    # UCT-FG (2.0s)
+    #
+    strat7_c0_0 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C0_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c0_1 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C0_1_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c0_2 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C0_2_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c0_3 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C0_3_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c0_4 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C0_4_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c0_5 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C0_5_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c0_6 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C0_6_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c1_0 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C1_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c1_5 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C1_5_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+    strat7_c2_0 = dlmread('runs/kdom_exp-20180221-230455-rev-054f5b5-cpu-3.20GHz/kdom_exp_UCT_FG_C2_0_vs_FULL_GREEDY_G200_T2.0_P0.dat', ' ', 19, 0);
+
 
     #
     # Set run names
@@ -191,6 +204,17 @@ function process_experiment_6(target_path, output_dir)
     strat6_c1_0_str = "UCT-FG C=1.0 (0.5s)";
     strat6_c1_5_str = "UCT-FG C=1.5 (0.5s)";
     strat6_c2_0_str = "UCT-FG C=2.0 (0.5s)";
+
+    strat7_c0_0_str = "UCT-FG C=0.0 (2.0s)";
+    strat7_c0_1_str = "UCT-FG C=0.1 (2.0s)";
+    strat7_c0_2_str = "UCT-FG C=0.2 (2.0s)";
+    strat7_c0_3_str = "UCT-FG C=0.3 (2.0s)";
+    strat7_c0_4_str = "UCT-FG C=0.4 (2.0s)";
+    strat7_c0_5_str = "UCT-FG C=0.5 (2.0s)";
+    strat7_c0_6_str = "UCT-FG C=0.6 (2.0s)";
+    strat7_c1_0_str = "UCT-FG C=1.0 (2.0s)";
+    strat7_c1_5_str = "UCT-FG C=1.5 (2.0s)";
+    strat7_c2_0_str = "UCT-FG C=2.0 (2.0s)";
 
 
     #
@@ -263,6 +287,17 @@ function process_experiment_6(target_path, output_dir)
     strats_6{9} = getStratCellArrayVersion4(strat6_c1_5, strat6_c1_5_str, opponent_strat_str);
     strats_6{10} = getStratCellArrayVersion4(strat6_c2_0, strat6_c2_0_str, opponent_strat_str);
 
+    strats_7{1} = getStratCellArrayVersion4(strat7_c0_0, strat7_c0_0_str, opponent_strat_str);
+    strats_7{2} = getStratCellArrayVersion4(strat7_c0_1, strat7_c0_1_str, opponent_strat_str);
+    strats_7{3} = getStratCellArrayVersion4(strat7_c0_2, strat7_c0_2_str, opponent_strat_str);
+    strats_7{4} = getStratCellArrayVersion4(strat7_c0_3, strat7_c0_3_str, opponent_strat_str);
+    strats_7{5} = getStratCellArrayVersion4(strat7_c0_4, strat7_c0_4_str, opponent_strat_str);
+    strats_7{6} = getStratCellArrayVersion4(strat7_c0_5, strat7_c0_5_str, opponent_strat_str);
+    strats_7{7} = getStratCellArrayVersion4(strat7_c0_6, strat7_c0_6_str, opponent_strat_str);
+    strats_7{8} = getStratCellArrayVersion4(strat7_c1_0, strat7_c1_0_str, opponent_strat_str);
+    strats_7{9} = getStratCellArrayVersion4(strat7_c1_5, strat7_c1_5_str, opponent_strat_str);
+    strats_7{10} = getStratCellArrayVersion4(strat7_c2_0, strat7_c2_0_str, opponent_strat_str);
+
 
 
 
@@ -276,6 +311,7 @@ function process_experiment_6(target_path, output_dir)
     score_diffs{4} = getScoreDiffsCellArray(strats_4, "UCT-FG_T0_1");
     score_diffs{5} = getScoreDiffsCellArray(strats_5, "UCT-FG_T0_2");
     score_diffs{6} = getScoreDiffsCellArray(strats_6, "UCT-FG_T0_5");
+    score_diffs{7} = getScoreDiffsCellArray(strats_7, "UCT-FG_T2_0");
 
     #plotScoreDiffs(score_diffs, num_games, c_values);
     writeScoreDiffsToDatFile(score_diffs, output_path, c_values);
