@@ -1,0 +1,19 @@
+#======================================================================================
+# Kingdomino AI Experiment
+#--------------------------------------------------------------------------------------
+# 
+# Player strategy:   UCTW_FG_C0_6_W0_8
+# Opponent strategy: FULL_GREEDY
+# 
+# Max search time: 2.0 (s)
+# Max playouts: 0
+# Runs: 200
+# 
+# System: Linux 3.20GHz
+# Output file: kdom_exp-20180225-001530-rev-f2aa1c3-cpu-3.20GHz/kdom_exp_UCTW_FG_C0_6_W0_8_vs_FULL_GREEDY_G200_T2.0_P0.dat
+# 
+# Executing: 'java -jar out/kdom-exp.jar UCTW_FG_C0_6_W0_8 FULL_GREEDY 2.0 0 kdom_exp-20180225-001530-rev-f2aa1c3-cpu-3.20GHz/kdom_exp_UCTW_FG_C0_6_W0_8_vs_FULL_GREEDY_G200_T2.0_P0.tmp'
+# Git Revision: f2aa1c3
+#--------------------------------------------------------------------------------------
+#
+# win, score, num_players, available_moves(13), available_draft(13), chosen_draft_position(13), playouts_per_second(13), scores(13), score_diff, opponent_scores(3)
