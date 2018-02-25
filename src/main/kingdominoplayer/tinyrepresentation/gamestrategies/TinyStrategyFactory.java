@@ -120,6 +120,15 @@ public class TinyStrategyFactory
                 result = new TinyMonteCarloTreeSearch(new TinyFullGreedySimulationStrategy(), iSearchParameters, 2.0);
                 break;
 
+            case UCT_EG_C0_6:
+                result = new TinyMonteCarloTreeSearch(new TinyEpsilonGreedySimulationStrategy(0.75), iSearchParameters, 0.6);
+                break;
+
+            case UCT_PG_C0_6:
+                result = new TinyMonteCarloTreeSearch(new TinyPlayerGreedySimulationStrategy(), iSearchParameters, 0.6);
+                break;
+
+
             case UCTW_TR_C0_6_W0_0:
                 result = new TinyMonteCarloTreeSearchPWB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.6, 0.0);
                 break;
@@ -188,8 +197,29 @@ public class TinyStrategyFactory
                 result = new TinyMonteCarloTreeSearchPWB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 0.6, 1.0);
                 break;
 
-            case UCTB_TR_C0_5_W0_4:
-                result = new TinyMonteCarloTreeSearchPB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.5, 0.4);
+            case UCTW_EG_C0_6_W0_1:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyEpsilonGreedySimulationStrategy(0.75), iSearchParameters, 0.6, 0.1);
+                break;
+
+            case UCTW_PG_C0_6_W0_1:
+                result = new TinyMonteCarloTreeSearchPWB(new TinyPlayerGreedySimulationStrategy(), iSearchParameters, 0.6, 0.1);
+                break;
+
+
+            case UCTB_TR_C0_6_W0_1:
+                result = new TinyMonteCarloTreeSearchPB(new TinyTrueRandomSimulationStrategy(), iSearchParameters, 0.6, 0.1);
+                break;
+
+            case UCTB_FG_C0_6_W0_1:
+                result = new TinyMonteCarloTreeSearchPB(new TinyFullGreedySimulationStrategy(), iSearchParameters, 0.6, 0.1);
+                break;
+
+            case UCTB_EG_C0_6_W0_1:
+                result = new TinyMonteCarloTreeSearchPB(new TinyEpsilonGreedySimulationStrategy(0.75), iSearchParameters, 0.6, 0.1);
+                break;
+
+            case UCTB_PG_C0_6_W0_1:
+                result = new TinyMonteCarloTreeSearchPB(new TinyPlayerGreedySimulationStrategy(), iSearchParameters, 0.6, 0.1);
                 break;
             default:
                 assert false : "Unknown game strategy!";
