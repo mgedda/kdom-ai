@@ -32,7 +32,7 @@ set title "Score difference to best opponent"
 set xlabel "W"
 set ylabel "Score diff" rotate by 90
 set key left
-set xrange [-0.1:1.1]
+set xrange [-0.05:0.65]
 set yrange [-40:20]
 
 #set logscale x
