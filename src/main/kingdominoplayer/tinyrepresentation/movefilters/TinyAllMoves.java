@@ -2,8 +2,8 @@ package kingdominoplayer.tinyrepresentation.movefilters;
 
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-16<br>
  * Time: 21:39<br><br>

@@ -12,8 +12,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-23<br>
  * Time: 22:24<br><br>

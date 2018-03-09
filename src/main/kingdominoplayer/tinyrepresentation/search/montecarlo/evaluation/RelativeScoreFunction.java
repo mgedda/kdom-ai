@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-23<br>
  * Time: 13:50<br><br>

@@ -9,8 +9,8 @@ import kingdominoplayer.utils.Timing;
 import java.util.Collection;
 import java.util.Set;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-08<br>
  * Time: 23:12<br><br>

@@ -4,8 +4,8 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyKingdomMovePair;
 
 import java.util.ArrayList;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-20<br>
  * Time: 11:22<br><br>

@@ -1,11 +1,13 @@
 package kingdominoplayer.tinyrepresentation.datastructures;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-17<br>
  * Time: 10:45<br><br>
- *
+ */
+
+/**
  * Constants for efficient byte array representation.<br>
  * <br>
  * The types specify the structure of the byte array. The different types are defined as follows.

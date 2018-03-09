@@ -1,7 +1,7 @@
 package kingdominoplayer;
 
 /*
- * Copyright 2018 Tomologic AB<br>
+ * Copyright (c) 2018 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2018-01-04<br>
  * Time: 22:28<br><br>

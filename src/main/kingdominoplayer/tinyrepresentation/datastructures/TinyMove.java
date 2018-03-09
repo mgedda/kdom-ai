@@ -2,8 +2,8 @@ package kingdominoplayer.tinyrepresentation.datastructures;
 
 import java.util.Arrays;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-18<br>
  * Time: 22:33<br><br>

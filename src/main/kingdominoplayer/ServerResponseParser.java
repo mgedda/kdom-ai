@@ -17,8 +17,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-08<br>
  * Time: 23:11<br><br>

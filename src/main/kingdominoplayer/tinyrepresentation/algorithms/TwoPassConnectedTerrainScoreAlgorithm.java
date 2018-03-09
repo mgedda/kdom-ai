@@ -13,8 +13,8 @@ import kingdominoplayer.utils.collections.PositiveByteArrayLinkedMap;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-22<br>
  * Time: 09:07<br><br>

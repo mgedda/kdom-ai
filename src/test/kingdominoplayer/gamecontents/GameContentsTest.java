@@ -7,8 +7,8 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-18<br>
  * Time: 00:07<br><br>

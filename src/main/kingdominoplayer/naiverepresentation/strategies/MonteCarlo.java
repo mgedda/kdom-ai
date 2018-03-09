@@ -8,8 +8,8 @@ import kingdominoplayer.naiverepresentation.search.MonteCarloSearch;
 
 import java.util.ArrayList;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-08<br>
  * Time: 22:08<br><br>

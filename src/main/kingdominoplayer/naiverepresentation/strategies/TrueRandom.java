@@ -5,8 +5,8 @@ import kingdominoplayer.naiverepresentation.datastructures.Move;
 import kingdominoplayer.utils.Random;
 
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-11<br>
  * Time: 15:11<br><br>

@@ -1,7 +1,7 @@
 package kingdominoplayer.tinyrepresentation.gamestrategies;
 
 /*
- * Copyright 2018 Tomologic AB<br>
+ * Copyright (c) 2018 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2018-01-23<br>
  * Time: 20:41<br><br>

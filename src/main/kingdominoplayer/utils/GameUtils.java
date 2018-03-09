@@ -14,8 +14,8 @@ import kingdominoplayer.naiverepresentation.datastructures.Tile;
 
 import java.util.*;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-10<br>
  * Time: 13:40<br><br>

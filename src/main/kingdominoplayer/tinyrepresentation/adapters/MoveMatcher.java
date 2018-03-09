@@ -1,7 +1,7 @@
 package kingdominoplayer.tinyrepresentation.adapters;
 
 /*
- * Copyright 2018 Tomologic AB<br>
+ * Copyright (c) 2018 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2018-01-08<br>
  * Time: 09:49<br><br>

@@ -7,8 +7,8 @@ import kingdominoplayer.tinyrepresentation.datastructures.TerrainCode;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyConst;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-22<br>
  * Time: 08:46<br><br>

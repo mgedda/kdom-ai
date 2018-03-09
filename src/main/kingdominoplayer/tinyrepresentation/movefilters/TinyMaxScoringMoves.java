@@ -3,8 +3,8 @@ package kingdominoplayer.tinyrepresentation.movefilters;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyFullGreedyAlgorithm;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-19<br>
  * Time: 22:38<br><br>

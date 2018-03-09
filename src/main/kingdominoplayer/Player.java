@@ -9,8 +9,8 @@ import kingdominoplayer.utils.Output;
 import kingdominoplayer.utils.Util;
 
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-08<br>
  * Time: 22:57<br><br>

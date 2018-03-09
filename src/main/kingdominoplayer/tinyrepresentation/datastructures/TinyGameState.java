@@ -15,14 +15,16 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-13<br>
  * Time: 15:29<br><br>
  *
  * Game state with efficient data representation.
+ */
 
+/**
  * <pre>
  *     byte[] iKingdomTerrains    (Type: KINGDOM_TERRAINS)
  *     byte[] iKingdomCrowns      (Type: KINGDOM_CROWNS)

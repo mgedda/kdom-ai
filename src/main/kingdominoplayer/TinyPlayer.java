@@ -7,8 +7,8 @@ import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 import kingdominoplayer.tinyrepresentation.adapters.LocalGameStateToTinyGameStateAlgorithm;
 import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-16<br>
  * Time: 15:02<br><br>

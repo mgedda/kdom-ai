@@ -2,8 +2,8 @@ package kingdominoplayer.naiverepresentation.datastructures;
 
 import java.util.Collection;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-14<br>
  * Time: 18:10<br><br>

@@ -5,8 +5,8 @@ import kingdominoplayer.naiverepresentation.planning.Planner;
 
 import java.util.ArrayList;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-07<br>
  * Time: 21:46<br><br>

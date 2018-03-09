@@ -1,7 +1,7 @@
 package kingdominoplayer.naiverepresentation.datastructures;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-09<br>
  * Time: 10:47<br><br>

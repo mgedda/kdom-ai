@@ -12,8 +12,8 @@ import kingdominoplayer.utils.Random;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-16<br>
  * Time: 13:46<br><br>

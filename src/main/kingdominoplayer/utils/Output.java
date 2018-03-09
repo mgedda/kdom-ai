@@ -6,8 +6,8 @@ import kingdominoplayer.GameServer;
 import kingdominoplayer.Player;
 import kingdominoplayer.ServerResponseParser;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-03<br>
  * Time: 19:44<br><br>

@@ -5,8 +5,8 @@ import kingdominoplayer.naiverepresentation.datastructures.GameState;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-06<br>
  * Time: 19:47<br><br>

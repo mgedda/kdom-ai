@@ -8,8 +8,8 @@ import kingdominoplayer.tinyrepresentation.simulationstrategies.TinySimulationSt
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-20<br>
  * Time: 16:27<br><br>

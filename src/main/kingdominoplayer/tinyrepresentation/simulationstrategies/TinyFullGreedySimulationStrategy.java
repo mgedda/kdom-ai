@@ -4,8 +4,8 @@ import kingdominoplayer.tinyrepresentation.datastructures.TinyGameState;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyFullGreedy;
 import kingdominoplayer.tinyrepresentation.gamestrategies.TinyStrategy;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-29<br>
  * Time: 13:48<br><br>

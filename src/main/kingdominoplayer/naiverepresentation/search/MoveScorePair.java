@@ -2,8 +2,8 @@ package kingdominoplayer.naiverepresentation.search;
 
 import kingdominoplayer.naiverepresentation.datastructures.Move;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-23<br>
  * Time: 22:26<br><br>

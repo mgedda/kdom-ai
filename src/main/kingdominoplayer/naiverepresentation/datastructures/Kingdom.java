@@ -6,8 +6,8 @@ import kingdominoplayer.naiverepresentation.planning.Scorer;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-11<br>
  * Time: 15:41<br><br>

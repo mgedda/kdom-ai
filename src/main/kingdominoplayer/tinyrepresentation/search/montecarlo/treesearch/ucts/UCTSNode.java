@@ -1,7 +1,7 @@
 package kingdominoplayer.tinyrepresentation.search.montecarlo.treesearch.ucts;
 
 /*
- * Copyright 2018 Tomologic AB<br>
+ * Copyright (c) 2018 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2018-01-05<br>
  * Time: 08:49<br><br>

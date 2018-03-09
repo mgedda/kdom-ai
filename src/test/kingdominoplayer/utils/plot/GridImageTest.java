@@ -6,8 +6,8 @@ import kingdominoplayer.utils.Util;
 import org.testng.annotations.Test;
 
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-10<br>
  * Time: 20:18<br><br>

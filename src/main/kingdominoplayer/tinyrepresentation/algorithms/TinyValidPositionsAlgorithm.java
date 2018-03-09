@@ -10,8 +10,8 @@ import kingdominoplayer.utils.collections.ByteCompactLinkedSet;
 
 import java.util.LinkedHashSet;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-17<br>
  * Time: 13:46<br><br>

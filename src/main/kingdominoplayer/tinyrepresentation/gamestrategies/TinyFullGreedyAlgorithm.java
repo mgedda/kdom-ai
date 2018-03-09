@@ -6,8 +6,8 @@ import kingdominoplayer.tinyrepresentation.algorithms.TinyValidPositionsAlgorith
 
 import java.util.ArrayList;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-17<br>
  * Time: 16:10<br><br>

@@ -4,8 +4,8 @@ import kingdominoplayer.naiverepresentation.datastructures.Move;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-09<br>
  * Time: 11:01<br><br>

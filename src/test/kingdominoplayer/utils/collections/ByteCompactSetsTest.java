@@ -6,8 +6,8 @@ import it.unimi.dsi.fastutil.bytes.ByteSet;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-/**
- * Copyright 2018 Tomologic AB<br/>
+/*
+ * Copyright (c) 2018 Magnus Gedda<br>
  * User: zayenz<br/>
  * Date: 2018-01-08<br/>
  * Time: 15:10<br/>

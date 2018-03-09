@@ -2,8 +2,8 @@ package kingdominoplayer;
 
 import java.io.IOException;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-02-09<br>
  * Time: 17:59<br><br>

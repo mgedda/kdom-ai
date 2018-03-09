@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 
-/**
- * Copyright 2017 Tomologic AB<br>
+/*
+ * Copyright (c) 2017 Magnus Gedda<br>
  * User: gedda<br>
  * Date: 2017-03-13<br>
  * Time: 23:24<br><br>
