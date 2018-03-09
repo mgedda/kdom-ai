@@ -439,10 +439,10 @@ function process_experiment_8(target_path, output_dir)
     score_diffs{11} = getScoreDiffsCellArray(strats_11, "UCTW-EG");
     score_diffs{12} = getScoreDiffsCellArray(strats_12, "UCTW-PG");
 
-    score_diffs{13} = getScoreDiffsCellArray(strats_13, "UCTW-TR");
-    score_diffs{14} = getScoreDiffsCellArray(strats_14, "UCTW-FG");
-    score_diffs{15} = getScoreDiffsCellArray(strats_15, "UCTW-EG");
-    score_diffs{16} = getScoreDiffsCellArray(strats_16, "UCTW-PG");
+    score_diffs{13} = getScoreDiffsCellArray(strats_13, "UCTB-TR");
+    score_diffs{14} = getScoreDiffsCellArray(strats_14, "UCTB-FG");
+    score_diffs{15} = getScoreDiffsCellArray(strats_15, "UCTB-EG");
+    score_diffs{16} = getScoreDiffsCellArray(strats_16, "UCTB-PG");
 
     writeScoreDiffsToDatFile(score_diffs, output_path, time_limits);
 
