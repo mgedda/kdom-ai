@@ -25,6 +25,7 @@ octave --no-gui --norc --silent --eval "process_experiment_6_prel('$TARGET_PATH'
 octave --no-gui --norc --silent --eval "process_experiment_6('$TARGET_PATH', 'data_files/experiment_6')" > /dev/null 2>&1
 octave --no-gui --norc --silent --eval "process_experiment_7_prel('$TARGET_PATH', 'data_files/experiment_7_prel')" > /dev/null 2>&1
 octave --no-gui --norc --silent --eval "process_experiment_7('$TARGET_PATH', 'data_files/experiment_7')" > /dev/null 2>&1
+octave --no-gui --norc --silent --eval "process_experiment_8('$TARGET_PATH', 'data_files/experiment_8')" > /dev/null 2>&1
 
 
 # Make plots from processed files
