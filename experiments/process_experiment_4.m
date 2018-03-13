@@ -80,6 +80,17 @@ function process_experiment_4(target_path, output_dir)
     strat4_t8   = dlmread('runs/kdom_exp-20180123-201654-rev-be7b6d7-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T8_P0.dat', ' ', 19, 0);
     strat4_t10  = dlmread('runs/kdom_exp-20180123-201654-rev-be7b6d7-cpu-3.20GHz/kdom_exp_MCE_PG_R_vs_FULL_GREEDY_T10_P0.dat', ' ', 19, 0);
 
+    strat5_t0_1 = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t0_2 = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t0_3 = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t0_5 = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t1   = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t2   = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t4   = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t6   = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t8   = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+    strat5_t10  = dlmread('runs/kdom_exp-20180313-121946-rev-9aa7ad1-cpu-2.70GHz/kdom_exp_FULL_GREEDY_vs_FULL_GREEDY_G200_T5_P0.dat', ' ', 19, 0);
+
 
     #
     # Set run names
@@ -128,6 +139,17 @@ function process_experiment_4(target_path, output_dir)
     strat4_t6_str   = "MCE-PG/R (6s)";
     strat4_t8_str   = "MCE-PG/R (8s)";
     strat4_t10_str  = "MCE-PG/R (10s)";
+
+    strat5_t0_1_str = "FG";
+    strat5_t0_2_str = "FG";
+    strat5_t0_3_str = "FG";
+    strat5_t0_5_str = "FG";
+    strat5_t1_str   = "FG";
+    strat5_t2_str   = "FG";
+    strat5_t4_str   = "FG";
+    strat5_t6_str   = "FG";
+    strat5_t8_str   = "FG";
+    strat5_t10_str  = "FG";
 
 
     #
@@ -178,6 +200,17 @@ function process_experiment_4(target_path, output_dir)
     strats_4{9}  = getStratCellArrayVersion4(strat4_t8,   strat4_t8_str,   opponent_strat_str);
     strats_4{10} = getStratCellArrayVersion4(strat4_t10,  strat4_t10_str,  opponent_strat_str);
 
+    strats_5{1}  = getStratCellArrayVersion4(strat5_t0_1, strat5_t0_1_str, opponent_strat_str);
+    strats_5{2}  = getStratCellArrayVersion4(strat5_t0_2, strat5_t0_2_str, opponent_strat_str);
+    strats_5{3}  = getStratCellArrayVersion4(strat5_t0_3, strat5_t0_3_str, opponent_strat_str);
+    strats_5{4}  = getStratCellArrayVersion4(strat5_t0_5, strat5_t0_5_str, opponent_strat_str);
+    strats_5{5}  = getStratCellArrayVersion4(strat5_t1,   strat5_t1_str,   opponent_strat_str);
+    strats_5{6}  = getStratCellArrayVersion4(strat5_t2,   strat5_t2_str,   opponent_strat_str);
+    strats_5{7}  = getStratCellArrayVersion4(strat5_t4,   strat5_t4_str,   opponent_strat_str);
+    strats_5{8}  = getStratCellArrayVersion4(strat5_t6,   strat5_t6_str,   opponent_strat_str);
+    strats_5{9}  = getStratCellArrayVersion4(strat5_t8,   strat5_t8_str,   opponent_strat_str);
+    strats_5{10} = getStratCellArrayVersion4(strat5_t10,  strat5_t10_str,  opponent_strat_str);
+
 
     #
     # Process data
@@ -187,6 +220,7 @@ function process_experiment_4(target_path, output_dir)
     score_diffs{2} = getScoreDiffsCellArray(strats_2, "MCE-FG/R");
     score_diffs{3} = getScoreDiffsCellArray(strats_3, "MCE-EG/R");
     score_diffs{4} = getScoreDiffsCellArray(strats_4, "MCE-PG/R");
+    score_diffs{5} = getScoreDiffsCellArray(strats_5, "FG");
 
     #plotScoreDiffs(score_diffs, num_games, time_limits);
     writeScoreDiffsToDatFile(score_diffs, output_path, time_limits);

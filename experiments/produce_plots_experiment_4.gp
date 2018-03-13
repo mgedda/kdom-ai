@@ -45,12 +45,12 @@ set logscale x
 #set object 1 back lw 1.0 fc 'red' fillstyle default
 set style line 1 lc rgb 'red' lt 1 lw 1.0
 set style line 2 lc rgb 'red' lt 2 lw 1.0
-set arrow 1 from 0.08,-10.165 to 12,-10.165 nohead ls 1
-set arrow 2 from 0.08,-7.92 to 12,-7.92 nohead ls 2
-set arrow 3 from 0.08,-12.41 to 12,-12.41 nohead ls 2
+set arrow 1 from 0.08,-8.985 to 12,-8.985 nohead ls 1
+set arrow 2 from 0.08,-6.791 to 12,-6.791 nohead ls 2
+set arrow 3 from 0.08,-11.179 to 12,-11.179 nohead ls 2
 set label '\scriptsize{FG}' at 6,-18 center
 
-set arrow 4 from 6,-16.3 to 6.5,-11 filled
+set arrow 4 from 6,-16.3 to 6.5,-9.5 filled
 
 set terminal x11
 plot input_dir."/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
