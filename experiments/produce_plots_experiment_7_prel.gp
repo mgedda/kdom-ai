@@ -54,7 +54,8 @@ plot input_dir."/SCORE_DIFFS_UCT_W-TR_T0_2.dat" using 1:2:3 w yerrorbars lt 1 ti
 	'' using 1:2 w lines lt 5 title '', \
     input_dir."/SCORE_DIFFS_UCT_W-FG_T2_0.dat" using 1:2:3 w yerrorbars lt 6 title '\scriptsize{UCT\sub{W}-FG ($2.0$s)}', \
 	'' using 1:2 w lines lt 6 title ''
-pause -1
+
+#pause -1
 
 unset title
 set key vertical Left spacing 0.7 width -4

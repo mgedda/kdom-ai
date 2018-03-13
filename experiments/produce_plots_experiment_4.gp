@@ -8,6 +8,10 @@
 
 #set terminal qt
 
+set lmargin at screen 0.12
+set rmargin at screen 0.94
+set bmargin 1.0
+
 if (!exists("target_path")) target_path='.'
 if (!exists("data_files_dir")) data_files_dir='data_files_experiment_4'
 
@@ -22,15 +26,15 @@ set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
 set grid mxtics lc rgb "#bbbbbb" lw 1 lt 0
 set grid mytics lc rgb "#bbbbbb" lw 1 lt 0
 
-set format xy '$%g$'
+set format xy '\footnotesize{$%g$}'
 
 #
 # EXPERIMENT 4 - Score diffs (playout policies)
 #
 
 set title "Score difference to best opponent"
-set xlabel "Time per turn (s)"
-set ylabel "Score diff" rotate by 90
+set xlabel '\footnotesize{Time per ply (s)}' offset 0,0.5
+set ylabel '\footnotesize{Victory margin}' offset 2,0 rotate by 90
 set key left
 set xrange [0.08:12]
 set yrange [-30:15]
@@ -40,9 +44,6 @@ set yrange [-30:15]
 set logscale x
 
 # Set FG region
-#set style rectangle back fc lt -1 fillstyle solid 0.15 noborder
-#set object 1 rect from 0.08,-5.681 to 12,-14.649
-#set object 1 back lw 1.0 fc 'red' fillstyle default
 set style line 1 lc rgb 'red' lt 1 lw 1.0
 set style line 2 lc rgb 'red' lt 2 lw 1.0
 set arrow 1 from 0.08,-8.985 to 12,-8.985 nohead ls 1
@@ -62,20 +63,11 @@ plot input_dir."/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '
 	input_dir."/SCORE_DIFFS_MCE-PG_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
 	'' using 1:2 w lines lt 4 title ''
 
-#plot input_dir."/SCORE_DIFFS_MCE-FG_R.dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
-#	'' using 1:2 w lines lt 1 title '', \
-#	input_dir."/SCORE_DIFFS_MCE-TR_R.dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
-#	'' using 1:2 w lines lt 2 title '', \
-#	"input_dir."/SCORE_DIFFS_MCE-EG_R.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
-#	'' using 1:2 w lines lt 3 title '', \
-#	input_dir."/SCORE_DIFFS_MCE-PG_R.dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
-#	'' using 1:2 w lines lt 4 title ''
-
-pause -1
+#pause -1
 
 unset title
 set key vertical Left spacing 0.7 width -4
-set terminal epslatex size 3.5in,2.625in
+set terminal epslatex size 3.4in,2.4in
 set output output_dir."/experiment4_score_diffs.tex"
 replot
 
@@ -93,9 +85,9 @@ unset label
 #
 
 set title "Playouts/$s$ per round"
-set xlabel "Round"
-set ylabel "Playout frequency ($s^{-1}$)" rotate by 90
-set format y "$10^%T$"
+set xlabel '\footnotesize{Round}'
+set ylabel '\footnotesize{Playout frequency ($s^{-1}$)}' rotate by 90
+set format y '\footnotesize{$10^%T$}'
 
 unset xrange
 unset yrange
@@ -115,20 +107,11 @@ plot input_dir."/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 titl
 	input_dir."/PLAYOUTS_MCE-PG_R (10s).dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
 	'' using 1:2 w lines lt 4 title ''
 
-#plot input_dir."/PLAYOUTS_MCE-FG_R (10s).dat" using 1:2:3 w yerrorbars lt 1 title '\scriptsize{MCE-FG/R}', \
-#	'' using 1:2 w lines lt 1 title '', \
-#	input_dir."/PLAYOUTS_MCE-TR_R (10s).dat" using 1:2:3 w yerrorbars lt 2 title '\scriptsize{MCE-TR/R}', \
-#	'' using 1:2 w lines lt 2 title '', \
-#	input_dir."/PLAYOUTS_MCE-EG_R (10s).dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{MCE-$\epsilon$G/R}', \
-#	'' using 1:2 w lines lt 3 title '', \
-#	input_dir."/PLAYOUTS_MCE-PG_R (10s).dat" using 1:2:3 w yerrorbars lt 4 title '\scriptsize{MCE-PG/R}', \
-#	'' using 1:2 w lines lt 4 title ''
-
-pause -1
+#pause -1
 
 unset title
 set key vertical Left spacing 0.7 width -4
-set terminal epslatex size 3.5in,2.625in
+set terminal epslatex size 3.4in,2.4in
 set output output_dir."/experiment4_playouts.tex"
 replot
 

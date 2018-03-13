@@ -61,7 +61,7 @@ plot input_dir."/SCORE_DIFFS_C0.1.dat" using 1:2:3 w yerrorbars lt 1 title '\scr
 	input_dir."/SCORE_DIFFS_C2.0.dat" using 1:2:3 w yerrorbars lt 9 title '\scriptsize{$C=2.0}', \
 	'' using 1:2 w lines lt 9 title ''
 
-pause -1
+#pause -1
 
 unset title
 set key vertical Left spacing 0.7 width -4
@@ -94,7 +94,7 @@ plot input_dir."/SCORE_DIFFS_TIME_0.5s.dat" using 1:2:3 w yerrorbars lt 1 title 
 	input_dir."/SCORE_DIFFS_TIME_2s.dat" using 1:2:3 w yerrorbars lt 3 title '\scriptsize{$t=2.0s$}', \
 	'' using 1:2 w lines lt 3 title ''
 
-pause -1
+#pause -1
 
 unset title
 set key vertical Left spacing 0.7 width -4
@@ -128,7 +128,7 @@ plot input_dir."/WIN_PERCENTAGES_TIME_0.5s.dat" using 1:2 lt 1 title '\scriptsiz
     input_dir."/WIN_PERCENTAGES_TIME_2s.dat" using 1:2 lt 3 title '\scriptsize{$t=2.0s$}', \
 	'' using 1:2 w lines lt 3 title ''
 
-pause -1
+#pause -1
 
 unset title
 set key vertical Left spacing 0.7 width -4
