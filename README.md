@@ -1,4 +1,4 @@
-# AI Agents for Kingdomino
+# AI Agents for the Game Kingdomino
 
 This repository contains implementations AI agents for playing the
 game of Kingdomino. The agents were used for the experiments in the
